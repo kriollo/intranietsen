@@ -1,0 +1,81 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Listado de Areas</small>
+
+          <a class="btn btn-primary btn-social pull-right" id="agregarnuvarea" namespace="agregarnuvarea" title="Agregar" data-toggle="modal" data-target="#nuevaarea">
+            <i class="fa fa-plus"></i> Agregar Area
+          </a>
+        </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        <table id="dataTables1" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Descripción</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in db_areas if false != db_areas %}
+                                    <tr>
+                                        <td>{{a.id_area}}</td>
+                                        <td>{{a.descripcion}}</td>
+                                        <td><a  id="agregarmodalarea" namespace="nuvagregararea" title="Modificar" data-toggle="modal"  class='btn btn-warning btn-sm' data-target="#modificararea" onclick="cargadatosarea('{{a.id_area}}','{{a.descripcion}}')">
+                                        <i class='glyphicon glyphicon-edit'></i></a>
+                                        </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% include 'rrhh/areas/nuevaarea' %}
+{% include 'rrhh/areas/modificararea' %}
+{% endblock %}
+
+{% block appScript %}
+    <!-- DATA TABES SCRIPT -->
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    
+    <script src="views/app/js/rrhh/area.js"></script>
+    
+    <script>
+        $("#dataTables1").dataTable({
+                "language": {
+                    "search": "Buscar:",
+                    "zeroRecords": "No hay datos para mostrar",
+                    "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                    "loadingRecords": "Cargando...",
+                    "processing":"Procesando...",
+                    "infoEmpty":"No hay entradas para mostrar",
+                    "lengthMenu": "Mostrar _MENU_ Filas",
+                    "paginate":{
+                      "first":"Primera",
+                      "last":"Ultima",
+                      "next":"Siguiente",
+                      "previous":"Anterior",
+                    }
+                              },
+                "autoWidth": true
+            });
+    </script>
+{% endblock %}
+
+

@@ -51,7 +51,7 @@ class __TwigTemplate_d90d3934783ff0bfb0f3af3000f9d82e5d634cf81002eebb4c6badf4bcc
               <div style=\"background-color:#00c0ef;color:#fff\" class=\"small-box\">
                 <div class=\"inner\">
                   <h3>Agregar</h3>
-                  <p>Nuevo</p>
+                  <p></p>
                 </div>
                 <div class=\"icon\">
                   <i class=\"fa fa-user-plus\"></i>
@@ -61,7 +61,7 @@ class __TwigTemplate_d90d3934783ff0bfb0f3af3000f9d82e5d634cf81002eebb4c6badf4bcc
               <div style=\"background-color:#00c0ef;color:#fff\" class=\"small-box\">
                 <div class=\"inner\">
                   <h3>Listar</h3>
-                  <p>Todos</p>
+                  <p></p>
                 </div>
                 <div class=\"icon\">
                   <i class=\"fa fa-address-card-o\"></i>
@@ -76,55 +76,27 @@ class __TwigTemplate_d90d3934783ff0bfb0f3af3000f9d82e5d634cf81002eebb4c6badf4bcc
         <div class=\"col-lg-3\">
           <form>
             <fieldset>
-            <legend>Cargos</legend>
-              <div style=\"background-color:#0aaaaa;color:#fff\" class=\"small-box\">
-                <div class=\"inner\">
-                  <h3>Agregar</h3>
-                  <p>Nuevo</p>
-                </div>
-                <div class=\"icon\">
-                  <i class=\"fa fa-plus\"></i>
-                </div>
-                  <a href=\"rrhh/nuevo_cargo\" class=\"small-box-footer\" title=\"Agregar Nuevo\" data-toggle=\"tooltip\"><i class=\"fa fa-plus\"></i></a>
-              </div>
-              <div style=\"background-color:#0aaaaa;color:#fff\" class=\"small-box\">
-                <div class=\"inner\">
-                  <h3>Listar</h3>
-                  <p>Todos</p>
-                </div>
-                <div class=\"icon\">
-                  <i class=\"fa fa-list-alt\"></i>
-                </div>
-                  <a href=\"rrhh/listar_cargos\" class=\"small-box-footer\" title=\"Ver Cargos\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
-              </div>
-
-            </fieldset>
-          </form>
-        </div><!-- ./col -->
-
-        <div class=\"col-lg-3\">
-          <form>
-            <fieldset>
-            <legend>Areas</legend>
+              <legend>Areas y Cargos</legend>
               <div style=\"background-color:#00aa99;color:#fff\" class=\"small-box\">
                 <div class=\"inner\">
-                  <h3>Agregar</h3>
-                  <p>Nuevo</p>
-                </div>
-                <div class=\"icon\">
-                  <i class=\"fa fa-plus\"></i>
-                </div>
-                  <a href=\"rrhh/nueva_area\" class=\"small-box-footer\" title=\"Agregar Nuevo\" data-toggle=\"tooltip\"><i class=\"fa fa-plus\"></i></a>
-              </div>
-              <div style=\"background-color:#00aa99;color:#fff\" class=\"small-box\">
-                <div class=\"inner\">
-                  <h3>Listar</h3>
-                  <p>Todos</p>
+                  <h3>Area</h3>
+                  <p></p>
                 </div>
                 <div class=\"icon\">
                   <i class=\"fa fa-list-alt\"></i>
                 </div>
                   <a href=\"rrhh/listar_areas\" class=\"small-box-footer\" title=\"Ver Cargos\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
+              </div>
+              
+              <div style=\"background-color:#0aaaaa;color:#fff\" class=\"small-box\">
+                <div class=\"inner\">
+                  <h3>Cargos</h3>
+                  <p></p>
+                </div>
+                <div class=\"icon\">
+                  <i class=\"fa fa-list-alt\"></i>
+                </div>
+                  <a href=\"rrhh/listar_cargos\" class=\"small-box-footer\" title=\"Ver Cargos\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
               </div>
 
             </fieldset>

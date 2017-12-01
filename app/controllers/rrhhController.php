@@ -138,6 +138,19 @@ class rrhhController extends Controllers implements IControllers {
           case "exporta_excel_ausencias":
               (new Model\Ausencias)->exporta_excel_ausencias();
               break;
+//Listar Cargos y Areas------------------------------------------------------------------------------------------------------------   
+          case 'listar_cargos':
+            echo $this->template->render('rrhh/cargos/listarcargo', array(
+            'menu_op' => $op,
+            'db_cargos'=>(new Model\Cargos)->getCargos()
+            ));
+            break;
+          case 'listar_areas':
+            echo $this->template->render('rrhh/areas/listararea', array(
+            'menu_op' => $op,
+            'db_areas'=>(new Model\Areas)->getAreas()
+            ));
+            break;
 //-------------------------------------------------------------------------------------------------------------------------------   
           default:
             echo $this->template->render('rrhh/rrhh', array(

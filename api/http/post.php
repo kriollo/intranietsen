@@ -293,5 +293,23 @@ return $app->json($u->revisar_por_fecha());
 
 });
 //ausencias---------------------------------------------------------------------
-
-
+//Cargos------------------------------------------------------------------------
+$app->post('/guardar_cargo', function() use($app) {
+$u = new Model\Cargos;
+return $app->json($u->guardar_cargo());
+});
+$app->post('/modificar_cargo', function() use($app) {
+$u = new Model\Cargos;
+return $app->json($u->modificar_cargo());
+});
+//Cargos------------------------------------------------------------------------
+//Areas-------------------------------------------------------------------------
+$app->post('/guardar_area', function() use($app) {
+$u = new Model\Areas;
+return $app->json($u->guardar_area());
+});
+$app->post('/modificar_area', function() use($app) {
+$u = new Model\Areas;
+return $app->json($u->modificar_area());
+});
+//Areas-------------------------------------------------------------------------

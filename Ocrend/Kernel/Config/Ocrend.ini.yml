@@ -38,7 +38,7 @@ site:
   author: Jorge Jara H.
   author_email: jjara@wys.cl
   timezone: America/Santiago
-  url: https://localhost/proyectos/intranietsen/
+  url: http://localhost/proyectos/intranietsen/
   router:
     path: localhost/proyectos/intranietsen/
-    protocol: https
+    protocol: http
