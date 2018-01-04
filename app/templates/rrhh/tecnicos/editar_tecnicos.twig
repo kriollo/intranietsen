@@ -1,0 +1,45 @@
+{% extends 'portal/portal' %}
+
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Editar</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="rrhh/mantenedores_crud_masters">Mantenedores</a></li>
+        <li><a href="rrhh/listar_tecnicos">Listado de Tecnicos</a></li>
+        <li class="active">Editar Tecnico</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <form id="editar_tecnico_form"  action="" method="POST">
+              <div class="box-body col-sm-4"></div>
+              <div class="box-body col-sm-4">
+                <input type='hidden' name='id_tecnico' id='id_tecnico' value='{{ db_tecnico.id_tecnicos }}' />
+                <div class="form-group">
+                  <input class="form-control" name="rut" id="rut" type="text" placeholder="RUT xxxxxxxx s/digito (Requerido)" value='{{ db_tecnico.rut }}'/>
+                  <input class="form-control" name="nombre" id="nombre" type="text" placeholder="Nombre Completo (Requerido)" value='{{ db_tecnico.nombre }}'/>
+                  <input class="form-control" name="codigo" id="codigo" type="text" placeholder="Codigo" value='{{ db_tecnico.codigo }}'/>
+                </div>
+                <div class="panel-footer text-center">
+                  <button type="button" id="update_tecnico" class="btn btn-default">Grabar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/rrhh/tecnicos.js"></script>
+{% endblock %}

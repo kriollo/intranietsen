@@ -34,7 +34,15 @@ class Varios extends Models implements IModels {
         return $this->db->query_select("SELECT * FROM tbl_historialarchivoscargados where app='$idapp' order by id desc limit 5");
     }
 
-
+    final function diferencia_meses($fecha_inicio,$fecha_termino){
+        $result= $this->db->query_select("select timestampdiff(month,'$fecha_inicio','$fecha_termino')");
+        if (false == $result){
+            return ['0'];
+        }else{
+            return $result[0];
+        }
+            
+    }
     /**
       * __construct()
     */

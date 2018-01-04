@@ -339,3 +339,21 @@ $u = new Model\Turnos;
 return $app->json($u->verturnomes());
 });
 //Turnos------------------------------------------------------------------------
+//Tecnicos----------------------------------------------------------------------
+$app->post('/registra_nuevo_tecnico', function() use($app) {
+    $e = new Model\Mdltecnicos;
+
+    return $app->json($e->registra_nuevo_tecnico());
+});
+$app->post('/editar_tecnico', function() use($app) {
+    $e = new Model\Mdltecnicos;
+
+    return $app->json($e->editar_tecnico());
+});
+$app->post('/cargar_excel', function() use($app) {
+
+$u = new Model\Mdltecnicos;
+
+return $app->json($u->cargar_excel());
+});
+//Tecnicos----------------------------------------------------------------------

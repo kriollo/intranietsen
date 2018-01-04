@@ -36,7 +36,7 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
     </h1>
     <ol class=\"breadcrumb\">
     <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
-    <li class=\"active\">Dashboard</li>
+    <li class=\"active\">Cargar Turnos</li>
     </ol>
 </section>
 
