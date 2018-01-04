@@ -69,7 +69,7 @@ class __TwigTemplate_8b874c11638ad4b65fd554bb9ea2d2cb797b925213c1cc64954ec46dd66
                 <div class=\"box box-primary\">
                     <div class=\"box-body\">
                         <form id=\"formrevisar\" name=\"formrevisar\"  method=\"post\">
-                            <div class=\"input-daterange\">
+                            <div class=\"input-daterange\"> 
                                 <label>Desde </label>
                                 <label>&nbsp;</label>
                                 <input type=\"date\" id=\"revdesde\" name=\"revdesde\" value='";

@@ -8,7 +8,7 @@
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-    <li class="active">Dashboard</li>
+    <li class="active">Cargar Turnos</li>
     </ol>
 </section>
 
@@ -36,6 +36,27 @@
                             </div>
                         </form>
                     </div>
+                    
+                    <p><strong>Ultimos 5 archivos cargados</strong></p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <th>No</th>
+                        <th>Fecha y hora</th>
+                        <th>Nombre de Archivo</th>
+                      </thead>
+                      <tbody>
+                        {% set No = 1 %}
+                        {% for d in db_archivos if false != db_archivos %}
+                          <tr>
+                            <td>{{ No }}</td>
+                            <td>{{ d.fecha_hora }}</td>
+                            <td>{{ d.nombre_archivo }}</td>
+                          </tr>
+                          {% set No =  No + 1 %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+              
                 </div>
                 <div class="box-body col-sm-6">
                     <span><b>Formato de Archivo</b>
@@ -53,35 +74,6 @@
                     </span>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            
-            <div class="col-lg-5">
-                <p><strong>Ultimos archivos cargados</strong></p>
-                <table class="table table-bordered">
-                  <thead>
-                    <th>No</th>
-                    <th>Fecha</th>
-                    <th>Nombre de Archivo</th>
-                  </thead>
-                  <tbody>
-<!--
-                    {% set No = 1 %}
-                    {% for d in db_user_online if false != db_user_online %}
-                      <tr>
-                        <td>{{ No }}</td>
-                        <td>{{ d.name|raw|title }}</td>
-                        <td>{{ d.email }}</td>
-                      </tr>
-                      {% set No =  No + 1 %}
-                    {% endfor %}
--->
-                  </tbody>
-                </table>
-              </div>
-            
         </div>
     </div>
 </section>

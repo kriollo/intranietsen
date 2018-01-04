@@ -64,6 +64,53 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
                             </div>
                         </form>
                     </div>
+                    
+                    <p><strong>Ultimos 5 archivos cargados</strong></p>
+                    <table class=\"table table-bordered\">
+                      <thead>
+                        <th>No</th>
+                        <th>Fecha y hora</th>
+                        <th>Nombre de Archivo</th>
+                      </thead>
+                      <tbody>
+                        ";
+        // line 48
+        $context["No"] = 1;
+        // line 49
+        echo "                        ";
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["db_archivos"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
+            if ((false != ($context["db_archivos"] ?? null))) {
+                // line 50
+                echo "                          <tr>
+                            <td>";
+                // line 51
+                echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
+                echo "</td>
+                            <td>";
+                // line 52
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "fecha_hora", array()), "html", null, true);
+                echo "</td>
+                            <td>";
+                // line 53
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre_archivo", array()), "html", null, true);
+                echo "</td>
+                          </tr>
+                          ";
+                // line 55
+                $context["No"] = (($context["No"] ?? null) + 1);
+                // line 56
+                echo "                        ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 57
+        echo "                      </tbody>
+                    </table>
+              
                 </div>
                 <div class=\"box-body col-sm-6\">
                     <span><b>Formato de Archivo</b>
@@ -83,69 +130,14 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
             </div>
         </div>
     </div>
-    <div class=\"row\">
-        <div class=\"col-md-12\">
-            
-            <div class=\"col-lg-5\">
-                <p><strong>Ultimos archivos cargados</strong></p>
-                <table class=\"table table-bordered\">
-                  <thead>
-                    <th>No</th>
-                    <th>Fecha</th>
-                    <th>Nombre de Archivo</th>
-                  </thead>
-                  <tbody>
-<!--
-                    ";
-        // line 71
-        $context["No"] = 1;
-        // line 72
-        echo "                    ";
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["db_user_online"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
-            if ((false != ($context["db_user_online"] ?? null))) {
-                // line 73
-                echo "                      <tr>
-                        <td>";
-                // line 74
-                echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
-                echo "</td>
-                        <td>";
-                // line 75
-                echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "name", array())), "html", null, true);
-                echo "</td>
-                        <td>";
-                // line 76
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "email", array()), "html", null, true);
-                echo "</td>
-                      </tr>
-                      ";
-                // line 78
-                $context["No"] = (($context["No"] ?? null) + 1);
-                // line 79
-                echo "                    ";
-            }
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 80
-        echo "-->
-                  </tbody>
-                </table>
-              </div>
-            
-        </div>
-    </div>
 </section>
 ";
     }
 
-    // line 89
+    // line 81
     public function block_appScript($context, array $blocks = array())
     {
-        // line 90
+        // line 82
         echo "    <script src=\"views/app/js/rrhh/turnos.js\"></script>
 ";
     }
@@ -162,7 +154,7 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
 
     public function getDebugInfo()
     {
-        return array (  149 => 90,  146 => 89,  134 => 80,  127 => 79,  125 => 78,  120 => 76,  116 => 75,  112 => 74,  109 => 73,  103 => 72,  101 => 71,  32 => 4,  29 => 3,  11 => 1,);
+        return array (  141 => 82,  138 => 81,  111 => 57,  104 => 56,  102 => 55,  97 => 53,  93 => 52,  89 => 51,  86 => 50,  80 => 49,  78 => 48,  32 => 4,  29 => 3,  11 => 1,);
     }
 
     public function getSourceContext()

@@ -93,6 +93,10 @@ global $http;
                     ));
                 }else{
                   $param=1;
+                  $this->db->Insert('tbl_historialarchivoscargados', array(
+                      'app'=>'Carga de Turnos',
+                      'nombre_archivo'=> $file->getClientOriginalName()
+                    ));
                   return array('success' => 1, 'message' => "Datos cargados" );
                 }
                 $i++;
@@ -107,9 +111,8 @@ global $http;
 
 }
 
-public function cargar_turnos(){
-  $datos=date('Y-m-d');
-  return $this->db->query_select("select * from tblturnos where fecha='$datos'");
+public function cargar_turnos($datos){
+  return $this->db->query_select("select @rownum:=@rownum+1 as rownum,t.rut,p.nombres,servicio,hora_ingreso,hora_salida,hora_turnos,hora_colacion,horario_colacion,break_1,break_2,n_semana,if(hora_turnos=0,'LIBRE',(Select tipo_ausencia From tblausencias a  Where a.rut=t.rut And a.desde<='$datos' And a.hasta>='$datos')) asistencia from (select @rownum:=0) r,(tblturnos t inner join tblpersonal p on t.rut=p.rut and p.estado=1 ) where fecha='$datos' order by hora_ingreso,hora_salida,servicio,p.nombres");
 }
 
 public function cargar_turno_propio(){
@@ -130,7 +133,7 @@ public function revisar_turno_por_fecha(){
   global $http;
   $usucompa = (new Model\Users)->getOwnerUser();
   $fechaturno=$http->request->get('fechaturno');
-  $consultaturno=$this->db->query_select("select @rownum:=@rownum+1 as rownum,id_tblturnos,rut,servicio,fecha,hora_ingreso,hora_salida,n_semana,hora_turnos,hora_colacion,horario_colacion,break_1,break_2 from (select @rownum:=0)r, tblturnos where fecha='$fechaturno'");
+  $consultaturno=$this->cargar_turnos($fechaturno);
     if ($consultaturno===false){
         return array('success' => 0, 'message' => "datos erroneos");
     }else{
@@ -140,7 +143,7 @@ public function revisar_turno_por_fecha(){
         );
         foreach ($consultaturno as $key => $value) {
            $html= '<td><a data-toggle="tooltip" data-placement="top" title="Modificar" class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-edit"></i></td>';
-           $json['aaData'][]=array($value['rownum'],$value['rut'],$value['servicio'],$value['fecha'],$value['hora_ingreso'],$value['hora_salida'],$value['n_semana'],$value['hora_turnos'],$value['hora_colacion'],$value['horario_colacion'],$value['break_1'],$value['break_2'],$html);
+           $json['aaData'][]=array($value['rownum'],$value['nombres'],$value['servicio'],$value['hora_ingreso'],$value['hora_salida'],$value['hora_turnos'],$value['hora_colacion'],$value['horario_colacion'],$value['break_1'],$value['break_2'],$value['asistencia'],$html);
         }
         $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
         $fh = fopen(API_INTERFACE . "views/app/temp/result_cons2_".$usucompa['id_user'].".dbj", 'w');
@@ -151,7 +154,7 @@ public function revisar_turno_por_fecha(){
 }
 
 public function verturnomes(){
-global $http;
+    global $http;
 
     $rutcliente=$http->request->get('textrutoculto');
     $fechadeturno=$http->request->get('textfechaoculto');
@@ -184,70 +187,83 @@ public function meses(){
     return $this->db->query_select("select * from tblturnos where rut='$rutusuario' and fecha like '%$fechadia%'");
 }
 
-public function exportar_excel(){
+public function exportar_excel_turno_plataforma(){
     global $config;
-    $objPHPExcel = new PHPExcel();
-    //Informacion del excel
-    $objPHPExcel->getProperties() ->setCreator("Hector Gutierrez")
-                                ->setLastModifiedBy("HG")
-                                ->setTitle("Turnos_usuarios");
-    //encabezado
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'rut');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'servicio');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'fecha');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'hora_ingreso');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'hora_salida');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'n_semana');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', 'hora_turnos');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', 'hora_colacion');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', 'horario_colacion');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', 'break_1');
-    $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', 'break_2');
-
-    $t = $this->getUsers('rut,servicio,fecha,hora_ingreso,hora_salida,n_semana,hora_turnos,hora_colacion,horario_colacion,break_1,break_2','1=1');
+    global $http;
     
-    $fila = 2;
-    foreach ($t as $value => $data) {
+    $fecha=$http->query->get('fecha');
+    $t = $this->cargar_turnos($fecha);
+    
+    if ( $t != false ){
+        $objPHPExcel = new PHPExcel();
+        //Informacion del excel
+        $objPHPExcel->getProperties() ->setCreator("Hector Gutierrez")
+                                    ->setLastModifiedBy("HG")
+                                    ->setTitle("Turnos_usuarios");
+        //encabezado
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'N°Semana');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'Rut');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'Nombres');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'Servicio');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'Hora_Ingreso');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'Hora_Salida');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', 'Horas_Turno');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', 'Hora_Colacion');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', 'Min_Colacion');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', 'Break_1');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', 'Break_2');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'Asistencia');
 
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['rut']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $data['servicio']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['fecha']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['hora_ingreso']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['hora_salida']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['n_semana']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$fila, $data['hora_turnos']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$fila, $data['hora_colacion']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$fila, $data['horario_colacion']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$fila, $data['break_1']);
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$fila, $data['break_2']);
-        $fila++;
+
+
+        $fila = 2;
+        foreach ($t as $value => $data) {
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['n_semana']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $data['rut']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['nombres']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['servicio']);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['hora_ingreso']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['hora_salida']);
+            
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$fila, $data['hora_turnos']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$fila, $data['hora_colacion']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$fila, $data['horario_colacion']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$fila, $data['break_1']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$fila, $data['break_2']);
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$fila, $data['asistencia']);
+            $fila++;
+        }
+
+        //autisize para las columna
+        foreach(range('A','L') as $columnID)
+        {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->getActiveSheet()->setTitle('turnos_plataforma');
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="turnos_plataforma.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+    }else{
+        # Redireccionar a la página principal del controlador
+        $this->functions->redir($config['site']['url'] . 'rrhh/revisar_turnos');
     }
-
-    //autisize para las columna
-    foreach(range('A','E') as $columnID)
-    {
-        $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
-    }
-
-      $objPHPExcel->setActiveSheetIndex(0);
-
-      $objPHPExcel->getActiveSheet()->setTitle('turnos_usuarios');
-
-      // Redirect output to a client’s web browser (Excel2007)
-      header('Content-Type: application/vnd.ms-excel');
-      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      header('Content-Disposition: attachment;filename="Turnos_usuarios.xlsx"');
-      header('Cache-Control: max-age=0');
-      // If you're serving to IE 9, then the following may be needed
-      header('Cache-Control: max-age=1');
-
-      // If you're serving to IE over SSL, then the following may be needed
-      header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-      header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-      header ('Pragma: public'); // HTTP/1.0
-
-      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-      $objWriter->save('php://output');
 }
 
 public function getUsers(string $select = '*',string $filtro) {

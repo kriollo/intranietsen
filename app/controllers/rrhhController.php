@@ -155,18 +155,18 @@ class rrhhController extends Controllers implements IControllers {
 //Turnos ------------------------------------------------------------------------------------------------------------------------   
           case 'cargar_turnos':
                echo $this->template->render('rrhh/turnos/carga_de_turnos', array( 
-                   'menu_op' => $op
+                   'menu_op' => $op,
+                   'db_archivos' => (new Model\Varios)->listar_archivos_cargados('Carga de Turnos')
                ));
               break;
           case 'revisar_turnos':
                echo $this->template->render('rrhh/turnos/revisar_turnos', array(
                 'menu_op' => $op,
-                'fecha2'=> date('Y-m-d'),
-                'cargar_turnos'=>(new Model\Turnos)->cargar_turnos()
+                'cargar_turnos'=>(new Model\Turnos)->cargar_turnos(date('Y-m-d'))
              ));
              break;
-          case 'exportar_turnos_excel':
-               $t->exportar_excel();
+          case 'exportar_turnos_plataforma_excel':
+               (new Model\Turnos)->exportar_excel_turno_plataforma();
                break;
           case 'revisar_turno_propio':
                $actual = strtotime(date('d-m-Y'));
