@@ -10,8 +10,8 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
         // line 1
         $this->parent = $this->loadTemplate("portal/portal", "rrhh/turnos/carga_de_turnos.twig", 1);
         $this->blocks = array(
-            'appScript' => array($this, 'block_appScript'),
             'appBody' => array($this, 'block_appBody'),
+            'appScript' => array($this, 'block_appScript'),
         );
     }
 
@@ -25,18 +25,10 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
-    // line 2
-    public function block_appScript($context, array $blocks = array())
-    {
-        // line 3
-        echo "    <script src=\"views/app/js/rrhh/turnos.js\"></script>
-";
-    }
-
-    // line 5
+    // line 3
     public function block_appBody($context, array $blocks = array())
     {
-        // line 6
+        // line 4
         echo "<section class=\"content-header\">
     <h1>
         RRHH
@@ -91,8 +83,70 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
             </div>
         </div>
     </div>
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            
+            <div class=\"col-lg-5\">
+                <p><strong>Ultimos archivos cargados</strong></p>
+                <table class=\"table table-bordered\">
+                  <thead>
+                    <th>No</th>
+                    <th>Fecha</th>
+                    <th>Nombre de Archivo</th>
+                  </thead>
+                  <tbody>
+<!--
+                    ";
+        // line 71
+        $context["No"] = 1;
+        // line 72
+        echo "                    ";
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["db_user_online"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
+            if ((false != ($context["db_user_online"] ?? null))) {
+                // line 73
+                echo "                      <tr>
+                        <td>";
+                // line 74
+                echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
+                echo "</td>
+                        <td>";
+                // line 75
+                echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "name", array())), "html", null, true);
+                echo "</td>
+                        <td>";
+                // line 76
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "email", array()), "html", null, true);
+                echo "</td>
+                      </tr>
+                      ";
+                // line 78
+                $context["No"] = (($context["No"] ?? null) + 1);
+                // line 79
+                echo "                    ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 80
+        echo "-->
+                  </tbody>
+                </table>
+              </div>
+            
+        </div>
+    </div>
 </section>
+";
+    }
 
+    // line 89
+    public function block_appScript($context, array $blocks = array())
+    {
+        // line 90
+        echo "    <script src=\"views/app/js/rrhh/turnos.js\"></script>
 ";
     }
 
@@ -108,7 +162,7 @@ class __TwigTemplate_b699582c6639bc51a42832fc6e795a37e9cfdffac15ae5dd7573c45017c
 
     public function getDebugInfo()
     {
-        return array (  40 => 6,  37 => 5,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  149 => 90,  146 => 89,  134 => 80,  127 => 79,  125 => 78,  120 => 76,  116 => 75,  112 => 74,  109 => 73,  103 => 72,  101 => 71,  32 => 4,  29 => 3,  11 => 1,);
     }
 
     public function getSourceContext()

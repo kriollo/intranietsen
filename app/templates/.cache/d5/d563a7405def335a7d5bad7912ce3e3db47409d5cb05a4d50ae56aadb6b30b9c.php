@@ -88,7 +88,7 @@ class __TwigTemplate_768a69193ac5c5b51c16ed15a7787c9cfc15bf006e8d7b30ab2f5cab265
                             <th>Fecha</th>
                             <th>Hora Ingreso</th>
                             <th>Hora Salida</th>
-                            <th>N° Semana</th>
+                            
                             <th>Horas Turno</th>
                             <th>Hora Colacion</th>
                             <th>Horario Colacion</th>
@@ -133,10 +133,7 @@ class __TwigTemplate_768a69193ac5c5b51c16ed15a7787c9cfc15bf006e8d7b30ab2f5cab265
                 // line 72
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "hora_salida", array()), "html", null, true);
                 echo "</td>
-                                <td>";
-                // line 73
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "n_semana", array()), "html", null, true);
-                echo "</td>
+                                
                                 <td>";
                 // line 74
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "hora_turnos", array()), "html", null, true);
@@ -244,7 +241,7 @@ class __TwigTemplate_768a69193ac5c5b51c16ed15a7787c9cfc15bf006e8d7b30ab2f5cab265
 
     public function getDebugInfo()
     {
-        return array (  206 => 105,  203 => 104,  183 => 88,  178 => 85,  171 => 84,  169 => 83,  162 => 79,  158 => 78,  154 => 77,  150 => 76,  146 => 75,  142 => 74,  138 => 73,  134 => 72,  130 => 71,  126 => 70,  122 => 69,  118 => 68,  114 => 67,  111 => 66,  105 => 65,  103 => 64,  64 => 28,  41 => 7,  38 => 6,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  203 => 105,  200 => 104,  180 => 88,  175 => 85,  168 => 84,  166 => 83,  159 => 79,  155 => 78,  151 => 77,  147 => 76,  143 => 75,  139 => 74,  134 => 72,  130 => 71,  126 => 70,  122 => 69,  118 => 68,  114 => 67,  111 => 66,  105 => 65,  103 => 64,  64 => 28,  41 => 7,  38 => 6,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
