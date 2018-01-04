@@ -151,7 +151,47 @@ class rrhhController extends Controllers implements IControllers {
             'db_areas'=>(new Model\Areas)->getAreas()
             ));
             break;
-//-------------------------------------------------------------------------------------------------------------------------------   
+//-------------------------------------------------------------------------------------------------------------------------------
+//Turnos ------------------------------------------------------------------------------------------------------------------------   
+          case 'cargar_turnos':
+               echo $this->template->render('rrhh/turnos/carga_de_turnos', array( 
+                   'menu_op' => $op
+               ));
+              break;
+          case 'revisar_turnos':
+               echo $this->template->render('rrhh/turnos/revisar_turnos', array(
+                'menu_op' => $op,
+                'fecha2'=> date('Y-m-d'),
+                'cargar_turnos'=>(new Model\Turnos)->cargar_turnos()
+             ));
+             break;
+          case 'exportar_turnos_excel':
+               $t->exportar_excel();
+               break;
+          case 'revisar_turno_propio':
+               $actual = strtotime(date('d-m-Y'));
+               $mesmenos = date("Y-m-d", strtotime("-3 month", $actual));
+
+               $mes_i=intval(date("m", strtotime($mesmenos)));
+               $mes_t=intval(date("m", strtotime($actual)));
+
+               for ($i=$mes_i; $i<=$mes_t; $i++){
+                 if ($i != $mes_i) $actual = strtotime("-1 month", $actual);
+                 $fecha[]=array('mesano_print' => date("m-Y", $actual),'mesano' => date("mY", $actual), 'ano' =>date("Y", $actual) );
+                }
+
+                $u = (new Model\Users)->getOwnerUser();
+                $mesano = date('mY');
+                $ano = date('Y');
+              echo $this->template->render('rrhh/turnos/turno_propio', array(
+                'menu_op' => $op,
+                'fecha'=>date('Y-m-d'),
+                'carga_turno'=>$t->cargar_turno_propio(),
+                'super'=>$t->cargar_super(),
+                'fechas_db'=>$fecha
+              ));
+              break;
+//-------------------------------------------------------------------------------------------------------------------------------
           default:
             echo $this->template->render('rrhh/rrhh', array(
               'menu_op' => $op

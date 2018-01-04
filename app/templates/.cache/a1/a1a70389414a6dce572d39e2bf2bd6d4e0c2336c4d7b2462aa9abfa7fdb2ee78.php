@@ -85,55 +85,64 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
   </head>
   <body class=\"hold-transition skin-blue sidebar-mini\"> <!--<body class=\"hold-transition skin-blue sidebar-mini\">-->
     <div class=\"wrapper\">
+        <div style=\"display: none;\" id=\"cargador\" align=\"center\">
+            <br>
+            <label style=\"color:#FFF; background-color:#ABB6BA; text-align:center\">&nbsp;&nbsp;&nbsp;Espere... &nbsp;&nbsp;&nbsp;</label>
 
-        ";
-        // line 56
-        $this->displayBlock('appHead', $context, $blocks);
-        // line 59
-        echo "
-        ";
-        // line 60
-        $this->displayBlock('appside', $context, $blocks);
-        // line 63
-        echo "        
+            <img src=\"views/app/images/cargando.gif\" align=\"middle\" alt=\"cargador\"> &nbsp;<label style=\"color:#ABB6BA\">Realizando tarea solicitada ...</label>
+
+            <br>
+            <hr style=\"color:#003\" width=\"30%\">
+            <br>
+        </div>
         ";
         // line 65
+        $this->displayBlock('appHead', $context, $blocks);
+        // line 68
+        echo "
+        ";
+        // line 69
+        $this->displayBlock('appside', $context, $blocks);
+        // line 72
+        echo "        
+        ";
+        // line 74
         echo "         <div class=\"content-wrapper\">
             ";
-        // line 66
+        // line 75
         $this->displayBlock('appBody', $context, $blocks);
-        // line 90
+        // line 99
         echo "        </div>
 
 
       ";
-        // line 94
+        // line 103
         echo "      ";
         $this->displayBlock('appFooter', $context, $blocks);
-        // line 97
+        // line 106
         echo "
       ";
-        // line 98
-        $this->loadTemplate("portal/resetpass", "portal/portal.twig", 98)->display($context);
-        // line 99
+        // line 107
+        $this->loadTemplate("portal/resetpass", "portal/portal.twig", 107)->display($context);
+        // line 108
         echo "    </div>
     ";
-        // line 101
+        // line 110
         echo "    ";
         if (twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["config"] ?? null), "framework", array()), "debug", array())) {
-            // line 102
+            // line 111
             echo "      ";
-            // line 103
+            // line 112
             echo "      <script src=\"views/app/js/jdev.min.js\"></script>
     ";
         } else {
-            // line 105
+            // line 114
             echo "      ";
-            // line 106
+            // line 115
             echo "      <script src=\"views/app/template/jquery/dist/jquery.min.js\"></script>
     ";
         }
-        // line 108
+        // line 117
         echo "
     <!-- jQuery UI 1.11.4 -->
     <script src=\"views/app/template/jquery-ui/jquery-ui.min.js\"></script>
@@ -173,10 +182,10 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
     
     
     ";
-        // line 147
+        // line 156
         echo "    ";
         $this->displayBlock('appScript', $context, $blocks);
-        // line 150
+        // line 159
         echo "
   </body>
 </html>
@@ -199,30 +208,30 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
     ";
     }
 
-    // line 56
+    // line 65
     public function block_appHead($context, array $blocks = array())
     {
-        // line 57
+        // line 66
         echo "            ";
-        $this->loadTemplate("portal/header", "portal/portal.twig", 57)->display($context);
-        // line 58
+        $this->loadTemplate("portal/header", "portal/portal.twig", 66)->display($context);
+        // line 67
         echo "        ";
     }
 
-    // line 60
+    // line 69
     public function block_appside($context, array $blocks = array())
     {
-        // line 61
+        // line 70
         echo "            ";
-        $this->loadTemplate("portal/menu", "portal/portal.twig", 61)->display($context);
-        // line 62
+        $this->loadTemplate("portal/menu", "portal/portal.twig", 70)->display($context);
+        // line 71
         echo "        ";
     }
 
-    // line 66
+    // line 75
     public function block_appBody($context, array $blocks = array())
     {
-        // line 67
+        // line 76
         echo "              <section class=\"content-header\">
               <h1>
                   ESCRITORIO
@@ -240,7 +249,7 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
                     <div class=\"panel panel-info\">
                       <div class=\"panel-heading\">
                         <h3 class=\"panel-title\">  <i class=\"icon fa fa-user\"></i> Bienvenido <strong>";
-        // line 83
+        // line 92
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "name", array(), "array"), "html", null, true);
         echo "</strong>.</h3>
                       </div>
@@ -251,20 +260,20 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
             ";
     }
 
-    // line 94
+    // line 103
     public function block_appFooter($context, array $blocks = array())
     {
-        // line 95
+        // line 104
         echo "        ";
-        $this->loadTemplate("portal/footer", "portal/portal.twig", 95)->display($context);
-        // line 96
+        $this->loadTemplate("portal/footer", "portal/portal.twig", 104)->display($context);
+        // line 105
         echo "      ";
     }
 
-    // line 147
+    // line 156
     public function block_appScript($context, array $blocks = array())
     {
-        // line 148
+        // line 157
         echo "
     ";
     }
@@ -281,7 +290,7 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
 
     public function getDebugInfo()
     {
-        return array (  268 => 148,  265 => 147,  261 => 96,  258 => 95,  255 => 94,  244 => 83,  226 => 67,  223 => 66,  219 => 62,  216 => 61,  213 => 60,  209 => 58,  206 => 57,  203 => 56,  198 => 49,  195 => 48,  190 => 40,  187 => 39,  180 => 150,  177 => 147,  137 => 108,  133 => 106,  131 => 105,  127 => 103,  125 => 102,  122 => 101,  119 => 99,  117 => 98,  114 => 97,  111 => 94,  106 => 90,  104 => 66,  101 => 65,  98 => 63,  96 => 60,  93 => 59,  91 => 56,  84 => 51,  81 => 48,  75 => 45,  71 => 42,  69 => 39,  32 => 6,  26 => 1,);
+        return array (  277 => 157,  274 => 156,  270 => 105,  267 => 104,  264 => 103,  253 => 92,  235 => 76,  232 => 75,  228 => 71,  225 => 70,  222 => 69,  218 => 67,  215 => 66,  212 => 65,  207 => 49,  204 => 48,  199 => 40,  196 => 39,  189 => 159,  186 => 156,  146 => 117,  142 => 115,  140 => 114,  136 => 112,  134 => 111,  131 => 110,  128 => 108,  126 => 107,  123 => 106,  120 => 103,  115 => 99,  113 => 75,  110 => 74,  107 => 72,  105 => 69,  102 => 68,  100 => 65,  84 => 51,  81 => 48,  75 => 45,  71 => 42,  69 => 39,  32 => 6,  26 => 1,);
     }
 
     public function getSourceContext()

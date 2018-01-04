@@ -313,3 +313,29 @@ $u = new Model\Areas;
 return $app->json($u->modificar_area());
 });
 //Areas-------------------------------------------------------------------------
+//Turnos------------------------------------------------------------------------
+$app->post('/cargar_excel', function() use($app) {
+
+$u = new Model\Turnos;
+
+return $app->json($u->cargar_excel());
+});
+$app->post('/revisar_turno_por_fecha', function() use($app) {
+
+$u = new Model\Turnos;
+
+return $app->json($u->revisar_turno_por_fecha());
+});
+$app->post('/mensaje', function() use($app) {
+
+$u = new Model\Turnos;
+
+return $app->json($u->mensaje());
+});
+$app->post('/verturnomes', function() use($app) {
+
+$u = new Model\Turnos;
+
+return $app->json($u->verturnomes());
+});
+//Turnos------------------------------------------------------------------------

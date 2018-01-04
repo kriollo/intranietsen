@@ -1,0 +1,131 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+
+{% block appBody %}
+          <section class="content-header">
+            <h4>
+                <i class="fa fa-th"></i> TURNOS PLATAFORMA
+            </h4>
+          </section>
+          <section class="content">
+
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border">
+            <h3>Seleccione Fecha de Turno </h3>
+            <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>
+
+        <div class="box-body">
+
+            <form name="formbuscaturno" id="formbuscaturno" action="" method="POST">
+                <table>
+                    <tr>
+                        <td>Fecha: <input  type="date" name="fechaturno" id="fechaturno" value="{{fecha2}}" />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" name="btn1" value="Buscar turno" id="btn1" onclick="revisar_turno_por_fecha()"/>&nbsp;&nbsp;&nbsp;
+                            <a class="btn btn-success btn-social pull-right" href="rrhh/exportar_turnos_excel" title="Exportar a Excel" data-toggle="tooltip">
+                              <i class="fa fa-arrow-down"></i> Exportar Turnos a Excel
+                            </a>
+
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <!----------------------------------------------------------------------------------------------------------------------------------------->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="box box-primary">
+                      <div class="box-body" id="camdat" name="camdat">
+                      <table id="dataTables3" class="table table-bordered" >
+                        <div class="">
+                        <br>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>Rut</th>
+                            <th>Servicio</th>
+                            <th>Fecha</th>
+                            <th>Hora Ingreso</th>
+                            <th>Hora Salida</th>
+                            <th>N° Semana</th>
+                            <th>Horas Turno</th>
+                            <th>Hora Colacion</th>
+                            <th>Horario Colacion</th>
+                            <th>HR Break 1</th>
+                            <th>HR Break 2</th>
+                            <th>Modificar</th>
+                          </tr>
+                        </thead>
+                        <tbody id="turnos">
+                          {% set No = 1 %}
+                          {% for t in cargar_turnos if false != cargar_turnos %}
+                            <tr>
+                                <td>{{No}}</td>
+                                <td>{{ t.rut|raw|title }}</td>
+                                <td>{{t.servicio}}</td>
+                                <td>{{ t.fecha }}</td>
+                                <td>{{ t.hora_ingreso  }}</td>
+                                <td>{{ t.hora_salida }}</td>
+                                <td>{{t.n_semana}}</td>
+                                <td>{{t.hora_turnos}}</td>
+                                <td>{{t.hora_colacion}}</td>
+                                <td>{{ t.horario_colacion }}</td>
+                                <td>{{ t.break_1  }}</td>
+                                <td>{{ t.break_2 }}</td>
+                                <td> <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-warning btn-sm' onclick="modificarnuevodatos({{ d.id_tblausencias }})">
+                                  <i class='glyphicon glyphicon-edit'></i></td>
+                            </tr>
+                            </tr>
+                            {% set No =  No + 1 %}
+                          {% endfor %}
+                        </tbody>
+
+                        <input type="hidden" name="idprueba" id="idprueba">
+                        <input type="hidden" id="textoarea" name="textoarea" value="{{db_nuevo.id_area}}">
+                      </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              </section>
+              </div>
+              <div id="divlista">
+              </div>
+            <br />
+        </div>
+
+    </div>
+    {% endblock %}
+    {% block appScript %}
+
+        <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+            <script src="views/app/js/rrhh/turnos.js"></script>
+           <script>
+            $("#dataTables3").dataTable({
+                     "language": {
+                         "search": "Buscar:",
+                         "zeroRecords": "No hay datos para mostrar",
+                         "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
+                         "loadingRecords": "Cargando...",
+                         "processing":"Procesando...",
+                         "infoEmpty":"No hay entradas para mostrar",
+                         "lengthMenu": "Mostrar _MENU_ Filas",
+                         "paginate":{
+                         "first":"Primera",
+                         "last":"Ultima",
+                         "next":"Siguiente",
+                         "previous":"Anterior",
+                         }
+                                   },
+                     "autoWidth": true
+                 });
+
+            </script>
+    {% endblock %}
