@@ -314,7 +314,7 @@ return $app->json($u->modificar_area());
 });
 //Areas-------------------------------------------------------------------------
 //Turnos------------------------------------------------------------------------
-$app->post('/cargar_excel', function() use($app) {
+$app->post('/cargar_excel_turnos', function() use($app) {
 
 $u = new Model\Turnos;
 
@@ -350,7 +350,7 @@ $app->post('/editar_tecnico', function() use($app) {
 
     return $app->json($e->editar_tecnico());
 });
-$app->post('/cargar_excel', function() use($app) {
+$app->post('/cargar_excel_tecnicos', function() use($app) {
 
 $u = new Model\Mdltecnicos;
 

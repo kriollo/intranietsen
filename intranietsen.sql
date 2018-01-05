@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-01-2018 a las 13:45:24
+-- Tiempo de generación: 05-01-2018 a las 16:13:00
 -- Versión del servidor: 10.1.28-MariaDB
 -- Versión de PHP: 7.1.10
 
@@ -114,7 +114,8 @@ TRUNCATE TABLE `tblausencias`;
 
 INSERT INTO `tblausencias` (`id_tblausencias`, `rut`, `tipo_ausencia`, `observacion`, `desde`, `hasta`, `usu_registra`, `fechamod`, `id_area`) VALUES
 (7, '25939970', 'Con Licencia', '2132132 observacion\r\nprueba\r\nde ingreso', '2017-11-22', '2017-11-22', '2', '2017-11-22', 1),
-(2, '19063731', 'Con Licencia', 'f', '2017-11-21', '2017-11-21', '16', '2017-11-21', 1);
+(2, '19063731', 'Con Licencia', 'f', '2017-11-21', '2017-11-21', '16', '2017-11-21', 1),
+(8, '25637138', 'Con Licencia', 'test', '2018-01-03', '2018-01-04', '2', '2018-01-04', 1);
 
 -- --------------------------------------------------------
 
@@ -436,11 +437,45 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (99, 1, 1, 'administracion', 'Principal', 1),
 (99, 4, 4, 'administracion/empresa', 'Datos Empresa', 1),
 (2, 2, 2, 'rrhh/mantenedores_crud_masters', 'Maestros RRHH', 1),
-(2, 3, 3, 'rrhh/horasextra', 'Horas Extra', 1),
-(2, 4, 4, 'rrhh/revisar_horas_extras_pendientes', 'Revisar Solicitud', 1),
+(2, 4, 4, 'rrhh/revisar_horas_extras_pendientes', 'HHEE Rev Solicitud', 1),
 (2, 5, 5, 'rrhh/revisarausencias', 'Registro Ausencias', 1),
 (2, 6, 6, 'rrhh/cargar_turnos', 'Cargar Turnos', 1),
-(2, 7, 7, 'rrhh/revisar_turnos', 'Ver Turno Plataforma', 1);
+(2, 7, 7, 'rrhh/revisar_turnos', 'Ver Turno Plataforma', 1),
+(2, 3, 3, 'rrhh/revisar_horas_extra', 'HHEE Registrar', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbltecnicos`
+--
+
+DROP TABLE IF EXISTS `tbltecnicos`;
+CREATE TABLE `tbltecnicos` (
+  `id_tecnicos` int(11) NOT NULL,
+  `rut` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `nombre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbltecnicos`
+--
+
+TRUNCATE TABLE `tbltecnicos`;
+--
+-- Volcado de datos para la tabla `tbltecnicos`
+--
+
+INSERT INTO `tbltecnicos` (`id_tecnicos`, `rut`, `nombre`, `codigo`, `estado`) VALUES
+(1, '158899051', 'jorge jara', 'jjhjj1', '1'),
+(6, '5', 'p', 'a', '1'),
+(3, '2', 'e', 'd', '1'),
+(8, '7', 'a', 'e', '1'),
+(5, '4', 'i', 'v', '1'),
+(7, '6', 'e', 'l', '1'),
+(9, '8', 'n', 'n', '1'),
+(10, '89', 'd', 'z', '1');
 
 -- --------------------------------------------------------
 
@@ -474,47 +509,47 @@ TRUNCATE TABLE `tblturnos`;
 --
 
 INSERT INTO `tblturnos` (`id`, `rut`, `fecha`, `servicio`, `hora_ingreso`, `hora_salida`, `n_semana`, `hora_turnos`, `horario_colacion`, `hora_colacion`, `break_1`, `break_2`) VALUES
-(481, '11603505', '2018-01-04', 'TORRE CONTROL', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(480, '25572474', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(479, '16346771', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(478, '17736774', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(477, '25657286', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(476, '13901026', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(475, '19004569', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(474, '25779414', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(473, '25833077', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(472, '17310756', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(471, '16393634', '2018-01-04', 'SWAP', '09:30:00', '19:30:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(470, '25753973', '2018-01-04', 'REDES', '10:00:00', '20:00:00', 1, 9, 60, '14:00:00', '11:30:00', '17:30:00'),
-(469, '19063731', '2018-01-04', 'REDES', '12:00:00', '22:00:00', 1, 9, 60, '15:00:00', '12:30:00', '18:30:00'),
-(468, '15930005', '2018-01-04', 'REDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
-(467, '17793951', '2018-01-04', 'DESARROLLO', '09:00:00', '18:00:00', 1, 8, 60, '13:30:00', '11:00:00', '17:00:00'),
-(466, '18050468', '2018-01-04', 'DESARROLLO', '09:00:00', '18:00:00', 1, 8, 60, '13:30:00', '11:00:00', '17:00:00'),
-(465, '23590775', '2018-01-04', 'BLINDAJE N2', '10:00:00', '20:00:00', 1, 9, 60, '14:00:00', '11:30:00', '17:30:00'),
-(464, '17412388', '2018-01-04', 'BLINDAJE N2', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(463, '12182659', '2018-01-04', 'BLINDAJE N2', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(462, '18533419', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
-(461, '13057080', '2018-01-04', 'BLINDAJE', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(460, '18017745', '2018-01-04', 'BLINDAJE', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(459, '16717002', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(458, '18904277', '2018-01-04', 'BLINDAJE', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(457, '11871554', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(456, '17425021', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
-(455, '12235760', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(454, '18916055', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(453, '17071589', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
-(452, '14160915', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(451, '17622541', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(450, '14001975', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(449, '18245181', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(448, '13036638', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(447, '16915549', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(446, '24258741', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(445, '12907155', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
-(444, '17771634', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
-(443, '17779311', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
-(442, '10503173', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
-(441, '16280891', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(811, '11603505', '2018-01-04', 'TORRE CONTROL', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(810, '25572474', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(809, '16346771', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(808, '17736774', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(807, '25657286', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(806, '13901026', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(805, '19004569', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(804, '25779414', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(803, '25833077', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(802, '17310756', '2018-01-04', 'TEAM ANDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(801, '16393634', '2018-01-04', 'SWAP', '09:30:00', '19:30:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(800, '25753973', '2018-01-04', 'REDES', '10:00:00', '20:00:00', 1, 9, 60, '14:00:00', '11:30:00', '17:30:00'),
+(799, '19063731', '2018-01-04', 'REDES', '12:00:00', '22:00:00', 1, 9, 60, '15:00:00', '12:30:00', '18:30:00'),
+(798, '15930005', '2018-01-04', 'REDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(797, '17793951', '2018-01-04', 'DESARROLLO', '09:00:00', '18:00:00', 1, 8, 60, '13:30:00', '11:00:00', '17:00:00'),
+(796, '18050468', '2018-01-04', 'DESARROLLO', '09:00:00', '18:00:00', 1, 8, 60, '13:30:00', '11:00:00', '17:00:00'),
+(795, '23590775', '2018-01-04', 'BLINDAJE N2', '10:00:00', '20:00:00', 1, 9, 60, '14:00:00', '11:30:00', '17:30:00'),
+(794, '17412388', '2018-01-04', 'BLINDAJE N2', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(793, '12182659', '2018-01-04', 'BLINDAJE N2', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(792, '18533419', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(791, '13057080', '2018-01-04', 'BLINDAJE', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(790, '18017745', '2018-01-04', 'BLINDAJE', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(789, '16717002', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(788, '18904277', '2018-01-04', 'BLINDAJE', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(787, '11871554', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(786, '17425021', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(785, '12235760', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(784, '18916055', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(783, '17071589', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(782, '14160915', '2018-01-04', 'BLINDAJE', '17:30:00', '22:00:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(781, '17622541', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(780, '14001975', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(779, '18245181', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(778, '13036638', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(777, '16915549', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(776, '24258741', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(775, '12907155', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(774, '17771634', '2018-01-04', 'BLINDAJE', '13:00:00', '17:30:00', 1, 3, 60, '00:00:00', '00:00:00', '00:00:00'),
+(773, '17779311', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(772, '10503173', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
+(771, '16280891', '2018-01-04', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
 (386, '16280891', '2018-01-03', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
 (387, '10503173', '2018-01-03', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
 (388, '17779311', '2018-01-03', 'BLINDAJE', '08:30:00', '13:00:00', 1, 3, 60, '13:00:00', '10:30:00', '16:30:00'),
@@ -542,7 +577,7 @@ INSERT INTO `tblturnos` (`id`, `rut`, `fecha`, `servicio`, `hora_ingreso`, `hora
 (410, '23590775', '2018-01-03', 'BLINDAJE N2', '10:00:00', '20:00:00', 1, 9, 60, '14:00:00', '11:30:00', '17:30:00'),
 (411, '18050468', '2018-01-03', 'DESARROLLO', '09:00:00', '18:00:00', 1, 8, 60, '13:30:00', '11:00:00', '17:00:00'),
 (412, '17793951', '2018-01-03', 'DESARROLLO', '09:00:00', '18:00:00', 1, 8, 60, '13:30:00', '11:00:00', '17:00:00'),
-(413, '15930005', '2018-01-03', 'REDES', '08:30:00', '18:30:00', 1, 9, 60, '13:00:00', '10:30:00', '16:30:00'),
+(413, '15930005', '2018-01-03', 'REDES', '00:00:00', '00:00:00', 1, 0, 0, '00:00:00', '00:00:00', '00:00:00'),
 (414, '19063731', '2018-01-03', 'REDES', '12:00:00', '22:00:00', 1, 9, 60, '15:00:00', '12:30:00', '18:30:00'),
 (415, '25753973', '2018-01-03', 'REDES', '10:00:00', '20:00:00', 1, 9, 60, '14:00:00', '11:30:00', '17:30:00'),
 (416, '16393634', '2018-01-03', 'SWAP', '09:30:00', '19:30:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
@@ -570,20 +605,76 @@ INSERT INTO `tblturnos` (`id`, `rut`, `fecha`, `servicio`, `hora_ingreso`, `hora
 (438, '12624268', '2018-01-03', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
 (439, '16691974', '2018-01-03', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
 (440, '17010897', '2018-01-03', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(482, '18357690', '2018-01-04', 'TORRE CONTROL', '09:00:00', '17:30:00', 1, 7, 60, '13:30:00', '11:00:00', '17:00:00'),
-(483, '18910997', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(484, '16486383', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(485, '17988145', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(486, '25637138', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(487, '17312370', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(488, '15418456', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(489, '13903234', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(490, '11415959', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(491, '17664997', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(492, '20220124', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(493, '12624268', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(494, '16691974', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
-(495, '17010897', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00');
+(812, '18357690', '2018-01-04', 'TORRE CONTROL', '09:00:00', '17:30:00', 1, 7, 60, '13:30:00', '11:00:00', '17:00:00'),
+(813, '18910997', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(814, '16486383', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(815, '17988145', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(816, '25637138', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(817, '17312370', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(818, '15418456', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(819, '13903234', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(820, '11415959', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(821, '17664997', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(822, '20220124', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(823, '12624268', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(824, '16691974', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00'),
+(825, '17010897', '2018-01-04', 'TORRE ESCALAMIENTOS', '09:00:00', '19:00:00', 1, 9, 60, '13:30:00', '11:00:00', '17:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_det_hora_extra`
+--
+
+DROP TABLE IF EXISTS `tbl_det_hora_extra`;
+CREATE TABLE `tbl_det_hora_extra` (
+  `id_det` int(11) NOT NULL,
+  `id_enc_hx` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `rut` varchar(15) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_det_hora_extra`
+--
+
+TRUNCATE TABLE `tbl_det_hora_extra`;
+--
+-- Volcado de datos para la tabla `tbl_det_hora_extra`
+--
+
+INSERT INTO `tbl_det_hora_extra` (`id_det`, `id_enc_hx`, `rut`) VALUES
+(0, '1', '16005554');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_enc_hora_extra`
+--
+
+DROP TABLE IF EXISTS `tbl_enc_hora_extra`;
+CREATE TABLE `tbl_enc_hora_extra` (
+  `id_enc_hx` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `fecha_creacion` date NOT NULL,
+  `fecha_solicitud` date NOT NULL,
+  `id_user` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `motivo_solicitud` varchar(120) COLLATE utf8_unicode_ci NOT NULL,
+  `hora_desde` time NOT NULL,
+  `hora_hasta` time NOT NULL,
+  `estado` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Pendiente',
+  `motivo_respuesta` varchar(120) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Sin responder'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_enc_hora_extra`
+--
+
+TRUNCATE TABLE `tbl_enc_hora_extra`;
+--
+-- Volcado de datos para la tabla `tbl_enc_hora_extra`
+--
+
+INSERT INTO `tbl_enc_hora_extra` (`id_enc_hx`, `fecha_creacion`, `fecha_solicitud`, `id_user`, `motivo_solicitud`, `hora_desde`, `hora_hasta`, `estado`, `motivo_respuesta`) VALUES
+('1', '2018-01-04', '2018-01-04', '2', 'test', '18:01:00', '18:01:00', 'Pendiente', 'Sin responder');
 
 -- --------------------------------------------------------
 
@@ -595,7 +686,7 @@ DROP TABLE IF EXISTS `tbl_historialarchivoscargados`;
 CREATE TABLE `tbl_historialarchivoscargados` (
   `id` double NOT NULL,
   `app` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `Fecha_hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fecha_hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `nombre_archivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -608,39 +699,11 @@ TRUNCATE TABLE `tbl_historialarchivoscargados`;
 -- Volcado de datos para la tabla `tbl_historialarchivoscargados`
 --
 
-INSERT INTO `tbl_historialarchivoscargados` (`id`, `app`, `Fecha_hora`, `nombre_archivo`) VALUES
-(1, 'Carga de Turnos', '2018-01-03 20:51:31', 'test.xls');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_horasextra`
---
-
-DROP TABLE IF EXISTS `tbl_horasextra`;
-CREATE TABLE `tbl_horasextra` (
-  `id` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  `rut` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
-  `hora_desde` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `hora_hasta` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `solicitante` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
-  `motivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `estatus` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Pendiente',
-  `id_user` varchar(12) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Truncar tablas antes de insertar `tbl_horasextra`
---
-
-TRUNCATE TABLE `tbl_horasextra`;
---
--- Volcado de datos para la tabla `tbl_horasextra`
---
-
-INSERT INTO `tbl_horasextra` (`id`, `fecha`, `rut`, `hora_desde`, `hora_hasta`, `solicitante`, `motivo`, `estatus`, `id_user`) VALUES
-(6, '2017-11-07', '15889905', '17:11', '17:11', 'Jorge Jara Hinojosa', 'jorejagahasgjd', 'Rechazada', '1');
+INSERT INTO `tbl_historialarchivoscargados` (`id`, `app`, `fecha_hora`, `nombre_archivo`) VALUES
+(1, 'Carga de Turnos', '2018-01-04 13:24:35', 'turnos_plataforma (1).xlsx'),
+(2, 'Carga de Turnos', '2018-01-04 13:27:12', 'turnos_plataforma (1).xlsx'),
+(3, 'Carga de Turnos', '2018-01-04 13:28:49', 'turnos_plataforma (1).xlsx'),
+(4, 'Carga de Turnos', '2018-01-04 13:30:21', 'turnos_plataforma (1).xlsx');
 
 -- --------------------------------------------------------
 
@@ -651,13 +714,14 @@ INSERT INTO `tbl_horasextra` (`id`, `fecha`, `rut`, `hora_desde`, `hora_hasta`, 
 DROP TABLE IF EXISTS `tmp_horasextra`;
 CREATE TABLE `tmp_horasextra` (
   `id` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  `rut` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `fecha_creacion` date NOT NULL,
+  `fecha_solicitud` date NOT NULL,
+  `rut` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `hora_desde` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `hora_hasta` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `solicitante` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `motivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `id_user` varchar(10) COLLATE utf8_unicode_ci NOT NULL
+  `id_user` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `id_enc_hx` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -701,8 +765,8 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_pass`, `token`, `perfil`, `rol`, `rut_personal`, `estado`, `foto`, `name_foto`, `pagina_inicio`, `online_fecha`) VALUES
-(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'administracion', 1515069746),
-(2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 1, '15889905', 1, 1, '2.jpg', 'plataforma', 0),
+(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'administracion', 0),
+(2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 1, '15889905', 1, 1, '2.jpg', 'plataforma', 1515161468),
 (14, 'PATRICIO BRAVO SILVA', 'patricio.bravo@nielsen.cl', '964217456', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '15698986', 1, 0, '', 'plataforma', 0),
 (15, 'DANIELA COVARRUBIAS NAVARRETE', 'daniela.covarrubias@nielsen.cl', '964526245', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '10371223', 1, 0, '', 'plataforma', 0),
 (16, 'CARLOS GONZALEZ PEÃ‘A', 'carlos.gonzalez@nielsen.cl', '964527575', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '16939194', 1, 0, '', 'plataforma', 0),
@@ -801,6 +865,12 @@ ALTER TABLE `tblsubmenu`
   ADD PRIMARY KEY (`id_menu`,`id_submenu`) USING BTREE;
 
 --
+-- Indices de la tabla `tbltecnicos`
+--
+ALTER TABLE `tbltecnicos`
+  ADD PRIMARY KEY (`id_tecnicos`);
+
+--
 -- Indices de la tabla `tblturnos`
 --
 ALTER TABLE `tblturnos`
@@ -811,18 +881,6 @@ ALTER TABLE `tblturnos`
 -- Indices de la tabla `tbl_historialarchivoscargados`
 --
 ALTER TABLE `tbl_historialarchivoscargados`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tbl_horasextra`
---
-ALTER TABLE `tbl_horasextra`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tmp_horasextra`
---
-ALTER TABLE `tmp_horasextra`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -851,7 +909,7 @@ ALTER TABLE `tblareas`
 -- AUTO_INCREMENT de la tabla `tblausencias`
 --
 ALTER TABLE `tblausencias`
-  MODIFY `id_tblausencias` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tblausencias` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tblcargos`
@@ -890,28 +948,22 @@ ALTER TABLE `tblsubmenu`
   MODIFY `id_submenu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `tbltecnicos`
+--
+ALTER TABLE `tbltecnicos`
+  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT de la tabla `tblturnos`
 --
 ALTER TABLE `tblturnos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=496;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=826;
 
 --
 -- AUTO_INCREMENT de la tabla `tbl_historialarchivoscargados`
 --
 ALTER TABLE `tbl_historialarchivoscargados`
-  MODIFY `id` double NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `tbl_horasextra`
---
-ALTER TABLE `tbl_horasextra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de la tabla `tmp_horasextra`
---
-ALTER TABLE `tmp_horasextra`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` double NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

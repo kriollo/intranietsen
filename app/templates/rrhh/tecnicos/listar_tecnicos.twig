@@ -27,11 +27,10 @@
               <thead>
                 <tr>
                   <th>No</th>
-                	<th>Rut</th>
-                	<th>Nombres</th>
+                  <th>Rut</th>
+                  <th>Nombres</th>
                   <th>Codigo Tecnico</th>
-                  <th>Estado</th>
-
+                  
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -43,7 +42,7 @@
                     <td>{{ d.rut }}</td>
                     <td>{{ d.nombre|raw|title }}</td>
                     <td>{{ d.codigo }}</td>
-                    <td>{{ d.estado }}</td>
+                    
 
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="rrhh/editar_tecnico/{{ d.id_tecnicos }}">

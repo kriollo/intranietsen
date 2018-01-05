@@ -5,7 +5,7 @@ function subirarchivoexcel(){
     formData.append('excel',document.getElementById('imagefile').files[0]);
     $.ajax({
         type : 'POST',
-        url : 'api/cargar_excel',
+        url : 'api/cargar_excel_turnos',
         contentType:false,
         processData:false,
         data : formData,

@@ -4,165 +4,168 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 {% endblock %}
 {% block appBody %}
-<div class="row">
-  <div class="col-md-6">
-    <section class="content-header">
+  <div class="row">
+    <div class="col-md-6">
+      <section class="content-header">
         <h4>
-          <i class="fa fa-user"></i> SOLICITAR HORAS EXTRA
+          <i class="fa fa-user"></i>
+          SOLICITAR HORAS EXTRA
         </h4>
-    </section>
-        <section class="content-header">
-              <b>Datos para formar la peticion</b>
-              <div class="box box-info">
-                  <br>
-                    <form name="form_horax" id="form_horax" action="" method="POST">
-                              <div class="form-group margin">
-                            <input type="hidden" class="form-control" name="rut" id="rut" >
-                            <input type="hidden" class="form-control" name="nombre" id="nombre" >
-                          </div>
-                                {% if horas_extras == true %}
-                                <div class="form-group margin">
-                                    <label for="fecha">Fecha:</label>
-                                <input type="date" class="form-control" name="fecha" id="fecha" value="{{ horas_extras[0]['fecha'] }}" min="{{  fecha  }}" required>
-                              </div>
-                              <div class="form-group margin">
-                                  <label for="fechad">Desde:</label>
-                                  <input type="time" class="form-control" name="fechad" id="fechad" value="{{ horas_extras[0]['hora_desde'] }}" required>
-                              </div>
-                              <div class="form-group margin">
-                                  <label for="fechah">Hasta:</label>
-                                  <input type="time" class="form-control" name="fechah" id="fechah" value="{{ horas_extras[0]['hora_hasta'] }}" required >
-                              </div>
-                              <div class="form-group margin">
-                                  <label for="motivo">Motivo:</label>
-                                  <input type="text" class="form-control" name="motivo" id="motivo" placeholder="Agregar un motivo para solicitud de horas extra." value="{{ horas_extras[0]['motivo'] }}" required>
-                              </div>
-                                {% else %}
-                                <div class="form-group margin">
-                                    <label for="fecha">Fecha:</label>
-                                <input type="date" class="form-control" name="fecha" id="fecha" value="{{  fecha  }}" min="{{  fecha  }}" required>
-                              </div>
-                              <div class="form-group margin">
-                                  <label for="fechad">Desde:</label>
-                                  <input type="time" class="form-control" name="fechad" id="fechad" value="{{ tiempo }}" required>
-                              </div>
-                              <div class="form-group margin">
-                                  <label for="fechah">Hasta:</label>
-                                  <input type="time" class="form-control" name="fechah" id="fechah" value="{{ tiempo }}" required >
-                              </div>
-                              <div class="form-group margin">
-                                  <label for="motivo">Motivo:</label>
-                                  <input type="text" class="form-control" name="motivo" id="motivo" placeholder="Agregar un motivo para solicitud de horas extra.(REQUERIDO)"  required>
-                              </div>
-                                {% endif %}
-                        <div class="form-group margin">
-                            <input type="hidden" name="iduser" id="iduser" value="{{ owner_user['id_user']|title }}">
-                          </div>
-                      </form>
-
-                  <br>
+        <ol class="breadcrumb">
+          <li>
+            <a href="portal">
+              <i class="fa fa-home"></i>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="rrhh/revisar_horas_extra">
+              Horas Extra
+            </a>
+          </li>
+          <li class="active">
+            Modificar la solicitud
+          </li>
+        </ol>
+      </section>
+      <section class="content-header">
+        <b>Datos para formar la peticion</b>
+        <div class="box box-info">
+          <br>
+          <form name="form_horax" id="form_horax" action="" method="POST">
+            <div class="form-group margin">
+              <input type="hidden" class="form-control" name="rut" id="rut">
+              {% if ultimo_id[0]['id_enc_hx'] > '0' %}
+                <input type="hidden" class="form-control" name="id_enc_hx" id="id_enc_hx" value="{{  ultimo_id[0]['id_enc_hx'] + 1 }}">
+              {% else %}
+                <input type="hidden" class="form-control" name="id_enc_hx" id="id_enc_hx" value="1">
+              {% endif %}
+            </div>
+            {% if horas_extras == true %}
+              <div class="form-group margin">
+                <label for="fecha_solicitud">Fecha:</label>
+                <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" value="{{ horas_extras[0]['fecha_solicitud'] }}" min="{{  fecha  }}" required="required">
               </div>
-        </section>
-  </div>
-  <div class="col-md-6">
-  <section class="content-header">
-      <h4>
-        <i class="fa fa-user"></i> GESTION DE HORAS EXTRA
-      </h4>
-  </section>
-  <section class="content-header">
-      <b>Personal para aprobación</b>
-    <div class="row">
-      <div class="col-md-12">
-        <form id="form_buscar" name="form_buscar">
-          <div class="form-group margin">
-            <button class="btn btn-primary" style="position:absolute;display:inline-block;" type="button" id="btn_tmp_horaextra" onmouseover="buscar_coincidencia()"><span>Agregar</span></button>
-              <input type="text" class="form-control" style="padding-left:20%;" placeholder="Buscar usuario por nombre o RUT" name="busca" id="busca"  onmouseover="buscar_coincidencia()">
+              <div class="form-group margin">
+                <label for="hora_desde">Desde:</label>
+                <input type="time" class="form-control" name="hora_desde" id="hora_desde" value="{{ horas_extras[0]['hora_desde'] }}" required="required">
+              </div>
+              <div class="form-group margin">
+                <label for="hora_hasta">Hasta:</label>
+                <input type="time" class="form-control" name="hora_hasta" id="hora_hasta" value="{{ horas_extras[0]['hora_hasta'] }}" required="required">
+              </div>
+              <div class="form-group margin">
+                <label for="motivo">Motivo:</label>
+                <input type="text" class="form-control" name="motivo" id="motivo" placeholder="Agregar un motivo para solicitud de horas extra." value="{{ horas_extras[0]['motivo'] }}" required="required">
+              </div>
+            {% else %}
+              <div class="form-group margin">
+                <label for="fecha">Fecha:</label>
+                <input type="date" class="form-control" name="fecha_solicitud" id="fecha_solicitud" value="{{  fecha  }}" min="{{  fecha  }}" required="required">
+              </div>
+              <div class="form-group margin">
+                <label for="hora_desde">Desde:</label>
+                <input type="time" class="form-control" name="hora_desde" id="hora_desde" value="{{ tiempo }}" required="required">
+              </div>
+              <div class="form-group margin">
+                <label for="hora_hasta">Hasta:</label>
+                <input type="time" class="form-control" name="hora_hasta" id="hora_hasta" value="{{ tiempo }}" required="required">
+              </div>
+              <div class="form-group margin">
+                <label for="motivo">Motivo:</label>
+                <input type="text" class="form-control" name="motivo" id="motivo" placeholder="Agregar un motivo para solicitud de horas extra.(REQUERIDO)" required="required">
+              </div>
+            {% endif %}
+            <div class="form-group margin">
+              <input type="hidden" class="form-control" name="fecha_creacion" id="fecha_creacion" value="{{  fecha  }}" min="{{  fecha  }}" required="required">
+            </div>
+            <div class="form-group margin">
+              <input type="hidden" name="iduser" id="iduser" value="{{ owner_user['id_user']|title }}">
             </div>
           </form>
-        <div class="box box-primary">
-          <div class="box-body">
-          <table id="dataTables1" class="table table-bordered">
-            <thead>
-              <tr>
-                <th>RUT</th>
-                <th>Nombre</th>
-                <th>OPCIONES</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% set No = 1 %}
-              {% for d in horas_extras if false != horas_extras %}
-                <tr>
-                  <td>{{ d.rut }}</td>
-                  <td>{{ d.solicitante }}</td>
-                  <td class='center' width='150'>
-                    {% if d.estatus != "Aprobada" %}
-                      <a data-toggle='tooltip' data-placement='top' title='Eliminar' id="btn_eliminar1" onclick="eliminar_solicitud({{  d.id  }})" class='btn btn-warning btn-sm' >
-                          <i class='glyphicon glyphicon-trash'></i>
-                      </a>
-                      <form class="" action="" name="form_id" id="form_id" method="post">
-                          <input type="hidden" id="id_solicitudhx" name="id_solicitudhx">
-                      </form>
-                    {% endif %}
-                  </td>
-                </tr>
-                {% set No =  No + 1 %}
-              {% endfor %}
-              </tr>
-            </tbody>
-          </table>
-          {% if No > 1 %}
-              <center>
-                  <button class="btn btn-success" type="button" id="btn_horaextra"><span>Solicitar Horas Extra</span></button>
-              </center>
-        {% endif %}
+
+          <br>
+        </div>
+      </section>
+    </div>
+    <div class="col-md-6">
+      <section class="content-header">
+        <h4>
+          <i class="fa fa-user"></i>
+          GESTION DE HORAS EXTRA
+        </h4>
+        <ol class="breadcrumb">
+          <li>
+            <a href="portal">
+              <i class="fa fa-home"></i>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="rrhh/revisar_horas_extra">
+              Revisar Horas Extra
+            </a>
+          </li>
+          <li class="active">
+            Solicitar Horas extra
+          </li>
+        </ol>
+      </section>
+      <section class="content-header">
+        <b>Personal para aprobación</b>
+        <div class="row">
+          <div class="col-md-12">
+            <form id="form_buscar" name="form_buscar">
+              <div class="form-group margin">
+                <button class="btn btn-primary" style="position:absolute;display:inline-block;" type="button" id="btn_tmp_horaextra" onmouseover="buscar_coincidencia()">
+                  <span>Agregar</span></button>
+                <input type="text" class="form-control" style="padding-left:20%;" placeholder="Buscar usuario por nombre o RUT" name="busca" id="busca">
+              </div>
+            </form>
+            <div class="box box-primary">
+              <div class="box-body">
+                <table id="dataTables1" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>RUT</th>
+                      <th>OPCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set No = 1 %}
+                    {% for d in horas_extras if false != horas_extras %}
+                      <tr>
+                        <td>{{ d.rut }}</td>
+                        <td class='center'>
+                          {% if d.estatus != "Aprobada" %}
+                            <a data-toggle='tooltip' data-placement='top' title='Eliminar' id="btn_eliminar1" onclick="eliminar_solicitud({{  d.id  }})" class='btn btn-warning btn-sm'>
+                              <i class='glyphicon glyphicon-trash'></i>
+                            </a>
+                            <form class="" action="" name="form_id" id="form_id" method="post">
+                              <input type="hidden" id="id_solicitudhx" name="id_solicitudhx">
+                            </form>
+                          {% endif %}
+                        </td>
+                      </tr>
+                      {% set No = No + 1 %}
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+              {% if No > 1 %}
+                <center>
+                  <button class="btn btn-success" type="button" id="btn_horaextra">
+                    <span>Solicitar Horas Extra</span></button>
+                </center>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-    </div>
+    </section>
   </div>
+</div>
 {% endblock %}
 {% block appScript %}
-    <!-- DATA TABES SCRIPT -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
-    <script src="views/app/js/horasextra/horasextra.js"></script>
-    <script>
-         $(function(){
-           var dbdatos = [
-             {% for d in db_users if false != db_users %}
-             '{{d.nombres}}',
-             '{{d.rut}}',
-             {% endfor %}
-           ];
-           $('#busca').autocomplete({
-             source: dbdatos
-           });
-         });
-         </script>
-    <!-- <script>
-     $("#dataTables1").dataTable({
-                "language": {
-                    "search": "Buscar:",
-                    "zeroRecords": "No hay datos para mostrar",
-                    "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
-                    "loadingRecords": "Cargando...",
-                    "processing":"Procesando...",
-                    "infoEmpty":"No hay entradas para mostrar",
-                    "lengthMenu": "Mostrar _MENU_ Filas",
-                    "paginate":{
-                      "first":"Primera",
-                      "last":"Ultima",
-                      "next":"Siguiente",
-                      "previous":"Anterior",
-                    }
-                              },
-                "autoWidth": true
-            });
-    </script> -->
-
+{% include 'rrhh/horasextra/datatables_opciones' %}
 {% endblock %}

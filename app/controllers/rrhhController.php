@@ -76,30 +76,30 @@ class rrhhController extends Controllers implements IControllers {
                     'menu_op' => $op,
                     'fecha' => date('Y-m-d'),
                     'tiempo' => date('H:m'),
-                    'db_users'=>($r)->getdatos('*','estado=1'),
-                    'horas_extras' => ($r)->gethxtmp($user['id_user'])
+                    'db_users'=>(new Model\Horasextra)->getdatos('*','estado=1'),
+                    'horas_extras' => (new Model\Horasextra)->gethxtmp($user['id_user']),
+                    'ultimo_id' => (new Model\Horasextra)->get_lastid($user['id_user'])
                 ));
             break;
-            case 'pedir_hora_extra':
-                echo $this->template->render('rrhh/horasextra/pedir_hora_extra', array(
-                    'menu_op' => $op,
-                    'fecha' => date('Y-m-d'),
-                    'tiempo' => date('H:m')
+            case 'revisar_horas_extra':
+                echo $this->template->render('rrhh/horasextra/horasextra', array(
+                    'opcion' => 'RRHH',
+                    'horas_extras' => (new Model\Horasextra)->rev_hx(),
                 ));
             break;
             case 'mostrar_hora_extra':
-                if($this->isset_id and false != ($dato=$r->gethxid($router->getId(true)))){
+                if($this->isset_id and false != ($dato=(new Model\Horasextra)->gethxid($router->getId()))){
                     echo $this->template->render('rrhh/horasextra/mostrar_hora_extra', array(
-                        'menu_op' => $op,
-                        'horas_extras' => ($r)->gethx(),
+                        'opcion' => 'RRHH',
+                        'horas_extras' => (new Model\Horasextra)->get_hx_users(),
                         'id' => $dato[0]
                     ));
                 }
             break;
             case 'revisar_horas_extras_pendientes':
                 echo $this->template->render('rrhh/horasextra/revisar_horas_extras_pendientes', array(
-                    'menu_op' => $op,
-                    'horas_extras' => ($r)->gethx('*',"estatus='Pendiente'"),
+                    'opcion' => 'RRHH',
+                    'horas_extras' => (new Model\Horasextra)->gethx('*',"estado='Pendiente'"),
                 ));
             break;
 // Horas Extras---------------------------------------------------------------------------------------------------------------------

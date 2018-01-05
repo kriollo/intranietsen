@@ -1,3 +1,25 @@
+function execute_accion_rrhh(method,api_rest,formulario,accion,accion_redirect){
+  switch(api_rest) {
+    case "registra_nuevo_tecnico":
+      title='Registro de Tecnico';
+      break;
+    case "editar_tecnico":
+      title='Modificar datos tecnico';
+      break;
+  }
+  $.ajax({
+    type : method,
+    url : 'api/'+api_rest,
+    data : $('#'+ formulario).serialize(),
+    success : function(json) {
+      msg_box_alert(json.success,title,json.message,accion,accion_redirect);
+    },
+    error : function(xhr, status) {
+      msg_box_alert(99,title,xhr.responseText);
+    }
+  });
+}
+
 $('#register_tecnico').click(function(e) {
   e.defaultPrevented;
   execute_accion_rrhh("POST","registra_nuevo_tecnico",'register_tecnico_form','reload');
@@ -13,7 +35,7 @@ function subirarchivoexcel(){
     formData.append('excel',document.getElementById('imagefile').files[0]);
     $.ajax({
         type : 'POST',
-        url : 'api/cargar_excel',
+        url : 'api/cargar_excel_tecnicos',
         contentType:false,
         processData:false,
         data : formData,
