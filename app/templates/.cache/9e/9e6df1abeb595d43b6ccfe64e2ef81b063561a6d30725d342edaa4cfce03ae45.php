@@ -64,6 +64,6 @@ class __TwigTemplate_44d700b0a20c60e00ac835415b09fa95759c6009f827ae4284deb1e7b1e
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "rrhh/rrhh.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\rrhh\\rrhh.twig");
+        return new Twig_Source("", "rrhh/rrhh.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\rrhh\\rrhh.twig");
     }
 }

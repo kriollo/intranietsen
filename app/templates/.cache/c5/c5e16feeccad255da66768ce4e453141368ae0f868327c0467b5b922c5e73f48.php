@@ -50,6 +50,6 @@ class __TwigTemplate_2039833be0b479491ab1ef7f135856b5333c36f80b465dfef5d8be5d77c
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "home/lostpass.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\home\\lostpass.twig");
+        return new Twig_Source("", "home/lostpass.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\home\\lostpass.twig");
     }
 }

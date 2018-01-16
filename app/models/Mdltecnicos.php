@@ -36,18 +36,7 @@ class Mdltecnicos extends Models implements IModels {
     */
     use DBModel;
 
-    // Contenido del modelo...
-
-
-		/**
-      * Obtiene elementos de Mdltecnicos en tbltecnicos
-      *
-      * @param string $select: Elementos de tbltecnicos a seleccionar
-      *
-      * @return false|array: false si no hay datos.
-      *                     array con los datos.
-    */
-    public function verTecnicos(string $select = '*'){
+    final public function verTecnicos(string $select = '*'){
         return $this->db->select($select,'tbltecnicos');
     }
     final public function getTecnicosById(int $id, string $select = '*') {
@@ -57,13 +46,7 @@ class Mdltecnicos extends Models implements IModels {
         $filtro = 'where '.$filtro;
         return $this->db->query('select * from tbltecnicos'.$filtro);
     }
-
-    /**
-     * Realiza la acción de registro dentro del sistema
-     *
-     * @return array : Con información de éxito/falla al registrar el usuario nuevo.
-     */
-    public function registra_nuevo_tecnico() : array {
+    final public function registra_nuevo_tecnico() : array {
         try {
             global $http;
 
@@ -90,8 +73,7 @@ class Mdltecnicos extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-
-    public function editar_tecnico(): array {
+    final public function editar_tecnico(): array {
         try {
             global $http;
 
@@ -116,12 +98,7 @@ class Mdltecnicos extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-    /**
-      * Actualiza estado de usuario
-      * y luego redirecciona a administracion/usuarios
-      *
-      * @return void
-    */
+
     final public function update_estado_tecnico($id) {
         global $config;
 
@@ -132,14 +109,7 @@ class Mdltecnicos extends Models implements IModels {
         # Redireccionar a la página principal del controlador
         $this->functions->redir($config['site']['url'] . 'rrhh/listar_tecnicos');
     }
-
-    /**
-     * Verifica el rut introducido, tanto el formato como su existencia en el sistema
-     *
-     * @param string $rut: Rut del trabajador
-     *
-     */
-    private function checkRut(string $rut) {
+    final private function checkRut(string $rut) {
         # Existencia de email
         $rut = $this->db->scape($rut);
         $query = $this->db->select('rut', 'tbltecnicos', "rut='$rut'", 'LIMIT 1');
@@ -147,13 +117,8 @@ class Mdltecnicos extends Models implements IModels {
             throw new ModelsException('El Rut introducido ya existe.');
         }
     }
-    /**
-     * Carga por excel
-     *
-     *
-     */
-    public function cargar_excel(){
-    global $http;
+    final public function cargar_excel(){
+        global $http;
 
         $file = $http->files->get('excel');
 
@@ -177,37 +142,35 @@ class Mdltecnicos extends Models implements IModels {
             $id_tec="";
             while($param==0){
                 try {
-                  //echo $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue();
                     if ($objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue()!=NULL)
                     {
-
-                        // $id_tec = $objPHPExcel->getActiveSheet()->getCell(''.$i)->getvalue();
                         $rut = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue();
                         $nombre=$objPHPExcel->getActiveSheet()->getCell('B'.$i)->getValue();
                         $codigo= $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getvalue();
 
-    					$this->db->query_select("Delete from tbltecnicos Where codigo='$codigo'");
+                        $this->db->query_select("Delete from tbltecnicos Where codigo='$codigo'");
 
                         $this->db->Insert('tbltecnicos', array(
-                          // 'id_tecnicos'=>$id_tec,
                           'rut'=>$rut,
                           'nombre'=>$nombre,
                           'codigo'=>$codigo
                         ));
                     }else{
-                      $param=1;
-                      return array('success' => 1, 'message' => "Datos cargados" );
+                        $param=1;
+                        $this->db->Insert('tbl_historialarchivoscargados', array(
+                          'app'=>'Carga de Tecnicos',
+                          'nombre_archivo'=> $file->getClientOriginalName()
+                        ));
+                        return array('success' => 1, 'message' => "Datos cargados" );
                     }
                     $i++;
                 } catch (\Exception $e) {
                     return array('success' => 0, 'message' => $e->getMessage() );
-
                 }
             }
         }else{
             return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
         }
-
     }
 
     /**

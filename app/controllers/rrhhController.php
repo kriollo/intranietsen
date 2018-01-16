@@ -31,7 +31,6 @@ class rrhhController extends Controllers implements IControllers {
         ));
         global $config;
         $op = '2';
-        $r = new Model\Horasextra($router);
 
         switch($this->method){
             case 'mantenedores_crud_masters':
@@ -70,23 +69,33 @@ class rrhhController extends Controllers implements IControllers {
             break;
 // Personal------------------------------------------------------------------------------------------------------------------------
 // Horas Extras---------------------------------------------------------------------------------------------------------------------
-            case 'horasextra':
+            case 'revisar_horas_extra':
+                echo $this->template->render('rrhh/horasextra/revisar_horas_extra', array(
+                    'menu_op' => $op,
+                    'opcion' => 'RRHH',
+                    'horas_extras' => (new Model\Horasextra)->rev_hx(),
+                ));
+            break;
+            case 'registra_horasextra':
                 $user = (new Model\Users)->getOwnerUser();
                 echo $this->template->render('rrhh/horasextra/ingreso_horas_extra', array(
                     'menu_op' => $op,
-                    'fecha' => date('Y-m-d'),
-                    'tiempo' => date('H:m'),
                     'db_users'=>(new Model\Horasextra)->getdatos('*','estado=1'),
                     'horas_extras' => (new Model\Horasextra)->gethxtmp($user['id_user']),
                     'ultimo_id' => (new Model\Horasextra)->get_lastid($user['id_user'])
                 ));
             break;
-            case 'revisar_horas_extra':
-                echo $this->template->render('rrhh/horasextra/horasextra', array(
-                    'opcion' => 'RRHH',
-                    'horas_extras' => (new Model\Horasextra)->rev_hx(),
-                ));
+            case 'modificar':
+                if($this->isset_id and false != ($dato=(new Model\Horasextra)->gethxid($router->getId()))){
+                    echo $this->template->render('rrhh/horasextra/modificar_solicitud_hora_extra', array(
+                        'menu_op' => $op,
+                        'horas_extras' => (new Model\Horasextra)->get_hx_users(),
+                        'db_users'=> (new Model\Horasextra)->getdatos('*','estado=1'),
+                        'modifica_hx' => $dato[0])
+                    );
+                }
             break;
+
             case 'mostrar_hora_extra':
                 if($this->isset_id and false != ($dato=(new Model\Horasextra)->gethxid($router->getId()))){
                     echo $this->template->render('rrhh/horasextra/mostrar_hora_extra', array(
@@ -103,12 +112,12 @@ class rrhhController extends Controllers implements IControllers {
                 ));
             break;
 // Horas Extras---------------------------------------------------------------------------------------------------------------------
-// Asigna Ejecutivo-----------------------------------------------------------------------------------------------------------------           
+// Asigna Ejecutivo-----------------------------------------------------------------------------------------------------------------
             case 'asignar_ejecutivo':
                 echo $this->template->render('rrhh/asignar_ejecutivo/asignar_ejecutivo', array(
                 ));
             break;
-// Asigna Ejecutivo-----------------------------------------------------------------------------------------------------------------           
+// Asigna Ejecutivo-----------------------------------------------------------------------------------------------------------------
 // ausencias------------------------------------------------------------------------------------------------------------------------
             case 'revisarausencias':
                 echo $this->template->render('rrhh/ausencias/revisarausencias', array(
@@ -137,7 +146,7 @@ class rrhhController extends Controllers implements IControllers {
             case "exporta_excel_ausencias":
                 (new Model\Ausencias)->exporta_excel_ausencias();
             break;
-//Listar Cargos y Areas------------------------------------------------------------------------------------------------------------   
+//Listar Cargos y Areas------------------------------------------------------------------------------------------------------------
             case 'listar_cargos':
                 echo $this->template->render('rrhh/cargos/listarcargo', array(
                     'menu_op' => $op,
@@ -151,9 +160,9 @@ class rrhhController extends Controllers implements IControllers {
                 ));
             break;
 //-------------------------------------------------------------------------------------------------------------------------------
-//Turnos ------------------------------------------------------------------------------------------------------------------------   
+//Turnos ------------------------------------------------------------------------------------------------------------------------
             case 'cargar_turnos':
-                echo $this->template->render('rrhh/turnos/carga_de_turnos', array( 
+                echo $this->template->render('rrhh/turnos/carga_de_turnos', array(
                     'menu_op' => $op,
                     'db_archivos' => (new Model\Varios)->listar_archivos_cargados('Carga de Turnos')
                 ));
@@ -186,7 +195,7 @@ class rrhhController extends Controllers implements IControllers {
                 ));
             break;
 //-------------------------------------------------------------------------------------------------------------------------------
-//Tecnicos-----------------------------------------------------------------------------------------------------------------------   
+//Tecnicos-----------------------------------------------------------------------------------------------------------------------
             case 'listar_tecnicos':
                 echo $this->template->render('rrhh/tecnicos/listar_tecnicos', array(
                     'menu_op' => $op,
@@ -200,7 +209,8 @@ class rrhhController extends Controllers implements IControllers {
             break;
             case 'importar_tecnico':
                 echo $this->template->render('rrhh/tecnicos/importar_tecnico', array(
-                    'menu_op' => $op
+                    'menu_op' => $op,
+                    'db_archivos' => (new Model\Varios)->listar_archivos_cargados('Carga de Tecnicos')
                 ));
             break;
             case 'editar_tecnico':
@@ -215,7 +225,7 @@ class rrhhController extends Controllers implements IControllers {
             break;
             case 'estado_tecnico':
                 (new Model\Mdltecnicos)->update_estado_tecnico($router->getId(true));
-            break;        
+            break;
 //-------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('rrhh/rrhh', array(

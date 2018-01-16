@@ -17,7 +17,7 @@ use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 
 /**
- * Controlador plataforma/
+ * Controlador confirmacion/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
@@ -27,11 +27,124 @@ class confirmacionController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true,
-            'access_menu' => ['id_menu' => 1, 'access' => true]
+            'access_menu' => ['id_menu' => 2, 'access' => true]
         ));
-
+        global $config;
         $op = '1';
-		    echo $this->template->render('confirmacion/confirmacion', array('menu_op' => $op ));
+        switch($this->method){
+          case 'mantenedores_crud_masters':
+              echo $this->template->render('confirmacion/mantenedores_crud_masters', array(
+                'menu_op' => $op
+              ));
+              break;
+          // ------------------------------------------------------------------------------------------------------------------------------------------
+          case 'listar_actividades':
+              echo $this->template->render('confirmacion/actividad/listar_actividad', array(
+                'menu_op' => $op,
+                'actividades_db' => (new Model\Mdlconfirmacion)->verActividades()
+              ));
+              break;
+          case 'nueva_actividad':
+              echo $this->template->render('confirmacion/actividad/nueva_actividad', array(
+                'menu_op' => $op
+              ));
+              break;
+          case 'editar_actividad':
+              if($this->isset_id and false !== ($data = (new Model\Mdlconfirmacion)->getActividadesById($router->getId()))) {
+                echo $this->template->render('confirmacion/actividad/editar_actividad', array(
+                  'menu_op' => $op,
+                  'db_actividad' => $data[0]
+                ));
+              } else {
+                $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+              }
+              break;
+          case 'estado_actividad':
+                  (new Model\Mdlconfirmacion)->update_estado_actividad($router->getId(true));
+              break;
+          // ------------------------------------------------------------------------------------------------------------------------------------------
+          case 'listar_bloque':
+              echo $this->template->render('confirmacion/bloque/listar_bloque', array(
+                'menu_op' => $op,
+                'bloques_db' => (new Model\Mdlconfirmacion)->verBloques()
+              ));
+              break;
+          case 'nuevo_bloque':
+              echo $this->template->render('confirmacion/bloque/nuevo_bloque', array(
+                'menu_op' => $op
+              ));
+              break;
+          case 'editar_bloque':
+              if($this->isset_id and false !== ($data = (new Model\Mdlconfirmacion)->getBloquesById($router->getId()))) {
+                echo $this->template->render('confirmacion/bloque/editar_bloque', array(
+                  'menu_op' => $op,
+                  'db_bloque' => $data[0]
+                ));
+              } else {
+                $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+              }
+              break;
+          case 'estado_bloque':
+                  (new Model\Mdlconfirmacion)->update_estado_bloque($router->getId(true));
+              break;
+          // ------------------------------------------------------------------------------------------------------------------------------------------
+          case 'listar_comunas':
+              echo $this->template->render('confirmacion/comuna/listar_comuna', array(
+                'menu_op' => $op,
+                'comunas_db' => (new Model\Mdlconfirmacion)->verComunas()
+              ));
+              break;
+          case 'nueva_comuna':
+              echo $this->template->render('confirmacion/comuna/nueva_comuna', array(
+                'menu_op' => $op
+              ));
+              break;
+          case 'editar_comuna':
+              if($this->isset_id and false !== ($data = (new Model\Mdlconfirmacion)->getComunasById($router->getId()))) {
+                echo $this->template->render('confirmacion/comuna/editar_comuna', array(
+                  'menu_op' => $op,
+                  'db_comuna' => $data[0]
+                ));
+              } else {
+                $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+              }
+              break;
+          case 'estado_comuna':
+                  (new Model\Mdlconfirmacion)->update_estado_comuna($router->getId(true));
+              break;
+          // ------------------------------------------------------------------------------------------------------------------------------------------
+          case 'listar_motivocall':
+              echo $this->template->render('confirmacion/motivocall/listar_motivocall', array(
+                'menu_op' => $op,
+                'motivocall_db' => (new Model\Mdlconfirmacion)->verMotivocall()
+              ));
+              break;
+          case 'nuevo_motivocall':
+              echo $this->template->render('confirmacion/motivocall/nuevo_motivocall', array(
+                'menu_op' => $op
+              ));
+              break;
+          case 'editar_motivocall':
+              if($this->isset_id and false !== ($data = (new Model\Mdlconfirmacion)->getMotivocallById($router->getId()))) {
+                echo $this->template->render('confirmacion/motivocall/editar_motivocall', array(
+                  'menu_op' => $op,
+                  'db_motivocall' => $data[0]
+                ));
+              } else {
+                $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+              }
+              break;
+          case 'estado_motivocall':
+                  (new Model\Mdlconfirmacion)->update_estado_motivocall($router->getId(true));
+              break;
+          // ------------------------------------------------------------------------------------------------------------------------------------------
+
+          default:
+            echo $this->template->render('confirmacion/confirmacion', array(
+              'menu_op' => $op
+            ));
+            break;
+        }
 
     }
 

@@ -32,7 +32,7 @@ class __TwigTemplate_34364753a080a807ff998ee0e106474edd3f361c0799511973e9d188a35
         echo "    <section class=\"content-header\">
         <h1>
             RRHH
-            <small>Editar</small>
+            <small>Editar Tecnico</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>

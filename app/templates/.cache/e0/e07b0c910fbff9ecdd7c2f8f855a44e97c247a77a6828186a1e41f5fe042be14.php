@@ -155,6 +155,6 @@ class __TwigTemplate_7c194a13484fa83510deb3ab3488c8314d38096f9497e9c59967f37dcf1
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "overall/layout.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\overall\\layout.twig");
+        return new Twig_Source("", "overall/layout.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\overall\\layout.twig");
     }
 }

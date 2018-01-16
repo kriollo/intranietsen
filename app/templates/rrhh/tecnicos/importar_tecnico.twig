@@ -4,11 +4,13 @@
 <section class="content-header">
     <h1>
         RRHH
-        <small>Carga de Tecnicos</small>
+        <small>Importar Tecnico</small>
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-    <li class="active">Dashboard</li>
+    <li><a href="rrhh/mantenedores_crud_masters">Mantenedores</a></li>
+    <li><a href="rrhh/listar_tecnicos">Listado de Tecnicos</a></li>
+    <li class="active">Importar Tecnico</li>
     </ol>
 </section>
 
@@ -36,6 +38,32 @@
                             </div>
                         </form>
                     </div>
+                    <p><strong>Ultimos 5 archivos cargados</strong></p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <th>No</th>
+                        <th>Fecha y hora</th>
+                        <th>Nombre de Archivo</th>
+                      </thead>
+                      <tbody>
+                        {% set No = 1 %}
+                        {% for d in db_archivos if false != db_archivos %}
+                          <tr>
+                            <td>{{ No }}</td>
+                            <td>{{ d.fecha_hora }}</td>
+                            <td>{{ d.nombre_archivo }}</td>
+                          </tr>
+                          {% set No =  No + 1 %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+                <div class="box-body col-sm-6">
+                    <span><b>Formato de Archivo</b>
+                    <p>Col A -> Rut</p>
+                    <p>Col B -> Nombre</p>
+                    <p>Col C -> Codigo Tango</p>
+                    </span>
                 </div>
             </div>
         </div>

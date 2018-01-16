@@ -52,6 +52,6 @@ class __TwigTemplate_607aec53748eb893fa017f35d076ec727b6e40986eb5a16ba480eb278ba
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "administracion/reset_pass_user.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\administracion\\reset_pass_user.twig");
+        return new Twig_Source("", "administracion/reset_pass_user.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\administracion\\reset_pass_user.twig");
     }
 }

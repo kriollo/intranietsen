@@ -38,13 +38,13 @@ class __TwigTemplate_a08d5853d4fa9727db12d40bd77436819e973a09390cd69fe596f836e04
         echo "    <section class=\"content-header\">
         <h1>
             RRHH
-            <small>Agregar</small>
+            <small>Agregar Tecnico</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
         <li><a href=\"rrhh/mantenedores_crud_masters\">Mantenedores</a></li>
         <li><a href=\"rrhh/listar_tecnicos\">Listado de Tecnicos</a></li>
-        <li class=\"active\">Nuevo Tecnico</li>
+        <li class=\"active\">Agregar Tecnico</li>
         </ol>
     </section>
 

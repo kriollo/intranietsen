@@ -45,6 +45,6 @@ class __TwigTemplate_8baae77c76ac21606344a319696c63d507d905a847b6659b6a5d79cef2f
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "portal/footer.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\portal\\footer.twig");
+        return new Twig_Source("", "portal/footer.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\portal\\footer.twig");
     }
 }

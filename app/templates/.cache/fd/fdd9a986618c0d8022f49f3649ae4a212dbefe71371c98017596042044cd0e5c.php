@@ -32,11 +32,13 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
         echo "<section class=\"content-header\">
     <h1>
         RRHH
-        <small>Carga de Tecnicos</small>
+        <small>Importar Tecnico</small>
     </h1>
     <ol class=\"breadcrumb\">
     <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
-    <li class=\"active\">Dashboard</li>
+    <li><a href=\"rrhh/mantenedores_crud_masters\">Mantenedores</a></li>
+    <li><a href=\"rrhh/listar_tecnicos\">Listado de Tecnicos</a></li>
+    <li class=\"active\">Importar Tecnico</li>
     </ol>
 </section>
 
@@ -64,6 +66,58 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
                             </div>
                         </form>
                     </div>
+                    <p><strong>Ultimos 5 archivos cargados</strong></p>
+                    <table class=\"table table-bordered\">
+                      <thead>
+                        <th>No</th>
+                        <th>Fecha y hora</th>
+                        <th>Nombre de Archivo</th>
+                      </thead>
+                      <tbody>
+                        ";
+        // line 49
+        $context["No"] = 1;
+        // line 50
+        echo "                        ";
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["db_archivos"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
+            if ((false != ($context["db_archivos"] ?? null))) {
+                // line 51
+                echo "                          <tr>
+                            <td>";
+                // line 52
+                echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
+                echo "</td>
+                            <td>";
+                // line 53
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "fecha_hora", array()), "html", null, true);
+                echo "</td>
+                            <td>";
+                // line 54
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre_archivo", array()), "html", null, true);
+                echo "</td>
+                          </tr>
+                          ";
+                // line 56
+                $context["No"] = (($context["No"] ?? null) + 1);
+                // line 57
+                echo "                        ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 58
+        echo "                      </tbody>
+                    </table>
+                </div>
+                <div class=\"box-body col-sm-6\">
+                    <span><b>Formato de Archivo</b>
+                    <p>Col A -> Rut</p>
+                    <p>Col B -> Nombre</p>
+                    <p>Col C -> Codigo Tango</p>
+                    </span>
                 </div>
             </div>
         </div>
@@ -72,10 +126,10 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
 ";
     }
 
-    // line 46
+    // line 74
     public function block_appScript($context, array $blocks = array())
     {
-        // line 47
+        // line 75
         echo "    <script src=\"views/app/js/rrhh/tecnicos.js\"></script>
 ";
     }
@@ -92,7 +146,7 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
 
     public function getDebugInfo()
     {
-        return array (  79 => 47,  76 => 46,  32 => 4,  29 => 3,  11 => 1,);
+        return array (  133 => 75,  130 => 74,  112 => 58,  105 => 57,  103 => 56,  98 => 54,  94 => 53,  90 => 52,  87 => 51,  81 => 50,  79 => 49,  32 => 4,  29 => 3,  11 => 1,);
     }
 
     public function getSourceContext()

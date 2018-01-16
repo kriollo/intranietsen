@@ -9,7 +9,7 @@
 database:
   host: localhost
   user: root
-  pass: kr10770
+  pass:
   name: intranietsen
   port: 1521
   protocol: TCP
@@ -25,7 +25,7 @@ phpmailer:
 # Configuración de sesiones
 sessions:
   unique: 1N4WYS2017
-  life_time: 3600
+  life_time: 21600
 
 # Variables del framework
 framework:

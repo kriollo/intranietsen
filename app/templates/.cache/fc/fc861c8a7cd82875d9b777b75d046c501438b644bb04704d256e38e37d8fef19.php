@@ -64,6 +64,6 @@ class __TwigTemplate_233fbbb6e17935beb4647601a55caacbabcc556fc1bd2d40dc7471f5790
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "plataforma/plataforma.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\plataforma\\plataforma.twig");
+        return new Twig_Source("", "plataforma/plataforma.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\plataforma\\plataforma.twig");
     }
 }
