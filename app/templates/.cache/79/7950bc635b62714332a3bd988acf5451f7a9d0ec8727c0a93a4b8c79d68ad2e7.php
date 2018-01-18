@@ -30,7 +30,7 @@ class __TwigTemplate_8531bb82d09210d007d6eaee693c7b2e140a07c3e0f138b2238a202f27d
         // line 3
         echo "    <section class=\"content-header\">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Mantenedor de Maestros</small>
         </h1>
         <ol class=\"breadcrumb\">

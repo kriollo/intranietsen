@@ -122,6 +122,6 @@ class __TwigTemplate_efc6a276ba32cd331e5fc42106dd2802cf1e4a40d401affd2e7c2b5fef2
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "administracion/perfiles.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\administracion\\perfiles.twig");
+        return new Twig_Source("", "administracion/perfiles.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\administracion\\perfiles.twig");
     }
 }

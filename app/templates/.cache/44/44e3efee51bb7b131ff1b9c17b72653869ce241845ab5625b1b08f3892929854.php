@@ -59,6 +59,6 @@ class __TwigTemplate_e8d9a52e78855ff82bc9918a3deb39f5471c54c235e5658e3aff291daa1
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "error/error_portal.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\error\\error_portal.twig");
+        return new Twig_Source("", "error/error_portal.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\error\\error_portal.twig");
     }
 }

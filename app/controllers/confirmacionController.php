@@ -138,7 +138,13 @@ class confirmacionController extends Controllers implements IControllers {
                   (new Model\Mdlconfirmacion)->update_estado_motivocall($router->getId(true));
               break;
           // ------------------------------------------------------------------------------------------------------------------------------------------
-
+          case 'carga_pendiente_actual':
+              echo $this->template->render('confirmacion/carga_pendiente_actual/carga_pendiente_actual', array(
+                'menu_op' => $op,
+                'db_archivos' => (new Model\Varios)->listar_archivos_cargados('Carga de Pendiente Diario')
+              ));
+              break;
+          // ------------------------------------------------------------------------------------------------------------------------------------------
           default:
             echo $this->template->render('confirmacion/confirmacion', array(
               'menu_op' => $op

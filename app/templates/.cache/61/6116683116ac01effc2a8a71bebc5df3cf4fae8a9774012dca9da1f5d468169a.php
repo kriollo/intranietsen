@@ -50,6 +50,6 @@ class __TwigTemplate_700ace2b399e50765cf749f11284f5dcbadc0ab234cd99e2590bc8fa566
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "administracion/nuevo_perfil.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\administracion\\nuevo_perfil.twig");
+        return new Twig_Source("", "administracion/nuevo_perfil.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\administracion\\nuevo_perfil.twig");
     }
 }
