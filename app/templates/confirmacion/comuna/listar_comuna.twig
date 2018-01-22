@@ -5,7 +5,7 @@
 {% block appBody %}
     <section class="content-header">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Listado de Comunas</small>
 
           <a class="btn btn-primary btn-social pull-right" href="confirmacion/nueva_comuna" title="Agregar" data-toggle="tooltip">
@@ -24,8 +24,7 @@
               <thead>
                 <tr>
                   <th>No</th>
-                	<th>Comunas</th>
-                	<th>Estado</th>
+                  <th>Comunas</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -35,7 +34,6 @@
                   <tr>
                     <td>{{ No }}</td>
                     <td>{{ d.nombre }}</td>
-                    <td>{{ d.estado|raw|title }}</td>
 
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_comuna/{{ d.id_comuna }}">
@@ -51,9 +49,7 @@
                           <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="confirmacion/estado_comuna/{{ d.id_comuna }}">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
-
                       {% endif %}
-
                     </td>
                   </tr>
                   {% set No =  No + 1 %}
@@ -76,24 +72,24 @@
     <script src="views/app/js/confirmacion/confirmacion.js"></script>
 
     <script>
-     $("#dataTables1").dataTable({
-                "language": {
-                    "search": "Buscar:",
-                    "zeroRecords": "No hay datos para mostrar",
-                    "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
-                    "loadingRecords": "Cargando...",
-                    "processing":"Procesando...",
-                    "infoEmpty":"No hay entradas para mostrar",
-                    "lengthMenu": "Mostrar _MENU_ Filas",
-                    "paginate":{
-                      "first":"Primera",
-                      "last":"Ultima",
-                      "next":"Siguiente",
-                      "previous":"Anterior",
-                    }
-                              },
-                "autoWidth": true
-            });
+        $("#dataTables1").dataTable({
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No hay datos para mostrar",
+                "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                "loadingRecords": "Cargando...",
+                "processing":"Procesando...",
+                "infoEmpty":"No hay entradas para mostrar",
+                "lengthMenu": "Mostrar _MENU_ Filas",
+                "paginate":{
+                  "first":"Primera",
+                  "last":"Ultima",
+                  "next":"Siguiente",
+                  "previous":"Anterior",
+                }
+                          },
+            "autoWidth": true
+        });
     </script>
 
 {% endblock %}

@@ -37,8 +37,8 @@ class __TwigTemplate_1af53fa8104d833be02f3b6dbdc810807e4fd60d9c81aec5e7334bad650
         // line 5
         echo "    <section class=\"content-header\">
         <h1>
-            Motivos de llamado
-            <small>Agregar</small>
+            Confirmación
+            <small>Agregar Motivos de llamado</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>

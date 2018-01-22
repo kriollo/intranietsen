@@ -5,7 +5,7 @@
 {% block appBody %}
     <section class="content-header">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Listado de Bloque</small>
 
           <a class="btn btn-primary btn-social pull-right" href="confirmacion/nuevo_bloque" title="Agregar" data-toggle="tooltip">
@@ -24,8 +24,8 @@
               <thead>
                 <tr>
                   <th>No</th>
-                	<th>Bloque</th>
-                	<th>Estado</th>
+                  <th>Bloque</th>
+                  <th>Limite Q.</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -35,7 +35,7 @@
                   <tr>
                     <td>{{ No }}</td>
                     <td>{{ d.bloque }}</td>
-                    <td>{{ d.estado|raw|title }}</td>
+                    <td>{{ d.limite_q_programacion }}</td>
 
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_bloque/{{ d.id_bloque }}">

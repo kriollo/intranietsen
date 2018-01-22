@@ -5,7 +5,7 @@
 {% block appBody %}
     <section class="content-header">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Listado de Motivos de llamado</small>
 
           <a class="btn btn-primary btn-social pull-right" href="confirmacion/nuevo_motivocall" title="Agregar" data-toggle="tooltip">
@@ -24,8 +24,7 @@
               <thead>
                 <tr>
                   <th>No</th>
-                	<th>Motivo de llamado</th>
-                	<th>Estado</th>
+                  <th>Motivo de llamado</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -35,8 +34,6 @@
                   <tr>
                     <td>{{ No }}</td>
                     <td>{{ d.motivo }}</td>
-                    <td>{{ d.estado|raw|title }}</td>
-
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_motivocall/{{ d.id_motivo }}">
                       <i class='glyphicon glyphicon-edit'></i>
@@ -46,12 +43,10 @@
                           <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="confirmacion/estado_motivocall/{{ d.id_motivo }}">
                           <i class='glyphicon glyphicon-off'></i>
                           </a>
-
                       {% else %}
                           <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="confirmacion/estado_motivocall/{{ d.id_motivo }}">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
-
                       {% endif %}
 
                     </td>

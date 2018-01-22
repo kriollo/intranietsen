@@ -37,8 +37,8 @@ class __TwigTemplate_429aae99636c4960461f25df29c709d8f4e7e9bb2c69ee8465a71b38d91
         // line 5
         echo "    <section class=\"content-header\">
         <h1>
-            Bloque
-            <small>Agregar</small>
+            Confirmación
+            <small>Agregar Bloque</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>

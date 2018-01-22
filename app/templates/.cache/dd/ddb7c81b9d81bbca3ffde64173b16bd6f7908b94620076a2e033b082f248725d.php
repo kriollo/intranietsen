@@ -37,14 +37,14 @@ class __TwigTemplate_524b958172b3707e68eb53cf29964de8f267a1b8d4c12c184c1a19ad6c2
         // line 5
         echo "    <section class=\"content-header\">
         <h1>
-            Actividades
-            <small>Agregar</small>
+            Confirmación
+            <small>Agregar Comuna</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
         <li><a href=\"confirmacion/mantenedores_crud_masters\">Mantenedores</a></li>
         <li><a href=\"confirmacion/listar_comunas\">Listado de Comunas</a></li>
-        <li class=\"active\">Nueva Comuna</li>
+        <li class=\"active\">Agregar Comuna</li>
         </ol>
     </section>
 

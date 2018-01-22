@@ -30,7 +30,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
         // line 3
         echo "    <section class=\"content-header\">
         <h1>
-            CONFIRMACION
+            Confirmación
             <small>Control panel</small>
         </h1>
         <ol class=\"breadcrumb\">

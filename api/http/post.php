@@ -161,7 +161,7 @@ $app->post('/update_trabajador', function() use($app) {
 //Personal---------------------------------------------------------------------
 
 
-/// HORAS EXTRAS 
+/// HORAS EXTRAS
 $app->post('/buscar_coincidencia', function() use($app) {
     $e = new Model\Horasextra;
 
@@ -324,42 +324,80 @@ $app->post('/cargar_excel_tecnicos', function() use($app) {
 //Maestros Confirmacion---------------------------------------------------------
 $app->post('/registra_nueva_actividad', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->registra_nueva_actividad());
 });
 $app->post('/editar_actividad', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->editar_actividad());
 });
 $app->post('/registra_nuevo_bloque', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->registra_nuevo_bloque());
 });
 $app->post('/editar_bloque', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->editar_bloque());
 });
 $app->post('/registra_nueva_comuna', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->registra_nueva_comuna());
 });
 $app->post('/editar_comuna', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->editar_comuna());
 });
 $app->post('/registra_nuevo_motivocall', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->registra_nuevo_motivocall());
 });
 $app->post('/editar_motivocall', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-
     return $app->json($e->editar_motivocall());
 });
+$app->post('/registra_nuevo_resultado', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->registra_nuevo_resultado());
+});
+$app->post('/editar_resultado', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->editar_resultado());
+});
+$app->post('/registra_nuevo_nodo', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->registra_nuevo_nodo());
+});
+$app->post('/editar_nodo', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->editar_nodo());
+});
+$app->post('/select_ejecutivo', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->select_ejecutivo());
+});
+$app->post('/traer_ejecutivos', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->traer_ejecutivos());
+});
+$app->post('/traer_comuna', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->traer_comuna());
+});
 //Maestros Confirmacion---------------------------------------------------------
+//Orden Confirmacion------------------------------------------------------------
+$app->post('/ingresar_orden', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->ingresar_orden());
+});
+$app->post('/modificar_la_orden', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->modificar_la_orden());
+});
+$app->post('/eliminarorden', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->eliminarorden());
+});
+$app->post('/confirma_lista_por_fecha', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->confirma_lista_por_fecha());
+});
+//Orden Confirmacion------------------------------------------------------------

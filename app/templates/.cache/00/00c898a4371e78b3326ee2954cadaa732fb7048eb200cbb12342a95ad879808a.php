@@ -218,6 +218,6 @@ class __TwigTemplate_6fad78c4f97df98a0c1520be26045f0bf54a4ebc17cde01457167a2caf9
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "administracion/editar_perfil_user.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\administracion\\editar_perfil_user.twig");
+        return new Twig_Source("", "administracion/editar_perfil_user.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\administracion\\editar_perfil_user.twig");
     }
 }

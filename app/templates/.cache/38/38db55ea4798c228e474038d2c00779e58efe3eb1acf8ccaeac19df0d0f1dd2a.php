@@ -40,7 +40,7 @@ class __TwigTemplate_85987dee3cc6fe8af9266f77e72a3173e994ab368737533667893fc98b0
         // line 6
         echo "    <section class=\"content-header\">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Listado de Bloque</small>
 
           <a class=\"btn btn-primary btn-social pull-right\" href=\"confirmacion/nuevo_bloque\" title=\"Agregar\" data-toggle=\"tooltip\">
@@ -59,8 +59,8 @@ class __TwigTemplate_85987dee3cc6fe8af9266f77e72a3173e994ab368737533667893fc98b0
               <thead>
                 <tr>
                   <th>No</th>
-                \t<th>Bloque</th>
-                \t<th>Estado</th>
+                  <th>Bloque</th>
+                  <th>Limite Q.</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -86,7 +86,7 @@ class __TwigTemplate_85987dee3cc6fe8af9266f77e72a3173e994ab368737533667893fc98b0
                 echo "</td>
                     <td>";
                 // line 38
-                echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array())), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "limite_q_programacion", array()), "html", null, true);
                 echo "</td>
 
                     <td class='center' width='80'>

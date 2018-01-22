@@ -40,7 +40,7 @@ class __TwigTemplate_f9f68939cae775f97a859c6bd6b3cbfb9632f39852e7e70c64ba0b09799
         // line 6
         echo "    <section class=\"content-header\">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Listado de Comunas</small>
 
           <a class=\"btn btn-primary btn-social pull-right\" href=\"confirmacion/nueva_comuna\" title=\"Agregar\" data-toggle=\"tooltip\">
@@ -59,48 +59,43 @@ class __TwigTemplate_f9f68939cae775f97a859c6bd6b3cbfb9632f39852e7e70c64ba0b09799
               <thead>
                 <tr>
                   <th>No</th>
-                \t<th>Comunas</th>
-                \t<th>Estado</th>
+                  <th>Comunas</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 ";
-        // line 33
+        // line 32
         $context["No"] = 1;
-        // line 34
+        // line 33
         echo "                ";
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["comunas_db"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["comunas_db"] ?? null))) {
-                // line 35
+                // line 34
                 echo "                  <tr>
                     <td>";
-                // line 36
+                // line 35
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
                     <td>";
-                // line 37
+                // line 36
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
-                echo "</td>
-                    <td>";
-                // line 38
-                echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array())), "html", null, true);
                 echo "</td>
 
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href=\"confirmacion/editar_comuna/";
-                // line 41
+                // line 39
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_comuna", array()), "html", null, true);
                 echo "\">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>
 
                       ";
-                // line 45
+                // line 43
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 0)) {
-                    // line 46
+                    // line 44
                     echo "                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href=\"confirmacion/estado_comuna/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_comuna", array()), "html", null, true);
                     echo "\">
@@ -109,30 +104,28 @@ class __TwigTemplate_f9f68939cae775f97a859c6bd6b3cbfb9632f39852e7e70c64ba0b09799
 
                       ";
                 } else {
-                    // line 51
+                    // line 49
                     echo "                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href=\"confirmacion/estado_comuna/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_comuna", array()), "html", null, true);
                     echo "\">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
-
                       ";
                 }
-                // line 56
-                echo "
-                    </td>
+                // line 53
+                echo "                    </td>
                   </tr>
                   ";
-                // line 59
+                // line 55
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 60
+                // line 56
                 echo "                ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 61
+        // line 57
         echo "              </tbody>
             </table>
             </div>
@@ -145,10 +138,10 @@ class __TwigTemplate_f9f68939cae775f97a859c6bd6b3cbfb9632f39852e7e70c64ba0b09799
 ";
     }
 
-    // line 71
+    // line 67
     public function block_appScript($context, array $blocks = array())
     {
-        // line 72
+        // line 68
         echo "    <!-- DATA TABES SCRIPT -->
     <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
     <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -156,24 +149,24 @@ class __TwigTemplate_f9f68939cae775f97a859c6bd6b3cbfb9632f39852e7e70c64ba0b09799
     <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 
     <script>
-     \$(\"#dataTables1\").dataTable({
-                \"language\": {
-                    \"search\": \"Buscar:\",
-                    \"zeroRecords\": \"No hay datos para mostrar\",
-                    \"info\":\"Mostrando _END_ Registros, de un total de _TOTAL_ \",
-                    \"loadingRecords\": \"Cargando...\",
-                    \"processing\":\"Procesando...\",
-                    \"infoEmpty\":\"No hay entradas para mostrar\",
-                    \"lengthMenu\": \"Mostrar _MENU_ Filas\",
-                    \"paginate\":{
-                      \"first\":\"Primera\",
-                      \"last\":\"Ultima\",
-                      \"next\":\"Siguiente\",
-                      \"previous\":\"Anterior\",
-                    }
-                              },
-                \"autoWidth\": true
-            });
+        \$(\"#dataTables1\").dataTable({
+            \"language\": {
+                \"search\": \"Buscar:\",
+                \"zeroRecords\": \"No hay datos para mostrar\",
+                \"info\":\"Mostrando _END_ Registros, de un total de _TOTAL_ \",
+                \"loadingRecords\": \"Cargando...\",
+                \"processing\":\"Procesando...\",
+                \"infoEmpty\":\"No hay entradas para mostrar\",
+                \"lengthMenu\": \"Mostrar _MENU_ Filas\",
+                \"paginate\":{
+                  \"first\":\"Primera\",
+                  \"last\":\"Ultima\",
+                  \"next\":\"Siguiente\",
+                  \"previous\":\"Anterior\",
+                }
+                          },
+            \"autoWidth\": true
+        });
     </script>
 
 ";
@@ -191,7 +184,7 @@ class __TwigTemplate_f9f68939cae775f97a859c6bd6b3cbfb9632f39852e7e70c64ba0b09799
 
     public function getDebugInfo()
     {
-        return array (  152 => 72,  149 => 71,  136 => 61,  129 => 60,  127 => 59,  122 => 56,  113 => 51,  104 => 46,  102 => 45,  95 => 41,  89 => 38,  85 => 37,  81 => 36,  78 => 35,  72 => 34,  70 => 33,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  145 => 68,  142 => 67,  129 => 57,  122 => 56,  120 => 55,  116 => 53,  108 => 49,  99 => 44,  97 => 43,  90 => 39,  84 => 36,  80 => 35,  77 => 34,  71 => 33,  69 => 32,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

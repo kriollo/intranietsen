@@ -5,7 +5,7 @@
 {% block appBody %}
     <section class="content-header">
         <h1>
-            Confirmacion
+            Confirmación
             <small>Listado de Actividades</small>
 
           <a class="btn btn-primary btn-social pull-right" href="confirmacion/nueva_actividad" title="Agregar" data-toggle="tooltip">
@@ -24,8 +24,7 @@
               <thead>
                 <tr>
                   <th>No</th>
-                	<th>Actividad</th>
-                	<th>Estado</th>
+                  <th>Actividad</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -35,8 +34,6 @@
                   <tr>
                     <td>{{ No }}</td>
                     <td>{{ d.actividad }}</td>
-                    <td>{{ d.estado|raw|title }}</td>
-
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_actividad/{{ d.id_actividad }}">
                       <i class='glyphicon glyphicon-edit'></i>

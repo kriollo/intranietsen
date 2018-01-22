@@ -4,8 +4,8 @@
 {% block appBody %}
     <section class="content-header">
         <h1>
-            Bloques
-            <small>Editar</small>
+            Confirmación
+            <small>Editar Bloques</small>
         </h1>
         <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
@@ -26,6 +26,7 @@
                 <input type='hidden' name='id_bloque' id='id_bloque' value='{{ db_bloque.id_bloque }}' />
                 <div class="form-group">
                     <input class="form-control" name="bloque" id="bloque" type="text" placeholder="Ingrese el bloque horario" value='{{ db_bloque.bloque }}' required/>
+                    <input class="form-control" name="limit" id="limit" type="number" placeholder="Ingrese el limite de ordenes" value='{{ db_bloque.limite_q_programacion }}' required/>
                 </div>
                 <div class="panel-footer text-center">
                   <button type="button" id="update_bloque" class="btn btn-default">Grabar</button>

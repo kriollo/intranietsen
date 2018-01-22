@@ -37,14 +37,14 @@ class __TwigTemplate_c3e19e625a1e97277db80db311540bf3dc8c11f75a7d294c0c4e75a859d
         // line 5
         echo "    <section class=\"content-header\">
         <h1>
-            Actividades
-            <small>Agregar</small>
+            Confirmación
+            <small>Agregar Actividad</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
         <li><a href=\"confirmacion/mantenedores_crud_masters\">Mantenedores</a></li>
         <li><a href=\"confirmacion/listar_actividades\">Listado de Actividades</a></li>
-        <li class=\"active\">Nueva Actividadd</li>
+        <li class=\"active\">Nueva Actividad</li>
         </ol>
     </section>
 
