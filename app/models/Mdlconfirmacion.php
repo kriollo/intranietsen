@@ -345,7 +345,7 @@ class Mdlconfirmacion extends Models implements IModels {
         {
             $sql_filtro=" and u.id_user='$idusuario'";
         }
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente,o.fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,o.resultado desc_resultado,o.observacion,o.fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,o.resultado desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro");
     }
     public function listar_ejecutivos(){
         return $this->db->query_select("select users.name, users.perfil, count(tblordenes.id_orden) as orden from users left join tblordenes on users.id_user=tblordenes.operador where perfil='CNF_USUARIO' group by users.id_user");
@@ -446,7 +446,8 @@ class Mdlconfirmacion extends Models implements IModels {
         $this->db->query("delete from tblordenes where id_orden='$norden';");
         return array('success' => 1, 'message' => "Registro eliminado");
     }
-
+    // --------------------------------------------------------------------------MODELO HECTORELFATHER
+    // --------------------------------------------------------------------------MODELO JJARA
     public function confirma_lista_por_fecha(){
         global $http;
         $fecha=$http->request->get('fecha');
@@ -559,6 +560,29 @@ class Mdlconfirmacion extends Models implements IModels {
             # Redireccionar a la página principal del controlador
             $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
         }
+    }
+    public function confirma_q_ordenes_gestionadas($desde,$hasta){
+        $result = $this->db->query_select("select count(*) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta'");
+        if (false != $result){
+            return $result[0]['cantidad'];
+        }else {
+            return array('0');
+        }
+    }
+    public function confirma_q_orden_x_estado_confirmacion($desde,$hasta){
+        return $this->db->query_select("select if(r.grupo = 0,'No Confirma','Confirma') Resultado,count(o.id_orden) cantidad from tblordenes o inner join tblresultado r on o.resultado=r.id_resultado where fecha_dia between '$desde' and '$hasta' group by r.grupo order by Resultado");
+    }
+    public function confirma_top_5_best_ejecutivo($desde,$hasta){
+        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from tblordenes o inner join users u on o.operador=u.id_user where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad desc limit 5");
+    }
+    public function confirma_top_5_bad_ejecutivo($desde,$hasta){
+        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from tblordenes o inner join users u on o.operador=u.id_user where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad asc limit 5");
+    }
+    public function confirma_resumen_x_comuna($desde,$hasta){
+        return $this->db->query_select("select comuna,count(id_orden) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta' group by comuna order by cantidad desc");
+    }
+    public function confirma_resumen_x_bloque($desde,$hasta){
+        return $this->db->query_select("select bloque,count(id_orden) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta' group by bloque order by cantidad desc");
     }
     // ------------------------------------------------------------------------------------------------------
     /**

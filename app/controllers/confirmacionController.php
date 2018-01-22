@@ -221,7 +221,13 @@ class confirmacionController extends Controllers implements IControllers {
             // ------------------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('confirmacion/confirmacion', array(
-                    'menu_op' => $op
+                    'menu_op' => $op,
+                    'confirma_q_ordenes_gestionadas' => (new Model\Mdlconfirmacion)->confirma_q_ordenes_gestionadas(date('Y-m-d'),date('Y-m-d')),
+                    'confirma_q_orden_x_estado_confirmacion' => (new Model\Mdlconfirmacion)->confirma_q_orden_x_estado_confirmacion(date('Y-m-d'),date('Y-m-d')),
+                    'confirma_top_5_best_ejecutivo' => (new Model\Mdlconfirmacion)->confirma_top_5_best_ejecutivo(date('Y-m-d'),date('Y-m-d')),
+                    'confirma_top_5_bad_ejecutivo' => (new Model\Mdlconfirmacion)->confirma_top_5_bad_ejecutivo(date('Y-m-d'),date('Y-m-d')),
+                    'confirma_resumen_x_comuna' => (new Model\Mdlconfirmacion)->confirma_resumen_x_comuna(date('Y-m-d'),date('Y-m-d')),
+                    'confirma_resumen_x_bloque' => (new Model\Mdlconfirmacion)->confirma_resumen_x_bloque(date('Y-m-d'),date('Y-m-d'))
                 ));
             break;
         }

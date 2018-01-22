@@ -13,6 +13,173 @@
 
     <!-- Main content -->
     <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-3">
+                    <div style="background-color:#00c0ef;color:#fff" class="small-box">
+                        <div class="inner">
+                            <h2>{{ confirma_q_ordenes_gestionadas }}</h2>
+                            <p>Ordenes Gestionadas</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-headphones"></i>
+                        </div>
+                        <!-- <a href="administracion/usuario" class="small-box-footer" title="Ver Ordenes" data-toggle="tooltip"><i class="fa fa-eye"></i></a> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div style="background-color:#00a65a;color:#fff" class="small-box">
+                        <div class="inner">
+                            {% for d in confirma_q_orden_x_estado_confirmacion if false != confirma_q_orden_x_estado_confirmacion %}
+                                    <p>{{ d.cantidad }} - {{ d.Resultado|raw|title }} </p>
+                            {% endfor %}
+                            <p>Resumen Confirmación</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-eye"></i>
+                        </div>
+                        <!-- <a href="administracion/usuario" class="small-box-footer" title="Ver Ordenes" data-toggle="tooltip"><i class="fa fa-eye"></i></a> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                  <div style="background-color:#f39c12;color:#fff" class="small-box">
+                    <div class="inner">
+                      <h3>Agregar</h3>
+                      <p>Nuevo Orden</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-plus"></i>
+                    </div>
+                      <a href="confirmacion/programacion" class="small-box-footer" title="Agregar" data-toggle="tooltip"><i class="fa fa-plus"></i></a>
+                  </div>
+                </div><!-- ./col -->
+                <div class="col-lg-3">
+                  <div style="background-color:#00a65a;color:#fff" class="small-box">
+                    <div class="inner">
+                      <h3>Agregar</h3>
+                      <p>Listar Ordenes</p>
+                    </div>
+                    <div class="icon">
+                      <i class="fa fa-eye"></i>
+                    </div>
+                      <a href="confirmacion/listar_ordenes" class="small-box-footer" title="Agregar" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+                  </div>
+                </div><!-- ./col -->
+            </div><!-- ./col -->
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Resumen por Comuna</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Comuna</th>
+                                <th>Cantidad Gestión</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for d in confirma_resumen_x_comuna if false != confirma_resumen_x_comuna %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.comuna|raw|title }}</td>
+                                        <td>{{ d.cantidad }}</td>
+                                    </tr>
+                                {% set No =  No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Resumen por Bloque</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Comuna</th>
+                                <th>Cantidad Gestión</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for d in confirma_resumen_x_bloque if false != confirma_resumen_x_bloque %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.bloque|raw|title }}</td>
+                                        <td>{{ d.cantidad }}</td>
+                                    </tr>
+                                {% set No =  No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Top 5 Mejores Ejecutivos</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Comuna</th>
+                                <th>Cantidad Gestión</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for d in confirma_top_5_best_ejecutivo if false != confirma_top_5_best_ejecutivo %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.name|raw|title }}</td>
+                                        <td>{{ d.cantidad }}</td>
+                                    </tr>
+                                {% set No =  No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Top 5 Peores Ejecutivos</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Comuna</th>
+                                <th>Cantidad Gestión</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for d in confirma_top_5_bad_ejecutivo if false != confirma_top_5_bad_ejecutivo %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.name|raw|title }}</td>
+                                        <td>{{ d.cantidad }}</td>
+                                    </tr>
+                                {% set No =  No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     <!-- /.content -->
 

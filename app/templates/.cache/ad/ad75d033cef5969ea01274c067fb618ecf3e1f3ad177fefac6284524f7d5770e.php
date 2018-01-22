@@ -23,7 +23,7 @@ class __TwigTemplate_8baae77c76ac21606344a319696c63d507d905a847b6659b6a5d79cef2f
     <strong>Copyright &copy; ";
         // line 5
         echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "now", "Y"), "html", null, true);
-        echo " <a href=\"http://www.wys.cl\" target=\"_blank\">WYS SOLUCIONES INFORMATICAS LTDA</a>.</strong>
+        echo " <a href=\"#\">HELPDESK TEAM DEVELOPER</a>.</strong>
 </footer>
 ";
     }

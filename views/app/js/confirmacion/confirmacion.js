@@ -140,16 +140,12 @@ $('#update_resultado').click(function(e) {
 // CONFIRMACION JS HECTORELFATHER---------------------------------------------------------------
 $('#btningresar').click(function(e){
   e.defaultPrevented;
-  execute_accion_confirmacion("post","ingresar_orden",'formorden','redirect','confirmacion/listar_ordenes');
+  execute_accion_confirmacion("post","ingresar_orden",'formorden','back','confirmacion/listar_ordenes');
 
 });
-
-function modorden(orden){
-    execute_accion_confirmacion("post","modorden",'formorden','redirect', 'confirmacion/confirmacion');
-}
 $('#modbtningresar').click(function(e){
   e.defaultPrevented;
-  execute_accion_confirmacion("post","modificar_la_orden",'formmodorden','redirect', 'confirmacion/listar_ordenes');
+  execute_accion_confirmacion("post","modificar_la_orden",'formmodorden','back');
 });
 function asignardato(ordeneliminar){
     $('#textlisteliminar').val(ordeneliminar);
