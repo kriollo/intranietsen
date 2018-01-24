@@ -26,6 +26,8 @@
                   <th>No</th>
                   <th>Bloque</th>
                   <th>Limite Q.</th>
+                  <th>Desde</th>
+                  <th>Hasta</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -36,7 +38,8 @@
                     <td>{{ No }}</td>
                     <td>{{ d.bloque }}</td>
                     <td>{{ d.limite_q_programacion }}</td>
-
+                    <td>{{ d.desde }}</td>
+                    <td>{{ d.hasta }}</td>
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_bloque/{{ d.id_bloque }}">
                       <i class='glyphicon glyphicon-edit'></i>

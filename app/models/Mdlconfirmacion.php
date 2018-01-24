@@ -131,6 +131,8 @@ class Mdlconfirmacion extends Models implements IModels {
 
             # Obtener los datos $_POST
             $bloque = $http->request->get('bloque');
+            $desde = $http->request->get('desde');
+            $hasta = $http->request->get('hasta');
 
             # Verificar que no están vacíos
             if ($this->functions->e($bloque)) {
@@ -138,7 +140,9 @@ class Mdlconfirmacion extends Models implements IModels {
             }
             # Registrar el bloque
             $this->db->insert('tblbloque', array(
-            'bloque' => strtoupper($bloque)
+            'bloque' => strtoupper($bloque),
+            'desde' => $desde,
+            'hasta' => $hasta
             ));
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
@@ -152,14 +156,20 @@ class Mdlconfirmacion extends Models implements IModels {
 
             # Obtener los datos $_POST
             $comuna = $http->request->get('comuna');
+            $zona = $http->request->get('zona');
+            $subzona = $http->request->get('cod_sub_zona');
+            $territorio = $http->request->get('territorio');
 
             # Verificar que no están vacíos
-            if ($this->functions->e($comuna)) {
+            if ($this->functions->e($comuna,$zona,$subzona,$territorio)) {
                 throw new ModelsException('Ingresar datos donde campos se especifica como Requerido');
             }
             # Registrar el bloque
             $this->db->insert('tblcomuna', array(
-                'nombre' => strtoupper($comuna)
+                'nombre' => strtoupper($comuna),
+                'zona'=>strtoupper($zona),
+                'cod_sub_zona'=>strtoupper($subzona),
+                'territorio'=>strtoupper($territorio)
             ));
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
@@ -243,6 +253,8 @@ class Mdlconfirmacion extends Models implements IModels {
             $bloque = $http->request->get('bloque');
             $id_bloque = $http->request->get('id_bloque');
             $limit = $http->request->get('limit');
+            $desde = $http->request->get('desde');
+            $hasta = $http->request->get('hasta');
 
             if ($this->functions->e($bloque)) {
             throw new ModelsException('Todos los datos son necesarios');
@@ -250,6 +262,8 @@ class Mdlconfirmacion extends Models implements IModels {
             $this->db->update('tblbloque',array(
             'bloque' => $bloque,
             'limite_q_programacion' => $limit,
+            'desde' => $desde,
+            'hasta' => $hasta
             ),"id_bloque='$id_bloque'");
             //
             return array('success' => 1, 'message' => 'Modificacion de Bloque exitosa');
@@ -261,16 +275,21 @@ class Mdlconfirmacion extends Models implements IModels {
         try {
             global $http;
 
-
             #Obtener los datos $_POST
             $comuna = $http->request->get('comuna');
             $id_comuna = $http->request->get('id_comuna');
+            $zona = $http->request->get('zona');
+            $subzona = $http->request->get('cod_sub_zona');
+            $territorio = $http->request->get('territorio');
 
-            if ($this->functions->e($comuna)) {
+            if ($this->functions->e($comuna,$zona,$subzona,$territorio)) {
                 throw new ModelsException('Todos los datos son necesarios');
             }
             $this->db->update('tblcomuna',array(
             'nombre' => $comuna,
+            'zona'=>strtoupper($zona),
+            'cod_sub_zona'=>strtoupper($subzona),
+            'territorio'=>strtoupper($territorio)
             ),"id_comuna='$id_comuna'");
             //
             return array('success' => 1, 'message' => 'Modificacion de Comuna exitosa');
@@ -322,7 +341,6 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-
     // --------------------------------------------------------------------------MODELO HECTORELFATHER
     public function carga_comunas(){
         return $this->db->query_select("select * from tblcomuna where estado='1'");
@@ -339,13 +357,16 @@ class Mdlconfirmacion extends Models implements IModels {
     public function carga_actividad(){
         return $this->db->query_select("select * from tblactividad where estado='1'");
     }
+    public function carga_tipoorden(){
+        return $this->db->query_select("select * from tbltipoorden where estado='1'");
+    }
     public function listar_ordenes($fecha,$idusuario){
         $sql_filtro="";
         if ($idusuario!="")
         {
             $sql_filtro=" and u.id_user='$idusuario'";
         }
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,o.resultado desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,o.resultado desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro");
     }
     public function listar_ejecutivos(){
         return $this->db->query_select("select users.name, users.perfil, count(tblordenes.id_orden) as orden from users left join tblordenes on users.id_user=tblordenes.operador where perfil='CNF_USUARIO' group by users.id_user");
@@ -366,9 +387,10 @@ class Mdlconfirmacion extends Models implements IModels {
         $actividad=$http->request->get('textactividad');
         $resultado=$http->request->get('textresultado');
         $observacion=$http->request->get('textobservacion');
+        $tipoorden=$http->request->get('texttipoorden');
         $fecha_dia=date('Y-m-d');
 
-        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo)) {
+        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
             return array('success' => 0, 'message' => 'Debe ingresar todos los campos');
         }
 
@@ -393,6 +415,7 @@ class Mdlconfirmacion extends Models implements IModels {
             'nodo' => $nodo,
             'subnodo' => $subnodo,
             'comuna'=>$comuna,
+            'tipoorden'=>$tipoorden,
             'actividad'=>$actividad,
             'resultado'=>$resultado,
             'observacion'=>$observacion,
@@ -426,15 +449,16 @@ class Mdlconfirmacion extends Models implements IModels {
         $modactividad=$http->request->get('textmodactividad');
         $modresultado=$http->request->get('textmodresultado');
         $modobservacion=$http->request->get('textmodobservacion');
+        $tipoorden=$http->request->get('textmodtipoorden');
         $modfecha_dia=date('Y-m-d');
         $idorden=$http->request->get('ordenid');
 
 
-        if ($this->functions->e($modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado)){
+        if ($this->functions->e($modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden)){
             return array('success' => 0, 'message' => $modorden.$modfechacompromiso.$modrutcliente.$modcomuna.$modbloque.$modmotivo.$modactividad,$modresultado);
         }else{
             $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
-            comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia'  WHERE id_orden='$idorden'");
+            comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia'  WHERE id_orden='$idorden'");
             return array('success' => 1, 'message' => 'Datos Modificados');
         }
     }
@@ -448,6 +472,65 @@ class Mdlconfirmacion extends Models implements IModels {
     }
     // --------------------------------------------------------------------------MODELO HECTORELFATHER
     // --------------------------------------------------------------------------MODELO JJARA
+    public function getTipoOrdenById(int $id, string $select = '*') {
+        return $this->db->select($select,'tbltipoorden',"id_tipoorden='$id'",'LIMIT 1');
+    }
+    public function verTipoOrden(string $select = '*'){
+        return $this->db->select($select,'tbltipoorden
+        ');
+    }
+    public function update_estado_TipoOrden($id) {
+        global $config;
+        # Actualiza Estado
+        $this->db->query("UPDATE tbltipoorden SET estado=if(estado=0,1,0) WHERE id_tipoorden=$id LIMIT 1;");
+        # Redireccionar a la página principal del controlador
+        $this->functions->redir($config['site']['url'] . 'confirmacion/listar_tipoorden');
+    }
+    public function registra_nuevo_TipoOrden() : array {
+        try {
+            global $http;
+
+            # Obtener los datos $_POST
+            $nombre = $http->request->get('nombre');
+            $prioridad = $http->request->get('prioridad');
+
+            # Verificar que no están vacíos
+            if ($this->functions->e($nombre,$prioridad)) {
+            throw new ModelsException('Ingresar datos donde campos se especifica como Requerido');
+            }
+            # Registrar el bloque
+            $this->db->insert('tbltipoorden', array(
+            'descripcion' => strtoupper($nombre),
+            'prioridad' => $prioridad
+            ));
+
+            return array('success' => 1, 'message' => 'Registrado con éxito.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+    public function editar_TipoOrden(): array {
+        try {
+            global $http;
+            #Obtener los datos $_POST
+            $nombre = $http->request->get('nombre');
+            $prioridad = $http->request->get('prioridad');
+            $id_tipoorden = $http->request->get('id_tipoorden');
+
+            if ($this->functions->e($nombre,$prioridad)) {
+                throw new ModelsException('Todos los datos son necesarios');
+            }
+            $this->db->update('tbltipoorden',array(
+            'descripcion' => $nombre,
+            'prioridad' => $prioridad
+            ),"id_tipoorden='$id_tipoorden'");
+            //
+            return array('success' => 1, 'message' => 'Modificacion de Resultado');
+        }catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
     public function confirma_lista_por_fecha(){
         global $http;
         $fecha=$http->request->get('fecha');
@@ -463,11 +546,17 @@ class Mdlconfirmacion extends Models implements IModels {
             )
             );
             foreach ($result as $key => $value) {
-
-                $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
-                    <i class="glyphicon glyphicon-edit"></i></a>
-                    <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
-                </a>';
+                if ($value['ubicacion']=='CONFIRMACION'){
+                    $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
+                        <i class="glyphicon glyphicon-edit"></i></a>
+                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
+                    </a>';
+                }else{
+                    $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'" disabled >
+                        <i class="glyphicon glyphicon-edit"></i></a>
+                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato('.$value['id_orden'].')" class="btn btn-danger btn-sm" disabled>                    <i class="glyphicon glyphicon-remove"></i>
+                    </a>';
+                }
 
                 $json['aaData'][] = array($value['n_orden'],$value['name'],$value['rut_cliente'],$value['fecha_compromiso'],$value['bloque'],$value['motivo'],$value['comuna'],$value['actividad'],$value['desc_resultado'],$value['observacion'], $html );
             }

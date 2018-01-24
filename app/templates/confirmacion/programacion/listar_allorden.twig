@@ -63,12 +63,21 @@
                                         <td>{{ t.desc_resultado }}</td>
                                         <td>{{ t.observacion }}</td>
                                         <td class='pull-center' width='40'>
-                                            <a data-toggle='tooltip' data-placement='top' id="btnmodificar" name="btnmodificar" title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_confirmacion/{{t.id_orden}}">
-                                                <i class='glyphicon glyphicon-edit'></i>
-                                            </a>
-                                            <a data-placement='top' name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato({{t.id_orden}})" class='btn btn-danger btn-sm'>
-                                                <i class='glyphicon glyphicon-remove'></i>
-                                            </a>
+                                            {% if t.ubicacion == "CONFIRMACION"  %}
+                                                <a data-toggle='tooltip' data-placement='top' id="btnmodificar" name="btnmodificar" title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_confirmacion/{{t.id_orden}}">
+                                                    <i class='glyphicon glyphicon-edit'></i>
+                                                </a>
+                                                <a data-placement='top' name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato({{t.id_orden}})" class='btn btn-danger btn-sm'>
+                                                    <i class='glyphicon glyphicon-remove'></i>
+                                                </a>
+                                            {% else %}
+                                                <a data-toggle='tooltip' data-placement='top' id="btnmodificar" name="btnmodificar" title='Modificar' class='btn btn-success btn-sm' disabled>
+                                                    <i class='glyphicon glyphicon-edit'></i>
+                                                </a>
+                                                <a data-placement='top' name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" class='btn btn-danger btn-sm' disabled>
+                                                    <i class='glyphicon glyphicon-remove'></i>
+                                                </a>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     {% set No = No + 1 %}

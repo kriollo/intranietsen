@@ -382,6 +382,14 @@ $app->post('/traer_comuna', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->traer_comuna());
 });
+$app->post('/registra_nuevo_tipoorden', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->registra_nuevo_tipoorden());
+});
+$app->post('/editar_tipoorden', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->editar_tipoorden());
+});
 //Maestros Confirmacion---------------------------------------------------------
 //Orden Confirmacion------------------------------------------------------------
 $app->post('/ingresar_orden', function() use($app) {

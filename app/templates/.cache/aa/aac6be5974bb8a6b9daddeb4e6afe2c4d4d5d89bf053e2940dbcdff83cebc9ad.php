@@ -37,8 +37,8 @@ class __TwigTemplate_79a56782c13e21fdd4ca26a441e029717b9f4e604d1ed46832a33c6d7d0
         // line 4
         echo "  <section class=\"content-header\">
     <h1>
-      Resultado
-      <small>Editar</small>
+      Confirmación
+      <small>Editar Resultado</small>
     </h1>
     <ol class=\"breadcrumb\">
       <li>
@@ -58,55 +58,87 @@ class __TwigTemplate_79a56782c13e21fdd4ca26a441e029717b9f4e604d1ed46832a33c6d7d0
 
   <!-- Main content -->
   <section class=\"content\">
-    <div class=\"row\">
-      <div class=\"col-sm-12\">
-        <form id=\"editar_resultado_form\" action=\"\" method=\"POST\">
-          <div class=\"box-body col-sm-4\"></div>
-          <div class=\"box-body col-sm-4\">
-            <div class=\"form-group\">
-              <input class=\"form-control\" name=\"nombre\" id=\"nombre\" type=\"text\" value=\"";
-        // line 33
+      <div class=\"row\">
+          <div class=\"col-md-12\">
+                <div class=\"box box-primary\">
+                    <form id=\"editar_resultado_form\" action=\"\" method=\"POST\">
+                        <div class=\"box-body col-sm-4\"></div>
+                        <div class=\"box-body col-sm-4\">
+                            <div class=\"form-group\">
+                                <input class=\"form-control\" name=\"nombre\" id=\"nombre\" type=\"text\" value=\"";
+        // line 34
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["resultado_db"] ?? null), "nombre", array()), "html", null, true);
         echo "\" required=\"required\"/>
-            </div>
-            <div class=\"form-group\">
-                <select name=\"cumplimiento\" id=\"cumplimiento\" class=\"form-control\">
-                  <option value=\"1\">Cumple</option>
-                  <option value=\"0\">No Cumple</option>
-                </select>
-            </div>
-            <div class=\"form-group\">
-                <select name=\"grupo\" id=\"grupo\" class=\"form-control\">
-                  <option value=\"1\">Confirmado</option>
-                  <option value=\"0\">No Confirmado</option>
-                </select>
-            </div>
-          </div>
-
-        </div>
-        <center>
-          <div class=\"form-group\">
-            <button type=\"button\" id=\"update_resultado\" class=\"btn btn-default\">Grabar</button>
-            <button type=\"reset\" id=\"limpiar\" class=\"btn btn-default\">Limpiar</button>
-          </div>
-        </center>
-        <input class=\"form-control\" name=\"id_resultado\" id=\"id_resultado\" type=\"hidden\" value=\"";
-        // line 56
+                            </div>
+                            ";
+        // line 36
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["resultado_db"] ?? null), "cumplimiento", array()) == "0")) {
+            // line 37
+            echo "                                <div class=\"form-group\">
+                                    <select name=\"cumplimiento\" id=\"cumplimiento\" class=\"form-control\">
+                                        <option value=\"1\">Cumple</option>
+                                        <option value=\"0\" selected=\"selected\">No Cumple</option>
+                                    </select>
+                                </div>
+                            ";
+        } else {
+            // line 44
+            echo "                                <div class=\"form-group\">
+                                    <select name=\"cumplimiento\" id=\"cumplimiento\" class=\"form-control\">
+                                        <option value=\"1\" selected=\"selected\">Cumple</option>
+                                        <option value=\"0\">No Cumple</option>
+                                    </select>
+                                </div>
+                            ";
+        }
+        // line 51
+        echo "                            ";
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["resultado_db"] ?? null), "grupo", array()) == "0")) {
+            // line 52
+            echo "                                <div class=\"form-group\">
+                                    <select name=\"grupo\" id=\"grupo\" class=\"form-control\">
+                                        <option value=\"1\">Confirmado</option>
+                                        <option value=\"0\" selected=\"selected\">No Confirmado</option>
+                                    </select>
+                                </div>
+                            ";
+        } else {
+            // line 59
+            echo "                                <div class=\"form-group\">
+                                    <select name=\"grupo\" id=\"grupo\" class=\"form-control\">
+                                        <option value=\"1\" selected=\"selected\">Confirmado</option>
+                                        <option value=\"0\">No Confirmado</option>
+                                    </select>
+                                </div>
+                            ";
+        }
+        // line 66
+        echo "
+                        <center>
+                            <div class=\"form-group\">
+                                <button type=\"button\" id=\"update_resultado\" class=\"btn btn-default\">Grabar</button>
+                                <button type=\"reset\" id=\"limpiar\" class=\"btn btn-default\">Limpiar</button>
+                            </div>
+                        </center>
+                        <input class=\"form-control\" name=\"id_resultado\" id=\"id_resultado\" type=\"hidden\" value=\"";
+        // line 73
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["resultado_db"] ?? null), "id_resultado", array()), "html", null, true);
         echo "\" required=\"required\"/>
-      </form>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 <!-- /.content -->
 
 ";
     }
 
-    // line 64
+    // line 83
     public function block_appScript($context, array $blocks = array())
     {
-        // line 65
+        // line 84
         echo "<script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -123,7 +155,7 @@ class __TwigTemplate_79a56782c13e21fdd4ca26a441e029717b9f4e604d1ed46832a33c6d7d0
 
     public function getDebugInfo()
     {
-        return array (  110 => 65,  107 => 64,  95 => 56,  69 => 33,  38 => 4,  35 => 3,  30 => 2,  11 => 1,);
+        return array (  142 => 84,  139 => 83,  125 => 73,  116 => 66,  107 => 59,  98 => 52,  95 => 51,  86 => 44,  77 => 37,  75 => 36,  70 => 34,  38 => 4,  35 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

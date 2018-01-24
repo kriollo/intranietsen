@@ -21,7 +21,7 @@
                         <h3 class="box-title">Modificar Orden</h3>
                     </div>
                     <div class="box-body">
-                        <div class="col-md-4">                            
+                        <div class="col-md-4">
                             <label>ID Orden:</label><input type="text" name="textmodidorden" id="textmodidorden" class="form-control" value="{{db_modorden.n_orden}}" readonly>
                             <label>Rut Cliente:</label><input type="text" name="textmodrutcliente" id="textmodrutcliente" class="form-control" value="{{db_modorden.rut_cliente}}">
                         </div>
@@ -117,6 +117,30 @@
         </div>
       </div>
     </div>
+    <div id="tipoorden" name="tipoorden" class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">TIPO DE ORDEN</h3>
+                </div>
+                <div class="box-body">
+                    {% for r in db_tipoorden if false != db_tipoorden %}
+                        {% if db_modorden.tipoorden == r.id_tipoorden %}
+                            <div class="col-xs-3" style="border: 1px solid white">
+                                <label><input type="radio" name="rmodtipoorden" id="{{r.descripcion}}" onchange="cargarmodtipoorden('{{r.id_tipoorden}}')"  checked="checked">
+                                {{r.descripcion}}</label>
+                            </div>
+                        {% else %}
+                            <div class="col-xs-3" style="border: 1px solid white">
+                                <label><input type="radio" name="rmodtipoorden" id="{{r.descripcion}}" onchange="cargarmodtipoorden('{{r.id_tipoorden}}')">
+                                {{r.descripcion}}</label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="modactividad" name="modactividad" class="row">
       <div class="col-xs-12">
         <div class="box">
@@ -183,6 +207,7 @@
         <a data-toggle='tooltip' data-placement='top' name="modbtningresar" id="modbtningresar" class='btn btn-success btn-sm'>Modificar Orden
         </a>
         <input type="hidden" name="textmodactividad" id="textmodactividad" value="{{ db_modorden.actividad }}">
+        <input type="hidden" name="textmodtipoorden" id="textmodtipoorden" value="{{ db_modorden.tipoorden }}">
         <input type="hidden" name="textmodbloque" id="textmodbloque" value="{{ db_modorden.bloque }}">
         <input type="hidden" name="textmodmotivo" id="textmodmotivo" value="{{ db_modorden.motivo }}">
         <input type="hidden" name="textmodcomuna" id="textmodcomuna" value="{{ db_modorden.comuna }}">

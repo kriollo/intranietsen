@@ -26,7 +26,12 @@
                 <input type='hidden' name='id_bloque' id='id_bloque' value='{{ db_bloque.id_bloque }}' />
                 <div class="form-group">
                     <input class="form-control" name="bloque" id="bloque" type="text" placeholder="Ingrese el bloque horario" value='{{ db_bloque.bloque }}' required/>
+                    <br>
                     <input class="form-control" name="limit" id="limit" type="number" placeholder="Ingrese el limite de ordenes" value='{{ db_bloque.limite_q_programacion }}' required/>
+                </div>
+                <div class="form-group">Hora Desde - Hasta
+                  <input class="form-control" name="desde" id="desde" type="time" value='{{ db_bloque.desde }}' />
+                  <input class="form-control" name="hasta" id="hasta" type="time" value='{{ db_bloque.hasta }}' />
                 </div>
                 <div class="panel-footer text-center">
                   <button type="button" id="update_bloque" class="btn btn-default">Grabar</button>

@@ -65,6 +65,21 @@ class __TwigTemplate_4c31c90f2573ebf722bcf054be5d45d491de87953a0798df019772b84e3
         // line 28
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_comuna"] ?? null), "nombre", array()), "html", null, true);
         echo "' required/>
+                    <br>
+                    <input class=\"form-control\" name=\"zona\" id=\"zona\" type=\"text\" placeholder=\"Ingrese Zona ej:ZMET\" value='";
+        // line 30
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_comuna"] ?? null), "zona", array()), "html", null, true);
+        echo "' required/>
+                    <br>
+                    <input class=\"form-control\" name=\"cod_sub_zona\" id=\"cod_sub_zona\" type=\"text\" placeholder=\"Ingrese subzona ej:ZMNOR\" value='";
+        // line 32
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_comuna"] ?? null), "cod_sub_zona", array()), "html", null, true);
+        echo "' required/>
+                    <br>
+                    <input class=\"form-control\" name=\"territorio\" id=\"territorio\" type=\"text\" placeholder=\"Ingrese Territorio\" value='";
+        // line 34
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_comuna"] ?? null), "territorio", array()), "html", null, true);
+        echo "' required/>
                 </div>
                 <div class=\"panel-footer text-center\">
                   <button type=\"button\" id=\"update_comuna\" class=\"btn btn-default\">Grabar</button>
@@ -80,10 +95,10 @@ class __TwigTemplate_4c31c90f2573ebf722bcf054be5d45d491de87953a0798df019772b84e3
 ";
     }
 
-    // line 42
+    // line 48
     public function block_appScript($context, array $blocks = array())
     {
-        // line 43
+        // line 49
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -100,7 +115,7 @@ class __TwigTemplate_4c31c90f2573ebf722bcf054be5d45d491de87953a0798df019772b84e3
 
     public function getDebugInfo()
     {
-        return array (  87 => 43,  84 => 42,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  102 => 49,  99 => 48,  81 => 34,  76 => 32,  71 => 30,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

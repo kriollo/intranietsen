@@ -58,6 +58,12 @@ class __TwigTemplate_429aae99636c4960461f25df29c709d8f4e7e9bb2c69ee8465a71b38d91
               <div class=\"box-body col-sm-4\">
                 <div class=\"form-group\">
                   <input class=\"form-control\" name=\"bloque\" id=\"bloque\" type=\"text\" placeholder=\"Ingrese el bloque horario\" required/>
+                  <br>
+                  <input class=\"form-control\" name=\"limit\" id=\"limit\" type=\"number\" placeholder=\"Ingrese el limite de ordenes\" value='280' required/>
+                </div>
+                <div class=\"form-group\">Hora Desde - Hasta
+                  <input class=\"form-control\" name=\"desde\" id=\"desde\" type=\"time\" />
+                  <input class=\"form-control\" name=\"hasta\" id=\"hasta\" type=\"time\" />
                 </div>
                 <div class=\"form-group\">
                   <button type=\"button\" id=\"register_bloque\" class=\"btn btn-default\">Grabar</button>
@@ -74,10 +80,10 @@ class __TwigTemplate_429aae99636c4960461f25df29c709d8f4e7e9bb2c69ee8465a71b38d91
 ";
     }
 
-    // line 42
+    // line 48
     public function block_appScript($context, array $blocks = array())
     {
-        // line 43
+        // line 49
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -94,7 +100,7 @@ class __TwigTemplate_429aae99636c4960461f25df29c709d8f4e7e9bb2c69ee8465a71b38d91
 
     public function getDebugInfo()
     {
-        return array (  81 => 43,  78 => 42,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  87 => 49,  84 => 48,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

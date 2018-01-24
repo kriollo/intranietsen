@@ -58,6 +58,12 @@ class __TwigTemplate_524b958172b3707e68eb53cf29964de8f267a1b8d4c12c184c1a19ad6c2
               <div class=\"box-body col-sm-4\">
                 <div class=\"form-group\">
                   <input class=\"form-control\" name=\"comuna\" id=\"comuna\" type=\"text\" placeholder=\"Nombre de la comuna\" required/>
+                  <br>
+                  <input class=\"form-control\" name=\"zona\" id=\"zona\" type=\"text\" placeholder=\"Ingrese Zona ej:ZMET\" required/>
+                  <br>
+                  <input class=\"form-control\" name=\"cod_sub_zona\" id=\"cod_sub_zona\" type=\"text\" placeholder=\"Ingrese subzona ej:ZMNOR\" required/>
+                  <br>
+                  <input class=\"form-control\" name=\"territorio\" id=\"territorio\" type=\"text\" placeholder=\"Ingrese Territorio\" required/>
                 </div>
                 <div class=\"form-group\">
                   <button type=\"button\" id=\"register_comuna\" class=\"btn btn-default\">Grabar</button>
@@ -74,10 +80,10 @@ class __TwigTemplate_524b958172b3707e68eb53cf29964de8f267a1b8d4c12c184c1a19ad6c2
 ";
     }
 
-    // line 42
+    // line 48
     public function block_appScript($context, array $blocks = array())
     {
-        // line 43
+        // line 49
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -94,7 +100,7 @@ class __TwigTemplate_524b958172b3707e68eb53cf29964de8f267a1b8d4c12c184c1a19ad6c2
 
     public function getDebugInfo()
     {
-        return array (  81 => 43,  78 => 42,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  87 => 49,  84 => 48,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

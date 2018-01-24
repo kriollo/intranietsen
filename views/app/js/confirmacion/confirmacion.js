@@ -18,6 +18,12 @@ function cargarres(resultado,cumplimiento){
     document.formorden.textresultado.value=resultado;
     document.formorden.textcumplimiento.value=cumplimiento;
 }
+function cargartipoorden(tipooden){
+    document.formorden.texttipoorden.value=tipooden;
+}
+function cargarmodtipoorden(tipooden){
+    document.formmodorden.textmodtipoorden.value=tipooden;
+}
 function cargarmodblo(modbloque){
     document.formmodorden.textmodbloque.value=modbloque;
 }
@@ -66,6 +72,12 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
     case "editar_resultado":
       title='Modificar Resultado';
       break;
+    case "registra_nuevo_tipoorden":
+        title='Registrar Tipo de Orden';
+        break;
+    case "editar_tipoorden":
+        title='Modificar Tipo de Orden';
+        break;
     // CASOS DE HECTOR EL HECTORelfather
     case "ingresar_orden":
       title='Ingresar Orden';
@@ -93,6 +105,7 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
     }
   });
 }
+
 $('#register_actividad').click(function(e) {
   e.defaultPrevented;
   execute_accion_confirmacion("POST","registra_nueva_actividad",'register_actividad_form','redirect','confirmacion/listar_actividades');
@@ -136,6 +149,15 @@ $('#register_resultado').click(function(e) {
 $('#update_resultado').click(function(e) {
   e.defaultPrevented;
   execute_accion_confirmacion("POST","editar_resultado",'editar_resultado_form','redirect','confirmacion/listar_resultado');
+});
+
+$('#register_tipoorden').click(function(e) {
+  e.defaultPrevented;
+  execute_accion_confirmacion("POST","registra_nuevo_tipoorden",'register_tipoorden_form','redirect','confirmacion/listar_tipoorden');
+});
+$('#update_tipoorden').click(function(e) {
+  e.defaultPrevented;
+  execute_accion_confirmacion("POST","editar_tipoorden",'editar_tipoorden_form','redirect','confirmacion/listar_tipoorden');
 });
 // CONFIRMACION JS HECTORELFATHER---------------------------------------------------------------
 $('#btningresar').click(function(e){

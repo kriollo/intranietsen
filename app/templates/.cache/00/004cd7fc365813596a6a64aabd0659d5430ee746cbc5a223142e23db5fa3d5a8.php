@@ -65,10 +65,21 @@ class __TwigTemplate_93401b5ad50c13280889c3f11ad37fc0ae563b9b9ca9a6f68d9cbef4807
         // line 28
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_bloque"] ?? null), "bloque", array()), "html", null, true);
         echo "' required/>
+                    <br>
                     <input class=\"form-control\" name=\"limit\" id=\"limit\" type=\"number\" placeholder=\"Ingrese el limite de ordenes\" value='";
-        // line 29
+        // line 30
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_bloque"] ?? null), "limite_q_programacion", array()), "html", null, true);
         echo "' required/>
+                </div>
+                <div class=\"form-group\">Hora Desde - Hasta
+                  <input class=\"form-control\" name=\"desde\" id=\"desde\" type=\"time\" value='";
+        // line 33
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_bloque"] ?? null), "desde", array()), "html", null, true);
+        echo "' />
+                  <input class=\"form-control\" name=\"hasta\" id=\"hasta\" type=\"time\" value='";
+        // line 34
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_bloque"] ?? null), "hasta", array()), "html", null, true);
+        echo "' />
                 </div>
                 <div class=\"panel-footer text-center\">
                   <button type=\"button\" id=\"update_bloque\" class=\"btn btn-default\">Grabar</button>
@@ -84,10 +95,10 @@ class __TwigTemplate_93401b5ad50c13280889c3f11ad37fc0ae563b9b9ca9a6f68d9cbef4807
 ";
     }
 
-    // line 43
+    // line 48
     public function block_appScript($context, array $blocks = array())
     {
-        // line 44
+        // line 49
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -104,7 +115,7 @@ class __TwigTemplate_93401b5ad50c13280889c3f11ad37fc0ae563b9b9ca9a6f68d9cbef4807
 
     public function getDebugInfo()
     {
-        return array (  91 => 44,  88 => 43,  70 => 29,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  102 => 49,  99 => 48,  81 => 34,  77 => 33,  71 => 30,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

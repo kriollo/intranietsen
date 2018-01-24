@@ -122,25 +122,37 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "observacion", array()), "html", null, true);
                 echo "</td>
                                     <td class='pull-right' width='40'>
-                                        <a data-toggle='tooltip' data-placement='top' id=\"btnmodificar\" name=\"btnmodificar\" title='Modificar' class='btn btn-success btn-sm' href=\"confirmacion/editar_confirmacion/";
+                                        ";
                 // line 55
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "id_orden", array()), "html", null, true);
-                echo "\">
-                                            <i class='glyphicon glyphicon-edit'></i>
-                                        </a>
-                                    </td>
+                if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "ubicacion", array()) == "CONFIRMACION")) {
+                    // line 56
+                    echo "                                            <a data-toggle='tooltip' data-placement='top' id=\"btnmodificar\" name=\"btnmodificar\" title='Modificar' class='btn btn-success btn-sm' href=\"confirmacion/editar_confirmacion/";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "id_orden", array()), "html", null, true);
+                    echo "\">
+                                                <i class='glyphicon glyphicon-edit'></i>
+                                            </a>
+                                        ";
+                } else {
+                    // line 60
+                    echo "                                            <a data-toggle='tooltip' data-placement='top' id=\"btnmodificar\" name=\"btnmodificar\" title='Modificar' class='btn btn-success btn-sm' disabled>
+                                                <i class='glyphicon glyphicon-edit'></i>
+                                            </a>
+                                        ";
+                }
+                // line 64
+                echo "                                    </td>
                                 </tr>
                                 ";
-                // line 60
+                // line 66
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 61
+                // line 67
                 echo "                            ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['t'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 62
+        // line 68
         echo "                        </tbody>
                     </table>
                 </div>
@@ -151,10 +163,10 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
 ";
     }
 
-    // line 70
+    // line 76
     public function block_appScript($context, array $blocks = array())
     {
-        // line 71
+        // line 77
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -196,7 +208,7 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
 
     public function getDebugInfo()
     {
-        return array (  158 => 71,  155 => 70,  144 => 62,  137 => 61,  135 => 60,  127 => 55,  122 => 53,  118 => 52,  114 => 51,  110 => 50,  106 => 49,  102 => 48,  98 => 47,  94 => 46,  90 => 45,  87 => 44,  81 => 43,  79 => 42,  46 => 11,  43 => 10,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  170 => 77,  167 => 76,  156 => 68,  149 => 67,  147 => 66,  143 => 64,  137 => 60,  129 => 56,  127 => 55,  122 => 53,  118 => 52,  114 => 51,  110 => 50,  106 => 49,  102 => 48,  98 => 47,  94 => 46,  90 => 45,  87 => 44,  81 => 43,  79 => 42,  46 => 11,  43 => 10,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

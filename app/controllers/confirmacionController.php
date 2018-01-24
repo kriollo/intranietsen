@@ -163,6 +163,31 @@ class confirmacionController extends Controllers implements IControllers {
                 (new Model\Mdlconfirmacion)->update_estado_resultado($router->getId(true));
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
+            case 'listar_tipoorden':
+                echo $this->template->render('confirmacion/tipoorden/listar_tipoorden', array(
+                    'menu_op' => $op,
+                    'resultado_db' => (new Model\Mdlconfirmacion)->verTipoOrden()
+                ));
+            break;
+            case 'nuevo_tipoorden':
+                echo $this->template->render('confirmacion/tipoorden/nuevo_tipoorden', array(
+                    'menu_op' => $op
+                ));
+            break;
+            case 'editar_tipoorden':
+                if($this->isset_id and false !== ($data = (new Model\Mdlconfirmacion)->gettipoordenById($router->getId()))) {
+                    echo $this->template->render('confirmacion/tipoorden/editar_tipoorden', array(
+                        'menu_op' => $op,
+                        'resultado_db' => $data[0]
+                    ));
+                } else {
+                    $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+                }
+            break;
+            case 'estado_tipoorden':
+                (new Model\Mdlconfirmacion)->update_estado_tipoorden($router->getId(true));
+            break;
+            // ------------------------------------------------------------------------------------------------------------------------------------------
             case "programacion":
                 echo $this->template->render('confirmacion/programacion/programacion', array(
                     'menu_op' => $op,
@@ -170,7 +195,8 @@ class confirmacionController extends Controllers implements IControllers {
                     'db_motivo'=>(new Model\Mdlconfirmacion)->carga_motivo(),
                     'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),
                     'db_actividad'=>(new Model\Mdlconfirmacion)->carga_actividad(),
-                    'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado()
+                    'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado(),
+                    'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
                 ));
             break;
             case "listar_ordenes":
@@ -196,7 +222,8 @@ class confirmacionController extends Controllers implements IControllers {
                         'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque(),
                         'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),
                         'db_actividad'=>(new Model\Mdlconfirmacion)->carga_actividad(),
-                        'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado()
+                        'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado(),
+                        'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
                     ));
                 } else {
                     $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
@@ -209,13 +236,6 @@ class confirmacionController extends Controllers implements IControllers {
                 echo $this->template->render('confirmacion/programacion/listar_ejecutivos', array(
                     'menu_op'=>$op,
                     'db_ejecutivos'=>(new Model\Mdlconfirmacion)->listar_ejecutivos()
-                ));
-            break;
-            // ------------------------------------------------------------------------------------------------------------------------------------------
-            case 'carga_pendiente_actual':
-                echo $this->template->render('confirmacion/carga_pendiente_actual/carga_pendiente_actual', array(
-                    'menu_op' => $op,
-                    'db_archivos' => (new Model\Varios)->listar_archivos_cargados('Carga de Pendiente Diario')
                 ));
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------

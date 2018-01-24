@@ -119,7 +119,23 @@ class __TwigTemplate_8531bb82d09210d007d6eaee693c7b2e140a07c3e0f138b2238a202f27d
                 <div class=\"icon\">
                   <i class=\"fa fa-user-plus\"></i>
                 </div>
-                  <a href=\"confirmacion/listar_resultado\" class=\"small-box-footer\" title=\"Ver Bloques\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
+                  <a href=\"confirmacion/listar_resultado\" class=\"small-box-footer\" title=\"Ver Resultado\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class=\"col-lg-3\">
+          <form>
+            <fieldset>
+            <legend>Tipo de Orden</legend>
+              <div style=\"background-color:#fff28f;color:#fff\" class=\"small-box\">
+                <div class=\"inner\">
+                  <h3>Listar</h3>
+                </div>
+                <div class=\"icon\">
+                  <i class=\"fa fa-user-plus\"></i>
+                </div>
+                  <a href=\"confirmacion/listar_tipoorden\" class=\"small-box-footer\" title=\"Ver Tipo de Orden\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
               </div>
             </fieldset>
           </form>

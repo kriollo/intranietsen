@@ -1,14 +1,14 @@
 <?php
 
-/* confirmacion/resultado/nuevo_resultado.twig */
-class __TwigTemplate_28fb19f9e1977fb43bf0b2df0358f83ad63ebd5aa5a99d0c4615e628a6000bf1 extends Twig_Template
+/* confirmacion/tipoorden/nuevo_tipoorden.twig */
+class __TwigTemplate_a04f3092f016b4ba7632b3e8dea10a6fa11a3855ed3e605e13faf5f233b5d816 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
         parent::__construct($env);
 
         // line 1
-        $this->parent = $this->loadTemplate("portal/portal", "confirmacion/resultado/nuevo_resultado.twig", 1);
+        $this->parent = $this->loadTemplate("portal/portal", "confirmacion/tipoorden/nuevo_tipoorden.twig", 1);
         $this->blocks = array(
             'appStylos' => array($this, 'block_appStylos'),
             'appBody' => array($this, 'block_appBody'),
@@ -38,13 +38,13 @@ class __TwigTemplate_28fb19f9e1977fb43bf0b2df0358f83ad63ebd5aa5a99d0c4615e628a60
         echo "    <section class=\"content-header\">
         <h1>
             Confirmación
-            <small>Agregar Resultado</small>
+            <small>Agregar Tipo de Orden</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
         <li><a href=\"confirmacion/mantenedores_crud_masters\">Mantenedores</a></li>
-        <li><a href=\"confirmacion/listar_resultado\">Listado de Resultados</a></li>
-        <li class=\"active\">Nuevo Resultado</li>
+        <li><a href=\"confirmacion/listar_tipoorden\">Listado de Tipo de Orden</a></li>
+        <li class=\"active\">Nuevo Tipo de Orden</li>
         </ol>
     </section>
 
@@ -53,29 +53,19 @@ class __TwigTemplate_28fb19f9e1977fb43bf0b2df0358f83ad63ebd5aa5a99d0c4615e628a60
         <div class=\"row\">
             <div class=\"col-md-12\">
                 <div class=\"box box-primary\">
-                    <form id=\"register_resultado_form\"  action=\"\" method=\"POST\">
+                    <form id=\"register_tipoorden_form\"  action=\"\" method=\"POST\">
                         <div class=\"box-body col-sm-4\"></div>
                         <div class=\"box-body col-sm-4\">
                             <div class=\"form-group\">
-                                <input class=\"form-control\" name=\"nombre\" id=\"nombre\" type=\"text\" placeholder=\"Nombre del Resultado\" required/>
+                                <input class=\"form-control\" name=\"nombre\" id=\"nombre\" type=\"text\" placeholder=\"Descripción Tipo de Orden\" required/>
                             </div>
-                            <div class=\"form-group\">
-                                <select name=\"cumplimiento\" id=\"cumplimiento\" class=\"form-control\">
-                                <option value=\"1\">Cumple</option>
-                                <option value=\"0\">No Cumple</option>
-                                </select>
+                            <div class=\"form-group\">Prioridad (1 = alta - 5 = Baja)
+                                <input class=\"form-control\" name=\"prioridad\" id=\"prioridad\" type=\"number\" min=\"1\" max=\"5\" value='1'/>
                             </div>
-                            <div class=\"form-group\">
-                                <select name=\"grupo\" id=\"grupo\" class=\"form-control\">
-                                    <option value=\"1\">Confirmado</option>
-                                    <option value=\"0\">No Confirmado</option>
-                                </select>
-                            </div>
-
                             <center>
                                 <div class=\"form-group\">
-                                  <button type=\"button\" id=\"register_resultado\" class=\"btn btn-default\">Grabar</button>
-                                  <button type=\"reset\" id=\"limpiar\" class=\"btn btn-default\">Limpiar</button>
+                                    <button type=\"button\" id=\"register_tipoorden\" class=\"btn btn-default\">Grabar</button>
+                                    <button type=\"reset\" id=\"limpiar\" class=\"btn btn-default\">Limpiar</button>
                                 </div>
                             </center>
                         </div>
@@ -89,17 +79,17 @@ class __TwigTemplate_28fb19f9e1977fb43bf0b2df0358f83ad63ebd5aa5a99d0c4615e628a60
 ";
     }
 
-    // line 57
+    // line 47
     public function block_appScript($context, array $blocks = array())
     {
-        // line 58
+        // line 48
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
 
     public function getTemplateName()
     {
-        return "confirmacion/resultado/nuevo_resultado.twig";
+        return "confirmacion/tipoorden/nuevo_tipoorden.twig";
     }
 
     public function isTraitable()
@@ -109,11 +99,11 @@ class __TwigTemplate_28fb19f9e1977fb43bf0b2df0358f83ad63ebd5aa5a99d0c4615e628a60
 
     public function getDebugInfo()
     {
-        return array (  96 => 58,  93 => 57,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  86 => 48,  83 => 47,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "confirmacion/resultado/nuevo_resultado.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\confirmacion\\resultado\\nuevo_resultado.twig");
+        return new Twig_Source("", "confirmacion/tipoorden/nuevo_tipoorden.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\confirmacion\\tipoorden\\nuevo_tipoorden.twig");
     }
 }

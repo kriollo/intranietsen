@@ -31,7 +31,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
         echo "    <section class=\"content-header\">
         <h1>
             Confirmación
-            <small>Control panel</small>
+            <small>Principal</small>
         </h1>
         <ol class=\"breadcrumb\">
         <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
@@ -103,8 +103,8 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                 <div class=\"col-lg-3\">
                   <div style=\"background-color:#00a65a;color:#fff\" class=\"small-box\">
                     <div class=\"inner\">
-                      <h3>Agregar</h3>
-                      <p>Listar Ordenes</p>
+                      <h3>Listar</h3>
+                      <p>Ordenes</p>
                     </div>
                     <div class=\"icon\">
                       <i class=\"fa fa-eye\"></i>
