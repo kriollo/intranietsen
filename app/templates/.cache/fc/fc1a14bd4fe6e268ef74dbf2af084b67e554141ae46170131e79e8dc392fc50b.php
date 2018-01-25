@@ -44,7 +44,7 @@ class __TwigTemplate_6185293ac66fa43ae8bcb32cb4492044a9f61e097a098b9d3ed2842e8cc
     {
         // line 11
         echo "<section class=\"content-header\">
-    <h4>
+    <h1>
         Confirmación
         <small>Listado de Ordenes Registradas por día</small>
 
@@ -62,7 +62,7 @@ class __TwigTemplate_6185293ac66fa43ae8bcb32cb4492044a9f61e097a098b9d3ed2842e8cc
                 <i class=\"fa fa-arrow-down\"></i> Exportar Excel
             </a>
         </div>
-    </h4>
+    </h1>
 </section>
 <section class=\"content\">
     <div class=\"row\">

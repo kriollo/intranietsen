@@ -22,7 +22,7 @@ use Ocrend\Kernel\Controllers\IControllers;
  * @author Jorge Jara H. <jjara@wys.cl>
 */
 
-class rrhhController extends Controllers implements IControllers {
+class despachoController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
@@ -95,6 +95,7 @@ class rrhhController extends Controllers implements IControllers {
                     );
                 }
             break;
+
             case 'mostrar_hora_extra':
                 if($this->isset_id and false != ($dato=(new Model\Horasextra)->gethxid($router->getId()))){
                     echo $this->template->render('rrhh/horasextra/mostrar_hora_extra', array(
@@ -114,8 +115,6 @@ class rrhhController extends Controllers implements IControllers {
 // Asigna Ejecutivo-----------------------------------------------------------------------------------------------------------------
             case 'asignar_ejecutivo':
                 echo $this->template->render('rrhh/asignar_ejecutivo/asignar_ejecutivo', array(
-                    'menu_op' => $op,
-                    'cargos' => (new Model\Asignaejecutivo)->getcargos(),
                 ));
             break;
 // Asigna Ejecutivo-----------------------------------------------------------------------------------------------------------------

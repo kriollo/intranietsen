@@ -30,7 +30,7 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
         // line 3
         echo "    <section class=\"content-header\">
         <h1>
-            COORDINACIÓN
+            Coordinación
             <small>Control panel</small>
         </h1>
         <ol class=\"breadcrumb\">

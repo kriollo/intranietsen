@@ -44,14 +44,14 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
     {
         // line 11
         echo "<section class=\"content-header\">
-    <h4>
+    <h1>
         Confirmación
         <small>Listado de Ordenes Registradas por Ejecutivo</small>
 
         <a class=\"btn btn-primary btn-social pull-right\" href=\"confirmacion/programacion\" title=\"Agregar\" data-toggle=\"tooltip\">
             <i class=\"fa fa-plus\"></i> Agregar Nueva Orden
         </a>
-    </h4>
+    </h1>
 </section>
 <section class=\"content\">
     <div class=\"row\">

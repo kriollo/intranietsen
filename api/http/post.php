@@ -321,6 +321,24 @@ $app->post('/cargar_excel_tecnicos', function() use($app) {
     return $app->json($u->cargar_excel());
 });
 //Tecnicos----------------------------------------------------------------------
+//ASignacion de Ejecutivo a Supervisor------------------------------------------
+$app->post('/Asignaejecutivo_select_perfil', function() use($app) {
+    $au = new Model\Asignaejecutivo;
+    return $app->json($au->select_perfil());
+});
+$app->post('/Asignaejecutivo_traer_usuarios', function() use($app) {
+    $au = new Model\Asignaejecutivo;
+    return $app->json($au->traer_usuarios());
+});
+$app->post('/Asignaejecutivo_quitar_supervision', function() use($app) {
+    $au = new Model\Asignaejecutivo;
+    return $app->json($au->quitar_supervision());
+});
+$app->post('/Asignaejecutivo_asignar_supervision', function() use($app) {
+    $au = new Model\Asignaejecutivo;
+    return $app->json($au->asignar_supervision());
+});
+//ASignacion de Ejecutivo a Supervisor------------------------------------------
 //Maestros Confirmacion---------------------------------------------------------
 $app->post('/registra_nueva_actividad', function() use($app) {
     $e = new Model\Mdlconfirmacion;
