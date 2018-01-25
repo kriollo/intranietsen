@@ -46,12 +46,11 @@ class Mdlcoordinacion extends Models implements IModels {
     */
 
     public function verNodo(string $select = '*'){
-    return $this->db->select($select,'tblnodo');
+        return $this->db->select($select,'tblnodo');
     }
     public function verComuna(string $select = '*'){
-    return $this->db->select($select,'tblcomuna');
+        return $this->db->select($select,'tblcomuna');
     }
-
     final public function getNodoById(int $id, string $select = '*') {
         return $this->db->select($select,'tblnodo',"id_nodo='$id'",'LIMIT 1');
     }
@@ -133,7 +132,7 @@ public function carga_nodo(){
 }
 
 public function getejecutivos(){
-  return $this->db->select('*','users',"perfil LIKE '%DESPACHO%' LIMIT 1");
+  return $this->db->select('nombre','tblperfiles',"nombre LIKE '%DESPACHO%' group by nombre order by nombre");
 }
 
 public function select_ejecutivo(): array {
@@ -141,7 +140,7 @@ public function select_ejecutivo(): array {
   global $http;
     $cargo = $http->request->get('select_ejecutivo');
 
-    $query=$this->db->select('name','users',"perfil='$cargo'");
+    $query=$this->db->select('*','users',"perfil='$cargo'");
 
 
     if ($query == true){
@@ -164,60 +163,57 @@ public function select_ejecutivo(): array {
 //       return array('success' => 0, 'message' => 'Datos no encontrados');
 //     }
 // }
-public function traer_comuna(): array {
-  try {
+    public function traer_comuna(): array {
+        try {
+            global $http;
+            $id_personal = $http->request->get('usuario');
 
-  global $http;
-  $id_personal = $http->request->get('usuario');
+            $noAsignada = $this->db->query_select("SELECT id_comuna,nombre FROM tblcomuna WHERe estado='1' and nombre not in (select comuna from tbl_coordinacion_ejecutivo_comuna where id_usuario='$id_personal')");
 
-  $comuna = $this->db->select('*','tblcomuna','estado=1');
-   // $personalNombre = $this->db->select('nombres','tblpersonal',"id_personal='$selectAsignados'");   REVISAR SI ES POSIBLE UTILIZARLA COMO FUNCION
+            $asignada = $this->db->select('*','tbl_coordinacion_ejecutivo_comuna',"id_usuario='$id_personal'");
 
-  if ($comuna != true) {
-    return array('success' => 1,'usuariosNoAsignados' => $comuna);
-    # code... 'usuariosAsignados' => $selectAsignados,
-}else {
-    return array('success' => 1, 'usuariosAsignados' => $comuna, 'usuariosNoAsignados' => $comuna);
-}
+            if ($noAsignada != true) {
+                return array('success' => 1,'comunasNoAsignadas' => $noAsignada);
+            }else {
+                return array('success' => 1, 'comunasAsignadas' => $asignada, 'comunasNoAsignadas' => $noAsignada);
+            }
 
-} catch (Exception $e) {
-  return array('success' => 0, 'message' => 'Datos no encontrados');
-}
-}
+        } catch (Exception $e) {
+            return array('success' => 0, 'message' => 'Datos no encontrados');
+        }
+    }
 
-public function quitar_supervision(): array {
+public function quitar_comuna(): array {
 try {
 global $http;
 
 #Obtener los datos $_POST
-$pendiente = "0";
-$id_personal = $http->request->get('mandoId');
+$usuario = $http->request->get('usuario');
+$comuna = $http->request->get('comuna');
 
-
-$this->db->update('tblpersonal',array(
-'id_super' => $pendiente
-),"id_personal='$id_personal'",'LIMIT 1');
+$this->db->query_select("DELETE FROM tbl_coordinacion_ejecutivo_comuna WHERE id_usuario='$usuario' AND comuna='$comuna'");
 //
-return array('success' => 1, 'men' => $id_personal);
+return array('success' => 1, 'men' => $usuario);
 }catch (ModelsException $e) {
 return array('success' => 0, 'message' => $e->getMessage());
 }
 }
 
-public function asignar_supervision(): array {
+public function asignar_comuna(): array {
 try {
 global $http;
 
 #Obtener los datos $_POST
-$id_personal = $http->request->get('mandoId');
-$super = $http->request->get('mandoIdSuper');
+$usuario = $http->request->get('usuario');
+$comuna = $http->request->get('comuna');
 
 
-$this->db->update('tblpersonal',array(
-'id_super' => $super
-),"id_personal='$id_personal'",'LIMIT 1');
+$this->db->insert('tbl_coordinacion_ejecutivo_comuna',array(
+'id_usuario' => $usuario,
+'comuna' => $comuna
+));
 //
-return array('success' => 1, 'men' => $id_personal);
+return array('success' => 1, 'men' => $usuario);
 }catch (ModelsException $e) {
 return array('success' => 0, 'message' => $e->getMessage());
 }

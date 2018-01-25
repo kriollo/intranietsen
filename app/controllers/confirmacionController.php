@@ -27,7 +27,7 @@ class confirmacionController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true,
-            'access_menu' => ['id_menu' => 2, 'access' => true]
+            'access_menu' => ['id_menu' => 1, 'access' => true]
         ));
         global $config;
         $op = '1';

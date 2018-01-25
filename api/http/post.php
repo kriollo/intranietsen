@@ -362,26 +362,6 @@ $app->post('/editar_resultado', function() use($app) {
     $e = new Model\Mdlconfirmacion;
     return $app->json($e->editar_resultado());
 });
-$app->post('/registra_nuevo_nodo', function() use($app) {
-    $e = new Model\Mdlcoordinacion;
-    return $app->json($e->registra_nuevo_nodo());
-});
-$app->post('/editar_nodo', function() use($app) {
-    $e = new Model\Mdlcoordinacion;
-    return $app->json($e->editar_nodo());
-});
-$app->post('/select_ejecutivo', function() use($app) {
-    $e = new Model\Mdlcoordinacion;
-    return $app->json($e->select_ejecutivo());
-});
-$app->post('/traer_ejecutivos', function() use($app) {
-    $e = new Model\Mdlcoordinacion;
-    return $app->json($e->traer_ejecutivos());
-});
-$app->post('/traer_comuna', function() use($app) {
-    $e = new Model\Mdlcoordinacion;
-    return $app->json($e->traer_comuna());
-});
 $app->post('/registra_nuevo_tipoorden', function() use($app) {
     $e = new Model\Mdlconfirmacion;
     return $app->json($e->registra_nuevo_tipoorden());
@@ -409,3 +389,24 @@ $app->post('/confirma_lista_por_fecha', function() use($app) {
     return $app->json($u->confirma_lista_por_fecha());
 });
 //Orden Confirmacion------------------------------------------------------------
+//Coordinacion Asigna Ejecutivo Comuna------------------------------------------
+$app->post('/select_ejecutivo', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->select_ejecutivo());
+});
+$app->post('/traer_ejecutivos', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->traer_ejecutivos());
+});
+$app->post('/traer_comuna', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->traer_comuna());
+});
+$app->post('/asignar_comuna', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->asignar_comuna());
+});
+$app->post('/quitar_comuna', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->quitar_comuna());
+});
