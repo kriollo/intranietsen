@@ -40,7 +40,7 @@ $('#select_perfil').on('change', function select_perfil() {
 });
 $('#select_perfil').one('click', function crear_select() {
     var sel = $('<select class="form-control"></select>');
-    var lab = $('<label><strong>Asignar ejecutivos a Supervisor</strong></label><br>');
+    var lab = $('<label><strong>Asignar ejecutivos a Supervisor</strong></label>');
     $('#resultado').append(lab);
     $('#resultado').append(sel);
     sel.attr('id', 'ejecutivos');
@@ -65,7 +65,7 @@ if ($('#caja_secundaria').length > 0) {
                         var usuariosAsignados = json.usuariosAsignados;
                         var valor = json.valor;
                         var user = $('#name').val();
-                        var mostrarTodo = $('<!-- Default box --><div class="box animated fadeIn" id="caja_secundaria"><!-- Custom Tabs (Pulled to the right) --><div class="nav-tabs-custom"><ul class="nav nav-tabs pull-rigth"><li class="active"><a href="#tab_2-2" data-toggle="tab"><label for="">' + user + '</label></a></li><li class="pull-left header"></li></ul><div class="tab-content"><div class="tab-pane active" id="tab_1-1"><div class="row">  <div class="col-md-2"></div><div class="col-md-4"><label for="">Usuarios no asignados</label><table id="usuariosNoAsignados" class="table table-bordered"><form id="idBtn"></table></div><div class="col-md-2"></div><div class="col-md-4"><label for="">Usuarios asignados</label><table id="usuariosAsignados" class="table table-bordered"></table><form></div></div></div><!-- /.tab-pane --></div></div></div>');
+                        var mostrarTodo = $('<!-- Default box --><div class="animated fadeIn" id="caja_secundaria"><!-- Custom Tabs (Pulled to the right) --><div class="nav-tabs-custom"><ul class="nav nav-tabs pull-rigth"><li class="active"><a href="#tab_2-2" data-toggle="tab"><label for="">' + user + '</label></a></li><li class="pull-left header"></li></ul><div class="tab-content"><div class="tab-pane active" id="tab_1-1"><div class="row">  <div class="col-md-2"></div><div class="col-md-4"><label for="">Usuarios no asignados</label><table id="usuariosNoAsignados" class="table table-bordered"><form id="idBtn"></table></div><div class="col-md-2"></div><div class="col-md-4"><label for="">Usuarios asignados</label><table id="usuariosAsignados" class="table table-bordered"></table><form></div></div></div><!-- /.tab-pane --></div></div></div>');
                         if ($('#caja_secundaria').length > 0) {
                             $('#caja_secundaria').remove();
                             $('#mostrarDatos').prepend(mostrarTodo);

@@ -46,7 +46,7 @@ class __TwigTemplate_7afa5ddaaab8768b4f040fbbae5211d9b7cf8afae6e8a6db4df0abeabcd
                 <div class=\"row\">
                     <div class=\"box-body\">
                         <div class=\"col-sm-4\">
-                            Seleccione Cargo para filtrar
+                            <label><strong>Seleccione Cargo para filtrar</strong></label>
                             <form name=\"filtra_usuario_perfil\" id=\"filtra_usuario_perfil\" action=\"\" method=\"POST\">
                                 <label>
                                     <select class=\"form-control\" name='select_perfil' id='select_perfil'>
@@ -72,7 +72,7 @@ class __TwigTemplate_7afa5ddaaab8768b4f040fbbae5211d9b7cf8afae6e8a6db4df0abeabcd
                             </form>
                         </div>
 
-                        <div class=\"col-sm-4\">
+                        <div class=\"col-sm-8\">
                             <form id=\"form_opciones\" name=\"form_opciones\" action=\"\" method=\"POST\">
                                 <label id=\"resultado\" name=\"resultado\">
                                 </label>
