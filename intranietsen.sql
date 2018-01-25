@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-01-2018 a las 16:13:00
--- Versión del servidor: 10.1.28-MariaDB
--- Versión de PHP: 7.1.10
+-- Tiempo de generación: 25-01-2018 a las 16:40:57
+-- Versión del servidor: 10.1.25-MariaDB
+-- Versión de PHP: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -23,6 +23,58 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `intranietsen` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `intranietsen`;
+
+DELIMITER $$
+--
+-- Funciones
+--
+DROP FUNCTION IF EXISTS `validate_rut`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `validate_rut` (`RUT` VARCHAR(12)) RETURNS INT(11) BEGIN
+	DECLARE strlen INT;
+	DECLARE i INT;
+	DECLARE j INT;
+	DECLARE suma NUMERIC;
+	DECLARE temprut VARCHAR(12);
+	DECLARE verify_dv CHAR(2);
+	DECLARE DV CHAR(1);
+	SET RUT = REPLACE(REPLACE(RUT, '.', ''),'-','');
+	SET DV = SUBSTR(RUT,-1,1);
+	SET RUT = SUBSTR(RUT,1,LENGTH(RUT)-1);
+	SET i = 1;
+  	SET strlen = LENGTH(RUT);
+  	SET j = 2;
+  	SET suma = 0;
+	IF strlen = 8 OR strlen = 7 THEN
+		SET temprut = REVERSE(RUT);
+		moduloonce: LOOP
+		    IF i <= LENGTH(temprut) THEN
+    			SET suma = suma + (CONVERT(SUBSTRING(temprut, i, 1),UNSIGNED INTEGER) * j); 
+	      		SET i = i + 1;
+	      		IF j = 7 THEN
+		    		SET j = 2;
+	    		ELSE
+	    			SET j = j + 1;
+    			END IF;
+	      		ITERATE moduloonce;
+		    END IF;
+		    LEAVE moduloonce;
+	  	END LOOP moduloonce;
+	  	SET verify_dv = 11 - (suma % 11);
+	  	IF verify_dv = 11 THEN
+	  		SET verify_dv = 0;
+	  	ELSEIF verify_dv = 10 THEN 
+	  		SET verify_dv = 'K';
+	  	END IF;
+	  	IF DV = verify_dv THEN
+	  		RETURN 1;
+	  	ELSE 
+	  		RETURN 0;
+	  	END IF;
+	END IF;
+	RETURN 0;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -56,6 +108,38 @@ TRUNCATE TABLE `empresa`;
 
 INSERT INTO `empresa` (`id_empresa`, `nombre`, `telefono`, `email`, `impuesto`, `tipo_moneda`, `direccion`, `ciudad`, `comuna`, `region`, `ext_logo`) VALUES
 (1, 'CABLE NIELSEN LTDA', '+56 9', 'contacto@nielsen.cl', 19, '$', 'Piloto Lazo 90', 'Santiago', 'Cerrillos', 'Metropolitana', 'png');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tblactividad`
+--
+
+DROP TABLE IF EXISTS `tblactividad`;
+CREATE TABLE `tblactividad` (
+  `id_actividad` int(11) NOT NULL,
+  `actividad` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblactividad`
+--
+
+TRUNCATE TABLE `tblactividad`;
+--
+-- Volcado de datos para la tabla `tblactividad`
+--
+
+INSERT INTO `tblactividad` (`id_actividad`, `actividad`, `estado`) VALUES
+(1, 'ALTA 1 Cable', 1),
+(2, 'ALTA 2', 1),
+(3, 'ALTA 3', 1),
+(4, 'RX', 1),
+(5, 'SSTT', 1),
+(6, 'PETVA', 1),
+(7, 'PREMIUM', 1),
+(8, 'TRASLADO', 1);
 
 -- --------------------------------------------------------
 
@@ -120,6 +204,40 @@ INSERT INTO `tblausencias` (`id_tblausencias`, `rut`, `tipo_ausencia`, `observac
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tblbloque`
+--
+
+DROP TABLE IF EXISTS `tblbloque`;
+CREATE TABLE `tblbloque` (
+  `id_bloque` int(11) NOT NULL,
+  `bloque` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `limite_q_programacion` int(11) NOT NULL DEFAULT '280',
+  `desde` time NOT NULL,
+  `hasta` time NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblbloque`
+--
+
+TRUNCATE TABLE `tblbloque`;
+--
+-- Volcado de datos para la tabla `tblbloque`
+--
+
+INSERT INTO `tblbloque` (`id_bloque`, `bloque`, `limite_q_programacion`, `desde`, `hasta`, `estado`) VALUES
+(1, '10-13', 280, '10:00:00', '12:59:00', 1),
+(2, '13-16', 280, '13:00:00', '15:59:00', 1),
+(3, '16-19', 280, '16:00:00', '18:59:00', 1),
+(4, '19-10', 280, '19:00:00', '22:00:00', 1),
+(5, '.....', 280, '00:00:00', '00:00:00', 1),
+(6, 'AM', 284, '10:00:00', '13:59:00', 1),
+(7, 'PM', 280, '14:00:00', '22:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tblcargos`
 --
 
@@ -142,6 +260,46 @@ INSERT INTO `tblcargos` (`id_cargo`, `descripcion`) VALUES
 (1, 'Supervisor HD'),
 (2, 'Ejecutivo HD'),
 (3, 'Jefe HD');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tblcomuna`
+--
+
+DROP TABLE IF EXISTS `tblcomuna`;
+CREATE TABLE `tblcomuna` (
+  `id_comuna` int(11) NOT NULL,
+  `nombre` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1',
+  `zona` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `cod_sub_zona` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `territorio` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblcomuna`
+--
+
+TRUNCATE TABLE `tblcomuna`;
+--
+-- Volcado de datos para la tabla `tblcomuna`
+--
+
+INSERT INTO `tblcomuna` (`id_comuna`, `nombre`, `estado`, `zona`, `cod_sub_zona`, `territorio`) VALUES
+(1, 'MAIP', 1, 'ZMET', 'ZMNO', 'METRO SUR PONIENTE'),
+(2, 'CERR', 1, 'ZMET', 'ZMNO', 'METRO SUR PONIENTE'),
+(3, 'RECO', 1, 'ZMET', 'ZMNO', 'METRO SUR PONIENTE'),
+(4, 'PACE', 1, 'ZMET', 'ZMSU', 'METRO SUR PONIENTE'),
+(5, 'INDE', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(6, 'QNOR', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(7, 'RENC', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(8, 'QUIL', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(9, 'HUEC', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(10, 'LPRA', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(11, 'CNCH', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(12, 'LAMP', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
+(13, 'COLI', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE');
 
 -- --------------------------------------------------------
 
@@ -169,11 +327,89 @@ TRUNCATE TABLE `tblmenu`;
 INSERT INTO `tblmenu` (`id_menu`, `PosI`, `descripcion`, `glyphicon`) VALUES
 (1, 1, 'CONFIRMACION', 'fa-headphones'),
 (99, 99, 'ADMINISTRACIÓN', 'fa-user'),
-(2, 2, 'RR HH', 'fa-users'),
-(4, 4, 'OPERACIONES', 'fa-tachometer'),
-(3, 3, 'REDES', 'fa-sitemap'),
-(5, 5, 'PREVENCION', 'fa-fire-extinguisher'),
-(6, 6, 'TEST', 'fa-tachometer');
+(2, 3, 'RR HH', 'fa-users'),
+(6, 2, 'CORDINACION', 'fa-tachometer');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tblmotivollamado`
+--
+
+DROP TABLE IF EXISTS `tblmotivollamado`;
+CREATE TABLE `tblmotivollamado` (
+  `id_motivo` int(11) NOT NULL,
+  `motivo` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblmotivollamado`
+--
+
+TRUNCATE TABLE `tblmotivollamado`;
+--
+-- Volcado de datos para la tabla `tblmotivollamado`
+--
+
+INSERT INTO `tblmotivollamado` (`id_motivo`, `motivo`, `estado`) VALUES
+(1, 'CONF', 1),
+(2, 'ATDO', 1),
+(3, 'RENO', 1),
+(4, 'ADEL', 1),
+(5, 'PROV', 1),
+(6, 'SIMO', 1),
+(7, 'CATA', 1),
+(8, 'MATE', 1),
+(9, 'INTE', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tblordenes`
+--
+
+DROP TABLE IF EXISTS `tblordenes`;
+CREATE TABLE `tblordenes` (
+  `id_orden` int(11) NOT NULL,
+  `n_orden` int(11) NOT NULL,
+  `reg` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `rut_cliente` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `fecha_compromiso` date NOT NULL,
+  `bloque` varchar(22) COLLATE utf8_unicode_ci NOT NULL,
+  `comuna` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `nodo` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `subnodo` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `tipoorden` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `motivo` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `actividad` varchar(22) COLLATE utf8_unicode_ci NOT NULL,
+  `resultado` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `observacion` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `operador` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `fecha_dia` date NOT NULL,
+  `id_usuario_despacho` int(11) NOT NULL,
+  `codigo_tecnico` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `estado_orden` smallint(6) NOT NULL DEFAULT '1',
+  `ubicacion` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'CONFIRMACION'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblordenes`
+--
+
+TRUNCATE TABLE `tblordenes`;
+--
+-- Volcado de datos para la tabla `tblordenes`
+--
+
+INSERT INTO `tblordenes` (`id_orden`, `n_orden`, `reg`, `rut_cliente`, `fecha_compromiso`, `bloque`, `comuna`, `nodo`, `subnodo`, `tipoorden`, `motivo`, `actividad`, `resultado`, `observacion`, `operador`, `fecha_dia`, `id_usuario_despacho`, `codigo_tecnico`, `estado_orden`, `ubicacion`) VALUES
+(2, 1221212, '', '15889905-1', '2018-01-22', '13-16', 'RENC', '20', '202', '1', 'ATDO', 'ALTA 1', '18', '12qwqwqw', '1', '2018-01-24', 0, '', 1, 'DESPACHO'),
+(3, 12341, '', '15889905-1', '2018-01-22', '10-13', 'RECO', '23', '123', '', 'RENO', 'ALTA 1', '1', '123123', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(4, 312847306, '', '8770904-3', '2018-01-22', '16-19', 'MAIP', '202ssss', '202ddd', '', 'CONF', 'SSTT', '1', 'qweqwewqeddddd', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(5, 314412474, '', '14055124-4', '2018-01-22', '10-13', 'MAIP', '123', '123', '', 'CONF', 'ALTA 1 Cable', '1', '123123123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(6, 314522077, '', '6602154-8', '2018-01-22', '10-13', 'RENC', 'wqewe', 'qweqwe', '', 'CONF', 'SSTT', '1', 'wd', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(7, 314586792, '', '7825841-1', '2018-01-22', '10-13', 'MAIP', '123', '23', '', 'CONF', 'ALTA 2', '1', 'qwqwewqe', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(8, 54656576, '', '15889905-1', '2018-01-24', '16-19', 'INDE', '123', '123', '2', 'PROV', 'SSTT', '1', '123213123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION');
 
 -- --------------------------------------------------------
 
@@ -213,7 +449,13 @@ INSERT INTO `tblperfiles` (`id`, `nombre`, `id_menu`, `id_submenu`) VALUES
 (111, 'HD_SUPERVISOR', 2, 1),
 (110, 'HD_SUPERVISOR', 1, 1),
 (109, 'CLIENTES', 1, 1),
-(118, 'HD_SUPERVISOR', 5, 1);
+(118, 'HD_SUPERVISOR', 5, 1),
+(122, 'CONFIRMACION_EJECUTIVO', 1, 1),
+(124, 'CONFIRMACION_SUPERVISOR', 1, 1),
+(125, 'CONFIRMACION_SUPERVISOR', 1, 2),
+(126, 'CONFIRMACION_SUPERVISOR', 2, 2),
+(127, 'DESPACHO_EJECUTIVO', 0, 0),
+(128, 'DESPACHO_SUPERVISOR', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -261,15 +503,7 @@ INSERT INTO `tblperfilesuser` (`id`, `id_user`, `id_menu`, `id_submenu`) VALUES
 (1, '15', 3, 1),
 (1, '15', 4, 1),
 (1, '15', 5, 1),
-(1, '16', 1, 1),
-(1, '16', 2, 1),
-(1, '16', 2, 2),
-(1, '16', 2, 3),
-(1, '16', 2, 4),
-(1, '16', 2, 5),
-(1, '16', 3, 1),
-(1, '16', 4, 1),
-(1, '16', 5, 1),
+(1, '16', 0, 0),
 (1, '17', 1, 1),
 (1, '17', 2, 1),
 (1, '17', 2, 2),
@@ -282,6 +516,8 @@ INSERT INTO `tblperfilesuser` (`id`, `id_user`, `id_menu`, `id_submenu`) VALUES
 (1, '18', 1, 1),
 (1, '19', 1, 1),
 (1, '2', 1, 1),
+(1, '2', 1, 3),
+(1, '2', 1, 4),
 (1, '2', 2, 1),
 (1, '2', 2, 2),
 (1, '2', 2, 3),
@@ -290,10 +526,9 @@ INSERT INTO `tblperfilesuser` (`id`, `id_user`, `id_menu`, `id_submenu`) VALUES
 (1, '2', 3, 1),
 (1, '2', 4, 1),
 (1, '2', 5, 1),
-(1, '2', 99, 2),
 (1, '20', 1, 1),
-(1, '21', 1, 1),
-(1, '28', 1, 1),
+(1, '21', 0, 0),
+(1, '28', 0, 0),
 (1, '3', 1, 1),
 (1, '30', 1, 1),
 (1, '31', 1, 1),
@@ -404,6 +639,52 @@ INSERT INTO `tblpersonal` (`id_personal`, `rut`, `nombres`, `f_nacimiento`, `fon
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tblresultado`
+--
+
+DROP TABLE IF EXISTS `tblresultado`;
+CREATE TABLE `tblresultado` (
+  `id_resultado` int(11) NOT NULL,
+  `nombre` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1',
+  `cumplimiento` int(11) NOT NULL,
+  `grupo` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblresultado`
+--
+
+TRUNCATE TABLE `tblresultado`;
+--
+-- Volcado de datos para la tabla `tblresultado`
+--
+
+INSERT INTO `tblresultado` (`id_resultado`, `nombre`, `estado`, `cumplimiento`, `grupo`) VALUES
+(1, 'CONFIRMADO', 1, 1, 1),
+(2, 'CLIENTE ADELANTA', 1, 1, 1),
+(3, 'SIN_CTTO_AD', 1, 0, 0),
+(4, 'SIN_CTTO_RENO', 1, 0, 0),
+(5, 'SIN_CTTO_CONF', 1, 0, 0),
+(6, 'PROVISIONAMIENTO', 1, 0, 0),
+(7, 'SIN_CTTO_SIMO', 1, 0, 0),
+(8, 'CLIENTE ANULA', 1, 0, 0),
+(9, 'CLIENTE ATRASA', 1, 0, 0),
+(10, 'DUDA COMERCIAL', 1, 0, 0),
+(11, 'SIN_CTTO_ATDO', 1, 0, 0),
+(12, 'SERVICIO OK', 1, 0, 0),
+(13, 'MAL_AG_ATRASA', 1, 0, 0),
+(14, 'CLIENTE INFORMADO', 1, 0, 0),
+(15, 'SIN_CTTO_MATE', 1, 0, 0),
+(16, 'VOLVER A LLAMAR', 1, 0, 0),
+(17, 'NO ADELANTA', 1, 0, 0),
+(18, 'A_TERRENO_SIN_CTTO', 1, 0, 0),
+(20, 'SIN_CTTO_INTE', 1, 0, 0),
+(21, '....', 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tblsubmenu`
 --
 
@@ -431,9 +712,7 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (99, 3, 3, 'administracion/perfiles', 'Perfiles', 1),
 (2, 1, 1, 'rrhh', 'Principal', 1),
 (1, 1, 1, 'confirmacion', 'Principal', 1),
-(3, 1, 1, 'redes', 'Principal', 1),
-(5, 1, 1, 'prevencion', 'Principal', 1),
-(4, 1, 1, 'operaciones', 'Principal', 1),
+(6, 1, 1, 'coordinacion', 'Principal', 1),
 (99, 1, 1, 'administracion', 'Principal', 1),
 (99, 4, 4, 'administracion/empresa', 'Datos Empresa', 1),
 (2, 2, 2, 'rrhh/mantenedores_crud_masters', 'Maestros RRHH', 1),
@@ -441,7 +720,11 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (2, 5, 5, 'rrhh/revisarausencias', 'Registro Ausencias', 1),
 (2, 6, 6, 'rrhh/cargar_turnos', 'Cargar Turnos', 1),
 (2, 7, 7, 'rrhh/revisar_turnos', 'Ver Turno Plataforma', 1),
-(2, 3, 3, 'rrhh/revisar_horas_extra', 'HHEE Registrar', 1);
+(2, 3, 3, 'rrhh/revisar_horas_extra', 'Solicitar HHEE', 1),
+(1, 2, 2, 'confirmacion/mantenedores_crud_masters', 'Mantenedores', 1),
+(1, 4, 4, 'confirmacion/listar_allorden', 'Listar ordenes', 1),
+(1, 3, 3, 'confirmacion/listar_ordenes', 'Programacion', 1),
+(6, 2, 2, 'coordinacion/asignar_comuna', 'Asigna Comuna Ejecutivo', 1);
 
 -- --------------------------------------------------------
 
@@ -475,7 +758,37 @@ INSERT INTO `tbltecnicos` (`id_tecnicos`, `rut`, `nombre`, `codigo`, `estado`) V
 (5, '4', 'i', 'v', '1'),
 (7, '6', 'e', 'l', '1'),
 (9, '8', 'n', 'n', '1'),
-(10, '89', 'd', 'z', '1');
+(10, '89', 'd', 'z', '1'),
+(11, '1-9', 'test', 'etst', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbltipoorden`
+--
+
+DROP TABLE IF EXISTS `tbltipoorden`;
+CREATE TABLE `tbltipoorden` (
+  `id_tipoorden` int(11) NOT NULL,
+  `descripcion` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `prioridad` int(11) NOT NULL DEFAULT '1',
+  `estado` smallint(6) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbltipoorden`
+--
+
+TRUNCATE TABLE `tbltipoorden`;
+--
+-- Volcado de datos para la tabla `tbltipoorden`
+--
+
+INSERT INTO `tbltipoorden` (`id_tipoorden`, `descripcion`, `prioridad`, `estado`) VALUES
+(1, 'DOMICILIARIA', 3, 1),
+(2, 'B2B', 1, 1),
+(3, 'SWAP', 3, 1),
+(4, 'AVAR', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -623,6 +936,63 @@ INSERT INTO `tblturnos` (`id`, `rut`, `fecha`, `servicio`, `hora_ingreso`, `hora
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_coordinacion_despacho_tecnico`
+--
+
+DROP TABLE IF EXISTS `tbl_coordinacion_despacho_tecnico`;
+CREATE TABLE `tbl_coordinacion_despacho_tecnico` (
+  `id_super` int(11) NOT NULL,
+  `id_despacho` int(11) NOT NULL,
+  `id_tecnico` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_coordinacion_despacho_tecnico`
+--
+
+TRUNCATE TABLE `tbl_coordinacion_despacho_tecnico`;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_coordinacion_ejecutivo_comuna`
+--
+
+DROP TABLE IF EXISTS `tbl_coordinacion_ejecutivo_comuna`;
+CREATE TABLE `tbl_coordinacion_ejecutivo_comuna` (
+  `id_asignacion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `comuna` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_coordinacion_ejecutivo_comuna`
+--
+
+TRUNCATE TABLE `tbl_coordinacion_ejecutivo_comuna`;
+--
+-- Volcado de datos para la tabla `tbl_coordinacion_ejecutivo_comuna`
+--
+
+INSERT INTO `tbl_coordinacion_ejecutivo_comuna` (`id_asignacion`, `id_usuario`, `comuna`) VALUES
+(32, 28, 'INDE'),
+(9, 28, 'QNOR'),
+(10, 28, 'RENC'),
+(11, 28, 'HUEC'),
+(12, 21, 'MAIP'),
+(13, 21, 'RECO'),
+(14, 21, 'INDE'),
+(15, 21, 'RENC'),
+(16, 21, 'QNOR'),
+(17, 21, 'QUIL'),
+(18, 21, 'HUEC'),
+(28, 28, 'RECO'),
+(29, 16, 'MAIP'),
+(30, 16, 'PACE'),
+(31, 16, 'QNOR');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_det_hora_extra`
 --
 
@@ -638,13 +1008,6 @@ CREATE TABLE `tbl_det_hora_extra` (
 --
 
 TRUNCATE TABLE `tbl_det_hora_extra`;
---
--- Volcado de datos para la tabla `tbl_det_hora_extra`
---
-
-INSERT INTO `tbl_det_hora_extra` (`id_det`, `id_enc_hx`, `rut`) VALUES
-(0, '1', '16005554');
-
 -- --------------------------------------------------------
 
 --
@@ -669,13 +1032,6 @@ CREATE TABLE `tbl_enc_hora_extra` (
 --
 
 TRUNCATE TABLE `tbl_enc_hora_extra`;
---
--- Volcado de datos para la tabla `tbl_enc_hora_extra`
---
-
-INSERT INTO `tbl_enc_hora_extra` (`id_enc_hx`, `fecha_creacion`, `fecha_solicitud`, `id_user`, `motivo_solicitud`, `hora_desde`, `hora_hasta`, `estado`, `motivo_respuesta`) VALUES
-('1', '2018-01-04', '2018-01-04', '2', 'test', '18:01:00', '18:01:00', 'Pendiente', 'Sin responder');
-
 -- --------------------------------------------------------
 
 --
@@ -708,20 +1064,49 @@ INSERT INTO `tbl_historialarchivoscargados` (`id`, `app`, `fecha_hora`, `nombre_
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_horasextra`
+--
+
+DROP TABLE IF EXISTS `tbl_horasextra`;
+CREATE TABLE `tbl_horasextra` (
+  `id` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `rut` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `hora_desde` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `hora_hasta` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `solicitante` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `motivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `estatus` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Pendiente',
+  `id_user` varchar(12) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_horasextra`
+--
+
+TRUNCATE TABLE `tbl_horasextra`;
+--
+-- Volcado de datos para la tabla `tbl_horasextra`
+--
+
+INSERT INTO `tbl_horasextra` (`id`, `fecha`, `rut`, `hora_desde`, `hora_hasta`, `solicitante`, `motivo`, `estatus`, `id_user`) VALUES
+(6, '2017-11-07', '15889905', '17:11', '17:11', 'Jorge Jara Hinojosa', 'jorejagahasgjd', 'Rechazada', '1');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tmp_horasextra`
 --
 
 DROP TABLE IF EXISTS `tmp_horasextra`;
 CREATE TABLE `tmp_horasextra` (
   `id` int(11) NOT NULL,
-  `fecha_creacion` date NOT NULL,
+  `id_user` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `fecha_solicitud` date NOT NULL,
   `rut` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
   `hora_desde` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `hora_hasta` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `motivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `id_user` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
-  `id_enc_hx` int(11) NOT NULL
+  `motivo` varchar(100) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -729,6 +1114,16 @@ CREATE TABLE `tmp_horasextra` (
 --
 
 TRUNCATE TABLE `tmp_horasextra`;
+--
+-- Volcado de datos para la tabla `tmp_horasextra`
+--
+
+INSERT INTO `tmp_horasextra` (`id`, `id_user`, `fecha_solicitud`, `rut`, `hora_desde`, `hora_hasta`, `motivo`) VALUES
+(1, '2', '0000-00-00', '15889905', '', '', ''),
+(2, '2', '0000-00-00', '19063731', '', '', ''),
+(3, '2', '0000-00-00', '25753973', '', '', ''),
+(4, '2', '0000-00-00', '18050468', '', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -765,17 +1160,17 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_pass`, `token`, `perfil`, `rol`, `rut_personal`, `estado`, `foto`, `name_foto`, `pagina_inicio`, `online_fecha`) VALUES
-(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'administracion', 0),
-(2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 1, '15889905', 1, 1, '2.jpg', 'plataforma', 1515161468),
+(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1516894785),
+(2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 0, '15889905', 1, 1, '2.jpg', 'portal', 0),
 (14, 'PATRICIO BRAVO SILVA', 'patricio.bravo@nielsen.cl', '964217456', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '15698986', 1, 0, '', 'plataforma', 0),
 (15, 'DANIELA COVARRUBIAS NAVARRETE', 'daniela.covarrubias@nielsen.cl', '964526245', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '10371223', 1, 0, '', 'plataforma', 0),
-(16, 'CARLOS GONZALEZ PEÃ‘A', 'carlos.gonzalez@nielsen.cl', '964527575', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '16939194', 1, 0, '', 'plataforma', 0),
+(16, 'CARLOS GONZALEZ PEÃ‘A', 'carlos.gonzalez@nielsen.cl', '964527575', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'DESPACHO_SUPERVISOR', 0, '16939194', 1, 0, '', 'portal', 0),
 (17, 'JOHN REYES DIAZ', 'john.reyes@nielsen.cl', '0', 'JEFE HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '13651904', 1, 0, '', 'plataforma', 0),
 (18, 'JONATHAN ACEITON  UGAS', 'jonathan.aceiton@nielsen.cl', '930737112', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '13894211', 1, 0, '', 'plataforma', 0),
 (19, 'FELIPE ANDRADE VALENZUELA', 'felipe.andrade@nielsen.cl', '986606669', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '18050468', 1, 0, '', 'plataforma', 0),
 (20, 'MARIO ARIAS BERNAL', 'mario.arias@nielsen.cl', '982251110', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '17370343', 1, 0, '', 'plataforma', 0),
-(21, 'ALEXANDER BERRIOS  GARRIDO', 'alexander.berrios@nielsen.cl', '951380234', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '16005554', 1, 0, '', 'plataforma', 0),
-(28, 'ALEJANDRO BIZAMA ASENJO', 'alejandro.bizama@nielsen.cl', '999734253', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '17310756', 1, 0, '', 'plataforma', 0),
+(21, 'ALEXANDER BERRIOS  GARRIDO', 'alexander.berrios@nielsen.cl', '951380234', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'DESPACHO_EJECUTIVO', 0, '16005554', 1, 0, '', 'portal', 0),
+(28, 'ALEJANDRO BIZAMA ASENJO', 'alejandro.bizama@nielsen.cl', '999734253', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'DESPACHO_EJECUTIVO', 0, '17310756', 1, 0, '', 'portal', 0),
 (30, 'EMERSON BRICEÃ‘O VEGA', 'emerson.briceno@nielsen.cl', '972889386', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25657286', 1, 0, '', 'plataforma', 0),
 (31, 'BRAYAN COLINA DUARTE', 'brayan.colina@nielsen.cl', '957162561', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '12608918', 1, 0, '', 'plataforma', 0),
 (33, 'REYNALDO DAVIS FONSECA', 'reynaldo.davis@nielsen.cl', '946903365', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25572474', 1, 0, '', 'plataforma', 0),
@@ -817,6 +1212,12 @@ ALTER TABLE `empresa`
   ADD PRIMARY KEY (`id_empresa`);
 
 --
+-- Indices de la tabla `tblactividad`
+--
+ALTER TABLE `tblactividad`
+  ADD PRIMARY KEY (`id_actividad`);
+
+--
 -- Indices de la tabla `tblareas`
 --
 ALTER TABLE `tblareas`
@@ -829,16 +1230,40 @@ ALTER TABLE `tblausencias`
   ADD PRIMARY KEY (`id_tblausencias`);
 
 --
+-- Indices de la tabla `tblbloque`
+--
+ALTER TABLE `tblbloque`
+  ADD PRIMARY KEY (`id_bloque`);
+
+--
 -- Indices de la tabla `tblcargos`
 --
 ALTER TABLE `tblcargos`
   ADD PRIMARY KEY (`id_cargo`);
 
 --
+-- Indices de la tabla `tblcomuna`
+--
+ALTER TABLE `tblcomuna`
+  ADD PRIMARY KEY (`id_comuna`);
+
+--
 -- Indices de la tabla `tblmenu`
 --
 ALTER TABLE `tblmenu`
   ADD PRIMARY KEY (`id_menu`);
+
+--
+-- Indices de la tabla `tblmotivollamado`
+--
+ALTER TABLE `tblmotivollamado`
+  ADD PRIMARY KEY (`id_motivo`);
+
+--
+-- Indices de la tabla `tblordenes`
+--
+ALTER TABLE `tblordenes`
+  ADD PRIMARY KEY (`id_orden`);
 
 --
 -- Indices de la tabla `tblperfiles`
@@ -859,6 +1284,12 @@ ALTER TABLE `tblpersonal`
   ADD PRIMARY KEY (`id_personal`);
 
 --
+-- Indices de la tabla `tblresultado`
+--
+ALTER TABLE `tblresultado`
+  ADD PRIMARY KEY (`id_resultado`);
+
+--
 -- Indices de la tabla `tblsubmenu`
 --
 ALTER TABLE `tblsubmenu`
@@ -871,6 +1302,12 @@ ALTER TABLE `tbltecnicos`
   ADD PRIMARY KEY (`id_tecnicos`);
 
 --
+-- Indices de la tabla `tbltipoorden`
+--
+ALTER TABLE `tbltipoorden`
+  ADD PRIMARY KEY (`id_tipoorden`);
+
+--
 -- Indices de la tabla `tblturnos`
 --
 ALTER TABLE `tblturnos`
@@ -878,9 +1315,33 @@ ALTER TABLE `tblturnos`
   ADD KEY `index_2` (`rut`,`fecha`);
 
 --
+-- Indices de la tabla `tbl_coordinacion_despacho_tecnico`
+--
+ALTER TABLE `tbl_coordinacion_despacho_tecnico`
+  ADD PRIMARY KEY (`id_super`);
+
+--
+-- Indices de la tabla `tbl_coordinacion_ejecutivo_comuna`
+--
+ALTER TABLE `tbl_coordinacion_ejecutivo_comuna`
+  ADD PRIMARY KEY (`id_asignacion`);
+
+--
 -- Indices de la tabla `tbl_historialarchivoscargados`
 --
 ALTER TABLE `tbl_historialarchivoscargados`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_horasextra`
+--
+ALTER TABLE `tbl_horasextra`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tmp_horasextra`
+--
+ALTER TABLE `tmp_horasextra`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -898,79 +1359,121 @@ ALTER TABLE `users`
 --
 ALTER TABLE `empresa`
   MODIFY `id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
+--
+-- AUTO_INCREMENT de la tabla `tblactividad`
+--
+ALTER TABLE `tblactividad`
+  MODIFY `id_actividad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `tblareas`
 --
 ALTER TABLE `tblareas`
   MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
 --
 -- AUTO_INCREMENT de la tabla `tblausencias`
 --
 ALTER TABLE `tblausencias`
   MODIFY `id_tblausencias` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
+--
+-- AUTO_INCREMENT de la tabla `tblbloque`
+--
+ALTER TABLE `tblbloque`
+  MODIFY `id_bloque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `tblcargos`
 --
 ALTER TABLE `tblcargos`
   MODIFY `id_cargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
+--
+-- AUTO_INCREMENT de la tabla `tblcomuna`
+--
+ALTER TABLE `tblcomuna`
+  MODIFY `id_comuna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT de la tabla `tblmenu`
 --
 ALTER TABLE `tblmenu`
   MODIFY `id_menu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
-
+--
+-- AUTO_INCREMENT de la tabla `tblmotivollamado`
+--
+ALTER TABLE `tblmotivollamado`
+  MODIFY `id_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `tblordenes`
+--
+ALTER TABLE `tblordenes`
+  MODIFY `id_orden` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `tblperfiles`
 --
 ALTER TABLE `tblperfiles`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
-
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 --
 -- AUTO_INCREMENT de la tabla `tblperfilesuser`
 --
 ALTER TABLE `tblperfilesuser`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT de la tabla `tblpersonal`
 --
 ALTER TABLE `tblpersonal`
   MODIFY `id_personal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
-
+--
+-- AUTO_INCREMENT de la tabla `tblresultado`
+--
+ALTER TABLE `tblresultado`
+  MODIFY `id_resultado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT de la tabla `tblsubmenu`
 --
 ALTER TABLE `tblsubmenu`
   MODIFY `id_submenu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT de la tabla `tbltecnicos`
 --
 ALTER TABLE `tbltecnicos`
-  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
+  MODIFY `id_tecnicos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT de la tabla `tbltipoorden`
+--
+ALTER TABLE `tbltipoorden`
+  MODIFY `id_tipoorden` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `tblturnos`
 --
 ALTER TABLE `tblturnos`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=826;
-
+--
+-- AUTO_INCREMENT de la tabla `tbl_coordinacion_despacho_tecnico`
+--
+ALTER TABLE `tbl_coordinacion_despacho_tecnico`
+  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tbl_coordinacion_ejecutivo_comuna`
+--
+ALTER TABLE `tbl_coordinacion_ejecutivo_comuna`
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT de la tabla `tbl_historialarchivoscargados`
 --
 ALTER TABLE `tbl_historialarchivoscargados`
   MODIFY `id` double NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
+--
+-- AUTO_INCREMENT de la tabla `tbl_horasextra`
+--
+ALTER TABLE `tbl_horasextra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT de la tabla `tmp_horasextra`
+--
+ALTER TABLE `tmp_horasextra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-COMMIT;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
