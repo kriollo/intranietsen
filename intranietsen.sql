@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2018 a las 16:40:57
+-- Tiempo de generación: 26-01-2018 a las 16:24:32
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -325,10 +325,11 @@ TRUNCATE TABLE `tblmenu`;
 --
 
 INSERT INTO `tblmenu` (`id_menu`, `PosI`, `descripcion`, `glyphicon`) VALUES
-(1, 1, 'CONFIRMACION', 'fa-headphones'),
+(1, 1, 'CONFIRMACION', 'fa-calendar-check-o '),
 (99, 99, 'ADMINISTRACIÓN', 'fa-user'),
-(2, 3, 'RR HH', 'fa-users'),
-(6, 2, 'CORDINACION', 'fa-tachometer');
+(2, 4, 'RR HH', 'fa-users'),
+(7, 3, 'DESPACHO', 'fa-flag-checkered'),
+(6, 2, 'CORDINACION', 'fa-map-signs ');
 
 -- --------------------------------------------------------
 
@@ -448,7 +449,6 @@ INSERT INTO `tblperfiles` (`id`, `nombre`, `id_menu`, `id_submenu`) VALUES
 (112, 'HD_SUPERVISOR', 2, 2),
 (111, 'HD_SUPERVISOR', 2, 1),
 (110, 'HD_SUPERVISOR', 1, 1),
-(109, 'CLIENTES', 1, 1),
 (118, 'HD_SUPERVISOR', 5, 1),
 (122, 'CONFIRMACION_EJECUTIVO', 1, 1),
 (124, 'CONFIRMACION_SUPERVISOR', 1, 1),
@@ -597,14 +597,14 @@ TRUNCATE TABLE `tblpersonal`;
 --
 
 INSERT INTO `tblpersonal` (`id_personal`, `rut`, `nombres`, `f_nacimiento`, `fono`, `id_cargo`, `id_area`, `id_user`, `estado`, `id_super`) VALUES
-(112, '25939970', 'HENKY MENDOZA PEEL', '1978-05-08', '957547833', 2, 1, 0, 1, 0),
+(112, '25939970', 'HENKY MENDOZA PEEL', '1978-05-08', '957547833', 2, 1, 0, 0, 0),
 (111, '15930005', 'CESAR ZÃºÃ±IGA RAMÃ­REZ', '1986-01-30', '963430575', 2, 1, 0, 1, 0),
 (110, '10371223', 'DANIELA PIA CUVARRUBIAS NAVARRETE', '1979-11-01', '964526245', 1, 1, 0, 1, 0),
 (109, '16939194', 'CARLOS ANTONIO GONZALEZ PEÃ‘A', '1988-08-31', '964527575', 1, 1, 0, 1, 0),
 (108, '15698986', 'PATRICIO ALFONSO BRAVO SILVA', '1984-05-17', '964217456', 1, 2, 0, 1, 0),
 (107, '15889905', 'JORGE ANTONIO JARA  HINOJOSA', '1984-04-02', '930248408', 1, 1, 0, 1, 0),
 (106, '16005554', 'ALEXANDER JULIAN BERRIOS GARRIDO', '1984-11-28', '951380234', 2, 1, 0, 1, 0),
-(105, '13305778', 'HECTOR PATRICIO FIGUEROA CARRASCO', '1976-12-15', '981295014', 2, 1, 0, 1, 0),
+(105, '13305778', 'HECTOR PATRICIO FIGUEROA CARRASCO', '1976-12-15', '981295014', 2, 1, 0, 0, 0),
 (104, '25637138', 'GELEN EUDELIS MONTILLA RAMOS', '1983-06-01', '959820181', 2, 1, 0, 1, 0),
 (103, '25940058', 'YADIRA JOSE BERMUDEZ LOPEZ', '1979-03-26', '988140248', 2, 1, 0, 1, 0),
 (102, '17312370', 'GERSON ARIEL SALGADO AREVALO', '1988-07-10', '987511767', 2, 1, 0, 1, 0),
@@ -616,18 +616,18 @@ INSERT INTO `tblpersonal` (`id_personal`, `rut`, `nombres`, `f_nacimiento`, `fon
 (96, '12624268', 'RUBEN SANLLEHI SOTO', '1974-03-08', '956849534', 2, 1, 0, 1, 0),
 (95, '13903234', 'LAUTARO NELSON SALINAS  ALVEAR', '1979-12-31', '950055870', 2, 1, 0, 1, 0),
 (94, '16393634', 'MAXIMILIANO ARMANDO SALAMANCA  RIQUELME', '1986-12-29', '984895419', 2, 1, 0, 1, 0),
-(93, '11637661', 'LUIS HERNAN RODRIGUEZ  MARTINEZ', '1970-02-07', '996923115', 2, 1, 0, 1, 0),
-(92, '17736774', 'JEREMIAS ISAAC RAMIREZ  QUEZADA', '1989-04-03', '977903377', 2, 1, 0, 1, 0),
-(91, '25853610', 'MARIA JOSE PEREZ  VASQUEZ', '1991-12-11', '11603505', 2, 1, 0, 1, 0),
-(90, '13901026', 'CRISTIAN RAUL OLIVARES  FUENTES', '1980-11-24', '951383875', 2, 1, 0, 1, 0),
-(89, '17664997', 'NICOLAS FIDEL JARA  VASQUEZ', '1991-01-22', '984458359', 2, 1, 0, 1, 0),
-(88, '12896837', 'ARTURO MANASES IZQUIERDO  GOITIA', '1992-12-10', '990196330', 2, 1, 0, 1, 0),
-(87, '12182659', 'CLAUDIO ANDRES INOSTROZA GODOY', '1972-10-23', '962143829', 2, 1, 0, 1, 0),
-(86, '17793951', 'HECTOR PATRICIO GUTIERREZ  SANCHEZ', '1991-03-22', '985040211', 2, 1, 0, 1, 0),
-(85, '16640409', 'ISMAEL IVANOFF GONZALEZ  ENCALADA', '1987-03-06', '990124536', 2, 1, 0, 1, 0),
-(84, '16346771', 'PABLO ALFREDO FIERRO  OLEA', '1986-12-11', '982426242', 2, 1, 0, 1, 0),
-(83, '19004569', 'CAMILA ALEJANDRA DIAZ RIQUELME', '1995-03-24', '998134250', 2, 1, 0, 1, 0),
-(82, '25572474', 'REYNALDO ANDRES DAVIS  FONSECA', '1987-01-14', '946903365', 2, 1, 0, 1, 0),
+(93, '11637661', 'LUIS HERNAN RODRIGUEZ  MARTINEZ', '1970-02-07', '996923115', 2, 1, 0, 1, 109),
+(92, '17736774', 'JEREMIAS ISAAC RAMIREZ  QUEZADA', '1989-04-03', '977903377', 2, 1, 0, 1, 109),
+(91, '25853610', 'MARIA JOSE PEREZ  VASQUEZ', '1991-12-11', '11603505', 2, 1, 0, 1, 109),
+(90, '13901026', 'CRISTIAN RAUL OLIVARES  FUENTES', '1980-11-24', '951383875', 2, 1, 0, 1, 109),
+(89, '17664997', 'NICOLAS FIDEL JARA  VASQUEZ', '1991-01-22', '984458359', 2, 1, 0, 1, 109),
+(88, '12896837', 'ARTURO MANASES IZQUIERDO  GOITIA', '1992-12-10', '990196330', 2, 1, 0, 1, 109),
+(87, '12182659', 'CLAUDIO ANDRES INOSTROZA GODOY', '1972-10-23', '962143829', 2, 1, 0, 1, 109),
+(86, '17793951', 'HECTOR PATRICIO GUTIERREZ  SANCHEZ', '1991-03-22', '985040211', 2, 1, 0, 1, 109),
+(85, '16640409', 'ISMAEL IVANOFF GONZALEZ  ENCALADA', '1987-03-06', '990124536', 2, 1, 0, 1, 109),
+(84, '16346771', 'PABLO ALFREDO FIERRO  OLEA', '1986-12-11', '982426242', 2, 1, 0, 1, 109),
+(83, '19004569', 'CAMILA ALEJANDRA DIAZ RIQUELME', '1995-03-24', '998134250', 2, 1, 0, 1, 109),
+(82, '25572474', 'REYNALDO ANDRES DAVIS  FONSECA', '1987-01-14', '946903365', 2, 1, 0, 1, 109),
 (81, '12608918', 'BRAYAN LEVI COLINA  DUARTE', '1992-06-06', '957162561', 2, 1, 0, 1, 0),
 (80, '25657286', 'EMERSON HELI BRICEÃ‘O  VEGA', '1979-12-20', '972889386', 2, 1, 0, 1, 0),
 (79, '17310756', 'ALEJANDRO ARTURO BIZAMA  ASENJO', '7989-09-28', '999734253', 2, 1, 0, 1, 0),
@@ -712,6 +712,7 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (99, 3, 3, 'administracion/perfiles', 'Perfiles', 1),
 (2, 1, 1, 'rrhh', 'Principal', 1),
 (1, 1, 1, 'confirmacion', 'Principal', 1),
+(7, 1, 1, 'despacho', 'Principal', 1),
 (6, 1, 1, 'coordinacion', 'Principal', 1),
 (99, 1, 1, 'administracion', 'Principal', 1),
 (99, 4, 4, 'administracion/empresa', 'Datos Empresa', 1),
@@ -722,9 +723,11 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (2, 7, 7, 'rrhh/revisar_turnos', 'Ver Turno Plataforma', 1),
 (2, 3, 3, 'rrhh/revisar_horas_extra', 'Solicitar HHEE', 1),
 (1, 2, 2, 'confirmacion/mantenedores_crud_masters', 'Mantenedores', 1),
+(2, 8, 8, 'rrhh/asignar_ejecutivo', 'Asigna Ejecutivo a Super', 1),
 (1, 4, 4, 'confirmacion/listar_allorden', 'Listar ordenes', 1),
 (1, 3, 3, 'confirmacion/listar_ordenes', 'Programacion', 1),
-(6, 2, 2, 'coordinacion/asignar_comuna', 'Asigna Comuna Ejecutivo', 1);
+(6, 2, 2, 'coordinacion/asignar_comuna', 'Asigna Comuna Ejecutivo', 1),
+(6, 3, 3, 'coordinacion/asignar_tecnico', 'Asigna Tecnico a Ejecutivo', 1);
 
 -- --------------------------------------------------------
 
@@ -951,6 +954,18 @@ CREATE TABLE `tbl_coordinacion_despacho_tecnico` (
 --
 
 TRUNCATE TABLE `tbl_coordinacion_despacho_tecnico`;
+--
+-- Volcado de datos para la tabla `tbl_coordinacion_despacho_tecnico`
+--
+
+INSERT INTO `tbl_coordinacion_despacho_tecnico` (`id_super`, `id_despacho`, `id_tecnico`) VALUES
+(1, 21, 1),
+(2, 21, 6),
+(3, 21, 3),
+(4, 16, 8),
+(5, 16, 5),
+(6, 16, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -978,13 +993,10 @@ INSERT INTO `tbl_coordinacion_ejecutivo_comuna` (`id_asignacion`, `id_usuario`, 
 (9, 28, 'QNOR'),
 (10, 28, 'RENC'),
 (11, 28, 'HUEC'),
-(12, 21, 'MAIP'),
-(13, 21, 'RECO'),
-(14, 21, 'INDE'),
-(15, 21, 'RENC'),
-(16, 21, 'QNOR'),
+(35, 21, 'PACE'),
+(34, 21, 'RECO'),
+(33, 21, 'MAIP'),
 (17, 21, 'QUIL'),
-(18, 21, 'HUEC'),
 (28, 28, 'RECO'),
 (29, 16, 'MAIP'),
 (30, 16, 'PACE'),
@@ -1160,7 +1172,7 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_pass`, `token`, `perfil`, `rol`, `rut_personal`, `estado`, `foto`, `name_foto`, `pagina_inicio`, `online_fecha`) VALUES
-(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1516894785),
+(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1516977973),
 (2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 0, '15889905', 1, 1, '2.jpg', 'portal', 0),
 (14, 'PATRICIO BRAVO SILVA', 'patricio.bravo@nielsen.cl', '964217456', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '15698986', 1, 0, '', 'plataforma', 0),
 (15, 'DANIELA COVARRUBIAS NAVARRETE', 'daniela.covarrubias@nielsen.cl', '964526245', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '10371223', 1, 0, '', 'plataforma', 0),
@@ -1194,12 +1206,12 @@ INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_p
 (62, 'RODOLFO ANDRES URIBE MARDONEZ', 'rodolfo.uribe@nielsen.cl', '975967883', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '23590775', 1, 0, '', 'plataforma', 0),
 (63, 'SIMON ARAVENA MULLER', 'simon.aravena@nielsen.cl', '987716630', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '16691974', 1, 0, '', 'plataforma', 0),
 (64, 'NICOLAS JARA VASQUEZ', 'nicolas.jara@nielsen.cl', '984458359', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '17664997', 1, 0, '', 'plataforma', 0),
-(65, 'HENKY MENDOZA PEEL', 'henky.mendoza@nielsen.cl', '957547833', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25939970', 1, 0, '', 'plataforma', 0),
+(65, 'HENKY MENDOZA PEEL', 'henky.mendoza@nielsen.cl', '957547833', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25939970', 0, 0, '', 'plataforma', 0),
 (66, 'CESAR ZUÃ‘IGA RAMIREZ', 'cesar.zuniga@nielsen.cl', '963430575', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '15930005', 1, 0, '', 'plataforma', 0),
 (67, 'GELEN EUDELIS MONTILLA RAMOS', 'gelen.montilla@nielsen.cl', '959820181', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25637138', 1, 0, '', 'plataforma', 0),
 (68, 'GERSON ARIEL SALGADO AREVALO', 'gerson.salagado@nielsen.cl', '987511767', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '17312370', 1, 0, '', 'plataforma', 0),
 (69, 'YADIRA JOSE BERMUDEZ LOPEZ', 'yadira.bermudez@nielsen.cl', '988140248', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25940058', 1, 0, '', 'plataforma', 0),
-(70, 'HECTOR FIGUIEROA CARRASCO', 'herctor.figueroa@nielsen.cl', '981295014', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '13305778', 1, 0, '', 'plataforma', 0);
+(70, 'HECTOR FIGUIEROA CARRASCO', 'herctor.figueroa@nielsen.cl', '981295014', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '13305778', 0, 0, '', 'plataforma', 0);
 
 --
 -- Índices para tablas volcadas
@@ -1408,7 +1420,7 @@ ALTER TABLE `tblordenes`
 -- AUTO_INCREMENT de la tabla `tblperfiles`
 --
 ALTER TABLE `tblperfiles`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 --
 -- AUTO_INCREMENT de la tabla `tblperfilesuser`
 --
@@ -1448,12 +1460,12 @@ ALTER TABLE `tblturnos`
 -- AUTO_INCREMENT de la tabla `tbl_coordinacion_despacho_tecnico`
 --
 ALTER TABLE `tbl_coordinacion_despacho_tecnico`
-  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `tbl_coordinacion_ejecutivo_comuna`
 --
 ALTER TABLE `tbl_coordinacion_ejecutivo_comuna`
-  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT de la tabla `tbl_historialarchivoscargados`
 --

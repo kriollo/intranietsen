@@ -408,23 +408,38 @@ $app->post('/confirma_lista_por_fecha', function() use($app) {
 });
 //Orden Confirmacion------------------------------------------------------------
 //Coordinacion Asigna Ejecutivo Comuna------------------------------------------
-$app->post('/select_ejecutivo', function() use($app) {
+$app->post('/Mdlcoordinacion_select_ejecutivo', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->select_ejecutivo());
 });
-$app->post('/traer_ejecutivos', function() use($app) {
+$app->post('/Mdlcoordinacion_traer_ejecutivos', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->traer_ejecutivos());
 });
-$app->post('/traer_comuna', function() use($app) {
+$app->post('/Mdlcoordinacion_traer_comuna', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->traer_comuna());
 });
-$app->post('/asignar_comuna', function() use($app) {
+$app->post('/Mdlcoordinacion_asignar_comuna', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->asignar_comuna());
 });
-$app->post('/quitar_comuna', function() use($app) {
+$app->post('/Mdlcoordinacion_quitar_comuna', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->quitar_comuna());
+});
+//Coordinacion Asigna Ejecutivo Comuna------------------------------------------
+//Coordinacion Asigna Tecnico a Ejecutivo---------------------------------------
+$app->post('/Mdlcoordinacion_traer_tecnicos', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->traer_tecnicos());
+});
+
+$app->post('/Mdlcoordinacion_asignar_tecnico', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->asignar_tecnico());
+});
+$app->post('/Mdlcoordinacion_quitar_tecnico', function() use($app) {
+    $e = new Model\Mdlcoordinacion;
+    return $app->json($e->quitar_tecnico());
 });

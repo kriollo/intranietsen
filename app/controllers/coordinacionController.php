@@ -32,28 +32,24 @@ class coordinacionController extends Controllers implements IControllers {
         global $config;
         $op = '6';
         switch($this->method){
-            case 'mantenedores_crud_masters':
-                echo $this->template->render('coordinacion/mantenedores_crud_masters', array(
-                'menu_op' => $op
-            ));
-        break;
-        case "listar_coordinadores":
-            echo $this->template->render('coordinacion/listar_coordinadores', array(
-                'menu_op' => $op
-            ));
-        break;
-        case "asignar_comuna":
-            echo $this->template->render('coordinacion/asignar_comuna/asignar_comuna', array(
-                'menu_op' => $op,
-                'ejecutivos' => (new Model\Mdlcoordinacion)->getejecutivos()
-            ));
-        break;
-        // -------------------------------------------------------------------------------------------------------------------------------------------------------
-        default:
-            echo $this->template->render('coordinacion/coordinacion', array(
-                'menu_op' => $op
-            ));
-        break;
+            case "asignar_comuna":
+                echo $this->template->render('coordinacion/asignar_comuna/asignar_comuna', array(
+                    'menu_op' => $op,
+                    'ejecutivos' => (new Model\Mdlcoordinacion)->getejecutivos()
+                ));
+            break;
+            case "asignar_tecnico":
+                echo $this->template->render('coordinacion/asignar_tecnico/asignar_tecnico', array(
+                    'menu_op' => $op,
+                    'ejecutivos' => (new Model\Mdlcoordinacion)->getejecutivos()
+                ));
+            break;
+            // -------------------------------------------------------------------------------------------------------------------------------------------------------
+            default:
+                echo $this->template->render('coordinacion/coordinacion', array(
+                    'menu_op' => $op
+                ));
+            break;
         }
 
     }
