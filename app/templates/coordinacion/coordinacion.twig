@@ -1,19 +1,50 @@
 {% extends 'portal/portal' %}
 {% block appBody %}
-    <section class="content-header">
-        <h1>
-            Coordinación
-            <small>Control panel</small>
-        </h1>
-        <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-        </ol>
-    </section>
+<section class="content-header">
+    <h1>
+        Coordinación
+        <small>Principal</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+    <li class="active">Dashboard</li>
+    </ol>
+</section>
 
-    <!-- Main content -->
-    <section class="content">
-    </section>
-    <!-- /.content -->
-
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Resumen Ordenes a Ejecutar Hoy</h3>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <th>No</th>
+                                    <th>Comuna</th>
+                                    <th>Cantidad Gestión</th>
+                                </thead>
+                                <tbody>
+                                    {% set No = 1 %}
+                                    {% for d in confirma_resumen_x_comuna if false != confirma_resumen_x_comuna %}
+                                        <tr>
+                                            <td>{{ No }}</td>
+                                            <td>{{ d.comuna|raw|title }}</td>
+                                            <td>{{ d.cantidad }}</td>
+                                        </tr>
+                                    {% set No =  No + 1 %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

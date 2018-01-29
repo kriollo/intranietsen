@@ -44,6 +44,13 @@ class coordinacionController extends Controllers implements IControllers {
                     'ejecutivos' => (new Model\Mdlcoordinacion)->getejecutivos()
                 ));
             break;
+            case 'distribucion':
+                echo $this->template->render('coordinacion/distribucion/distribucion', array(
+                    'menu_op' => $op,
+                    'db_usuarios'=>(new Model\Mdlcoordinacion)->getUsuario_Despacho(),
+                    'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque()
+                ));
+            break;
             // -------------------------------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('coordinacion/coordinacion', array(

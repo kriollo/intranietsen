@@ -443,3 +443,21 @@ $app->post('/Mdlcoordinacion_quitar_tecnico', function() use($app) {
     return $app->json($e->quitar_tecnico());
 });
 //Coordinacion Asigna Tecnico a Ejecutivo---------------------------------------
+//Coordinacion Distribuir Ordenes-----------------------------------------------
+$app->post('/Mdlcoordinacion_seleccionar_bloque', function() use($app) {
+    $u = new Model\Mdlcoordinacion;
+    return $app->json($u->seleccionar_bloque());
+});
+$app->post('/Mdlcoordinacion_marcar_opcion', function() use($app) {
+    $u = new Model\Mdlcoordinacion;
+    return $app->json($u->marcar_opcion());
+});
+$app->post('/Mdlcoordinacion_desmarcar_opcion', function() use($app) {
+    $u = new Model\Mdlcoordinacion;
+    return $app->json($u->desmarcar_opcion());
+});
+$app->post('/Mdlcoordinacion_distribuir_ordenes', function() use($app) {
+    $u = new Model\Mdlcoordinacion;
+    return $app->json($u->distribuir_ordenes());
+});
+//Coordinacion Distribuir Ordenes-----------------------------------------------

@@ -147,8 +147,48 @@ class Mdlcoordinacion extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+// ------------------------------------------------------------------------------------------------------
+// DISTRIBUCION------------------------------------------------------------------------------------------
+    public function getUsuario_Despacho(){
+        return $this->db->query_select("select * from users where perfil LIKE '%DESPACHO%'");
+    }
+    public function seleccionar_bloque(){
+    //$this->db->query_select("update tbl_coordinacion_ejecutivo_comuna set estado='0'");
+    $datos=$this->db->query_select("select DISTINCT users.id_user, users.name from users inner join tbl_coordinacion_ejecutivo_comuna on users.id_user=tbl_coordinacion_ejecutivo_comuna.id_usuario where perfil='DESPACHO_EJECUTIVO'");
 
+        $html="<section class='content'>
+        <div class='row'>
+        <div class='col-md-3'>
+        <form id='formusuarios' name='formusuarios'>
+        <div class='box box-primary'>
+        <div class='box-body'>";
+        $html.= "<div class='col-md-12'>";
+        foreach ($datos as $key => $value) {
+            $html.="<tr><td><label><input type='checkbox' onchange=marcar(".$value['id_user'].")  id=".$value['id_user'].">".$value['name']."</label></td>";
+            $comuna=$this->db->query_select("select comuna from tbl_coordinacion_ejecutivo_comuna where id_usuario=".$value['id_user']."");
+            foreach ($comuna as $key2 => $value2) {
+                $html.="<div><td><label>".$value2['comuna']."</label></td></div>";
+            }
+            $html.="</tr>
+            ";
+        }
 
+        $html.="</div></div>
+        </div>
+        </form>
+        </div>
+        <div class='col-md-6'>
+        <div class='box box-primary'>
+        <div class='box-body'>
+        <button class='btn btn-sm btn-success' id='distribuir' name='distribuir' onclick='distribuir_ordenes()'>Distribuir Ordenes</button>
+        <br>
+        </div>
+        </div>
+        </div>
+        </div>";
+        $html .= "</section>";
+        return array('success' => 1, 'message' => $html);
+    }
 // ------------------------------------------------------------------------------------------------------
     /**
       * __construct()

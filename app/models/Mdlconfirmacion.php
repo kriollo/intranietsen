@@ -388,7 +388,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $fecha_dia=date('Y-m-d');
 
         if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
-            return array('success' => 0, 'message' => 'Debe ingresar todos los campos');
+            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }
 
         $consulta=$this->db->query_select("select n_orden from tblordenes where n_orden='$orden'");
@@ -452,7 +452,7 @@ class Mdlconfirmacion extends Models implements IModels {
 
 
         if ($this->functions->e($modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden)){
-            return array('success' => 0, 'message' => $modorden.$modfechacompromiso.$modrutcliente.$modcomuna.$modbloque.$modmotivo.$modactividad,$modresultado);
+            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }else{
             $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
             comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia'  WHERE id_orden='$idorden'");
