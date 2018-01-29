@@ -47,7 +47,7 @@ class __TwigTemplate_7875f97b2edf16e717f265b91f2c7c144e3465ac4cbc5d6aa0a63d2ff4a
                 <div class=\"row\">
                     <div class=\"box-body\">
                         <div class=\"col-sm-4\">
-                            Seleccione Cargo
+                            <label><strong>Seleccione Perfil</strong></label>
                             <form name=\"filtra_usuario_perfil\" id=\"filtra_usuario_perfil\" action=\"\" method=\"POST\">
                                 <label>
                                     <select class=\"form-control\" name='select_ejecutivo' id='select_ejecutivo'>

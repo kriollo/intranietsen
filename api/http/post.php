@@ -434,7 +434,6 @@ $app->post('/Mdlcoordinacion_traer_tecnicos', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->traer_tecnicos());
 });
-
 $app->post('/Mdlcoordinacion_asignar_tecnico', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->asignar_tecnico());
@@ -443,3 +442,4 @@ $app->post('/Mdlcoordinacion_quitar_tecnico', function() use($app) {
     $e = new Model\Mdlcoordinacion;
     return $app->json($e->quitar_tecnico());
 });
+//Coordinacion Asigna Tecnico a Ejecutivo---------------------------------------
