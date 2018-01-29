@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-01-2018 a las 16:24:32
+-- Tiempo de generación: 29-01-2018 a las 21:27:15
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -404,13 +404,13 @@ TRUNCATE TABLE `tblordenes`;
 --
 
 INSERT INTO `tblordenes` (`id_orden`, `n_orden`, `reg`, `rut_cliente`, `fecha_compromiso`, `bloque`, `comuna`, `nodo`, `subnodo`, `tipoorden`, `motivo`, `actividad`, `resultado`, `observacion`, `operador`, `fecha_dia`, `id_usuario_despacho`, `codigo_tecnico`, `estado_orden`, `ubicacion`) VALUES
-(2, 1221212, '', '15889905-1', '2018-01-22', '13-16', 'RENC', '20', '202', '1', 'ATDO', 'ALTA 1', '18', '12qwqwqw', '1', '2018-01-24', 0, '', 1, 'DESPACHO'),
-(3, 12341, '', '15889905-1', '2018-01-22', '10-13', 'RECO', '23', '123', '', 'RENO', 'ALTA 1', '1', '123123', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(4, 312847306, '', '8770904-3', '2018-01-22', '16-19', 'MAIP', '202ssss', '202ddd', '', 'CONF', 'SSTT', '1', 'qweqwewqeddddd', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(5, 314412474, '', '14055124-4', '2018-01-22', '10-13', 'MAIP', '123', '123', '', 'CONF', 'ALTA 1 Cable', '1', '123123123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(6, 314522077, '', '6602154-8', '2018-01-22', '10-13', 'RENC', 'wqewe', 'qweqwe', '', 'CONF', 'SSTT', '1', 'wd', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(7, 314586792, '', '7825841-1', '2018-01-22', '10-13', 'MAIP', '123', '23', '', 'CONF', 'ALTA 2', '1', 'qwqwewqe', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(8, 54656576, '', '15889905-1', '2018-01-24', '16-19', 'INDE', '123', '123', '2', 'PROV', 'SSTT', '1', '123213123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION');
+(2, 1221212, '', '15889905-1', '2018-01-29', '10-13', 'MAIP', '20', '202', '1', 'ATDO', 'ALTA 1', '18', '12qwqwqw', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(3, 12341, '', '15889905-1', '2018-01-29', '10-13', 'MAIP', '23', '123', '', 'RENO', 'ALTA 1', '1', '123123', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(4, 312847306, '', '8770904-3', '2018-01-29', '10-13', 'MAIP', '202ssss', '202ddd', '', 'CONF', 'SSTT', '1', 'qweqwewqeddddd', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(5, 314412474, '', '14055124-4', '2018-01-29', '10-13', 'MAIP', '123', '123', '', 'CONF', 'ALTA 1 Cable', '1', '123123123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(6, 314522077, '', '6602154-8', '2018-01-29', '10-13', 'MAIP', 'wqewe', 'qweqwe', '', 'CONF', 'SSTT', '1', 'wd', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(7, 314586792, '', '7825841-1', '2018-01-29', '10-13', 'MAIP', '123', '23', '', 'CONF', 'ALTA 2', '1', 'qwqwewqe', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
+(8, 54656576, '', '15889905-1', '2018-01-29', '10-13', 'MAIP', '123', '123', '2', 'PROV', 'SSTT', '1', '123213123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION');
 
 -- --------------------------------------------------------
 
@@ -727,7 +727,8 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (1, 4, 4, 'confirmacion/listar_allorden', 'Listar ordenes', 1),
 (1, 3, 3, 'confirmacion/listar_ordenes', 'Programacion', 1),
 (6, 2, 2, 'coordinacion/asignar_comuna', 'Asigna Comuna Ejecutivo', 1),
-(6, 3, 3, 'coordinacion/asignar_tecnico', 'Asigna Tecnico a Ejecutivo', 1);
+(6, 3, 3, 'coordinacion/asignar_tecnico', 'Asigna Tecnico a Ejecutivo', 1),
+(6, 4, 4, 'coordinacion/distribucion', 'Distribuir Ordenes', 1);
 
 -- --------------------------------------------------------
 
@@ -754,15 +755,15 @@ TRUNCATE TABLE `tbltecnicos`;
 --
 
 INSERT INTO `tbltecnicos` (`id_tecnicos`, `rut`, `nombre`, `codigo`, `estado`) VALUES
-(1, '158899051', 'jorge jara', 'jjhjj1', '1'),
-(6, '5', 'p', 'a', '1'),
-(3, '2', 'e', 'd', '1'),
-(8, '7', 'a', 'e', '1'),
-(5, '4', 'i', 'v', '1'),
-(7, '6', 'e', 'l', '1'),
-(9, '8', 'n', 'n', '1'),
-(10, '89', 'd', 'z', '1'),
-(11, '1-9', 'test', 'etst', '1');
+(1, '158899051', 'Tecnico 1', 'jjhjj1', '1'),
+(6, '5', 'Tecnico 2', 'a', '1'),
+(3, '2', 'Tecnico 3', 'd', '1'),
+(8, '7', 'Tecnico 4', 'e', '1'),
+(5, '4', 'Tecnico 5', 'v', '1'),
+(7, '6', 'Tecnico 6', 'l', '1'),
+(9, '8', 'Tecnico 7', 'n', '1'),
+(10, '89', 'Tecnico 8', 'z', '1'),
+(11, '1-9', 'Tecnico 9', 'etst', '1');
 
 -- --------------------------------------------------------
 
@@ -962,9 +963,10 @@ INSERT INTO `tbl_coordinacion_despacho_tecnico` (`id_super`, `id_despacho`, `id_
 (1, 21, 1),
 (2, 21, 6),
 (3, 21, 3),
-(4, 16, 8),
-(5, 16, 5),
-(6, 16, 7);
+(9, 28, 5),
+(8, 28, 7),
+(7, 28, 8),
+(10, 28, 10);
 
 -- --------------------------------------------------------
 
@@ -989,15 +991,7 @@ TRUNCATE TABLE `tbl_coordinacion_ejecutivo_comuna`;
 --
 
 INSERT INTO `tbl_coordinacion_ejecutivo_comuna` (`id_asignacion`, `id_usuario`, `comuna`) VALUES
-(32, 28, 'INDE'),
-(9, 28, 'QNOR'),
-(10, 28, 'RENC'),
-(11, 28, 'HUEC'),
-(35, 21, 'PACE'),
-(34, 21, 'RECO'),
-(33, 21, 'MAIP'),
-(17, 21, 'QUIL'),
-(28, 28, 'RECO'),
+(41, 28, 'MAIP'),
 (29, 16, 'MAIP'),
 (30, 16, 'PACE'),
 (31, 16, 'QNOR');
@@ -1172,7 +1166,7 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_pass`, `token`, `perfil`, `rol`, `rut_personal`, `estado`, `foto`, `name_foto`, `pagina_inicio`, `online_fecha`) VALUES
-(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1516977973),
+(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1517257568),
 (2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 0, '15889905', 1, 1, '2.jpg', 'portal', 0),
 (14, 'PATRICIO BRAVO SILVA', 'patricio.bravo@nielsen.cl', '964217456', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '15698986', 1, 0, '', 'plataforma', 0),
 (15, 'DANIELA COVARRUBIAS NAVARRETE', 'daniela.covarrubias@nielsen.cl', '964526245', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '10371223', 1, 0, '', 'plataforma', 0),
@@ -1460,12 +1454,12 @@ ALTER TABLE `tblturnos`
 -- AUTO_INCREMENT de la tabla `tbl_coordinacion_despacho_tecnico`
 --
 ALTER TABLE `tbl_coordinacion_despacho_tecnico`
-  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de la tabla `tbl_coordinacion_ejecutivo_comuna`
 --
 ALTER TABLE `tbl_coordinacion_ejecutivo_comuna`
-  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT de la tabla `tbl_historialarchivoscargados`
 --
