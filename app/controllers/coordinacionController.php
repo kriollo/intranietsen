@@ -47,14 +47,19 @@ class coordinacionController extends Controllers implements IControllers {
             case 'distribucion':
                 echo $this->template->render('coordinacion/distribucion/distribucion', array(
                     'menu_op' => $op,
-                    'db_usuarios'=>(new Model\Mdlcoordinacion)->getUsuario_Despacho(),
                     'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque()
                 ));
             break;
             // -------------------------------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('coordinacion/coordinacion', array(
-                    'menu_op' => $op
+                    'menu_op' => $op,
+                    'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),
+                    'db_bloque' => (new Model\Mdlconfirmacion)->carga_bloque(),
+                    'db_resumen_ordenes_bloques' => (new Model\Mdlcoordinacion)->getResumenOrdenesEjecutarBloques(date('Ymd')),
+                    'db_resumen_ejecutivo_comuna' => (new Model\Mdlcoordinacion)->db_resumen_ejecutivo_comuna(),
+                    'db_detalle_ejecutivo_comuna' => (new Model\Mdlcoordinacion)->db_detalle_ejecutivo_comuna(),
+                    'db_ejecutivos_despacho' => (new Model\Mdlcoordinacion)->db_ejecutivos_despacho()
                 ));
             break;
         }

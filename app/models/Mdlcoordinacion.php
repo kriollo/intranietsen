@@ -149,12 +149,22 @@ class Mdlcoordinacion extends Models implements IModels {
     }
 // ------------------------------------------------------------------------------------------------------
 // DISTRIBUCION------------------------------------------------------------------------------------------
-    public function getUsuario_Despacho(){
-        return $this->db->query_select("select * from users where perfil LIKE '%DESPACHO%'");
+    public function getResumenOrdenesEjecutarBloques($fecha){
+        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso='$fecha' group by o.comuna,o.bloque order by b.desde");
     }
+    public function db_resumen_ejecutivo_comuna(){
+        return $this->db->query_select("Select comuna,count(*) cantidad from tbl_coordinacion_ejecutivo_comuna  group by comuna");
+    }
+    public function db_detalle_ejecutivo_comuna(){
+        return $this->db->query_select("Select u.id_user,u.name,comuna from tbl_coordinacion_ejecutivo_comuna ec inner join users u on u.id_user=ec.id_usuario order by name");
+    }
+    public function db_ejecutivos_despacho(){
+        return $this->db->query_select("Select u.id_user,u.name from users u where perfil like '%DESPACHO%' order by name");
+    }
+
+
     public function seleccionar_bloque(){
-    //$this->db->query_select("update tbl_coordinacion_ejecutivo_comuna set estado='0'");
-    $datos=$this->db->query_select("select DISTINCT users.id_user, users.name from users inner join tbl_coordinacion_ejecutivo_comuna on users.id_user=tbl_coordinacion_ejecutivo_comuna.id_usuario where perfil='DESPACHO_EJECUTIVO'");
+        $datos=$this->db->query_select("Select u.id_user,u.name from tbl_coordinacion_ejecutivo_comuna ec inner join users u on u.id_user=ec.id_usuario group by u.id_user,u.name");
 
         $html="<section class='content'>
         <div class='row'>

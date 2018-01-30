@@ -180,6 +180,6 @@ class __TwigTemplate_2eb82668ec2ba822e83c706e126ebb794b21f61f011cd752798ded79cd3
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "administracion/empresa.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\administracion\\empresa.twig");
+        return new Twig_Source("", "administracion/empresa.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\administracion\\empresa.twig");
     }
 }

@@ -50,18 +50,18 @@ class Asignaejecutivo extends Models implements IModels {
         try {
             global $http;
             $id_personal = $http->request->get('usuario');
-
+            $seg = $http->request->get('seg');
             $cargo = $http->request->get('cargo');
             $query=$this->db->select('id_cargo','tblcargos',"descripcion='$cargo'");
             $valor = $query[0][0];
-
+            $cargos = $this->db->select('*','tblcargos');
             $selectAsignados = $this->db->select('*','tblpersonal',"estado=1 and id_super='$id_personal' order by nombres");
-            $selectNoAsignados = $this->db->select('*','tblpersonal',"estado=1 and id_super='0' and id_personal<>'$id_personal' and id_cargo<>'$valor' order by nombres");
+            $selectNoAsignados = $this->db->select('*','tblpersonal',"estado=1 and id_super='0' and id_personal<>'$id_personal' and id_cargo='$seg' order by nombres");
 
             if ($selectAsignados != true) {
-                return array('success' => 1,'usuariosNoAsignados' => $selectNoAsignados);
+                return array('success' => 1,'usuariosNoAsignados' => $selectNoAsignados,'cargos' => $cargos);
             }else {
-                return array('success' => 1, 'usuariosAsignados' => $selectAsignados, 'usuariosNoAsignados' => $selectNoAsignados);
+                return array('success' => 1, 'usuariosAsignados' => $selectAsignados, 'usuariosNoAsignados' => $selectNoAsignados, 'cargos' => $cargos);
             }
         } catch (Exception $e) {
             return array('success' => 0, 'message' => 'Datos no encontrados');

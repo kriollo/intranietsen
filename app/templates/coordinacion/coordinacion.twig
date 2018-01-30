@@ -16,27 +16,42 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col-xs-6">
-                    <div class="box">
+                <div class="col-xs-12">
+                    <div class="box table-responsive">
                         <div class="box-header">
                             <h3 class="box-title">Resumen Ordenes a Ejecutar Hoy</h3>
                         </div>
                         <div class="box-body">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered table-responsive">
                                 <thead>
-                                    <th>No</th>
-                                    <th>Comuna</th>
-                                    <th>Cantidad Gestión</th>
+                                    <th>Bloque</th>
+                                    {% for d in db_comuna if false != db_comuna %}
+                                        <th class="text-center">{{ d.nombre }}</th>
+                                    {% endfor %}
+                                    <th>Total</th>
                                 </thead>
                                 <tbody>
-                                    {% set No = 1 %}
-                                    {% for d in confirma_resumen_x_comuna if false != confirma_resumen_x_comuna %}
+                                    {% for d in db_bloque if false != db_bloque %}
                                         <tr>
-                                            <td>{{ No }}</td>
-                                            <td>{{ d.comuna|raw|title }}</td>
-                                            <td>{{ d.cantidad }}</td>
+                                            <td>{{ d.bloque }}</td>
+                                            {% set total_fila = 0 %}
+                                            {% for b in db_comuna if false != db_comuna %}
+                                                {% set break_for = false %}
+                                                {% for c in db_resumen_ordenes_bloques if false != db_resumen_ordenes_bloques %}
+                                                    {% if break_for == false %}
+                                                        {% if b.nombre == c.comuna and d.bloque == c.bloque %}
+                                                            <td class="text-right">{{ c.cantidad }}</td>
+                                                            {% set total_fila = total_fila + c.cantidad %}
+                                                            {% set break_for = true %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if break_for == false %}
+                                                    <td ></td>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <td class="text-right">{{ total_fila }}</td>
                                         </tr>
-                                    {% set No =  No + 1 %}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -44,6 +59,86 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Cantidad de Tecnicos asignados por Ejecutivos</h3>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-responsive">
+                                <thead>
+                                    <th>Ejecutivo</th>
+                                    {% for d in db_comuna if false != db_comuna %}
+                                        <th class="text-center">{{ d.nombre }}</th>
+                                    {% endfor %}
+                                </thead>
+                                <tbody>
+                                    {% for d in db_ejecutivos_despacho if false != db_ejecutivos_despacho %}
+                                        <tr>
+                                            <td>{{ d.name }}</td>
+
+                                            {% for b in db_comuna if false != db_comuna %}
+                                                {% set break_for = false %}
+                                                {% for c in db_detalle_ejecutivo_comuna if false != db_detalle_ejecutivo_comuna %}
+                                                    {% if break_for == false %}
+                                                        {% if d.id_user == c.id_user and b.nombre == c.comuna  %}
+                                                            <td class="text-center">X</td>
+                                                            {% set break_for = true %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if break_for == false %}
+                                                    <td></td>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box table-responsive">
+                        <div class="box-header">
+                            <h3 class="box-title">Cantidad de Ejecutivos asignados por comunas</h3>
+                        </div>
+                        <div class="box-body">
+                            <table class="table table-bordered table-responsive">
+                                <thead>
+                                    {% for d in db_comuna if false != db_comuna %}
+                                        <th class="text-center">{{ d.nombre }}</th>
+                                    {% endfor %}
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {% for b in db_comuna if false != db_comuna %}
+                                            {% set break_for = false %}
+                                            {% for c in db_resumen_ejecutivo_comuna if false != db_resumen_ejecutivo_comuna %}
+                                                {% if break_for == false %}
+                                                    {% if b.nombre == c.comuna  %}
+                                                        <td class="text-right">{{ c.cantidad }}</td>
+                                                        {% set break_for = true %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if break_for == false %}
+                                                <td class="text-right"></td>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </section>

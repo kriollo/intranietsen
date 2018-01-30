@@ -44,8 +44,8 @@ class __TwigTemplate_6e2394186501f7a1640836df778fdc7f440a3780b7dfb05fcd47f6fe8d7
     <div class=\"row\">
         <div class=\"col-md-12\">
             <div class=\"box box-primary\">
-                <div class=\"row\">
-                    <div class=\"box-body\">
+                <div class=\"box-body\">
+                    <div class=\"row\">
                         <div class=\"col-sm-4\">
                             <label><strong>Seleccione Perfil</strong></label>
                             <form name=\"filtra_usuario_perfil\" id=\"filtra_usuario_perfil\" action=\"\" method=\"POST\">
@@ -82,11 +82,11 @@ class __TwigTemplate_6e2394186501f7a1640836df778fdc7f440a3780b7dfb05fcd47f6fe8d7
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class=\"row\">
-                    <div class=\"box-body\" id=\"mostrardatosdiv\">
-                        <div id=\"mostrarDatos\">
+                    <div class=\"row\">
+                        <div class=\"box-body\" id=\"mostrardatosdiv\">
+                            <div id=\"mostrarDatos\">
 
+                            </div>
                         </div>
                     </div>
                 </div>

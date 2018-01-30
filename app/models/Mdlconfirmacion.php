@@ -343,13 +343,13 @@ class Mdlconfirmacion extends Models implements IModels {
     }
     // --------------------------------------------------------------------------MODELO HECTORELFATHER
     public function carga_comunas(){
-        return $this->db->query_select("select * from tblcomuna where estado='1'");
+        return $this->db->query_select("select * from tblcomuna where estado='1' order by nombre");
     }
     public function carga_resultado(){
         return $this->db->query_select("select * from tblresultado where estado='1'");
     }
     public function carga_bloque(){
-        return $this->db->query_select("select id_bloque,bloque from tblbloque where estado='1'");
+        return $this->db->query_select("select id_bloque,bloque from tblbloque where estado='1' order by desde");
     }
     public function carga_motivo(){
         return $this->db->query_select("select id_motivo, motivo from tblmotivollamado where estado='1'");
