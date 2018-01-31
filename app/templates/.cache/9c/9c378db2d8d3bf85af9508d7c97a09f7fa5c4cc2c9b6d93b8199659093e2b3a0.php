@@ -168,7 +168,7 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
                 <div class=\"col-xs-12\">
                     <div class=\"box\">
                         <div class=\"box-header\">
-                            <h3 class=\"box-title\">Cantidad de Tecnicos asignados por Ejecutivos</h3>
+                            <h3 class=\"box-title\">Ejecutivo y comuna asignada</h3>
                         </div>
                         <div class=\"box-body\">
                             <table class=\"table table-bordered table-responsive\">
@@ -269,97 +269,64 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 98
-        echo "                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class=\"row\">
-                <div class=\"col-xs-12\">
-                    <div class=\"box table-responsive\">
-                        <div class=\"box-header\">
-                            <h3 class=\"box-title\">Cantidad de Ejecutivos asignados por comunas</h3>
-                        </div>
-                        <div class=\"box-body\">
-                            <table class=\"table table-bordered table-responsive\">
-                                <thead>
-                                    ";
-        // line 113
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["db_comuna"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
-            if ((false != ($context["db_comuna"] ?? null))) {
-                // line 114
-                echo "                                        <th class=\"text-center\">";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
-                echo "</th>
-                                    ";
-            }
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 116
-        echo "                                </thead>
-                                <tbody>
-                                    <tr>
+        echo "                                    <tr>
+                                        <td>TOTALES</td>
                                         ";
-        // line 119
+        // line 100
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_comuna"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["b"]) {
             if ((false != ($context["db_comuna"] ?? null))) {
-                // line 120
+                // line 101
                 echo "                                            ";
                 $context["break_for"] = false;
-                // line 121
+                // line 102
                 echo "                                            ";
                 $context['_parent'] = $context;
                 $context['_seq'] = twig_ensure_traversable(($context["db_resumen_ejecutivo_comuna"] ?? null));
                 foreach ($context['_seq'] as $context["_key"] => $context["c"]) {
                     if ((false != ($context["db_resumen_ejecutivo_comuna"] ?? null))) {
-                        // line 122
+                        // line 103
                         echo "                                                ";
                         if ((($context["break_for"] ?? null) == false)) {
-                            // line 123
+                            // line 104
                             echo "                                                    ";
                             if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "nombre", array()) == twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "comuna", array()))) {
-                                // line 124
+                                // line 105
                                 echo "                                                        <td class=\"text-right\">";
                                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "cantidad", array()), "html", null, true);
                                 echo "</td>
                                                         ";
-                                // line 125
+                                // line 106
                                 $context["break_for"] = true;
-                                // line 126
+                                // line 107
                                 echo "                                                    ";
                             }
-                            // line 127
+                            // line 108
                             echo "                                                ";
                         }
-                        // line 128
+                        // line 109
                         echo "                                            ";
                     }
                 }
                 $_parent = $context['_parent'];
                 unset($context['_seq'], $context['_iterated'], $context['_key'], $context['c'], $context['_parent'], $context['loop']);
                 $context = array_intersect_key($context, $_parent) + $_parent;
-                // line 129
+                // line 110
                 echo "                                            ";
                 if ((($context["break_for"] ?? null) == false)) {
-                    // line 130
+                    // line 111
                     echo "                                                <td class=\"text-right\"></td>
                                             ";
                 }
-                // line 132
+                // line 113
                 echo "                                        ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['b'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 133
+        // line 114
         echo "                                    </tr>
                                 </tbody>
                             </table>
@@ -367,8 +334,6 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>
@@ -387,7 +352,7 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
 
     public function getDebugInfo()
     {
-        return array (  363 => 133,  356 => 132,  352 => 130,  349 => 129,  342 => 128,  339 => 127,  336 => 126,  334 => 125,  329 => 124,  326 => 123,  323 => 122,  317 => 121,  314 => 120,  309 => 119,  304 => 116,  294 => 114,  289 => 113,  272 => 98,  263 => 95,  256 => 94,  252 => 92,  249 => 91,  242 => 90,  239 => 89,  236 => 88,  234 => 87,  231 => 86,  228 => 85,  225 => 84,  219 => 83,  216 => 82,  211 => 81,  206 => 79,  203 => 78,  198 => 77,  194 => 75,  184 => 73,  179 => 72,  161 => 56,  150 => 53,  143 => 52,  139 => 50,  136 => 49,  129 => 48,  126 => 47,  123 => 46,  120 => 45,  118 => 44,  113 => 43,  110 => 42,  107 => 41,  101 => 40,  98 => 39,  92 => 38,  90 => 37,  86 => 36,  83 => 35,  78 => 34,  73 => 31,  63 => 29,  58 => 28,  31 => 3,  28 => 2,  11 => 1,);
+        return array (  330 => 114,  323 => 113,  319 => 111,  316 => 110,  309 => 109,  306 => 108,  303 => 107,  301 => 106,  296 => 105,  293 => 104,  290 => 103,  284 => 102,  281 => 101,  276 => 100,  272 => 98,  263 => 95,  256 => 94,  252 => 92,  249 => 91,  242 => 90,  239 => 89,  236 => 88,  234 => 87,  231 => 86,  228 => 85,  225 => 84,  219 => 83,  216 => 82,  211 => 81,  206 => 79,  203 => 78,  198 => 77,  194 => 75,  184 => 73,  179 => 72,  161 => 56,  150 => 53,  143 => 52,  139 => 50,  136 => 49,  129 => 48,  126 => 47,  123 => 46,  120 => 45,  118 => 44,  113 => 43,  110 => 42,  107 => 41,  101 => 40,  98 => 39,  92 => 38,  90 => 37,  86 => 36,  83 => 35,  78 => 34,  73 => 31,  63 => 29,  58 => 28,  31 => 3,  28 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

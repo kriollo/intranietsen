@@ -448,13 +448,9 @@ $app->post('/Mdlcoordinacion_seleccionar_bloque', function() use($app) {
     $u = new Model\Mdlcoordinacion;
     return $app->json($u->seleccionar_bloque());
 });
-$app->post('/Mdlcoordinacion_marcar_opcion', function() use($app) {
+$app->post('/Mdlcoordinacion_marcar_ejecutivo', function() use($app) {
     $u = new Model\Mdlcoordinacion;
-    return $app->json($u->marcar_opcion());
-});
-$app->post('/Mdlcoordinacion_desmarcar_opcion', function() use($app) {
-    $u = new Model\Mdlcoordinacion;
-    return $app->json($u->desmarcar_opcion());
+    return $app->json($u->marcar_ejecutivo());
 });
 $app->post('/Mdlcoordinacion_distribuir_ordenes', function() use($app) {
     $u = new Model\Mdlcoordinacion;

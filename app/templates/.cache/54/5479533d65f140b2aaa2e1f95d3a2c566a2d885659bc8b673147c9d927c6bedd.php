@@ -30,70 +30,69 @@ class __TwigTemplate_1b39f7e715f0a0948504a754187604ce78e635042ea0ded59d647f6a507
     {
         // line 3
         echo "<section class=\"content-header\">
-  <h4>
-  <i class=\"fa fa-user\"></i> Distribucion
-  </h4>
+    <h1>
+        Coordinación
+        <small>Distribución</small>
+    </h1>
+    <ol class=\"breadcrumb\">
+    <li><a href=\"#\"><i class=\"fa fa-home\"></i> Home</a></li>
+    <li class=\"active\">Dashboard</li>
+    </ol>
 </section>
-<div class=\"box-body\">
-  <div class=\"row\">
-    <div class=\"col-md-1\">
-    </div>
-    <section class=\"content\">
-      <div class=\"col-md-12\">
-        <div class=\"box box-primary\">
-          <div class=\"box-body\">
-          <form id=\"formusuarios\" name=\"formusuarios\">
-            <div class=\"form-group\">
-              <div class=\"panel-footer\">
-                <label>Seleccionar Bloque:</label>
-                &nbsp
-                <label>
-                  <select  id='selectbloque' name='selectbloque' onchange='seleccionar_bloque()'>
-                    <option>--</option>
-                    ";
-        // line 24
+
+<section class=\"content\">
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            <div class=\"box box-primary\">
+                <div class=\"box-body\">
+                    <form id=\"form_bloques\" name=\"form_bloques\">
+                        <div class=\"form-group\">
+                            <div class=\"panel-footer\">
+                                <label>Seleccionar Bloque:</label>
+                                &nbsp;
+                                <label>
+                                    <select  id='selectbloque' name='selectbloque' onchange='seleccionar_bloque()'>
+                                        <option>--</option>
+                                        ";
+        // line 27
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_bloque"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["b"]) {
             if ((false != ($context["db_bloque"] ?? null))) {
-                // line 25
-                echo "                    <option value='";
+                // line 28
+                echo "                                            <option value='";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                 echo "'>";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                 echo "</option>
-                    ";
+                                        ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['b'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 27
-        echo "                  </select>
-                </label>
-              </div>
-            </div>
-            </form>
-            <form id=\"form2\" name=\"form2\">
-            <input type=\"hidden\" id=\"textoculto\" name=\"textoculto\">
-          </form>
-            <div id=\"select_bloque\" name=\"select_bloque\">
+        // line 30
+        echo "                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <div id=\"select_bloque\" name=\"select_bloque\">
 
+                    </div>
+                </div>
             </div>
-
-          </div>
         </div>
-      </div>
-    </section>
-  </div>
-</div>
+    </div>
+</section>
+
 ";
     }
 
-    // line 46
+    // line 45
     public function block_appScript($context, array $blocks = array())
     {
-        // line 47
+        // line 46
         echo "
   <script src=\"views/app/js/coordinacion/distribucion.js\"></script>
 ";
@@ -111,7 +110,7 @@ class __TwigTemplate_1b39f7e715f0a0948504a754187604ce78e635042ea0ded59d647f6a507
 
     public function getDebugInfo()
     {
-        return array (  97 => 47,  94 => 46,  72 => 27,  60 => 25,  55 => 24,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  96 => 46,  93 => 45,  75 => 30,  63 => 28,  58 => 27,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

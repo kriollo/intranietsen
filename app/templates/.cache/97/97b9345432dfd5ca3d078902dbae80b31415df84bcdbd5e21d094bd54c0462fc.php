@@ -85,7 +85,6 @@ class __TwigTemplate_7875f97b2edf16e717f265b91f2c7c144e3465ac4cbc5d6aa0a63d2ff4a
                     </div>
                     <div class=\"row\">
                         <div class=\"box-body\" id=\"mostrardatosdiv\">
-
                             <div id=\"mostrarDatos\">
 
                             </div>
@@ -101,10 +100,10 @@ class __TwigTemplate_7875f97b2edf16e717f265b91f2c7c144e3465ac4cbc5d6aa0a63d2ff4a
   ";
     }
 
-    // line 59
+    // line 58
     public function block_appScript($context, array $blocks = array())
     {
-        // line 60
+        // line 59
         echo "    <script src=\"views/app/js/coordinacion/asignar_tecnico.js\"></script>
   ";
     }
@@ -121,7 +120,7 @@ class __TwigTemplate_7875f97b2edf16e717f265b91f2c7c144e3465ac4cbc5d6aa0a63d2ff4a
 
     public function getDebugInfo()
     {
-        return array (  108 => 60,  105 => 59,  73 => 30,  63 => 28,  58 => 27,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  107 => 59,  104 => 58,  73 => 30,  63 => 28,  58 => 27,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

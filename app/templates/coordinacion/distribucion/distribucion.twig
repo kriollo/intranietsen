@@ -1,47 +1,46 @@
 {% extends 'portal/portal' %}
 {% block appBody %}
 <section class="content-header">
-  <h4>
-  <i class="fa fa-user"></i> Distribucion
-  </h4>
+    <h1>
+        Coordinación
+        <small>Distribución</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+    <li class="active">Dashboard</li>
+    </ol>
 </section>
-<div class="box-body">
-  <div class="row">
-    <div class="col-md-1">
-    </div>
-    <section class="content">
-      <div class="col-md-12">
-        <div class="box box-primary">
-          <div class="box-body">
-          <form id="formusuarios" name="formusuarios">
-            <div class="form-group">
-              <div class="panel-footer">
-                <label>Seleccionar Bloque:</label>
-                &nbsp
-                <label>
-                  <select  id='selectbloque' name='selectbloque' onchange='seleccionar_bloque()'>
-                    <option>--</option>
-                    {% for b in db_bloque if false != db_bloque %}
-                    <option value='{{ b.bloque }}'>{{ b.bloque }}</option>
-                    {% endfor %}
-                  </select>
-                </label>
-              </div>
-            </div>
-            </form>
-            <form id="form2" name="form2">
-            <input type="hidden" id="textoculto" name="textoculto">
-          </form>
-            <div id="select_bloque" name="select_bloque">
 
-            </div>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <form id="form_bloques" name="form_bloques">
+                        <div class="form-group">
+                            <div class="panel-footer">
+                                <label>Seleccionar Bloque:</label>
+                                &nbsp;
+                                <label>
+                                    <select  id='selectbloque' name='selectbloque' onchange='seleccionar_bloque()'>
+                                        <option>--</option>
+                                        {% for b in db_bloque if false != db_bloque %}
+                                            <option value='{{ b.bloque }}'>{{ b.bloque }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="select_bloque" name="select_bloque">
 
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-  </div>
-</div>
+    </div>
+</section>
+
 {% endblock %}
 {% block appScript %}
 

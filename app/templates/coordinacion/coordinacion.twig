@@ -63,7 +63,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Cantidad de Tecnicos asignados por Ejecutivos</h3>
+                            <h3 class="box-title">Ejecutivo y comuna asignada</h3>
                         </div>
                         <div class="box-body">
                             <table class="table table-bordered table-responsive">
@@ -95,27 +95,8 @@
 
                                         </tr>
                                     {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box table-responsive">
-                        <div class="box-header">
-                            <h3 class="box-title">Cantidad de Ejecutivos asignados por comunas</h3>
-                        </div>
-                        <div class="box-body">
-                            <table class="table table-bordered table-responsive">
-                                <thead>
-                                    {% for d in db_comuna if false != db_comuna %}
-                                        <th class="text-center">{{ d.nombre }}</th>
-                                    {% endfor %}
-                                </thead>
-                                <tbody>
                                     <tr>
+                                        <td>TOTALES</td>
                                         {% for b in db_comuna if false != db_comuna %}
                                             {% set break_for = false %}
                                             {% for c in db_resumen_ejecutivo_comuna if false != db_resumen_ejecutivo_comuna %}
@@ -137,8 +118,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>
