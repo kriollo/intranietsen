@@ -456,4 +456,8 @@ $app->post('/Mdlcoordinacion_distribuir_ordenes', function() use($app) {
     $u = new Model\Mdlcoordinacion;
     return $app->json($u->distribuir_ordenes());
 });
+$app->post('/Mdlcoordinacion_quitar_ordenes_comuna_ejecutivo', function() use($app) {
+    $u = new Model\Mdlcoordinacion;
+    return $app->json($u->quitar_ordenes_ejecutivo_comuna());
+});
 //Coordinacion Distribuir Ordenes-----------------------------------------------

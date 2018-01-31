@@ -61,3 +61,29 @@
             });
         }
     }
+    function quitar_ordenes(accion,comuna,usuario,bloque) {
+        var formData = new FormData();
+        formData.append('comuna', comuna);
+        formData.append('usuario', usuario);
+        if (accion == 'quitar_comuna'){
+            API='api/Mdlcoordinacion_quitar_comuna';
+        }else if (accion == 'quitar_ordenes' ){
+            API='api/Mdlcoordinacion_quitar_ordenes_comuna_ejecutivo';
+            formData.append('bloque', bloque);
+        }
+        $.ajax({
+            type: 'POST',
+            url: API,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function(json) {
+                if (json.success == 1) {
+                    seleccionar_bloque();
+                }
+            },
+            error : function(xhr, status) {
+                msg_box_alert(99,'Error',xhr.responseText);
+            }
+        });
+    }

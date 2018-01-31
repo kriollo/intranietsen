@@ -79,6 +79,8 @@ class Mdlcoordinacion extends Models implements IModels {
 
             $this->db->query_select("DELETE FROM tbl_coordinacion_ejecutivo_comuna WHERE id_usuario='$usuario' AND comuna='$comuna'");
 
+            $this->quitar_ordenes_ejecutivo_comuna($usuario,$comuna);
+
             return array('success' => 1, 'men' => $usuario);
         }catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
@@ -171,22 +173,31 @@ class Mdlcoordinacion extends Models implements IModels {
 
         $html="
         <div class='row'>
-            <div class='col-md-4'>
+            <div class='col-md-6'>
                 <form id='formusuarios' name='formusuarios'>
                     <div class='box box-primary'>
                         <div class='box-body'>";
                             $html.= "<div class='col-md-12'>";
-                                foreach ($datos as $key => $value) {
-                                    $html.="<tr><td><ul><label><input type='checkbox' id='check-".$value['id_user']."' onchange=\"marcar_ejecutivo('".$value['id_user']."')\" ";
-                                    if ($value['estado'] == '1' ){
-                                        $html.=" checked";
+                                if (false != $datos){
+                                    $html.="<table class='table table-bordered table-responsive'><thead><th>Ejecutivo</th><th>Cantidad Asignada</th><th>Operaciones</th></thead><tbody>";
+                                    foreach ($datos as $key => $value) {
+                                        $html.="<tr><td colspan='3'><label><input type='checkbox' id='check-".$value['id_user']."' onchange=\"marcar_ejecutivo('".$value['id_user']."')\" ";
+                                        if ($value['estado'] == '1' ){
+                                            $html.=" checked";
+                                        }
+                                        $html.=">&nbsp;".$value['name']."</label></td></tr>";
+                                        $comuna=$this->db->query_select("select comuna from tbl_coordinacion_ejecutivo_comuna where id_usuario=".$value['id_user']." order by comuna");
+                                        foreach ($comuna as $key2 => $value2) {
+                                            $cantidad=0;
+                                            $q_ordenes=$this->db->query_select("select count(*) cantidad from tblordenes where id_usuario_despacho=".$value['id_user']." and comuna='".$value2['comuna']."' and bloque='".$bloque."'");
+                                            if (false != $q_ordenes){
+                                                $cantidad=$q_ordenes[0]['cantidad'];
+                                            }
+                                            $html.="<tr><td><li>".$value2['comuna']."</li></td><td class='text-right'>".$cantidad."</td><td><a data-placement='top' title='Quitar Ordenes sin Gestionar'  class='btn btn-warning btn-sm' onclick=\"quitar_ordenes('quitar_ordenes','".$value2['comuna']."','".$value['id_user']."','".$bloque."')\" ><i class='fa fa-arrow-right'></i></a>&nbsp;<a data-placement='top' title='Quitar Comuna'  class='btn btn-danger btn-sm' onclick=\"quitar_ordenes('quitar_comuna','".$value2['comuna']."','".$value['id_user']."')\" ><i class='fa fa-user-times'></i></a></td></tr>";
+                                        }
+                                        //$html.="</td>";
                                     }
-                                    $html.=">&nbsp;".$value['name']."</label>";
-                                    $comuna=$this->db->query_select("select comuna from tbl_coordinacion_ejecutivo_comuna where id_usuario=".$value['id_user']." order by comuna");
-                                    foreach ($comuna as $key2 => $value2) {
-                                        $html.="<li>".$value2['comuna']."</li>";
-                                    }
-                                    $html.="</ul></td></tr>";
+                                    $html.="</tbody></table>";
                                 }
                                 $html.="</div>
                         </div>
@@ -195,7 +206,7 @@ class Mdlcoordinacion extends Models implements IModels {
             </div>";
 
 
-        $html.="<div class='col-md-8'>
+        $html.="<div class='col-md-6'>
                     <div class='box box-primary'>
                         <div class='box-header'>
                             <h3 class='box-title'>Resumen Ordenes a Ejecutar</h3>
@@ -246,27 +257,43 @@ class Mdlcoordinacion extends Models implements IModels {
 
         $sql="select comuna, count(comuna) cantidad from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and ubicacion='CONFIRMACION' group by comuna order by comuna";
         $resumen=$this->db->query_select($sql);// extrae cantidad de ordenes por comuna
-        foreach ($resumen as $key => $value) {
-            $sql="Select count(*) q from tbl_coordinacion_ejecutivo_comuna where estado=1 and comuna='".$value['comuna']."'";
-            $count_users = $this->db->query_select($sql); //extrae cantidad de ejecutivos por comuna
-            if ($count_users[0]['q'] > 0){
-                $resultd=ceil($value['cantidad'] /$count_users[0]['q']); //extrae cantidad de ordenes por usuario
-                $i=($count_users[0]['q'])-1; //cantidad de paginas en limit
+        if (false != $resumen){
+            foreach ($resumen as $key => $value) {
+                $sql="Select count(*) q from tbl_coordinacion_ejecutivo_comuna where estado=1 and comuna='".$value['comuna']."'";
+                $count_users = $this->db->query_select($sql); //extrae cantidad de ejecutivos por comuna
+                if ($count_users[0]['q'] > 0){
+                    $resultd=ceil($value['cantidad'] /$count_users[0]['q']); //extrae cantidad de ordenes por usuario
+                    $i=($count_users[0]['q'])-1; //cantidad de paginas en limit
 
-                $sql="Select id_usuario from tbl_coordinacion_ejecutivo_comuna where estado=1 and comuna='".$value['comuna']."'";
-                $users_asiganacion = $this->db->query_select($sql); //extrae usuarios asignados a comuna
-                foreach ($users_asiganacion as $key => $value2) {
-                    $sql="select id_orden from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and comuna='".$value['comuna']."' and ubicacion='CONFIRMACION' limit $i,$resultd";
-                    $ordenes_asiganacion = $this->db->query_select($sql); //extrae ordenes correspondientas para asignar segun limit
-                    foreach ($ordenes_asiganacion as $key => $value3) {
-                        $sql="Update tblordenes Set id_usuario_despacho='".$value2['id_usuario']."',ubicacion='DESPACHO' where id_orden='".$value3['id_orden']."'";
-                        $this->db->query_select($sql);
+                    $sql="Select id_usuario from tbl_coordinacion_ejecutivo_comuna where estado=1 and comuna='".$value['comuna']."'";
+                    $users_asiganacion = $this->db->query_select($sql); //extrae usuarios asignados a comuna
+                    foreach ($users_asiganacion as $key2 => $value2) {
+                        $sql="select id_orden from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and comuna='".$value['comuna']."' and ubicacion='CONFIRMACION' limit $i,$resultd";
+                        $ordenes_asiganacion = $this->db->query_select($sql); //extrae ordenes correspondientas para asignar segun limit
+                        if (false != $ordenes_asiganacion){
+                            foreach ($ordenes_asiganacion as $key3 => $value3) {
+                                $sql="Update tblordenes Set id_usuario_despacho='".$value2['id_usuario']."',ubicacion='DESPACHO' where id_orden='".$value3['id_orden']."'";
+                                $this->db->query_select($sql);
+                            }
+                        }
+                        $i--;
                     }
-                    $i--;
                 }
             }
         }
         return array('success' => 1, 'message' => $this->seleccionar_bloque($bloque));
+    }
+    public function quitar_ordenes_ejecutivo_comuna(string $ejecutivo='',string $comuna=''){
+        $strBloque="";
+        if ($ejecutivo == '' ) {
+            global $http;
+            $ejecutivo = $http->request->get('usuario');
+            $comuna = $http->request->get('comuna');
+            $strBloque = "and bloque = '".$http->request->get('bloque')."'";
+        }
+
+        $this->db->query_select("Update tblordenes Set id_usuario_despacho='0',ubicacion='CONFIRMACION' where id_usuario_despacho='".$ejecutivo."' and comuna='".$comuna."' and ubicacion='DESPACHO' and estado_orden=1 $strBloque");
+        return array('success' => 1);
     }
 // ------------------------------------------------------------------------------------------------------
     /**
