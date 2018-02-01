@@ -189,7 +189,7 @@ class Mdlcoordinacion extends Models implements IModels {
                                         $comuna=$this->db->query_select("select comuna from tbl_coordinacion_ejecutivo_comuna where id_usuario=".$value['id_user']." order by comuna");
                                         foreach ($comuna as $key2 => $value2) {
                                             $cantidad=0;
-                                            $q_ordenes=$this->db->query_select("select count(*) cantidad from tblordenes where id_usuario_despacho=".$value['id_user']." and comuna='".$value2['comuna']."' and bloque='".$bloque."'");
+                                            $q_ordenes=$this->db->query_select("select count(*) cantidad from tblordenes where ubicacion='DESPACHO' and id_usuario_despacho=".$value['id_user']." and comuna='".$value2['comuna']."' and bloque='".$bloque."'");
                                             if (false != $q_ordenes){
                                                 $cantidad=$q_ordenes[0]['cantidad'];
                                             }
@@ -268,7 +268,7 @@ class Mdlcoordinacion extends Models implements IModels {
                     $sql="Select id_usuario from tbl_coordinacion_ejecutivo_comuna where estado=1 and comuna='".$value['comuna']."'";
                     $users_asiganacion = $this->db->query_select($sql); //extrae usuarios asignados a comuna
                     foreach ($users_asiganacion as $key2 => $value2) {
-                        $sql="select id_orden from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and comuna='".$value['comuna']."' and ubicacion='CONFIRMACION' limit $i,$resultd";
+                        $sql="select id_orden from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and comuna='".$value['comuna']."' and ubicacion='CONFIRMACION' order by comuna,nodo,subnodo limit $i,$resultd";
                         $ordenes_asiganacion = $this->db->query_select($sql); //extrae ordenes correspondientas para asignar segun limit
                         if (false != $ordenes_asiganacion){
                             foreach ($ordenes_asiganacion as $key3 => $value3) {
