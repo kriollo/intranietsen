@@ -202,3 +202,80 @@ $('#btn_exporta_excel_ordenes').click(function(e) {
 
     location.href = 'confirmacion/exporta_excel_ordenes?fecha='+fecha;
 });
+
+$('#textidorden').focusout(function(event) {
+    if (!!$('#textidorden').val().trim() != false) {
+        var formData = new FormData();
+        formData.append('orden',document.getElementById('textidorden').value);
+        $.ajax({
+            type: "POST",
+            url: "api/confirmacion_buscar_norden",
+            contentType:false,
+            processData:false,
+            data : formData,
+            success : function(data){
+                var bloque = data.bloque;
+                if(data.success==1){
+                    $.confirm({
+                        icon: 'fa fa-warning',
+                        title: 'Reagendamiento!',
+                        content: data.html,
+                        type: 'blue',
+                        buttons: {
+                            formSubmit: {
+                                text: 'Reagendar',
+                                btnClass: 'btn-blue',
+                                action: function () {
+                                    var fecha = this.$content.find('.fecha').val();
+                                    var rb = $('input[name=rbbloque]:checked', '#rbutt').val()
+                                    var id = $('#textidorden').val()
+                                    if (undefined == rb ){
+                                        $.alert('No se logro reagendar la orden: Debe selecciar Bloque');
+                                        $('#textidorden').val('');
+                                        //$('#textidorden').trigger('focusout');
+                                    }else{
+                                        var formReag = new FormData();
+                                        formReag.append('fecha',fecha);
+                                        formReag.append('bloque',rb);
+                                        formReag.append('id',id);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "api/confirmacion_reagendar",
+                                            contentType:false,
+                                            processData:false,
+                                            data : formReag,
+                                            success : function(data){
+                                                if(data.success==1){
+                                                    $.alert('Orden reagendada, fecha: ' + fecha + ', Bloque: ' + rb);
+                                                }else {
+                                                    $.alert('No se logro reagendar la orden: ' + data.message);
+                                                }
+                                                $('#textidorden').val('');
+                                                $('#textidorden').focus();
+                                            },
+                                            error : function(xhr, status) {
+                                                msg_box_alert(99,'Filtrar Ordenes',xhr.responseText);
+                                            }
+                                        });
+                                    }
+                                }
+                            },
+                            cancel: {
+                                text: 'Cancelar',
+                                action: function () {
+                                    $('#textidorden').val('');
+                                    $('#textidorden').focus();
+                                }
+                            }
+                        },
+                    });
+                }else if (data.success == 2) {
+                    alert(data.message);
+                    location.reload();
+                }
+            },error : function(xhr, status) {
+                msg_box_alert(99,'Filtrar Ordenes',xhr.responseText);
+            }
+        });
+    }
+});

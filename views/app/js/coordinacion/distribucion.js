@@ -40,6 +40,7 @@
     }
     function distribuir_ordenes(){
         if ($('#selectbloque').val() != '--' ){
+            $("#bloque_resumen_ordenes").html($("#cargador").html());
             var formData = new FormData();
             formData.append('bloque',$('#selectbloque').val())
             $.ajax({

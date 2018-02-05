@@ -406,6 +406,15 @@ $app->post('/confirma_lista_por_fecha', function() use($app) {
     $u = new Model\Mdlconfirmacion;
     return $app->json($u->confirma_lista_por_fecha());
 });
+// reagendamiento Orden
+$app->post('/confirmacion_buscar_norden', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->confirmacion_buscar_norden());
+});
+$app->post('/confirmacion_reagendar', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->confirmacion_reagendar());
+});
 //Orden Confirmacion------------------------------------------------------------
 //Coordinacion Asigna Ejecutivo Comuna------------------------------------------
 $app->post('/Mdlcoordinacion_select_ejecutivo', function() use($app) {

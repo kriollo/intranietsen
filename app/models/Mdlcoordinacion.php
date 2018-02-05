@@ -182,9 +182,9 @@ class Mdlcoordinacion extends Models implements IModels {
                                     $html.="<table class='table table-bordered table-responsive'><thead><th>Ejecutivo</th><th>Cantidad Asignada</th><th>Operaciones</th></thead><tbody>";
                                     foreach ($datos as $key => $value) {
                                         $html.="<tr><td colspan='3'><label><input type='checkbox' id='check-".$value['id_user']."' onchange=\"marcar_ejecutivo('".$value['id_user']."')\" ";
-                                        if ($value['estado'] == '1' ){
-                                            $html.=" checked";
-                                        }
+                                        // if ($value['estado'] == '1' ){
+                                        //     $html.=" checked";
+                                        // }
                                         $html.=">&nbsp;".$value['name']."</label></td></tr>";
                                         $comuna=$this->db->query_select("select comuna from tbl_coordinacion_ejecutivo_comuna where id_usuario=".$value['id_user']." order by comuna");
                                         foreach ($comuna as $key2 => $value2) {
@@ -211,7 +211,7 @@ class Mdlcoordinacion extends Models implements IModels {
                         <div class='box-header'>
                             <h3 class='box-title'>Resumen Ordenes a Ejecutar</h3>
                         </div>
-                        <div class='box-body'>
+                        <div id='bloque_resumen_ordenes' class='box-body'>
                             <button class='btn btn-sm btn-success' id='distribuir' name='distribuir' onclick='distribuir_ordenes()'>Distribuir Ordenes</button>
                             <table class='table table-bordered table-responsive'>
                             <thead>

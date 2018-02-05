@@ -671,6 +671,93 @@ class Mdlconfirmacion extends Models implements IModels {
         return $this->db->query_select("select bloque,count(id_orden) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta' group by bloque order by cantidad desc");
     }
     // ------------------------------------------------------------------------------------------------------
+    // REAGENDAMIENTO ORDEN
+    public function confirmacion_buscar_norden(): array {
+        try {
+            global $http;
+            #Obtener los datos $_POST
+            $norden = $http->request->get('orden');
+
+            $comparacion = $this->db->query_select("
+            SELECT id_orden, ubicacion
+            FROM `tblordenes`
+            WHERE `n_orden` = '$norden'  ;");
+
+            if ($comparacion == false ) {
+                return array('success' => 0, 'message' => 'No Existe');
+                # code...
+            }else {
+                $bloques = $this->carga_bloque();
+
+                $dato = $comparacion[0]['id_orden'];
+                $ubicacion = $comparacion[0]['ubicacion'];
+                $fecha = date("Y-m-d");
+
+                $html="<label>Su orden se encuentra en ".$ubicacion."</label>
+                <form action='' class='formName' name='rbutt' id='rbutt'>
+                <div class='form-group'>
+                <label>Fecha reagendamiento</label>
+                <input type='date' value='".$fecha."' class='fecha form-control' name='fecha' id='fecha' min='".$fecha."' required />
+                <label>Bloque</label>
+                <div class='box-body'>";
+
+                foreach ($bloques as $key => $value) {
+                    $html.="<div class='col-xs-4' style='border: 1px solid white'>
+                       <label><input type='radio' name='rbbloque' value='".$value['bloque']."'>
+                       <font size='4'>".$value['bloque']."</font></label>
+                    </div>";
+                }
+
+                $html.="</div>
+                </div>
+                </form>";
+
+                if ($ubicacion == 'CONFIRMACION' || $ubicacion == 'DESPACHO') {
+                    return array('success' => 2, 'message' => 'ORDEN YA INGRESADA');
+                }else {
+                    return array('success' => 1, 'html' => $html);
+                }
+            }
+        }catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+    public function confirmacion_reagendar() :array{
+    try {
+        global $http;
+
+
+        $fecha = $http->request->get('fecha');
+        $bloque = $http->request->get('bloque');
+        $id = $http->request->get('id');
+        $datos = $this->db->select('*','tblordenes',"n_orden='$id'");
+        $usu=(new Model\Users)->getOwnerUser();
+
+        if ('undefined' == $bloque){ return array('success' => 0, 'message' => 'Debe seleccionar Bloque'); }
+
+        $this->db->update('tblordenes',array(
+            'fecha_compromiso' => $fecha,
+            'bloque' => $bloque,
+            'ubicacion' => 'CONFIRMACION'
+        ),"n_orden='$id'");
+
+
+        $this->db->insert('tblhistorico', array(
+            'id_orden' => $datos[0]['id_orden'],
+            'n_orden' => $id,
+            'fecha' => $datos[0]['fecha_compromiso'],
+            'accion' => 'REAGENDAMIENTO',
+            'observacion' => $datos[0]['observacion'],
+            'id_user' => $usu[0][0]
+        ));
+        return array('success' => 1, 'bloque' => $bloque, 'id' => $id, 'fecha' => $fecha);
+    } catch (\Exception $e) {
+        return array('success' => 0, 'message' => $e->getMessage());
+    }
+
+    }
+
     /**
     * __construct()
     */
