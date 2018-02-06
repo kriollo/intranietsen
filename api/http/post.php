@@ -470,3 +470,13 @@ $app->post('/Mdlcoordinacion_quitar_ordenes_comuna_ejecutivo', function() use($a
     return $app->json($u->quitar_ordenes_ejecutivo_comuna());
 });
 //Coordinacion Distribuir Ordenes-----------------------------------------------
+//DESPACHO SEGUIMIENTO----------------------------------------------------------
+$app->post('/Mdldespacho_asignar_tecnico', function() use($app) {
+    $u = new Model\Mdldespacho;
+    return $app->json($u->asignar_tecnico());
+});
+$app->post('/Mdldespacho_cambiar_estado', function() use($app) {
+    $u = new Model\Mdldespacho;
+    return $app->json($u->cambiar_estado());
+});
+//DESPACHO SEGUIMIENTO----------------------------------------------------------

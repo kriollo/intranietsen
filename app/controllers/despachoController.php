@@ -33,6 +33,18 @@ class despachoController extends Controllers implements IControllers {
         $op = '7';
 
         switch($this->method){
+            case 'seguimiento':
+                $cantidad=(new Model\Mdldespacho)->cantidad_ordenes();
+                echo $this->template->render('despacho/seguimiento', array(
+                    'menu_op' => $op,
+                    'db_comunas'=> (new Model\Mdldespacho)->comunas_asignadas(),
+                    'db_cantidad_por_comuna'=> (new Model\Mdldespacho)->cantidad_ordenes(),
+                    'db_ordenes'=> (new Model\Mdldespacho)->ordenes(),
+                    'db_tecnicos'=> (new Model\Mdldespacho)->tecnicos(),
+                    'db_tbltecnicos'=> (new Model\Mdldespacho)->carga_tecnicos(),
+                    'db_estados'=> (new Model\Mdldespacho)->cargar_estados()
+                ));
+            break;
             default:
                 echo $this->template->render('despacho/despacho', array(
                     'menu_op' => $op

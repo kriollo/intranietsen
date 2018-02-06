@@ -1,0 +1,199 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        DESPACHO
+        <small>Seguimiento</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+    <li class="active">Dashboard</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs pull-rigth">
+                    <li ><a href="#tab_1-1" data-toggle="tab">RESUMEN SEGUIMIENTO</a></li>
+                    <li class="active"><a href="#tab_2-2" data-toggle="tab">SEGUIMIENTO</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="tab_1-1">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Comunas y Ordenes Asignadas</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <table class="table table-bordered table-responsive">
+                                            <thead>
+                                                {% for d in db_comunas if false != db_comunas %}
+                                                    <th class="text-center">{{ d.comuna }}</th>
+                                                {% endfor %}
+                                                <th class="text-center">TOTAL</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    {% set total =0 %}
+                                                    {% for d in db_comunas if false != db_comunas %}
+                                                        {% set break_for = false %}
+                                                        {% for c in db_cantidad_por_comuna if false != db_cantidad_por_comuna %}
+                                                            {% if break_for == false %}
+                                                                {% if d.comuna == c.comuna  %}
+                                                                    <td class="text-center">{{ c.cantidad }}</td>
+                                                                    {% set total = total + c.cantidad %}
+                                                                    {% set break_for = true %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if break_for == false %}
+                                                            <td></td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <td class="text-center">{{ total }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Tecnicos Asignados</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Codigo</th>
+                                                    <th>Nombre</th>
+                                                    <th>Orden asignada</th>
+                                                    <th>Bloque Orden</th>
+                                                    <th>Estado de orden</th>
+                                                    <th>Comuna</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for t in db_tbltecnicos if false != db_tbltecnicos %}
+                                                    <tr>
+                                                        <td>{{t.codigo}}</td>
+                                                        <td>{{t.nombre}}</td>
+                                                        {% if t.n_orden == false %}
+                                                            <td>Sin orden asignada</td>
+                                                        {% else %}
+                                                            <td>{{t.n_orden}}</td>
+                                                        {% endif %}
+                                                        <td>{{t.bloque}}</td>
+                                                        <td>{{t.estado_orden}}</td>
+                                                        <td>{{t.comuna}}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane active" id="tab_2-2">
+                        <div class="box box-primary">
+                            <div class="box-body">
+                                <form id="formseguimiento" name="formseguimiento" method="post">
+                                    <table class="table table-bordered" id="tblseguimiento" name="tblseguimiento">
+                                        <thead>
+                                            <tr>
+                                                <th>N° Orden</th>
+                                                <th>Rut Cliente</th>
+                                                <th>Fecha compromiso</th>
+                                                <th>Bloque</th>
+                                                <th>Comuna</th>
+                                                <th>Tecnico Asignado</th>
+                                                <th>Estado de Orden</th>
+                                                <th>OPERACIONES</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for o in db_ordenes if false != db_ordenes %}
+                                                <tr>
+                                                    <td>{{o.n_orden}}</td>
+                                                    <td>{{o.rut_cliente}}</td>
+                                                    <td>{{o.fecha_compromiso}}</td>
+                                                    <td>{{o.bloque}}</td>
+                                                    <td>{{o.comuna}}</td>
+                                                    <td>
+                                                        <select id="id-{{o.id_orden}}" name='select_tecnicos' onchange="asignar('{{o.id_orden}}')">
+                                                            {% if o.codigo_tecnico == 0 %}
+                                                                <option value="0">Sin Asignar</option>
+                                                            {% else %}
+                                                                <option>{{o.nombre}}</option>
+                                                            {% endif %}
+                                                            {% for t in db_tecnicos if false != db_tecnicos %}
+                                                                <option value='{{ t.id_tecnico }}'>{{ t.nombre }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select id="idasignar-{{o.id_orden}}" name="select_estados" disabled='true' onchange="asignarestado('{{o.id_orden}}')">
+                                                            {% if o.estado_orden == 0 %}
+                                                                <option value="0">Sin Asignar</option>
+                                                            {% else %}
+                                                                <option>{{o.desc_estado_orden}}</option>
+                                                            {% endif %}
+                                                            {% for e in db_estados if false != db_estados %}
+                                                                <option value='{{ e.id_estado }}'>{{ e.descripcion }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </td>
+                                                    <td>X</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block appScript %}
+
+  <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+  <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+  <script src="views/app/js/despacho/despacho.js"></script>
+
+  <script>
+    $("#tblseguimiento").dataTable({
+      "language": {
+        "search": "Buscar:",
+        "zeroRecords": "No hay datos para mostrar",
+        "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "infoEmpty": "No hay entradas para mostrar",
+        "lengthMenu": "Mostrar _MENU_ Filas",
+        "paginate": {
+          "first": "Primera",
+          "last": "Ultima",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      },
+      "autoWidth": true,
+      "columnDefs": [ { orderable: false, targets: [0] }, { visible: true, targets: [15,20,25] } ]
+    });
+  </script>
+{% endblock %}
