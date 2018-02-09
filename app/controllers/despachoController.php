@@ -45,6 +45,35 @@ class despachoController extends Controllers implements IControllers {
                     'db_estados'=> (new Model\Mdldespacho)->cargar_estados()
                 ));
             break;
+            case 'mantenedores_crud_masters':
+                echo $this->template->render('despacho/mantenedores_crud_masters', array(
+                   'menu_op' => $op
+                ));
+           break;
+           case 'listar_estados':
+                echo $this->template->render('despacho/estado/listar_estado', array(
+                   'menu_op' => $op,
+                   'estado_db' => (new Model\Mdldespacho)->verEstadoss()
+                ));
+           break;
+           case 'nuevo_estado':
+                echo $this->template->render('despacho/estado/nuevo_estado', array(
+                    'menu_op' => $op
+                ));
+           break;
+           case 'editar_estado':
+                if($this->isset_id and false !== ($data = (new Model\Mdldespacho)->getEstadosById($router->getId()))) {
+                    echo $this->template->render('despacho/estado/editar_estado', array(
+                       'menu_op' => $op,
+                       'db_estado' => $data[0]
+                    ));
+                } else {
+                    $this->functions->redir($config['site']['url'] . 'despacho/&error=true');
+                }
+           break;
+           case 'estado_estado':
+                (new Model\Mdldespacho)->update_estado_estado($router->getId(true));
+           break;
             default:
                 echo $this->template->render('despacho/despacho', array(
                     'menu_op' => $op

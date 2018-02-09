@@ -480,3 +480,13 @@ $app->post('/Mdldespacho_cambiar_estado', function() use($app) {
     return $app->json($u->cambiar_estado());
 });
 //DESPACHO SEGUIMIENTO----------------------------------------------------------
+//DESPACHO MANTENEDORES---------------------------------------------------------
+$app->post('/Mdldespacho_registra_nuevo_estado', function() use($app) {
+    $u = new Model\Mdldespacho;
+    return $app->json($u->registra_nuevo_estado());
+});
+$app->post('/Mdldespacho_modificar_estado', function() use($app) {
+    $u = new Model\Mdldespacho;
+    return $app->json($u->modificar_estado());
+});
+//------------------------------------------------------------------------------

@@ -111,7 +111,7 @@ class Mdlcoordinacion extends Models implements IModels {
             $tecnicoAsignado = $this->db->query_select("SELECT nombre,id_tecnicos FROM tbltecnicos WHERe estado='1' and id_tecnicos in (select id_tecnico from tbl_coordinacion_despacho_tecnico where id_despacho='$id_personal')");
 
             if ($tecnicoNoAsignado != true) {
-                return array('success' => 1,'tecnicosNoAsignados' => $tecnicoNoAsignado);
+                return array('success' => 1, 'tecnicosAsignados' => $tecnicoAsignado,'tecnicosNoAsignados' => $tecnicoNoAsignado);
             }else {
                 return array('success' => 1, 'tecnicosAsignados' => $tecnicoAsignado, 'tecnicosNoAsignados' => $tecnicoNoAsignado);
             }

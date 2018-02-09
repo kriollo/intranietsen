@@ -6,6 +6,12 @@
             case "registra_nuevo_bloque":
                 title='Registro de Bloque';
             break;
+            case "Mdldespacho_registra_nuevo_estado":
+                title='Registro de Estado';
+            break;
+            case "Mdldespacho_modificar_estado":
+                title='Modificar Estado';
+            break;
         }
         $.ajax({
             type : method,
@@ -18,6 +24,15 @@
             }
         });
     }
+    $('#register_estado').click(function(e){
+        e.defaultPrevented;
+        execute_accion_despacho("POST","Mdldespacho_registra_nuevo_estado",'register_estado_form','redirect','despacho/listar_estados');
+    });
+    $('#update_estado').click(function(e){
+        e.defaultPrevented;
+        execute_accion_despacho("POST","Mdldespacho_modificar_estado",'editar_estado_form','redirect','despacho/listar_estados');
+    });
+
     function asignar(dat){
         num="id-"+dat;
         num2=document.getElementById(num).value
@@ -34,16 +49,12 @@
             success : function(json) {
                 if(json.success==1){
                     var dax= json.message2
-
-                    // $("#idasignar-"+dax+" option:contains('Sin Asignar')").text("Asignado");
-                    // $("#idasignar-"+dax).prop("disabled",true);
-                    $("#idasignar-"+dax).val(1);
+                    $("#idasignar-"+dax).val(2);
                     $("#idasignar-"+dax).prop('disabled',false);
                 }else{
                     msg_box_alert(json.success,'Atencion',json.message);
                     var dax=json.message2;
                     $("#id-"+dax).val('0');
-                    //$.alert("TECNICO EJECUTANDO ORDEN")
                 }
             },error : function(xhr, status) {
                 msg_box_alert(99,title,xhr.responseText);

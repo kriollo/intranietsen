@@ -73,8 +73,10 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <th>N°</th>
                                                     <th>Codigo</th>
                                                     <th>Nombre</th>
+                                                    <!-- <th>Comuna Asignada</th> -->
                                                     <th>Orden asignada</th>
                                                     <th>Bloque Orden</th>
                                                     <th>Estado de orden</th>
@@ -82,19 +84,30 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {% set No = 1 %}
                                                 {% for t in db_tbltecnicos if false != db_tbltecnicos %}
                                                     <tr>
+                                                        <td>{{ No }}</td>
                                                         <td>{{t.codigo}}</td>
                                                         <td>{{t.nombre}}</td>
+                                                        <!-- <td>
+                                                            <select id="select-comuna_tecnico" name='select-comuna_tecnico'>
+                                                            <option value="TODAS">TODAS</option>
+                                                            {% for d in db_comunas if false != db_comunas %}
+                                                                <option value="{{ d.comuna }}">{{ d.comuna }}</option>
+                                                            {% endfor %}
+                                                            </select>
+                                                        </td> -->
                                                         {% if t.n_orden == false %}
                                                             <td>Sin orden asignada</td>
                                                         {% else %}
                                                             <td>{{t.n_orden}}</td>
                                                         {% endif %}
                                                         <td>{{t.bloque}}</td>
-                                                        <td>{{t.estado_orden}}</td>
+                                                        <td>{{t.desc_estado_orden}}</td>
                                                         <td>{{t.comuna}}</td>
                                                     </tr>
+                                                    {% set No = No + 1 %}
                                                 {% endfor %}
                                             </tbody>
                                         </table>
@@ -105,59 +118,69 @@
                     </div>
                     <div class="tab-pane active" id="tab_2-2">
                         <div class="box box-primary">
-                            <div class="box-body">
-                                <form id="formseguimiento" name="formseguimiento" method="post">
-                                    <table class="table table-bordered" id="tblseguimiento" name="tblseguimiento">
-                                        <thead>
-                                            <tr>
-                                                <th>N° Orden</th>
-                                                <th>Rut Cliente</th>
-                                                <th>Fecha compromiso</th>
-                                                <th>Bloque</th>
-                                                <th>Comuna</th>
-                                                <th>Tecnico Asignado</th>
-                                                <th>Estado de Orden</th>
-                                                <th>OPERACIONES</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for o in db_ordenes if false != db_ordenes %}
+                            <div class="box-body resposible">
+                                <div class="col-md-12">
+                                    <form id="formseguimiento" name="formseguimiento" method="post">
+                                        <table class="table table-bordered table-responsive" id="tblseguimiento" name="tblseguimiento">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{o.n_orden}}</td>
-                                                    <td>{{o.rut_cliente}}</td>
-                                                    <td>{{o.fecha_compromiso}}</td>
-                                                    <td>{{o.bloque}}</td>
-                                                    <td>{{o.comuna}}</td>
-                                                    <td>
-                                                        <select id="id-{{o.id_orden}}" name='select_tecnicos' onchange="asignar('{{o.id_orden}}')">
-                                                            {% if o.codigo_tecnico == 0 %}
-                                                                <option value="0">Sin Asignar</option>
-                                                            {% else %}
-                                                                <option>{{o.nombre}}</option>
-                                                            {% endif %}
-                                                            {% for t in db_tecnicos if false != db_tecnicos %}
-                                                                <option value='{{ t.id_tecnico }}'>{{ t.nombre }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select id="idasignar-{{o.id_orden}}" name="select_estados" disabled='true' onchange="asignarestado('{{o.id_orden}}')">
-                                                            {% if o.estado_orden == 0 %}
-                                                                <option value="0">Sin Asignar</option>
-                                                            {% else %}
-                                                                <option>{{o.desc_estado_orden}}</option>
-                                                            {% endif %}
-                                                            {% for e in db_estados if false != db_estados %}
-                                                                <option value='{{ e.id_estado }}'>{{ e.descripcion }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </td>
-                                                    <td>X</td>
+                                                    <th>Tipo Orden</th>
+                                                    <th>N° Orden</th>
+                                                    <th>Rut Cliente</th>
+                                                    <th>Fecha compromiso</th>
+                                                    <th>Bloque</th>
+                                                    <th>Comuna</th>
+                                                    <th>Tecnico Asignado</th>
+                                                    <th>Estado de Orden</th>
+                                                    <th>OPERACIONES</th>
                                                 </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </form>
+                                            </thead>
+                                            <tbody>
+                                                {% for o in db_ordenes if false != db_ordenes %}
+                                                    <tr>
+                                                        <td>{{o.desctipoorden}}</td>
+                                                        <td>{{o.n_orden}}</td>
+                                                        <td>{{o.rut_cliente}}</td>
+                                                        <td>{{o.fecha_compromiso}}</td>
+                                                        <td>{{o.bloque}}</td>
+                                                        <td>{{o.comuna}}</td>
+                                                        <td>
+                                                            <select id="id-{{o.id_orden}}" name='select_tecnicos' onchange="asignar('{{o.id_orden}}')">
+                                                                {% if o.codigo_tecnico == '0' %}
+                                                                    <option value="0" selected="selected">Sin Asignar</option>
+                                                                {% endif %}
+                                                                {% for t in db_tecnicos if false != db_tecnicos %}
+                                                                    {% if o.codigo_tecnico ==  t.id_tecnico %}
+                                                                        <option value='{{ t.id_tecnico }}' selected="selected">    {{ t.nombre }}</option>
+                                                                    {% else %}
+                                                                        <option value='{{ t.id_tecnico }}'>{{ t.nombre }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            {% if o.codigo_tecnico == '0' %}
+                                                                <select id="idasignar-{{o.id_orden}}" name="select_estados" disabled onchange="asignarestado('{{o.id_orden}}')">
+                                                            {% else %}
+                                                                <select id="idasignar-{{o.id_orden}}" name="select_estados" onchange="asignarestado('{{o.id_orden}}')">
+                                                            {% endif %}
+
+                                                            {% for e in db_estados if false != db_estados %}
+                                                                {% if o.estado_orden == e.id_estado %}
+                                                                    <option value='{{ e.id_estado }}'  selected="selected">{{ e.descripcion }}</option>
+                                                                {% else %}
+                                                                    <option value='{{ e.id_estado }}'>{{ e.descripcion }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                        <td>X</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,7 +216,7 @@
         }
       },
       "autoWidth": true,
-      "columnDefs": [ { orderable: false, targets: [0] }, { visible: true, targets: [15,20,25] } ]
+      "bSort": false
     });
   </script>
 {% endblock %}
