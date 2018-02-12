@@ -54,7 +54,7 @@ class Mdldespacho extends Models implements IModels {
         $id_tecnico=$http->request->get('tecnicos');
         $n_orden=$http->request->get('orden');
 
-        $consulta=$this->db->query_select("select codigo_tecnico from tblordenes where codigo_tecnico='$id_tecnico' and ubicacion='DESPACHO'");
+        $consulta=$this->db->query_select("select codigo_tecnico from tblordenes where codigo_tecnico='$id_tecnico' and ubicacion='DESPACHO' and n_orden<>'$n_orden'");
         if(false != $consulta){
             return array('success' => 0, 'message' => 'Tecnico ya tiene orden asignada', 'message2'=>$n_orden);
         }else{

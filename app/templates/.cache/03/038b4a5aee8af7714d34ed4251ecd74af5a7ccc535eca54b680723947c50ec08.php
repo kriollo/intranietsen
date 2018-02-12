@@ -56,17 +56,30 @@ class __TwigTemplate_04580af1ef847cd34eee325ca889ae3262af135825fc04c8d96667817ec
             <form id=\"register_estado_form\"  action=\"\" method=\"POST\">
               <div class=\"box-body col-sm-4\"></div>
               <div class=\"box-body col-sm-4\">
-                <div class=\"form-group\">
-                  <input class=\"form-control\" name=\"ubicacion\" id=\"ubicacion\" type=\"text\" placeholder=\"Ubicacion\" required/>
+                <div class=\"form-group\">Ubicacion:
+                    <select class=\"form-control\" name=\"ubicacion\">
+                        ";
+        // line 28
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["db_ubicacion"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
+            if ((false != ($context["db_ubicacion"] ?? null))) {
+                // line 29
+                echo "                            <option value=\"";
+                echo twig_escape_filter($this->env, $context["d"], "html", null, true);
+                echo "\">";
+                echo twig_escape_filter($this->env, $context["d"], "html", null, true);
+                echo "</option>
+                        ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 31
+        echo "                    </select>
                   <br>
                   <input class=\"form-control\" name=\"descripcion\" id=\"descripcion\" type=\"text\" placeholder=\"Descripcion\" required/>
-                  <br>
-                  <select class=\"form-control\" name=\"grupo\" id=\"grupo\">
-                      <option value=\"Finalizada\">Finalizada</option>
-                      <option value=\"Pendiente\">Pendiente</option>
-                      <option value=\"En Proceso\">En Proceso</option>
-                      <option value=\"Anulado\">Anulado</option>
-                  </select>
                   <br>
                 </div>
                 <div class=\"form-group\">
@@ -84,10 +97,10 @@ class __TwigTemplate_04580af1ef847cd34eee325ca889ae3262af135825fc04c8d96667817ec
 ";
     }
 
-    // line 52
+    // line 49
     public function block_appScript($context, array $blocks = array())
     {
-        // line 53
+        // line 50
         echo "    <script src=\"views/app/js/despacho/despacho.js\"></script>
 ";
     }
@@ -104,7 +117,7 @@ class __TwigTemplate_04580af1ef847cd34eee325ca889ae3262af135825fc04c8d96667817ec
 
     public function getDebugInfo()
     {
-        return array (  91 => 53,  88 => 52,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  104 => 50,  101 => 49,  80 => 31,  68 => 29,  63 => 28,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

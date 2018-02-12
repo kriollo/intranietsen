@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-01-2018 a las 21:27:15
+-- Tiempo de generación: 12-02-2018 a las 16:43:04
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -230,7 +230,7 @@ INSERT INTO `tblbloque` (`id_bloque`, `bloque`, `limite_q_programacion`, `desde`
 (1, '10-13', 280, '10:00:00', '12:59:00', 1),
 (2, '13-16', 280, '13:00:00', '15:59:00', 1),
 (3, '16-19', 280, '16:00:00', '18:59:00', 1),
-(4, '19-10', 280, '19:00:00', '22:00:00', 1),
+(4, '19-22', 280, '19:00:00', '22:00:00', 1),
 (5, '.....', 280, '00:00:00', '00:00:00', 1),
 (6, 'AM', 284, '10:00:00', '13:59:00', 1),
 (7, 'PM', 280, '14:00:00', '22:00:00', 1);
@@ -300,6 +300,40 @@ INSERT INTO `tblcomuna` (`id_comuna`, `nombre`, `estado`, `zona`, `cod_sub_zona`
 (11, 'CNCH', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
 (12, 'LAMP', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE'),
 (13, 'COLI', 1, 'ZMET', 'ZMNO', 'METRO NOR PONIENTE');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tblhistorico`
+--
+
+DROP TABLE IF EXISTS `tblhistorico`;
+CREATE TABLE `tblhistorico` (
+  `id_reg` int(11) NOT NULL,
+  `id_orden` int(11) NOT NULL,
+  `n_orden` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `accion` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'REAGENDAMIENTO',
+  `observacion` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tblhistorico`
+--
+
+TRUNCATE TABLE `tblhistorico`;
+--
+-- Volcado de datos para la tabla `tblhistorico`
+--
+
+INSERT INTO `tblhistorico` (`id_reg`, `id_orden`, `n_orden`, `fecha`, `hora`, `accion`, `observacion`, `id_user`) VALUES
+(1, 3, 12341, '2018-02-05', '2018-02-05 17:54:27', 'REAGENDAMIENTO', '123123', 1),
+(2, 3, 12341, '2018-02-05', '2018-02-05 18:03:53', 'REAGENDAMIENTO', '123123', 1),
+(3, 3, 12341, '2018-02-05', '2018-02-07 23:30:37', 'REAGENDAMIENTO', '1231232', 1),
+(4, 3, 12341, '2018-02-05', '2018-02-05 18:28:42', 'REAGENDAMIENTO', '123123', 1),
+(5, 3, 12341, '2018-02-05', '2018-02-07 23:30:24', 'REAGENDAMIENTO', '1231232', 1);
 
 -- --------------------------------------------------------
 
@@ -381,17 +415,21 @@ CREATE TABLE `tblordenes` (
   `comuna` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `nodo` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `subnodo` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
-  `tipoorden` varchar(11) COLLATE utf8_unicode_ci NOT NULL DEFAULT '1',
+  `tipoorden` int(11) NOT NULL DEFAULT '1',
   `motivo` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `actividad` varchar(22) COLLATE utf8_unicode_ci NOT NULL,
   `resultado` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `observacion` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `observacion` longtext COLLATE utf8_unicode_ci NOT NULL,
   `operador` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `fecha_dia` date NOT NULL,
   `id_usuario_despacho` int(11) NOT NULL,
-  `codigo_tecnico` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `codigo_tecnico` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
   `estado_orden` smallint(6) NOT NULL DEFAULT '1',
-  `ubicacion` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'CONFIRMACION'
+  `ubicacion` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'CONFIRMACION',
+  `id_ejecutivo_cierre` int(11) NOT NULL DEFAULT '0',
+  `speed_test` int(11) NOT NULL DEFAULT '0',
+  `certificacion` int(11) NOT NULL DEFAULT '0',
+  `cierre_asegurado` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -403,14 +441,15 @@ TRUNCATE TABLE `tblordenes`;
 -- Volcado de datos para la tabla `tblordenes`
 --
 
-INSERT INTO `tblordenes` (`id_orden`, `n_orden`, `reg`, `rut_cliente`, `fecha_compromiso`, `bloque`, `comuna`, `nodo`, `subnodo`, `tipoorden`, `motivo`, `actividad`, `resultado`, `observacion`, `operador`, `fecha_dia`, `id_usuario_despacho`, `codigo_tecnico`, `estado_orden`, `ubicacion`) VALUES
-(2, 1221212, '', '15889905-1', '2018-01-29', '10-13', 'MAIP', '20', '202', '1', 'ATDO', 'ALTA 1', '18', '12qwqwqw', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(3, 12341, '', '15889905-1', '2018-01-29', '10-13', 'MAIP', '23', '123', '', 'RENO', 'ALTA 1', '1', '123123', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(4, 312847306, '', '8770904-3', '2018-01-29', '10-13', 'MAIP', '202ssss', '202ddd', '', 'CONF', 'SSTT', '1', 'qweqwewqeddddd', '2', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(5, 314412474, '', '14055124-4', '2018-01-29', '10-13', 'MAIP', '123', '123', '', 'CONF', 'ALTA 1 Cable', '1', '123123123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(6, 314522077, '', '6602154-8', '2018-01-29', '10-13', 'MAIP', 'wqewe', 'qweqwe', '', 'CONF', 'SSTT', '1', 'wd', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(7, 314586792, '', '7825841-1', '2018-01-29', '10-13', 'MAIP', '123', '23', '', 'CONF', 'ALTA 2', '1', 'qwqwewqe', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION'),
-(8, 54656576, '', '15889905-1', '2018-01-29', '10-13', 'MAIP', '123', '123', '2', 'PROV', 'SSTT', '1', '123213123', '1', '2018-01-24', 0, '', 1, 'CONFIRMACION');
+INSERT INTO `tblordenes` (`id_orden`, `n_orden`, `reg`, `rut_cliente`, `fecha_compromiso`, `bloque`, `comuna`, `nodo`, `subnodo`, `tipoorden`, `motivo`, `actividad`, `resultado`, `observacion`, `operador`, `fecha_dia`, `id_usuario_despacho`, `codigo_tecnico`, `estado_orden`, `ubicacion`, `id_ejecutivo_cierre`, `speed_test`, `certificacion`, `cierre_asegurado`) VALUES
+(2, 1221212, '', '15889905-1', '2018-02-06', '19-22', 'MAIP', '20', '202', 1, 'ATDO', 'ALTA 1', '18', '12qwqwqw', '1', '2018-02-06', 28, '0', 1, 'DESPACHO', 0, 0, 0, 0),
+(3, 12341, '', '15889905-1', '2018-02-06', '19-22', 'HUEC', '23', '123', 1, 'RENO', 'ALTA 1', '1', '123123', '2', '2018-02-06', 28, '10', 1, 'FINALIZADA', 1, 0, 0, 0),
+(4, 312847306, '', '8770904-3', '2018-02-06', '19-22', 'LAMP', '202ssss', '202ddd', 3, 'CONF', 'SSTT', '1', 'qweqwewqeddddd', '2', '2018-02-06', 28, '1', 3, 'DESPACHO', 0, 0, 0, 0),
+(5, 314412474, '', '14055124-4', '2018-02-06', '19-22', 'MAIP', '123', '123', 1, 'CONF', 'ALTA 1 Cable', '1', '123123123', '1', '2018-01-24', 28, '0', 1, 'DESPACHO', 0, 0, 0, 0),
+(6, 314522077, '', '6602154-8', '2018-02-06', '19-22', 'CERR', 'wqewe', 'qweqwe', 2, 'CONF', 'SSTT', '1', 'wd', '1', '2018-01-24', 28, '8', 3, 'DESPACHO', 0, 0, 0, 0),
+(7, 314586792, '', '7825841-1', '2018-02-06', '19-22', 'LAMP', '123', '23', 2, 'CONF', 'ALTA 2', '1', 'qwqwewqe', '1', '2018-01-24', 28, '7', 3, 'DESPACHO', 0, 0, 0, 0),
+(8, 54656576, '', '15889905-1', '2018-02-06', '19-22', 'HUEC', '123', '123', 2, 'PROV', 'SSTT', '1', '123213123', '1', '2018-02-06', 28, '5', 3, 'DESPACHO', 0, 0, 0, 0),
+(9, 123466, '', '15889905-1', '2018-02-06', '19-22', 'CERR', '12', '12', 1, 'CONF', 'ALTA 1 Cable', '1', '1212121', '1', '2018-01-31', 28, '9', 7, 'DESPACHO', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -449,13 +488,23 @@ INSERT INTO `tblperfiles` (`id`, `nombre`, `id_menu`, `id_submenu`) VALUES
 (112, 'HD_SUPERVISOR', 2, 2),
 (111, 'HD_SUPERVISOR', 2, 1),
 (110, 'HD_SUPERVISOR', 1, 1),
+(131, 'DESPACHO_EJECUTIVO', 1, 1),
 (118, 'HD_SUPERVISOR', 5, 1),
 (122, 'CONFIRMACION_EJECUTIVO', 1, 1),
 (124, 'CONFIRMACION_SUPERVISOR', 1, 1),
 (125, 'CONFIRMACION_SUPERVISOR', 1, 2),
 (126, 'CONFIRMACION_SUPERVISOR', 2, 2),
-(127, 'DESPACHO_EJECUTIVO', 0, 0),
-(128, 'DESPACHO_SUPERVISOR', 0, 0);
+(128, 'DESPACHO_SUPERVISOR', 0, 0),
+(132, 'DESPACHO_EJECUTIVO', 1, 2),
+(133, 'DESPACHO_EJECUTIVO', 1, 3),
+(134, 'DESPACHO_EJECUTIVO', 1, 4),
+(135, 'DESPACHO_EJECUTIVO', 6, 1),
+(136, 'DESPACHO_EJECUTIVO', 6, 2),
+(137, 'DESPACHO_EJECUTIVO', 6, 3),
+(138, 'DESPACHO_EJECUTIVO', 6, 4),
+(139, 'DESPACHO_EJECUTIVO', 7, 1),
+(140, 'DESPACHO_EJECUTIVO', 7, 2),
+(141, 'DESPACHO_EJECUTIVO', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -527,8 +576,29 @@ INSERT INTO `tblperfilesuser` (`id`, `id_user`, `id_menu`, `id_submenu`) VALUES
 (1, '2', 4, 1),
 (1, '2', 5, 1),
 (1, '20', 1, 1),
-(1, '21', 0, 0),
-(1, '28', 0, 0),
+(1, '21', 1, 1),
+(1, '21', 1, 2),
+(1, '21', 1, 3),
+(1, '21', 1, 4),
+(1, '21', 2, 2),
+(1, '21', 6, 1),
+(1, '21', 6, 2),
+(1, '21', 6, 3),
+(1, '21', 6, 4),
+(1, '21', 7, 1),
+(1, '21', 7, 2),
+(1, '28', 1, 1),
+(1, '28', 1, 2),
+(1, '28', 1, 3),
+(1, '28', 1, 4),
+(1, '28', 2, 2),
+(1, '28', 6, 1),
+(1, '28', 6, 2),
+(1, '28', 6, 3),
+(1, '28', 6, 4),
+(1, '28', 7, 1),
+(1, '28', 7, 2),
+(1, '28', 7, 3),
 (1, '3', 1, 1),
 (1, '30', 1, 1),
 (1, '31', 1, 1),
@@ -598,43 +668,43 @@ TRUNCATE TABLE `tblpersonal`;
 
 INSERT INTO `tblpersonal` (`id_personal`, `rut`, `nombres`, `f_nacimiento`, `fono`, `id_cargo`, `id_area`, `id_user`, `estado`, `id_super`) VALUES
 (112, '25939970', 'HENKY MENDOZA PEEL', '1978-05-08', '957547833', 2, 1, 0, 0, 0),
-(111, '15930005', 'CESAR ZÃºÃ±IGA RAMÃ­REZ', '1986-01-30', '963430575', 2, 1, 0, 1, 0),
+(111, '15930005', 'CESAR ZÃºÃ±IGA RAMÃ­REZ', '1986-01-30', '963430575', 2, 1, 0, 1, 109),
 (110, '10371223', 'DANIELA PIA CUVARRUBIAS NAVARRETE', '1979-11-01', '964526245', 1, 1, 0, 1, 0),
 (109, '16939194', 'CARLOS ANTONIO GONZALEZ PEÃ‘A', '1988-08-31', '964527575', 1, 1, 0, 1, 0),
 (108, '15698986', 'PATRICIO ALFONSO BRAVO SILVA', '1984-05-17', '964217456', 1, 2, 0, 1, 0),
 (107, '15889905', 'JORGE ANTONIO JARA  HINOJOSA', '1984-04-02', '930248408', 1, 1, 0, 1, 0),
-(106, '16005554', 'ALEXANDER JULIAN BERRIOS GARRIDO', '1984-11-28', '951380234', 2, 1, 0, 1, 0),
+(106, '16005554', 'ALEXANDER JULIAN BERRIOS GARRIDO', '1984-11-28', '951380234', 2, 1, 0, 1, 110),
 (105, '13305778', 'HECTOR PATRICIO FIGUEROA CARRASCO', '1976-12-15', '981295014', 2, 1, 0, 0, 0),
-(104, '25637138', 'GELEN EUDELIS MONTILLA RAMOS', '1983-06-01', '959820181', 2, 1, 0, 1, 0),
-(103, '25940058', 'YADIRA JOSE BERMUDEZ LOPEZ', '1979-03-26', '988140248', 2, 1, 0, 1, 0),
-(102, '17312370', 'GERSON ARIEL SALGADO AREVALO', '1988-07-10', '987511767', 2, 1, 0, 1, 0),
-(101, '18357690', 'VANLLELO ADMILIAN VERDUGO  NAVARRO', '1993-01-26', '985058920', 2, 1, 0, 1, 0),
-(100, '19063731', 'JONATHAN FELIPE VALLE  GOMEZ', '1995-07-28', '987284586', 2, 1, 0, 1, 0),
-(99, '17412388', 'GUSTAVO JAVIER VALERIA  MEDEZ', '1989-08-29', '996443920', 2, 1, 0, 1, 0),
-(98, '23590775', 'RODOLFO ANDRES URIBE MARDONES', '1981-11-15', '975967883', 2, 1, 0, 1, 0),
-(97, '25753973', 'RICARDO JOSE SOTO FERRER', '1989-05-05', '962883054', 2, 1, 0, 1, 0),
-(96, '12624268', 'RUBEN SANLLEHI SOTO', '1974-03-08', '956849534', 2, 1, 0, 1, 0),
-(95, '13903234', 'LAUTARO NELSON SALINAS  ALVEAR', '1979-12-31', '950055870', 2, 1, 0, 1, 0),
-(94, '16393634', 'MAXIMILIANO ARMANDO SALAMANCA  RIQUELME', '1986-12-29', '984895419', 2, 1, 0, 1, 0),
-(93, '11637661', 'LUIS HERNAN RODRIGUEZ  MARTINEZ', '1970-02-07', '996923115', 2, 1, 0, 1, 109),
-(92, '17736774', 'JEREMIAS ISAAC RAMIREZ  QUEZADA', '1989-04-03', '977903377', 2, 1, 0, 1, 109),
-(91, '25853610', 'MARIA JOSE PEREZ  VASQUEZ', '1991-12-11', '11603505', 2, 1, 0, 1, 109),
+(104, '25637138', 'GELEN EUDELIS MONTILLA RAMOS', '1983-06-01', '959820181', 2, 1, 0, 1, 109),
+(103, '25940058', 'YADIRA JOSE BERMUDEZ LOPEZ', '1979-03-26', '988140248', 2, 1, 0, 1, 110),
+(102, '17312370', 'GERSON ARIEL SALGADO AREVALO', '1988-07-10', '987511767', 2, 1, 0, 1, 109),
+(101, '18357690', 'VANLLELO ADMILIAN VERDUGO  NAVARRO', '1993-01-26', '985058920', 2, 1, 0, 1, 110),
+(100, '19063731', 'JONATHAN FELIPE VALLE  GOMEZ', '1995-07-28', '987284586', 2, 1, 0, 1, 110),
+(99, '17412388', 'GUSTAVO JAVIER VALERIA  MEDEZ', '1989-08-29', '996443920', 2, 1, 0, 1, 110),
+(98, '23590775', 'RODOLFO ANDRES URIBE MARDONES', '1981-11-15', '975967883', 2, 1, 0, 1, 110),
+(97, '25753973', 'RICARDO JOSE SOTO FERRER', '1989-05-05', '962883054', 2, 1, 0, 1, 110),
+(96, '12624268', 'RUBEN SANLLEHI SOTO', '1974-03-08', '956849534', 2, 1, 0, 1, 110),
+(95, '13903234', 'LAUTARO NELSON SALINAS  ALVEAR', '1979-12-31', '950055870', 2, 1, 0, 1, 110),
+(94, '16393634', 'MAXIMILIANO ARMANDO SALAMANCA  RIQUELME', '1986-12-29', '984895419', 2, 1, 0, 1, 110),
+(93, '11637661', 'LUIS HERNAN RODRIGUEZ  MARTINEZ', '1970-02-07', '996923115', 2, 1, 0, 1, 110),
+(92, '17736774', 'JEREMIAS ISAAC RAMIREZ  QUEZADA', '1989-04-03', '977903377', 2, 1, 0, 1, 110),
+(91, '25853610', 'MARIA JOSE PEREZ  VASQUEZ', '1991-12-11', '11603505', 2, 1, 0, 1, 110),
 (90, '13901026', 'CRISTIAN RAUL OLIVARES  FUENTES', '1980-11-24', '951383875', 2, 1, 0, 1, 109),
-(89, '17664997', 'NICOLAS FIDEL JARA  VASQUEZ', '1991-01-22', '984458359', 2, 1, 0, 1, 109),
-(88, '12896837', 'ARTURO MANASES IZQUIERDO  GOITIA', '1992-12-10', '990196330', 2, 1, 0, 1, 109),
+(89, '17664997', 'NICOLAS FIDEL JARA  VASQUEZ', '1991-01-22', '984458359', 2, 1, 0, 1, 110),
+(88, '12896837', 'ARTURO MANASES IZQUIERDO  GOITIA', '1992-12-10', '990196330', 2, 1, 0, 1, 108),
 (87, '12182659', 'CLAUDIO ANDRES INOSTROZA GODOY', '1972-10-23', '962143829', 2, 1, 0, 1, 109),
-(86, '17793951', 'HECTOR PATRICIO GUTIERREZ  SANCHEZ', '1991-03-22', '985040211', 2, 1, 0, 1, 109),
-(85, '16640409', 'ISMAEL IVANOFF GONZALEZ  ENCALADA', '1987-03-06', '990124536', 2, 1, 0, 1, 109),
-(84, '16346771', 'PABLO ALFREDO FIERRO  OLEA', '1986-12-11', '982426242', 2, 1, 0, 1, 109),
-(83, '19004569', 'CAMILA ALEJANDRA DIAZ RIQUELME', '1995-03-24', '998134250', 2, 1, 0, 1, 109),
-(82, '25572474', 'REYNALDO ANDRES DAVIS  FONSECA', '1987-01-14', '946903365', 2, 1, 0, 1, 109),
-(81, '12608918', 'BRAYAN LEVI COLINA  DUARTE', '1992-06-06', '957162561', 2, 1, 0, 1, 0),
-(80, '25657286', 'EMERSON HELI BRICEÃ‘O  VEGA', '1979-12-20', '972889386', 2, 1, 0, 1, 0),
-(79, '17310756', 'ALEJANDRO ARTURO BIZAMA  ASENJO', '7989-09-28', '999734253', 2, 1, 0, 1, 0),
-(78, '17370343', 'MARIO EDUARDO ARIAS BERNAL', '1990-04-22', '982251110', 2, 1, 0, 1, 0),
-(77, '16691974', 'SIMON CRISTIAN ARAVENA MULLER', '1987-05-21', '987716630', 2, 1, 0, 1, 0),
-(76, '18050468', 'FELIPE ANDRES ANDRADE VALENZUELA', '1991-11-26', '986606669', 2, 1, 0, 1, 0),
-(75, '13894211', 'JONATHAN LUIS ACEITON  UGAS', '1980-04-26', '930737112', 2, 1, 0, 1, 0);
+(86, '17793951', 'HECTOR PATRICIO GUTIERREZ  SANCHEZ', '1991-03-22', '985040211', 2, 1, 0, 1, 110),
+(85, '16640409', 'ISMAEL IVANOFF GONZALEZ  ENCALADA', '1987-03-06', '990124536', 2, 1, 0, 1, 110),
+(84, '16346771', 'PABLO ALFREDO FIERRO  OLEA', '1986-12-11', '982426242', 2, 1, 0, 1, 110),
+(83, '19004569', 'CAMILA ALEJANDRA DIAZ RIQUELME', '1995-03-24', '998134250', 2, 1, 0, 1, 108),
+(82, '25572474', 'REYNALDO ANDRES DAVIS  FONSECA', '1987-01-14', '946903365', 2, 1, 0, 1, 110),
+(81, '12608918', 'BRAYAN LEVI COLINA  DUARTE', '1992-06-06', '957162561', 2, 1, 0, 1, 108),
+(80, '25657286', 'EMERSON HELI BRICEÃ‘O  VEGA', '1979-12-20', '972889386', 2, 1, 0, 1, 109),
+(79, '17310756', 'ALEJANDRO ARTURO BIZAMA  ASENJO', '7989-09-28', '999734253', 2, 1, 0, 1, 108),
+(78, '17370343', 'MARIO EDUARDO ARIAS BERNAL', '1990-04-22', '982251110', 2, 1, 0, 1, 110),
+(77, '16691974', 'SIMON CRISTIAN ARAVENA MULLER', '1987-05-21', '987716630', 2, 1, 0, 1, 110),
+(76, '18050468', 'FELIPE ANDRES ANDRADE VALENZUELA', '1991-11-26', '986606669', 2, 1, 0, 1, 109),
+(75, '13894211', 'JONATHAN LUIS ACEITON  UGAS', '1980-04-26', '930737112', 2, 1, 0, 1, 110);
 
 -- --------------------------------------------------------
 
@@ -728,7 +798,10 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 (1, 3, 3, 'confirmacion/listar_ordenes', 'Programacion', 1),
 (6, 2, 2, 'coordinacion/asignar_comuna', 'Asigna Comuna Ejecutivo', 1),
 (6, 3, 3, 'coordinacion/asignar_tecnico', 'Asigna Tecnico a Ejecutivo', 1),
-(6, 4, 4, 'coordinacion/distribucion', 'Distribuir Ordenes', 1);
+(6, 4, 4, 'coordinacion/distribucion', 'Distribuir Ordenes', 1),
+(7, 3, 3, 'despacho/seguimiento', 'Seguimiento de Ordenes', 1),
+(7, 2, 2, 'despacho/mantenedores_crud_masters', 'Mantenedores', 1),
+(7, 4, 4, 'despacho/listar_ordenes', 'Cierre de Ordenes', 1);
 
 -- --------------------------------------------------------
 
@@ -789,7 +862,7 @@ TRUNCATE TABLE `tbltipoorden`;
 --
 
 INSERT INTO `tbltipoorden` (`id_tipoorden`, `descripcion`, `prioridad`, `estado`) VALUES
-(1, 'DOMICILIARIA', 3, 1),
+(1, 'DOMICILIARIA', 4, 1),
 (2, 'B2B', 1, 1),
 (3, 'SWAP', 3, 1),
 (4, 'AVAR', 2, 1);
@@ -960,13 +1033,12 @@ TRUNCATE TABLE `tbl_coordinacion_despacho_tecnico`;
 --
 
 INSERT INTO `tbl_coordinacion_despacho_tecnico` (`id_super`, `id_despacho`, `id_tecnico`) VALUES
-(1, 21, 1),
-(2, 21, 6),
-(3, 21, 3),
+(17, 28, 1),
 (9, 28, 5),
 (8, 28, 7),
 (7, 28, 8),
-(10, 28, 10);
+(10, 28, 10),
+(11, 28, 9);
 
 -- --------------------------------------------------------
 
@@ -978,7 +1050,8 @@ DROP TABLE IF EXISTS `tbl_coordinacion_ejecutivo_comuna`;
 CREATE TABLE `tbl_coordinacion_ejecutivo_comuna` (
   `id_asignacion` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
-  `comuna` varchar(20) COLLATE utf8_unicode_ci NOT NULL
+  `comuna` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -990,11 +1063,11 @@ TRUNCATE TABLE `tbl_coordinacion_ejecutivo_comuna`;
 -- Volcado de datos para la tabla `tbl_coordinacion_ejecutivo_comuna`
 --
 
-INSERT INTO `tbl_coordinacion_ejecutivo_comuna` (`id_asignacion`, `id_usuario`, `comuna`) VALUES
-(41, 28, 'MAIP'),
-(29, 16, 'MAIP'),
-(30, 16, 'PACE'),
-(31, 16, 'QNOR');
+INSERT INTO `tbl_coordinacion_ejecutivo_comuna` (`id_asignacion`, `id_usuario`, `comuna`, `estado`) VALUES
+(74, 28, 'CERR', 1),
+(78, 28, 'MAIP', 1),
+(79, 28, 'HUEC', 1),
+(75, 28, 'LAMP', 1);
 
 -- --------------------------------------------------------
 
@@ -1038,6 +1111,40 @@ CREATE TABLE `tbl_enc_hora_extra` (
 --
 
 TRUNCATE TABLE `tbl_enc_hora_extra`;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_estado_orden`
+--
+
+DROP TABLE IF EXISTS `tbl_estado_orden`;
+CREATE TABLE `tbl_estado_orden` (
+  `id_estado` int(11) NOT NULL,
+  `ubicacion` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `descripcion` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT '1',
+  `grupo` varchar(25) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_estado_orden`
+--
+
+TRUNCATE TABLE `tbl_estado_orden`;
+--
+-- Volcado de datos para la tabla `tbl_estado_orden`
+--
+
+INSERT INTO `tbl_estado_orden` (`id_estado`, `ubicacion`, `descripcion`, `estado`, `grupo`) VALUES
+(1, 'DESPACHO', 'PENDIENTE', 1, 'Pendiente'),
+(2, 'DESPACHO', 'ASIGNADA', 1, 'En Proceso'),
+(3, 'DESPACHO', 'EN CAMINO', 1, ''),
+(4, 'OTROS', 'SIN MORADORES', 1, ''),
+(5, 'REDES', 'NIVELES FUERA DE RANGO', 1, ''),
+(6, 'OTROS', 'SIN MATERIAL', 1, ''),
+(7, 'DESPACHO', 'EJECUTANDO', 1, ''),
+(8, 'DESPACHO', 'POR FINALIZAR', 1, '');
+
 -- --------------------------------------------------------
 
 --
@@ -1098,6 +1205,24 @@ TRUNCATE TABLE `tbl_horasextra`;
 INSERT INTO `tbl_horasextra` (`id`, `fecha`, `rut`, `hora_desde`, `hora_hasta`, `solicitante`, `motivo`, `estatus`, `id_user`) VALUES
 (6, '2017-11-07', '15889905', '17:11', '17:11', 'Jorge Jara Hinojosa', 'jorejagahasgjd', 'Rechazada', '1');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_tecnico_comuna`
+--
+
+DROP TABLE IF EXISTS `tbl_tecnico_comuna`;
+CREATE TABLE `tbl_tecnico_comuna` (
+  `id` int(11) NOT NULL,
+  `id_tecnico` int(11) NOT NULL,
+  `comuna` varchar(10) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Truncar tablas antes de insertar `tbl_tecnico_comuna`
+--
+
+TRUNCATE TABLE `tbl_tecnico_comuna`;
 -- --------------------------------------------------------
 
 --
@@ -1166,7 +1291,7 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_pass`, `token`, `perfil`, `rol`, `rut_personal`, `estado`, `foto`, `name_foto`, `pagina_inicio`, `online_fecha`) VALUES
-(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1517257568),
+(1, 'ADMINISTRADOR DE SISTEMA', 'admin@wys.cl', '+56 555CORRIENTEE', 'ADMINISTRADOR SISTEMA', '$2a$10$17eba86939941dddd3881Ojbn9/Hks7L317Uhb6XiwWH02Nbwdv0S', '', '', 'DEFINIDO', 1, '158899051', 1, 1, '1.jpg', 'confirmacion', 1518449834),
 (2, 'JORGE JARA', 'jjara@wys.cl', '930248408', 'SUPERVISOR HD', '$2a$10$5ec3ac04d2a440d0c7c93uDB8QZcRjAObC/Osb55P1Z/4TbSkxdBm', '', '', 'DEFINIDO', 0, '15889905', 1, 1, '2.jpg', 'portal', 0),
 (14, 'PATRICIO BRAVO SILVA', 'patricio.bravo@nielsen.cl', '964217456', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '15698986', 1, 0, '', 'plataforma', 0),
 (15, 'DANIELA COVARRUBIAS NAVARRETE', 'daniela.covarrubias@nielsen.cl', '964526245', 'SUPERVISOR HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_SUPERVISOR', 0, '10371223', 1, 0, '', 'plataforma', 0),
@@ -1176,7 +1301,7 @@ INSERT INTO `users` (`id_user`, `name`, `email`, `fono`, `cargo`, `pass`, `tmp_p
 (19, 'FELIPE ANDRADE VALENZUELA', 'felipe.andrade@nielsen.cl', '986606669', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '18050468', 1, 0, '', 'plataforma', 0),
 (20, 'MARIO ARIAS BERNAL', 'mario.arias@nielsen.cl', '982251110', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '17370343', 1, 0, '', 'plataforma', 0),
 (21, 'ALEXANDER BERRIOS  GARRIDO', 'alexander.berrios@nielsen.cl', '951380234', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'DESPACHO_EJECUTIVO', 0, '16005554', 1, 0, '', 'portal', 0),
-(28, 'ALEJANDRO BIZAMA ASENJO', 'alejandro.bizama@nielsen.cl', '999734253', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'DESPACHO_EJECUTIVO', 0, '17310756', 1, 0, '', 'portal', 0),
+(28, 'ALEJANDRO BIZAMA ASENJO', 'alejandro.bizama@nielsen.cl', '999734253', 'Ejecutivo HD', '$2a$10$f254dfda4649f6b294ff9u.UdXyN8fpQFHNyYQafKUGUQ1qFmOv3q', '', '', 'DESPACHO_EJECUTIVO', 0, '17310756', 1, 0, '', 'portal', 0),
 (30, 'EMERSON BRICEÃ‘O VEGA', 'emerson.briceno@nielsen.cl', '972889386', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25657286', 1, 0, '', 'plataforma', 0),
 (31, 'BRAYAN COLINA DUARTE', 'brayan.colina@nielsen.cl', '957162561', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '12608918', 1, 0, '', 'plataforma', 0),
 (33, 'REYNALDO DAVIS FONSECA', 'reynaldo.davis@nielsen.cl', '946903365', 'Ejecutivo HD', '$2a$10$6c8a7276f3a1677d27a6bejyZWuQ.n9wKLqkHHEE5GBBu7EiY3Bla', '', '', 'HD_USUARIO', 0, '25572474', 1, 0, '', 'plataforma', 0),
@@ -1252,6 +1377,12 @@ ALTER TABLE `tblcargos`
 --
 ALTER TABLE `tblcomuna`
   ADD PRIMARY KEY (`id_comuna`);
+
+--
+-- Indices de la tabla `tblhistorico`
+--
+ALTER TABLE `tblhistorico`
+  ADD PRIMARY KEY (`id_reg`);
 
 --
 -- Indices de la tabla `tblmenu`
@@ -1333,6 +1464,12 @@ ALTER TABLE `tbl_coordinacion_ejecutivo_comuna`
   ADD PRIMARY KEY (`id_asignacion`);
 
 --
+-- Indices de la tabla `tbl_estado_orden`
+--
+ALTER TABLE `tbl_estado_orden`
+  ADD PRIMARY KEY (`id_estado`);
+
+--
 -- Indices de la tabla `tbl_historialarchivoscargados`
 --
 ALTER TABLE `tbl_historialarchivoscargados`
@@ -1342,6 +1479,12 @@ ALTER TABLE `tbl_historialarchivoscargados`
 -- Indices de la tabla `tbl_horasextra`
 --
 ALTER TABLE `tbl_horasextra`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tbl_tecnico_comuna`
+--
+ALTER TABLE `tbl_tecnico_comuna`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1396,6 +1539,11 @@ ALTER TABLE `tblcargos`
 ALTER TABLE `tblcomuna`
   MODIFY `id_comuna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
+-- AUTO_INCREMENT de la tabla `tblhistorico`
+--
+ALTER TABLE `tblhistorico`
+  MODIFY `id_reg` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT de la tabla `tblmenu`
 --
 ALTER TABLE `tblmenu`
@@ -1409,12 +1557,12 @@ ALTER TABLE `tblmotivollamado`
 -- AUTO_INCREMENT de la tabla `tblordenes`
 --
 ALTER TABLE `tblordenes`
-  MODIFY `id_orden` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_orden` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `tblperfiles`
 --
 ALTER TABLE `tblperfiles`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 --
 -- AUTO_INCREMENT de la tabla `tblperfilesuser`
 --
@@ -1454,12 +1602,17 @@ ALTER TABLE `tblturnos`
 -- AUTO_INCREMENT de la tabla `tbl_coordinacion_despacho_tecnico`
 --
 ALTER TABLE `tbl_coordinacion_despacho_tecnico`
-  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_super` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `tbl_coordinacion_ejecutivo_comuna`
 --
 ALTER TABLE `tbl_coordinacion_ejecutivo_comuna`
-  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+--
+-- AUTO_INCREMENT de la tabla `tbl_estado_orden`
+--
+ALTER TABLE `tbl_estado_orden`
+  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `tbl_historialarchivoscargados`
 --
@@ -1470,6 +1623,11 @@ ALTER TABLE `tbl_historialarchivoscargados`
 --
 ALTER TABLE `tbl_horasextra`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT de la tabla `tbl_tecnico_comuna`
+--
+ALTER TABLE `tbl_tecnico_comuna`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tmp_horasextra`
 --

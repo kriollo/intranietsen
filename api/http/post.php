@@ -490,3 +490,17 @@ $app->post('/Mdldespacho_modificar_estado', function() use($app) {
     return $app->json($u->modificar_estado());
 });
 //------------------------------------------------------------------------------
+//DESPACHO CIERRE--------------------------------------------------------------
+$app->post('/Mdlcierre_cierre_asegurado', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierre_asegurado());
+});
+$app->post('/Mdlcierre_speed_test', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->speed_test());
+});
+$app->post('/Mdlcierre_certificacion', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->certificacion());
+});
+//------------------------------------------------------------------------------

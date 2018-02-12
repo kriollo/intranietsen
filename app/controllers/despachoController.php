@@ -32,6 +32,8 @@ class despachoController extends Controllers implements IControllers {
         global $config;
         $op = '7';
 
+        $Ubicacion=array('DESPACHO','REDES','SUPERVISOR','OTROS','ANULADA');
+
         switch($this->method){
             case 'seguimiento':
                 $cantidad=(new Model\Mdldespacho)->cantidad_ordenes();
@@ -58,13 +60,15 @@ class despachoController extends Controllers implements IControllers {
            break;
            case 'nuevo_estado':
                 echo $this->template->render('despacho/estado/nuevo_estado', array(
-                    'menu_op' => $op
+                    'menu_op' => $op,
+                    'db_ubicacion' => $Ubicacion
                 ));
            break;
            case 'editar_estado':
                 if($this->isset_id and false !== ($data = (new Model\Mdldespacho)->getEstadosById($router->getId()))) {
                     echo $this->template->render('despacho/estado/editar_estado', array(
                        'menu_op' => $op,
+                       'db_ubicacion' => $Ubicacion,
                        'db_estado' => $data[0]
                     ));
                 } else {
@@ -74,6 +78,20 @@ class despachoController extends Controllers implements IControllers {
            case 'estado_estado':
                 (new Model\Mdldespacho)->update_estado_estado($router->getId(true));
            break;
+           case 'listar_ordenes':
+                $user = (new Model\Users)->getOwnerUser();
+                echo $this->template->render('despacho/cierre/listar_ordenes', array(
+                    'menu_op' => $op,
+                    'ordenes_db' => (new Model\Mdlcierre)->verOrdenes(),
+                    'id_user' => $user['id_user']
+                ));
+            break;
+            case 'finalizar':
+                (new Model\Mdlcierre)->finalizar($router->getId(true));
+            break;
+            case 'tomar_orden':
+                (new Model\Mdlcierre)->tomar_orden($router->getId(true));
+            break;
             default:
                 echo $this->template->render('despacho/despacho', array(
                     'menu_op' => $op

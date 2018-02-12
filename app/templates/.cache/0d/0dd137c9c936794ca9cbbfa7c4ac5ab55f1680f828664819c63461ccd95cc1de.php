@@ -61,22 +61,47 @@ class __TwigTemplate_e9d08f70d79ddb783fab37a0bd1f9917db63ac013c8d04e12f8dea64335
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_estado"] ?? null), "id_estado", array()), "html", null, true);
         echo "' />
                 <div class=\"form-group\">
-                  <input class=\"form-control\" name=\"ubicacion\" id=\"ubicacion\" type=\"text\"  value='";
-        // line 28
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_estado"] ?? null), "ubicacion", array()), "html", null, true);
-        echo "' required/>
+                    <select class=\"form-control\" name=\"ubicacion\">
+                        ";
+        // line 29
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["db_ubicacion"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
+            if ((false != ($context["db_ubicacion"] ?? null))) {
+                // line 30
+                echo "                            ";
+                if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_estado"] ?? null), "ubicacion", array()) == $context["d"])) {
+                    // line 31
+                    echo "                            <option value=\"";
+                    echo twig_escape_filter($this->env, $context["d"], "html", null, true);
+                    echo "\" selected>";
+                    echo twig_escape_filter($this->env, $context["d"], "html", null, true);
+                    echo "</option>
+                            ";
+                } else {
+                    // line 33
+                    echo "                            <option value=\"";
+                    echo twig_escape_filter($this->env, $context["d"], "html", null, true);
+                    echo "\">";
+                    echo twig_escape_filter($this->env, $context["d"], "html", null, true);
+                    echo "</option>
+                            ";
+                }
+                // line 35
+                echo "                        ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 36
+        echo "                    </select>
+
                   <br>
                   <input class=\"form-control\" name=\"descripcion\" id=\"descripcion\" type=\"text\" value='";
-        // line 30
+        // line 39
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_estado"] ?? null), "descripcion", array()), "html", null, true);
         echo "' required/>
-                  <br>
-                  <select class=\"form-control\" name=\"grupo\" id=\"grupo\">
-                      <option value=\"Finalizada\">Finalizada</option>
-                      <option value=\"Pendiente\">Pendiente</option>
-                      <option value=\"En Proceso\">En Proceso</option>
-                      <option value=\"Anulado\">Anulado</option>
-                  </select>
                   <br>
                 </div>
                 <div class=\"panel-footer text-center\">
@@ -93,10 +118,10 @@ class __TwigTemplate_e9d08f70d79ddb783fab37a0bd1f9917db63ac013c8d04e12f8dea64335
 ";
     }
 
-    // line 52
+    // line 54
     public function block_appScript($context, array $blocks = array())
     {
-        // line 53
+        // line 55
         echo "    <script src=\"views/app/js/despacho/despacho.js\"></script>
 ";
     }
@@ -113,7 +138,7 @@ class __TwigTemplate_e9d08f70d79ddb783fab37a0bd1f9917db63ac013c8d04e12f8dea64335
 
     public function getDebugInfo()
     {
-        return array (  100 => 53,  97 => 52,  71 => 30,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  125 => 55,  122 => 54,  103 => 39,  98 => 36,  91 => 35,  83 => 33,  75 => 31,  72 => 30,  67 => 29,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

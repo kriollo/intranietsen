@@ -25,16 +25,18 @@
               <div class="box-body col-sm-4">
                 <input type='hidden' name='id_estado' id='id_estado' value='{{ db_estado.id_estado }}' />
                 <div class="form-group">
-                  <input class="form-control" name="ubicacion" id="ubicacion" type="text"  value='{{ db_estado.ubicacion }}' required/>
+                    <select class="form-control" name="ubicacion">
+                        {% for d in db_ubicacion if false != db_ubicacion %}
+                            {% if db_estado.ubicacion == d %}
+                            <option value="{{ d }}" selected>{{ d }}</option>
+                            {% else %}
+                            <option value="{{ d }}">{{ d }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
                   <br>
                   <input class="form-control" name="descripcion" id="descripcion" type="text" value='{{ db_estado.descripcion }}' required/>
-                  <br>
-                  <select class="form-control" name="grupo" id="grupo">
-                      <option value="Finalizada">Finalizada</option>
-                      <option value="Pendiente">Pendiente</option>
-                      <option value="En Proceso">En Proceso</option>
-                      <option value="Anulado">Anulado</option>
-                  </select>
                   <br>
                 </div>
                 <div class="panel-footer text-center">
