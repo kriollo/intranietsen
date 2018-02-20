@@ -68,7 +68,7 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 19
         echo "        </select>
-        
+
     </h1>
     <ol class=\"breadcrumb\">
     <li><a href=\"#\"><i class=\"fa fa-home\"></i>Home</a></li>
@@ -92,8 +92,7 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
                                     <div class=\"box-header\">
                                         <h3 class=\"box-title\">Comunas y Ordenes Asignadas</h3>
                                     </div>
-                                    <div id=\"div_orden_asignadas\" class=\"box-body\">
-
+                                    <div id=\"div_contenedor_resumen_ordenes\" class=\"box-body\">
                                     </div>
                                 </div>
                             </div>
@@ -122,12 +121,12 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
                                             <select class=\"form-control\" id=\"comuna_Seguimiento\" name=\"comuna_Seguimiento\" onchange=\"carga_ordenes_comuna_seguimiento();\">
                                                 <option>--</option>
                                                 ";
-        // line 73
+        // line 72
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_comunas"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["db_comunas"] ?? null))) {
-                // line 74
+                // line 73
                 echo "                                                    <option value=\"";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "comuna", array()), "html", null, true);
                 echo "\">";
@@ -139,7 +138,7 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 76
+        // line 75
         echo "                                            </select>
                                         </div>
                                     </div>
@@ -208,10 +207,10 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
 ";
     }
 
-    // line 142
+    // line 141
     public function block_appScript($context, array $blocks = array())
     {
-        // line 143
+        // line 142
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -275,7 +274,7 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
 
     public function getDebugInfo()
     {
-        return array (  215 => 143,  212 => 142,  143 => 76,  131 => 74,  126 => 73,  70 => 19,  58 => 17,  53 => 16,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  214 => 142,  211 => 141,  142 => 75,  130 => 73,  125 => 72,  70 => 19,  58 => 17,  53 => 16,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
@@ -299,7 +298,7 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
                 <option class=\"text-center\" value=\"{{ d.id_user }}\">{{ d.name }}</option>
             {% endfor %}
         </select>
-        
+
     </h1>
     <ol class=\"breadcrumb\">
     <li><a href=\"#\"><i class=\"fa fa-home\"></i>Home</a></li>
@@ -323,8 +322,7 @@ class __TwigTemplate_af67d33cd4063a009d8cefdc5b2ea242ef3f3bf55a86b7ed2e05c8adb79
                                     <div class=\"box-header\">
                                         <h3 class=\"box-title\">Comunas y Ordenes Asignadas</h3>
                                     </div>
-                                    <div id=\"div_orden_asignadas\" class=\"box-body\">
-
+                                    <div id=\"div_contenedor_resumen_ordenes\" class=\"box-body\">
                                     </div>
                                 </div>
                             </div>

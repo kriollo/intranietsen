@@ -353,7 +353,7 @@ class Mdldespacho extends Models implements IModels {
         return array('success' => 1, 'message' => $html);
     }
 
-    public function actualizar_divtabla(){
+    public function recargar_tabla_resumen_ordenes(){
         global $http;
         $idusuario=$http->request->get('idusuario');
         $opcion=$http->request->get('opcion');
@@ -364,43 +364,43 @@ class Mdldespacho extends Models implements IModels {
 
         if ($tipoorden!=false){
             $html=" ";
-            $html="<div class='box-body'>
-                   <table class='table table-bordered table-responsive' id='tbldatos'>
-                   <thead>
-                       <th>COMUNA</th>";
-                         foreach ($tipoorden as $key => $value) {
-                  $html.="<th class='text-center'>".$value['descripcion']."</th>";
-                  }
-                  $html.="<th class='text-center'>TOTAL</th>
-                   </thead>
-                    <tbody>";
-                           foreach ($comunasasignadas as $key2 => $value2) {
-                  $html.="<tr>
-                           <td>".$value2['comuna']."</td>";
-                           $total_fila=0;
-                           foreach ($tipoorden as $key3 => $value3){
-                           $break_for = false;
-                           foreach ($cantidadporcomuna as $key4 => $value4) {
-                            if ($break_for == false){
-                                if($value2['comuna']==$value4['comuna'] and $value3['descripcion']==$value4['descripcion']){
-                                   $html.="<td class='text-center'>".$value4['cantidad']."</td>";
-                                     $total_fila += $value4['cantidad'];
-                                     $break_for=true;
-                                     }
-                                   }
-
-                               }
-                             if ($break_for == false){
-                                $html.="<td class='text-center'>0</td>";
-                               }
+            $html="
+            <table class='table table-bordered table-responsive' id='tbldatos'>
+            <thead>
+                <th>COMUNA</th>";
+                foreach ($tipoorden as $key => $value) {
+                    $html.="<th class='text-center'>".$value['descripcion']."</th>";
+                }
+                $html.="<th class='text-center'>TOTAL</th>
+            </thead>
+            <tbody>";
+                if (false != $comunasasignadas){
+                    foreach ($comunasasignadas as $key2 => $value2) {
+                        $html.="<tr>
+                        <td>".$value2['comuna']."</td>";
+                        $total_fila=0;
+                        foreach ($tipoorden as $key3 => $value3){
+                            $break_for = false;
+                            foreach ($cantidadporcomuna as $key4 => $value4) {
+                                if ($break_for == false){
+                                    if($value2['comuna']==$value4['comuna'] and $value3['descripcion']==$value4['descripcion']){
+                                        $html.="<td class='text-center'>".$value4['cantidad']."</td>";
+                                        $total_fila += $value4['cantidad'];
+                                        $break_for=true;
+                                    }
+                                }
                             }
-                    $html.="<td class='text-center'><a onclick='mover_tab_3(".$value2['comuna'].")'>$total_fila</a></td>
+                            if ($break_for == false){
+                                $html.="<td class='text-center'>0</td>";
+                            }
+                        }
+                        $html.="<td class='text-center'><a onclick=\"mover_tab_3('".$idusuario."','".$value2['comuna']."','".$opcion."')\">$total_fila</a></td>
                         </tr>";
-                     }
-                  $html.="</tbody>";
-          }
+                    }
+                }
+            $html.="</tbody>";
+        }
         return array('success' => 1, 'html' => $html);
-
     }
     // ESCALAMIENTOS -----------------------------------------------------------
 

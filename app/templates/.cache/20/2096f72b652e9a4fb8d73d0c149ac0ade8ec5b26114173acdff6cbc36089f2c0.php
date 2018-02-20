@@ -71,7 +71,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                                     <div class=\"box-header\">
                                         <h3 class=\"box-title\">Comunas y Ordenes Asignadas</h3>
                                     </div>
-                                    <div class=\"box-body\">
+                                    <div id=\"div_contenedor_resumen_ordenes\" class=\"box-body\">
                                         <table class=\"table table-bordered table-responsive\">
                                             <thead>
                                                 <th>COMUNA</th>

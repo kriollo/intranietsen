@@ -493,7 +493,7 @@ $app->post('/Mdldespacho_recargar_tabla_resumen_tecnico', function() use($app) {
 });
 $app->post('/Mdldespacho_recargar_tabla_resumen_ordenes', function() use($app) {
     $u = new Model\Mdldespacho;
-    return $app->json($u->recargar_tabla_resumen());
+    return $app->json($u->recargar_tabla_resumen_ordenes());
 });
 $app->post('/Mdldespacho_carga_ordenes_comuna_seguimiento', function() use($app) {
     $u = new Model\Mdldespacho;

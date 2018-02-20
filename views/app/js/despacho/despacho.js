@@ -148,8 +148,7 @@
           data : formData,
           success : function(json) {
               if(json.success==1){
-                $('#tbldatos').remove();
-                  $('#divtabla').append(json.html);
+                  $('#div_contenedor_resumen_ordenes').html(json.html);
               }
           },error : function(xhr, status) {
               msg_box_alert(99,'error',xhr.responseText);

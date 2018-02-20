@@ -71,7 +71,7 @@ class __TwigTemplate_9826e45e3c6af304706e9723713ed6bd671120d47aba55f93b99f999341
                                     <div class=\"box-header\">
                                         <h3 class=\"box-title\">Comunas y Ordenes Asignadas</h3>
                                     </div>
-                                    <div class=\"box-body\">
+                                    <div id=\"div_contenedor_resumen_ordenes\" class=\"box-body\">
                                         <table class=\"table table-bordered table-responsive\">
                                             <thead>
                                                 <th>COMUNA</th>
@@ -461,7 +461,7 @@ class __TwigTemplate_9826e45e3c6af304706e9723713ed6bd671120d47aba55f93b99f999341
                                     <div class=\"box-header\">
                                         <h3 class=\"box-title\">Comunas y Ordenes Asignadas</h3>
                                     </div>
-                                    <div class=\"box-body\">
+                                    <div id=\"div_contenedor_resumen_ordenes\" class=\"box-body\">
                                         <table class=\"table table-bordered table-responsive\">
                                             <thead>
                                                 <th>COMUNA</th>
