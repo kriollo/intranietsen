@@ -23,7 +23,7 @@ class __TwigTemplate_70f84f1d574675d39ef5019e8cebc09936497ba5987b3757a37bc5e395b
     <strong>Copyright &copy; ";
         // line 5
         echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "now", "Y"), "html", null, true);
-        echo " <a href=\"http://www.wys.cl\" target=\"_blank\">WYS SOLUCIONES INFORMATICAS LTDA</a>.</strong>
+        echo " <a href=\"#\">HELPDESK TEAM DEVELOPER</a>.</strong>
 </footer>
 ";
     }
@@ -49,8 +49,8 @@ class __TwigTemplate_70f84f1d574675d39ef5019e8cebc09936497ba5987b3757a37bc5e395b
     <div class=\"pull-right hidden-xs\">
         <b>Version</b> 3.0.0
     </div>
-    <strong>Copyright &copy; {{ \"now\"|date(\"Y\") }} <a href=\"http://www.wys.cl\" target=\"_blank\">WYS SOLUCIONES INFORMATICAS LTDA</a>.</strong>
+    <strong>Copyright &copy; {{ \"now\"|date(\"Y\") }} <a href=\"#\">HELPDESK TEAM DEVELOPER</a>.</strong>
 </footer>
-", "portal/footer.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\portal\\footer.twig");
+", "portal/footer.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\portal\\footer.twig");
     }
 }

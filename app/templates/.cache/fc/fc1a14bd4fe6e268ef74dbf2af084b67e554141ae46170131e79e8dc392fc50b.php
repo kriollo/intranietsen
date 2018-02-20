@@ -148,7 +148,7 @@ class __TwigTemplate_6185293ac66fa43ae8bcb32cb4492044a9f61e097a098b9d3ed2842e8cc
                     echo "\">
                                                     <i class='glyphicon glyphicon-edit'></i>
                                                 </a>
-                                                <a data-placement='top' name=\"btnlisteliminar\" id=\"btnlisteliminar\" title=\"Eliminar\" onclick=\"asignardato(";
+                                                <a data-placement='top' name=\"btnlisteliminar\" id=\"btnlisteliminar\" title=\"Eliminar\" onclick=\"Eliminar_OT(";
                     // line 70
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "id_orden", array()), "html", null, true);
                     echo ")\" class='btn btn-danger btn-sm'>

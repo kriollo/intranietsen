@@ -65,9 +65,46 @@ class __TwigTemplate_ae91cd8765794bcebb7ab295590963f79cf44207a32b53fa4136b2e6075
         // line 28
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "actividad", array()), "html", null, true);
         echo "' required/>
-                </div>
+                   ";
+        // line 29
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "speed_test", array()) == 1)) {
+            // line 30
+            echo "                  <input  name=\"speed_test\" id=\"speed_test\" type=\"checkbox\" checked/>Speed Test<br>
+                      ";
+        } else {
+            // line 32
+            echo "                  <input  name=\"speed_test\" id=\"speed_test\" type=\"checkbox\" />Speed Test<br>
+                      ";
+        }
+        // line 34
+        echo "                      ";
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "certificacion", array()) == 1)) {
+            // line 35
+            echo "                  <input  name=\"certificacion\" id=\"certificacion\" type=\"checkbox\"checked />Certificacion<br>
+                      ";
+        } else {
+            // line 37
+            echo "                  <input  name=\"certificacion\" id=\"certificacion\" type=\"checkbox\" />Certificacion<br>
+                      ";
+        }
+        // line 39
+        echo "                  ";
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "cierre_seguro", array()) == 1)) {
+            // line 40
+            echo "                  <input  name=\"cierre_seguro\" id=\"cierre_seguro\" type=\"checkbox\" checked/>Cierre Seguro<br>
+                      ";
+        } else {
+            // line 42
+            echo "                  <input  name=\"cierre_seguro\" id=\"cierre_seguro\" type=\"checkbox\" />Cierre Seguro<br>
+                      ";
+        }
+        // line 44
+        echo "                </div>
                 <div class=\"panel-footer text-center\">
-                  <button type=\"button\" id=\"update_actividad\" class=\"btn btn-default\">Grabar</button>
+                  <button type=\"button\" id=\"update_actividad\" onclick=\"editar_actividad(";
+        // line 46
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "id_actividad", array()), "html", null, true);
+        echo ");\" class=\"btn btn-default\">Grabar</button>
                 </div>
               </div>
             </form>
@@ -80,10 +117,10 @@ class __TwigTemplate_ae91cd8765794bcebb7ab295590963f79cf44207a32b53fa4136b2e6075
 ";
     }
 
-    // line 42
+    // line 57
     public function block_appScript($context, array $blocks = array())
     {
-        // line 43
+        // line 58
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -100,7 +137,7 @@ class __TwigTemplate_ae91cd8765794bcebb7ab295590963f79cf44207a32b53fa4136b2e6075
 
     public function getDebugInfo()
     {
-        return array (  87 => 43,  84 => 42,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  124 => 58,  121 => 57,  106 => 46,  102 => 44,  98 => 42,  94 => 40,  91 => 39,  87 => 37,  83 => 35,  80 => 34,  76 => 32,  72 => 30,  70 => 29,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

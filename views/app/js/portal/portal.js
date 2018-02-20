@@ -32,8 +32,7 @@ function msg_box_alert(opcion,titulo,message,accionsuccess,accion_redirect){
       },1000);
     }else if (accionsuccess == 'back'){
         setTimeout(function(){
-            window.history.back();
-            location.reload();
+            window.location.href = document.referrer;
         },1000);
     }
   }else if (opcion == 99 ) { //error

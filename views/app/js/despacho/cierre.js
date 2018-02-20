@@ -4,23 +4,23 @@ function cierre_asegurado(id) {
      icon: 'fa fa-phone',
      title: 'Cierre Asegurado!',
      content:  '<form id="Formcierre" name="Formcierre" class="form-signin" >'+
-     '<select class="form-control" name="tec" id="tec">'+
+     '<h2><select class="form-control" name="tec" id="tec">'+
        '<option value="sin tecnico en el domicilio">SIN TECNICO EN EL DOMICILIO</option>'+
        '<option value="con tecnico en el domicilio">CON TECNICO EN EL DOMICILIO</option>'+
-     '</select>'+
-         '<select class="form-control" name="opcion" id="opcion">'+
+     '</select></h2>' +
+         '<h2><select class="form-control" name="opcion" id="opcion">' +
            '<option value="ok cierre">CIERRE OK</option>'+
            '<option value="no acepta ivr">NO ACEPTA IVR</option>'+
            '<option value="ivr caido">IVR CAIDO</option>'+
-         '</select>'+
+         '</select></h2>' +
          '<input type="hidden" id="id" name="id" value='+id+'>'+
      '</form>',
      type: 'purple',
      typeAnimated: true,
      buttons: {
        formSubmit: {
-         text: 'Cerrar',
-         btnClass: 'btn-blue',
+         text: '<h3>Actualizar.</h3>',
+           btnClass: 'btn-green',
          action: function () {
            $.ajax({
                type: "POST",
@@ -44,9 +44,9 @@ function cierre_asegurado(id) {
          }
        },
        cancel: {
-         text: 'Cancelar',
+         text: '<h3>Cancelar</h3>',
+           btnClass: 'btn-red',
          action: function () {
-           location.reload();
            //close
          }
        }
@@ -54,9 +54,9 @@ function cierre_asegurado(id) {
   });
 }
 function subir_certificacion(id){
-  var div = '<label for="file">Seleccione la foto de la certificacion</label>' +
+  var div = '<h2><label for="file">Seleccione la foto de la certificacion</label></h2>' +
     '<input style="border-radius:15px;" type="file" id="fileinput" accept=".jpg, .jpeg, .png" class="form-control"/><br>'+
-  '<iframe width="1050" height="450" style="position:relative;" src="https://docs.google.com/forms/d/e/1FAIpQLSf8Dic333KU_BmMmZmr9_r4PQcuPw6j5A6_SeESg1ak_q5TuA/formResponse" frameborder="0" allowfullscreen></iframe>';
+  '<iframe width="1050" height="450" style="position:relative;" src="https://192.168.17.20/fieldview/app?page=Menu&service=page" frameborder="0" allowfullscreen></iframe>';
 $.confirm({
   theme: 'supervan',
     icon: 'glyphicon glyphicon-scale',
@@ -66,7 +66,10 @@ $.confirm({
     typeAnimated: true,
     content: div,
     buttons: {
-        confirmar: function () {
+        confirmar: {
+          text: '<h3>Subir Cert.</h3>',
+            btnClass: 'btn-green',
+          action: function () {
            var formData = new FormData();
            formData.append('fileinput', document.getElementById('fileinput').files[0]);
            formData.append('id', id);
@@ -89,15 +92,18 @@ $.confirm({
                   }
                 });
 
-              },
-        cancelar: function () {
-        },
+              }},
+        cancelar: {
+          text: '<h3>Cancelar</h3>',
+          btnClass: 'btn-red',
+          action: function () {
+        }},
     }
 });
 }
 function subir_st(id){
-  var div = '<label for="file">Seleccione la foto del speed test</label>'+
-  '<input style="border-radius:15px;" type="file" id="fileinput" accept=".jpg, .jpeg, .png" class="form-control"/>';
+  var div = '<h2><label for="file">Seleccione la foto del speed test</label></h2>' +
+  '<h2><input style="border-radius:15px;" type="file" id="fileinput" accept=".jpg, .jpeg, .png" class="form-control"/></h2>';
 
     $.confirm({
     theme: 'supervan',
@@ -107,7 +113,10 @@ function subir_st(id){
     typeAnimated: true,
     content: div,
     buttons: {
-        confirmar: function () {
+        confirmar:{
+        text: '<h3>Subir ST.</h3>',
+        btnClass: 'btn-green',
+        action: function () {
           var formData = new FormData();
           formData.append('fileinput', document.getElementById('fileinput').files[0]);
           formData.append('id', id);
@@ -121,18 +130,48 @@ function subir_st(id){
             if(data.success== 1){
             // INGRESAR QUE WEA
               location.reload();
-            }else {
-            $.alert('No se logro subir el speed test');
+            } else {
+              $.alert('Es necesario subir una imagen ');
             }
             },
             error: function (xhr, status) {
             msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
             }
           });
-        },
-        cancelar: function () {
+        }
+      },
+        cancelar:{
+          text: '<h3>Cancelar</h3>',
+        btnClass: 'btn-red',
+        action: function () {
+        }
         },
     }
 
 });
+}
+
+function seguro(id) {
+  $.confirm({
+      theme: 'supervan',
+      icon: 'glyphicon glyphicon-warning-sign',
+      title: 'Confirmación!',
+        content: '<h2>¿Esta seguro que desea finalizar esta orden?</h2>',
+        type: 'red',
+        buttons: {
+          confirmar:{
+            text: '<h3>Finalizar OT.</h3>',
+            btnClass: 'btn-green',
+            action: function () {
+              location.href = 'despacho/finalizar/'+id;
+            }
+          },
+          cancel: {
+          text: '<h3>Cancelar</h3>',
+          btnClass: 'btn-red',
+          action: function () {}
+          }
+,
+        }
+  })
 }

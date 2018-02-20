@@ -6,7 +6,18 @@
 <section class="content-header">
     <h1>
         DESPACHO
-        <small>Seguimiento</small>
+        <small>Visor de Supervisor</small>
+
+        <input type="hidden" name="idusuario" id="idusuario" value="">
+
+        <select id="ejecutivo_filtro" name="ejecutivo_filtro" style="width:20em;" onchange="document.getElementById('idusuario').value=document.getElementById('ejecutivo_filtro').value;">
+            <option value="">--</option>
+            <option value="TODOS">TODOS</option>
+            {% for d in personal_db if false != personal_db %}
+                <option class="text-center" value="{{ d.id_user }}">{{ d.name }}</option>
+            {% endfor %}
+        </select>
+        
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
@@ -18,9 +29,9 @@
         <div class="col-md-12">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs pull-rigth">
-                    <li ><a href="#tab_1-1" data-toggle="tab" onclick="actualizar_tablas_resumenes('{{ owner_user['id_user'] }}','usuario');">RESUMEN SEGUIMIENTO</a></li>
+                    <li ><a href="#tab_1-1" data-toggle="tab" onclick="actualizar_tablas_resumenes(document.getElementById('idusuario').value,'super');">RESUMEN SEGUIMIENTO</a></li>
                     <li class="active"><a href="#tab_2-2" data-toggle="tab">SEGUIMIENTO</a></li>
-                    <li><a id="tab3" href="#tab_3-3" data-toggle="tab" onclick="actualizar_tabla_ordenes('{{ owner_user['id_user'] }}','*','usuario');">VER ORDENES</a></li>
+                    <li><a id="tab3" href="#tab_3-3" data-toggle="tab" onclick="actualizar_tabla_ordenes(document.getElementById('idusuario').value,'*');">VER ORDENES</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane" id="tab_1-1">
@@ -30,40 +41,8 @@
                                     <div class="box-header">
                                         <h3 class="box-title">Comunas y Ordenes Asignadas</h3>
                                     </div>
-                                    <div class="box-body">
-                                        <table class="table table-bordered table-responsive">
-                                            <thead>
-                                                <th>COMUNA</th>
-                                                {% for d in db_tipoorden if false != db_tipoorden %}
-                                                    <th class="text-center">{{ d.descripcion }}</th>
-                                                {% endfor %}
-                                                <th class="text-center">TOTAL</th>
-                                            </thead>
-                                            <tbody>
-                                                {% for c in db_comunas if false != db_comunas %}
-                                                <tr>
-                                                    <td>{{ c.comuna }}</td>
-                                                    {% set total_fila =0 %}
-                                                    {% for d in db_tipoorden if false != db_tipoorden %}
-                                                        {% set break_for = false %}
-                                                        {% for cant in db_cantidad_por_comuna if false != db_cantidad_por_comuna %}
-                                                            {% if break_for == false %}
-                                                                {% if c.comuna == cant.comuna and d.descripcion == cant.descripcion %}
-                                                                    <td class="text-center">{{ cant.cantidad }}</td>
-                                                                    {% set total_fila = total_fila + cant.cantidad %}
-                                                                    {% set break_for = true %}
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                        {% if break_for == false %}
-                                                            <td class="text-center">0</td>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                    <td class="text-center"><a onclick="mover_tab_3('{{ owner_user['id_user'] }}','{{ c.comuna }}','usuario');">{{ total_fila }}</a></td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
+                                    <div id="div_orden_asignadas" class="box-body">
+
                                     </div>
                                 </div>
                             </div>
@@ -141,24 +120,11 @@
                                                 <th>Comuna</th>
                                                 <th>Tecnico Asignado</th>
                                                 <th>Estado de Orden</th>
+                                                <th>Prioridad</th>
+                                                <th>OPERACIONES</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% set No = 1 %}
-                                                {% for t in db_ordeneshoy if false != db_ordeneshoy %}
-                                                    <tr>
-                                                        <td>{{ No }}</td>
-                                                        <td>{{t.desctipoorden}}</td>
-                                                        <td>{{t.n_orden}}</td>
-                                                        <td>{{t.rut_cliente}}</td>
-                                                        <td>{{t.fecha_compromiso}}</td>
-                                                        <td>{{t.bloque}}</td>
-                                                        <td>{{t.comuna}}</td>
-                                                        <td>{{t.nombre}}</td>
-                                                        <td>{{t.desc_estado_orden}}</td>
-                                                    </tr>
-                                                {% set No =  No + 1 %}
-                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </form>

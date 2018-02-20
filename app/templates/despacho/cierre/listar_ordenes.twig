@@ -80,7 +80,7 @@
                                           </a>
                                           {% endif %}
 
-                                          <a data-placement='top' name="btnfinalizar" id="btnfinalizar" title="Finalizar Orden" class='btn btn-danger btn-sm' href="despacho/finalizar/{{t.n_orden}}">
+                                          <a data-placement='top' name="btnfinalizar" id="btnfinalizar" title="Finalizar Orden" class='btn btn-danger btn-sm' onclick="seguro({{ t.n_orden }});">
                                               <i class='glyphicon glyphicon-certificate'></i>
                                           </a>
                                         {% endif %}
@@ -121,7 +121,8 @@
                     "previous": "Anterior"
                 }
             },
-            "autoWidth": true
+            "autoWidth": true,
+            "scrollX": true
         });
     </script>
 {% endblock %}

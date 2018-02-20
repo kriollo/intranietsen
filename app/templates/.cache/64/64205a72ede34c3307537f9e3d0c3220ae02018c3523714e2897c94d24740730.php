@@ -58,7 +58,7 @@ class __TwigTemplate_1763ce0e3a7648f56f502e22dc2a4a14a382e7fd4592c070651b354bd05
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class=\"sidebar-menu\">
+      <ul class=\"sidebar-menu\" >
       <li class=\"header\">MENÚ PRINCIPAL</li>
         ";
         // line 33
@@ -214,7 +214,7 @@ class __TwigTemplate_1763ce0e3a7648f56f502e22dc2a4a14a382e7fd4592c070651b354bd05
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class=\"sidebar-menu\">
+      <ul class=\"sidebar-menu\" >
       <li class=\"header\">MENÚ PRINCIPAL</li>
         {% if menu_op == 0 %}
             <li class=\"active treeview\">
@@ -264,6 +264,6 @@ class __TwigTemplate_1763ce0e3a7648f56f502e22dc2a4a14a382e7fd4592c070651b354bd05
     </section>
     <!-- /.sidebar -->
   </aside>
-", "portal/menu.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\portal\\menu.twig");
+", "portal/menu.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\portal\\menu.twig");
     }
 }

@@ -80,19 +80,19 @@ class Mdlcierre extends Models implements IModels {
             $img = $http->files->get('fileinput');
             $foto = 0;
             $img_name="";
-                       $this->db->update('tblordenes', array(
-                'speed_test' => '1'
-            ),"n_orden='$id'");
+
             if (null !== $img && true == Files::is_image($img->getClientOriginalName()) ){
               $foto = 1;
               $ext_foto = $img->getClientOriginalExtension();
               $img_name = $id.'_st.'.$ext_foto;
 
               $img->move(API_INTERFACE . 'views/app/images/speedtest/', $img_name);
+              $this->db->update('tblordenes', array(
+                'speed_test' => '1'
+            ),"n_orden='$id'");
+            }else{
+            return array('success' => 2, 'message' => 'Falta la imagen');
             }
-
-
-
              return array('success' => 1,'id' => $id);
                 }
                 catch (Exception $e) {
@@ -135,7 +135,7 @@ class Mdlcierre extends Models implements IModels {
         global $config,$http;
         # Actualiza Estado
          $this->db->update('tblordenes', array(
-                'ubicacion' => 'FINALIZADA'
+                'ubicacion' => 'FINALIZADO'
             ),"n_orden='$id'");
         # Redireccionar a la página principal del controlador
         $this->functions->redir($config['site']['url'] . 'despacho/listar_ordenes');

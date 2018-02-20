@@ -25,6 +25,9 @@
                 <tr>
                   <th>No</th>
                   <th>Actividad</th>
+                  <th>Cierre Asegurado</th>
+                  <th>Speed Test</th>
+                  <th>Certificacion</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -34,7 +37,22 @@
                   <tr>
                     <td>{{ No }}</td>
                     <td>{{ d.actividad }}</td>
-                    <td class='center' width='80'>
+                      {% if d.cierre_seguro == 0 %}
+                      <td> <i class='text-danger  glyphicon glyphicon-remove'></i></td>
+                      {% else %}
+                      <td> <i class='text-success glyphicon glyphicon-ok'></i></td>
+                      {% endif %}
+                      {% if d.speed_test == 0 %}
+                      <td> <i class='text-danger  glyphicon glyphicon-remove'></i></td>
+                      {% else %}
+                      <td> <i class='text-success glyphicon glyphicon-ok'></i></td>
+                      {% endif %}
+                      {% if d.certificacion == 0 %}
+                      <td> <i class='text-danger  glyphicon glyphicon-remove'></i></td>
+                      {% else %}
+                      <td> <i  class='text-success glyphicon glyphicon-ok'></i></td>
+                      {% endif %}
+                      <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_actividad/{{ d.id_actividad }}">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>

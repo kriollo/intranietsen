@@ -25,9 +25,12 @@
               <div class="box-body col-sm-4">
                 <div class="form-group">
                   <input class="form-control" name="actividad" id="actividad" type="text" placeholder="Nombre de la actividad" required/>
+                  <input  name="speed_test" id="speed_test" type="checkbox" />Speed Test<br>
+                  <input  name="certificacion" id="certificacion" type="checkbox" />Certificacion<br>
+                  <input  name="cierre_seguro" id="cierre_seguro" type="checkbox" />Cierre Seguro<br>
                 </div>
                 <div class="form-group">
-                  <button type="button" id="register_actividad" class="btn btn-default">Grabar</button>
+                  <button type="button" id="register_actividad" onclick="registrar_actividad();" class="btn btn-default">Grabar</button>
                   <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
                 </div>
               </div>

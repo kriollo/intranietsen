@@ -110,6 +110,9 @@ class Mdlconfirmacion extends Models implements IModels {
 
             # Obtener los datos $_POST
             $actividad = $http->request->get('actividad');
+            $speed_test = $http->request->get('speed_test');
+            $certificacion = $http->request->get('certificacion');
+            $cierre_asegurado = $http->request->get('cierre_asegurado');
 
             # Verificar que no están vacíos
             if ($this->functions->e($actividad)) {
@@ -117,10 +120,13 @@ class Mdlconfirmacion extends Models implements IModels {
             }
             # Registrar al actividad
             $this->db->insert('tblactividad', array(
-            'actividad' => strtoupper($actividad)
+            'actividad' => strtoupper($actividad),
+            'speed_test' => $speed_test,
+            'certificacion' => $certificacion,
+            'cierre_seguro' => $cierre_asegurado
             ));
 
-            return array('success' => 1, 'message' => 'Registrado con éxito.');
+            return array('success' => 1, 'message' => 'Registrado con éxito.' );
         } catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
@@ -231,12 +237,17 @@ class Mdlconfirmacion extends Models implements IModels {
             #Obtener los datos $_POST
             $actividad = $http->request->get('actividad');
             $id_actividad = $http->request->get('id_actividad');
-
+            $speed_test = $http->request->get('speed_test');
+            $certificacion = $http->request->get('certificacion');
+            $cierre_asegurado = $http->request->get('cierre_seguro');
             if ($this->functions->e($actividad)) {
             throw new ModelsException('Todos los datos son necesarios');
             }
             $this->db->update('tblactividad',array(
             'actividad' => $actividad,
+            'speed_test' => $speed_test,
+            'certificacion' => $certificacion,
+            'cierre_seguro' => $cierre_asegurado
             ),"id_actividad='$id_actividad'");
             //
             return array('success' => 1, 'message' => 'Modificacion de Actividad exitosa');
@@ -401,6 +412,8 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 0, 'message' => 'Rut no valido');
         }
 
+        $prioridad = $this->getTipoOrdenById($tipoorden);
+
         $this->db->insert('tblordenes', array(
             'n_orden'=>$orden,
             'operador'=> $operador,
@@ -416,7 +429,8 @@ class Mdlconfirmacion extends Models implements IModels {
             'actividad'=>$actividad,
             'resultado'=>$resultado,
             'observacion'=>$observacion,
-            'fecha_dia'=>$fecha_dia
+            'fecha_dia'=>$fecha_dia,
+            'prioridad' => $prioridad[0]['prioridad']
         ));
         return array('success' => 1, 'message' => 'Orden ingresada');
 
@@ -454,8 +468,10 @@ class Mdlconfirmacion extends Models implements IModels {
         if ($this->functions->e($modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden)){
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }else{
+
+            $prioridad = $this->getTipoOrdenById($tipoorden);
             $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
-            comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia'  WHERE id_orden='$idorden'");
+            comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'  WHERE id_orden='$idorden'");
             return array('success' => 1, 'message' => 'Datos Modificados');
         }
     }
@@ -546,12 +562,12 @@ class Mdlconfirmacion extends Models implements IModels {
                 if ($value['ubicacion']=='CONFIRMACION'){
                     $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
                         <i class="glyphicon glyphicon-edit"></i></a>
-                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
+                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="Eliminar_OT('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
                     </a>';
                 }else{
-                    $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'" disabled >
+                    $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" disabled >
                         <i class="glyphicon glyphicon-edit"></i></a>
-                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="asignardato('.$value['id_orden'].')" class="btn btn-danger btn-sm" disabled>                    <i class="glyphicon glyphicon-remove"></i>
+                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" class="btn btn-danger btn-sm" disabled>                    <i class="glyphicon glyphicon-remove"></i>
                     </a>';
                 }
 

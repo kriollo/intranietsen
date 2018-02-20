@@ -57,65 +57,60 @@ class Mdltecnicos extends Models implements IModels {
       $filtro = 'where '.$filtro;
       return $this->db->query('select * from tbltecnicos'.$filtro);
     }
-
-    /**
-     * Realiza la acción de registro dentro del sistema
-     *
-     * @return array : Con información de éxito/falla al registrar el usuario nuevo.
-     */
     public function registra_nuevo_tecnico() : array {
+       try {
+           global $http;
+
+           # Obtener los datos $_POST
+           $rut = $http->request->get('rut');
+           $name = $http->request->get('nombres');
+           $codigo = $http->request->get('codigo');
+           $telefono = $http->request->get('telefono');
+
+           # Verificar que no están vacíos
+           if ($this->functions->e($rut, $name,$telefono)) {
+               throw new ModelsException('Ingresar datos donde campos se especifica como Requerido');
+           }
+           # Verificar Rut
+           $this->checkRut($rut);
+           # Registrar al usuario
+           $this->db->insert('tbltecnicos', array(
+               'rut' => $rut,
+               'nombre' => $name,
+               'codigo' => $codigo,
+               'telefono' => $telefono,
+           ));
+
+           return array('success' => 1, 'message' => 'Registrado con éxito.');
+       } catch (ModelsException $e) {
+           return array('success' => 0, 'message' => $e->getMessage());
+       }
+   }
+    public function editar_tecnico(): array {
         try {
             global $http;
-
-            # Obtener los datos $_POST
+            #Obtener los datos $_POST
             $rut = $http->request->get('rut');
-            $name = $http->request->get('nombres');
+            $nombre = $http->request->get('nombre');
             $codigo = $http->request->get('codigo');
+            $id_tecnico = $http->request->get('id_tecnico');
+            $telefono = $http->request->get('telefono');
 
-            # Verificar que no están vacíos
-            if ($this->functions->e($rut, $name)) {
-                throw new ModelsException('Ingresar datos donde campos se especifica como Requerido');
+            if ($this->functions->e($rut, $nombre, $codigo,$telefono)) {
+                throw new ModelsException('Todos los datos son necesarios');
             }
-            # Verificar Rut
-            $this->checkRut($rut);
-            # Registrar al usuario
-            $this->db->insert('tbltecnicos', array(
-                'rut' => $rut,
-                'nombre' => $name,
+            $this->db->update('tbltecnicos',array(
+                'rut'=> $rut,
+                'nombre' => $nombre,
                 'codigo' => $codigo,
-            ));
-
-            return array('success' => 1, 'message' => 'Registrado con éxito.');
-        } catch (ModelsException $e) {
+                'telefono' => $telefono,
+            ),"id_tecnicos='$id_tecnico'");
+            //
+            return array('success' => 1, 'message' => 'Modificacion de horas extra exitosa');
+        }catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-
-    public function editar_tecnico(): array {
-    try {
-      global $http;
-
-
-      #Obtener los datos $_POST
-      $rut = $http->request->get('rut');
-      $nombre = $http->request->get('nombre');
-      $codigo = $http->request->get('codigo');
-      $id_tecnico = $http->request->get('id_tecnico');
-
-      if ($this->functions->e($rut, $nombre, $codigo)) {
-          throw new ModelsException('Todos los datos son necesarios');
-      }
-      $this->db->update('tbltecnicos',array(
-        'rut'=> $rut,
-        'nombre' => $nombre,
-        'codigo' => $codigo,
-    ),"id_tecnicos='$id_tecnico'");
-      //
-      return array('success' => 1, 'message' => 'Modificacion de horas extra exitosa');
-    }catch (ModelsException $e) {
-        return array('success' => 0, 'message' => $e->getMessage());
-    }
-  }
     /**
       * Actualiza estado de usuario
       * y luego redirecciona a administracion/usuarios
@@ -152,63 +147,60 @@ class Mdltecnicos extends Models implements IModels {
      *
      *
      */
-    public function cargar_excel(){
-    global $http;
+     public function cargar_excel(){
+         global $http;
 
-        $file = $http->files->get('excel');
+         $file = $http->files->get('excel');
 
-        $docname="";
-        if (null !== $file ){
-            $ext_doc = $file->getClientOriginalExtension();
+         $docname="";
+         if (null !== $file ){
+             $ext_doc = $file->getClientOriginalExtension();
 
-            if ($ext_doc<>'xls' and $ext_doc<>'xlsx') return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
+             if ($ext_doc<>'xls' and $ext_doc<>'xlsx') return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
 
-            $docname = 'cargatecnico.'.$ext_doc;
+             $docname = 'cargatecnico.'.$ext_doc;
 
-            $file->move(API_INTERFACE . 'views/app/temp/', $docname);
+             $file->move(API_INTERFACE . 'views/app/temp/', $docname);
 
-            $archivo = API_INTERFACE . 'views/app/temp/'. $docname;
-            //carga del excelname
-            $objReader = new PHPExcel_Reader_Excel2007();
-            $objPHPExcel = $objReader->load($archivo);
+             $archivo = API_INTERFACE . 'views/app/temp/'. $docname;
+             //carga del excelname
+             $objReader = new PHPExcel_Reader_Excel2007();
+             $objPHPExcel = $objReader->load($archivo);
 
-            $i=2;
-            $param=0;
-            $id_tec="";
-            while($param==0){
-                try {
-                  //echo $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue();
+             $i=2;
+             $param=0;
+             $id_tec="";
+             while($param==0){
+                 try {
                     if ($objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue()!=NULL)
                     {
-
-                        // $id_tec = $objPHPExcel->getActiveSheet()->getCell(''.$i)->getvalue();
                         $rut = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue();
                         $nombre=$objPHPExcel->getActiveSheet()->getCell('B'.$i)->getValue();
                         $codigo= $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getvalue();
+                        $telefono= $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getvalue();
 
-    					$this->db->query_select("Delete from tbltecnicos Where codigo='$codigo'");
+     					$this->db->query_select("Delete from tbltecnicos Where codigo='$codigo'");
 
                         $this->db->Insert('tbltecnicos', array(
-                          // 'id_tecnicos'=>$id_tec,
-                          'rut'=>$rut,
-                          'nombre'=>$nombre,
-                          'codigo'=>$codigo
+                           // 'id_tecnicos'=>$id_tec,
+                           'rut'=>$rut,
+                           'nombre'=>$nombre,
+                           'codigo'=>$codigo,
+                           'telefono'=>$telefono
                         ));
                     }else{
-                      $param=1;
-                      return array('success' => 1, 'message' => "Datos cargados" );
+                        $param=1;
+                        return array('success' => 1, 'message' => "Datos cargados" );
                     }
                     $i++;
-                } catch (\Exception $e) {
+                 } catch (\Exception $e) {
                     return array('success' => 0, 'message' => $e->getMessage() );
-
-                }
-            }
-        }else{
-            return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
-        }
-
-    }
+                 }
+             }
+         }else{
+             return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
+         }
+     }
 
     /**
       * __construct()

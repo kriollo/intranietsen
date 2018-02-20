@@ -152,7 +152,7 @@ class Mdlcoordinacion extends Models implements IModels {
 // ------------------------------------------------------------------------------------------------------
 // DISTRIBUCION------------------------------------------------------------------------------------------
     public function getResumenOrdenesEjecutarBloques($fecha){
-        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso='$fecha' group by o.comuna,o.bloque order by b.desde");
+        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso<='$fecha' group by o.comuna,o.bloque order by b.desde");
     }
     public function db_resumen_ejecutivo_comuna(){
         return $this->db->query_select("Select comuna,count(*) cantidad from tbl_coordinacion_ejecutivo_comuna  group by comuna");
@@ -219,7 +219,7 @@ class Mdlcoordinacion extends Models implements IModels {
                                 <th>Cantidad</th>
                             </thead>
                             <tbody>";
-                            $resumen=$this->db->query_select("select comuna, count(comuna) cantidad from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and ubicacion='CONFIRMACION' group by comuna order by comuna");
+                            $resumen=$this->db->query_select("select comuna, count(comuna) cantidad from tblordenes where fecha_compromiso<='".date('Ymd')."' and bloque='".$bloque."' and ubicacion='CONFIRMACION' group by comuna order by comuna");
                             if (false == $resumen){
                                 $html.="<tr>";
                                 $html.="</tr>";
@@ -255,7 +255,7 @@ class Mdlcoordinacion extends Models implements IModels {
         global $http;
         $bloque = $http->request->get('bloque');
 
-        $sql="select comuna, count(comuna) cantidad from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and ubicacion='CONFIRMACION' group by comuna order by comuna";
+        $sql="select comuna, count(comuna) cantidad from tblordenes where fecha_compromiso<='".date('Ymd')."' and bloque='".$bloque."' and ubicacion='CONFIRMACION' group by comuna order by comuna";
         $resumen=$this->db->query_select($sql);// extrae cantidad de ordenes por comuna
         if (false != $resumen){
             foreach ($resumen as $key => $value) {
@@ -268,7 +268,7 @@ class Mdlcoordinacion extends Models implements IModels {
                     $sql="Select id_usuario from tbl_coordinacion_ejecutivo_comuna where estado=1 and comuna='".$value['comuna']."'";
                     $users_asiganacion = $this->db->query_select($sql); //extrae usuarios asignados a comuna
                     foreach ($users_asiganacion as $key2 => $value2) {
-                        $sql="select id_orden from tblordenes where fecha_compromiso='".date('Ymd')."' and bloque='".$bloque."' and comuna='".$value['comuna']."' and ubicacion='CONFIRMACION' order by comuna,nodo,subnodo limit $i,$resultd";
+                        $sql="select id_orden from tblordenes where fecha_compromiso<='".date('Ymd')."' and bloque='".$bloque."' and comuna='".$value['comuna']."' and ubicacion='CONFIRMACION' order by comuna,nodo,subnodo limit $i,$resultd";
                         $ordenes_asiganacion = $this->db->query_select($sql); //extrae ordenes correspondientas para asignar segun limit
                         if (false != $ordenes_asiganacion){
                             foreach ($ordenes_asiganacion as $key3 => $value3) {

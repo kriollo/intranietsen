@@ -50,17 +50,17 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
     <link rel=\"stylesheet\" href=\"views/app/template/skins/_all-skins.min.css\">
     <!-- Alertas -->
     <link rel=\"stylesheet\" href=\"views/app/template/jquery-confirm/jquery-confirm.min.css\">
-    
+
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel=\"stylesheet\" href=\"views/app/template/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css\">
-   
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src=\"https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js\"></script>
     <script src=\"https://oss.maxcdn.com/respond/1.4.2/respond.min.js\"></script>
     <![endif]-->
-    
+
     <!-- Google Font -->
     <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic\">
 
@@ -104,7 +104,7 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
         // line 69
         $this->displayBlock('appside', $context, $blocks);
         // line 72
-        echo "        
+        echo "
         ";
         // line 74
         echo "         <div class=\"content-wrapper\">
@@ -162,7 +162,7 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
     <script src=\"views/app/template/demo.js\"></script>
     <!-- Bootstrap WYSIHTML5 -->
     <script src=\"views/app/template/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js\"></script>
-    
+
     <!-- Alertas -->
     <script src=\"views/app/template/jquery-confirm/jquery-confirm.min.js\"></script>
 
@@ -171,16 +171,16 @@ class __TwigTemplate_6207d7dd50843ab07b12ebd3a430fdc5420a21583a42a5884f788b540d6
         var width = \$(document).width();
         if(width > 770){
             \$('body').addClass('sidebar-collapse');
-        } 
+        }
         \$(window).resize(function(){
             if(width <= 770){
                 \$('body').removeClass('sidebar-collapse');
-            } 
+            }
         })
     </script>
-    
-    
-    
+
+
+
     ";
         // line 156
         echo "    ";

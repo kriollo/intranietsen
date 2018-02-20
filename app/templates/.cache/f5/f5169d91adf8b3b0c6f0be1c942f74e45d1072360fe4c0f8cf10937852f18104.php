@@ -50,6 +50,10 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
     <link rel=\"stylesheet\" href=\"views/app/template/skins/_all-skins.min.css\">
     <!-- Alertas -->
     <link rel=\"stylesheet\" href=\"views/app/template/jquery-confirm/jquery-confirm.min.css\">
+
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel=\"stylesheet\" href=\"views/app/template/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css\">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -61,75 +65,84 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
     <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic\">
 
     ";
-        // line 35
+        // line 39
         $this->displayBlock('appStylos', $context, $blocks);
-        // line 38
+        // line 42
         echo "
     <link href=\"views/app/images/favicon.ico\" rel=\"shortcut icon\" type=\"image/x-icon\" />
     ";
-        // line 41
+        // line 45
         echo "    <title>";
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["config"] ?? null), "site", array()), "name", array()), "html", null, true);
         echo "</title>
 
     ";
-        // line 44
+        // line 48
         echo "    ";
         $this->displayBlock('appHeader', $context, $blocks);
-        // line 47
+        // line 51
         echo "
   </head>
-  <body class=\"hold-transition skin-blue sidebar-mini sidebar-collapse\"> <!--<body class=\"hold-transition skin-blue sidebar-mini\">-->
+  <body class=\"hold-transition skin-blue sidebar-mini\"> <!--<body class=\"hold-transition skin-blue sidebar-mini\">-->
     <div class=\"wrapper\">
+        <div style=\"display: none;\" id=\"cargador\" align=\"center\">
+            <br>
+            <label style=\"color:#FFF; background-color:#ABB6BA; text-align:center\">&nbsp;&nbsp;&nbsp;Espere... &nbsp;&nbsp;&nbsp;</label>
 
+            <img src=\"views/app/images/cargando.gif\" align=\"middle\" alt=\"cargador\"> &nbsp;<label style=\"color:#ABB6BA\">Realizando tarea solicitada ...</label>
+
+            <br>
+            <hr style=\"color:#003\" width=\"30%\">
+            <br>
+        </div>
         ";
-        // line 52
+        // line 65
         $this->displayBlock('appHead', $context, $blocks);
-        // line 55
+        // line 68
         echo "
         ";
-        // line 56
+        // line 69
         $this->displayBlock('appside', $context, $blocks);
-        // line 59
-        echo "        
+        // line 72
+        echo "
         ";
-        // line 61
+        // line 74
         echo "         <div class=\"content-wrapper\">
             ";
-        // line 62
+        // line 75
         $this->displayBlock('appBody', $context, $blocks);
-        // line 86
+        // line 99
         echo "        </div>
 
 
       ";
-        // line 90
+        // line 103
         echo "      ";
         $this->displayBlock('appFooter', $context, $blocks);
-        // line 93
+        // line 106
         echo "
       ";
-        // line 94
-        $this->loadTemplate("portal/resetpass", "portal/portal.twig", 94)->display($context);
-        // line 95
+        // line 107
+        $this->loadTemplate("portal/resetpass", "portal/portal.twig", 107)->display($context);
+        // line 108
         echo "    </div>
     ";
-        // line 97
+        // line 110
         echo "    ";
         if (twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["config"] ?? null), "framework", array()), "debug", array())) {
-            // line 98
+            // line 111
             echo "      ";
-            // line 99
+            // line 112
             echo "      <script src=\"views/app/js/jdev.min.js\"></script>
     ";
         } else {
-            // line 101
+            // line 114
             echo "      ";
-            // line 102
+            // line 115
             echo "      <script src=\"views/app/template/jquery/dist/jquery.min.js\"></script>
     ";
         }
-        // line 104
+        // line 117
         echo "
     <!-- jQuery UI 1.11.4 -->
     <script src=\"views/app/template/jquery-ui/jquery-ui.min.js\"></script>
@@ -147,62 +160,78 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
     <script src=\"views/app/template/adminlte.min.js\"></script>
     <!-- AdminLTE for demo purposes -->
     <script src=\"views/app/template/demo.js\"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src=\"views/app/template/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js\"></script>
+
     <!-- Alertas -->
     <script src=\"views/app/template/jquery-confirm/jquery-confirm.min.js\"></script>
 
     <script src=\"views/app/js/portal/portal.js\"></script>
+    <script>
+        var width = \$(document).width();
+        if(width > 770){
+            \$('body').addClass('sidebar-collapse');
+        }
+        \$(window).resize(function(){
+            if(width <= 770){
+                \$('body').removeClass('sidebar-collapse');
+            }
+        })
+    </script>
+
+
 
     ";
-        // line 127
+        // line 156
         echo "    ";
         $this->displayBlock('appScript', $context, $blocks);
-        // line 130
+        // line 159
         echo "
   </body>
 </html>
 ";
     }
 
-    // line 35
+    // line 39
     public function block_appStylos($context, array $blocks = array())
     {
-        // line 36
+        // line 40
         echo "
     ";
     }
 
-    // line 44
+    // line 48
     public function block_appHeader($context, array $blocks = array())
     {
-        // line 45
+        // line 49
         echo "      <!-- :) -->
     ";
     }
 
-    // line 52
+    // line 65
     public function block_appHead($context, array $blocks = array())
     {
-        // line 53
+        // line 66
         echo "            ";
-        $this->loadTemplate("portal/header", "portal/portal.twig", 53)->display($context);
-        // line 54
+        $this->loadTemplate("portal/header", "portal/portal.twig", 66)->display($context);
+        // line 67
         echo "        ";
     }
 
-    // line 56
+    // line 69
     public function block_appside($context, array $blocks = array())
     {
-        // line 57
+        // line 70
         echo "            ";
-        $this->loadTemplate("portal/menu", "portal/portal.twig", 57)->display($context);
-        // line 58
+        $this->loadTemplate("portal/menu", "portal/portal.twig", 70)->display($context);
+        // line 71
         echo "        ";
     }
 
-    // line 62
+    // line 75
     public function block_appBody($context, array $blocks = array())
     {
-        // line 63
+        // line 76
         echo "              <section class=\"content-header\">
               <h1>
                   ESCRITORIO
@@ -220,7 +249,7 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
                     <div class=\"panel panel-info\">
                       <div class=\"panel-heading\">
                         <h3 class=\"panel-title\">  <i class=\"icon fa fa-user\"></i> Bienvenido <strong>";
-        // line 79
+        // line 92
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "name", array(), "array"), "html", null, true);
         echo "</strong>.</h3>
                       </div>
@@ -231,20 +260,20 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
             ";
     }
 
-    // line 90
+    // line 103
     public function block_appFooter($context, array $blocks = array())
     {
-        // line 91
+        // line 104
         echo "        ";
-        $this->loadTemplate("portal/footer", "portal/portal.twig", 91)->display($context);
-        // line 92
+        $this->loadTemplate("portal/footer", "portal/portal.twig", 104)->display($context);
+        // line 105
         echo "      ";
     }
 
-    // line 127
+    // line 156
     public function block_appScript($context, array $blocks = array())
     {
-        // line 128
+        // line 157
         echo "
     ";
     }
@@ -261,7 +290,7 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
 
     public function getDebugInfo()
     {
-        return array (  248 => 128,  245 => 127,  241 => 92,  238 => 91,  235 => 90,  224 => 79,  206 => 63,  203 => 62,  199 => 58,  196 => 57,  193 => 56,  189 => 54,  186 => 53,  183 => 52,  178 => 45,  175 => 44,  170 => 36,  167 => 35,  160 => 130,  157 => 127,  133 => 104,  129 => 102,  127 => 101,  123 => 99,  121 => 98,  118 => 97,  115 => 95,  113 => 94,  110 => 93,  107 => 90,  102 => 86,  100 => 62,  97 => 61,  94 => 59,  92 => 56,  89 => 55,  87 => 52,  80 => 47,  77 => 44,  71 => 41,  67 => 38,  65 => 35,  32 => 6,  26 => 1,);
+        return array (  277 => 157,  274 => 156,  270 => 105,  267 => 104,  264 => 103,  253 => 92,  235 => 76,  232 => 75,  228 => 71,  225 => 70,  222 => 69,  218 => 67,  215 => 66,  212 => 65,  207 => 49,  204 => 48,  199 => 40,  196 => 39,  189 => 159,  186 => 156,  146 => 117,  142 => 115,  140 => 114,  136 => 112,  134 => 111,  131 => 110,  128 => 108,  126 => 107,  123 => 106,  120 => 103,  115 => 99,  113 => 75,  110 => 74,  107 => 72,  105 => 69,  102 => 68,  100 => 65,  84 => 51,  81 => 48,  75 => 45,  71 => 42,  69 => 39,  32 => 6,  26 => 1,);
     }
 
     public function getSourceContext()
@@ -290,6 +319,10 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
     <link rel=\"stylesheet\" href=\"views/app/template/skins/_all-skins.min.css\">
     <!-- Alertas -->
     <link rel=\"stylesheet\" href=\"views/app/template/jquery-confirm/jquery-confirm.min.css\">
+
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel=\"stylesheet\" href=\"views/app/template/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css\">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -314,9 +347,18 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
     {% endblock %}
 
   </head>
-  <body class=\"hold-transition skin-blue sidebar-mini sidebar-collapse\"> <!--<body class=\"hold-transition skin-blue sidebar-mini\">-->
+  <body class=\"hold-transition skin-blue sidebar-mini\"> <!--<body class=\"hold-transition skin-blue sidebar-mini\">-->
     <div class=\"wrapper\">
+        <div style=\"display: none;\" id=\"cargador\" align=\"center\">
+            <br>
+            <label style=\"color:#FFF; background-color:#ABB6BA; text-align:center\">&nbsp;&nbsp;&nbsp;Espere... &nbsp;&nbsp;&nbsp;</label>
 
+            <img src=\"views/app/images/cargando.gif\" align=\"middle\" alt=\"cargador\"> &nbsp;<label style=\"color:#ABB6BA\">Realizando tarea solicitada ...</label>
+
+            <br>
+            <hr style=\"color:#003\" width=\"30%\">
+            <br>
+        </div>
         {% block appHead %}
             {% include 'portal/header' %}
         {% endblock %}
@@ -324,7 +366,7 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
         {% block appside %}
             {% include 'portal/menu' %}
         {% endblock %}
-        
+
         {# Contenido real #}
          <div class=\"content-wrapper\">
             {% block appBody %}
@@ -386,10 +428,26 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
     <script src=\"views/app/template/adminlte.min.js\"></script>
     <!-- AdminLTE for demo purposes -->
     <script src=\"views/app/template/demo.js\"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src=\"views/app/template/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js\"></script>
+
     <!-- Alertas -->
     <script src=\"views/app/template/jquery-confirm/jquery-confirm.min.js\"></script>
 
     <script src=\"views/app/js/portal/portal.js\"></script>
+    <script>
+        var width = \$(document).width();
+        if(width > 770){
+            \$('body').addClass('sidebar-collapse');
+        }
+        \$(window).resize(function(){
+            if(width <= 770){
+                \$('body').removeClass('sidebar-collapse');
+            }
+        })
+    </script>
+
+
 
     {# Scripts globales #}
     {% block appScript %}
@@ -398,6 +456,6 @@ class __TwigTemplate_96f01f46e0e68070ca5a042435b22570b6875959218c42f061bdf7c9618
 
   </body>
 </html>
-", "portal/portal.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\portal\\portal.twig");
+", "portal/portal.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\portal\\portal.twig");
     }
 }

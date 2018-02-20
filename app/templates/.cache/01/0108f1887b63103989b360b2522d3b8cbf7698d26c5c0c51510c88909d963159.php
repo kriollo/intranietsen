@@ -1,7 +1,7 @@
 <?php
 
 /* despacho/cierre/listar_ordenes.twig */
-class __TwigTemplate_18ee37c74c6b1d256f412025c06ca9c6162397cb0f72b8d252026229869e1468 extends Twig_Template
+class __TwigTemplate_e5c6545cd36288f0a01978bbae61e4c6934b5a2b98600c5f56e5f8e24ba75f6f extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -266,6 +266,134 @@ $context["t"], "id_ejecutivo_cierre", array()) == ($context["id_user"] ?? null))
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "despacho/cierre/listar_ordenes.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\despacho\\cierre\\listar_ordenes.twig");
+        return new Twig_Source("{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel=\"stylesheet\" href=\"views/app/template/datatables/dataTables.bootstrap.css\">
+{% endblock %}
+{% block appBody %}
+<section class=\"content-header\">
+    <h1>
+        Cierre Asegurado
+        <small>Listado de Ordenes en estado de Cierre</small>
+    </h1>
+</section>
+<section class=\"content\">
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            <div class=\"box box-primary\">
+                <div class=\"box-body\">
+                    <form id=\"formordenes\" name=\"formordenes\">
+                        <table id=\"dataordenes\" name=\"dataordenes\" class=\"table table-bordered table-responsive\">
+                            <thead>
+                                <tr>
+                                    <th>Numero Orden</th>
+                                    <th>Ejecutivo</th>
+                                    <th>Rut Cliente</th>
+                                    <th>Fecha Compromiso</th>
+                                    <th>Bloque</th>
+                                    <th>Motivo</th>
+                                    <th>Comuna</th>
+                                    <th>Actividad</th>
+                                    <th>Resultado</th>
+                                    <th>Observacion</th>
+                                    <th>Funciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for t in ordenes_db if false != ordenes_db %}
+                                    <tr>
+                                        <td>{{ t.n_orden }}</td>
+                                        <td>{{ t.id_ejecutivo_cierre }}</td>
+                                        <td>{{ t.rut_cliente }}</td>
+                                        <td>{{ t.fecha_compromiso }}</td>
+                                        <td>{{ t.bloque }}</td>
+                                        <td>{{ t.motivo }}</td>
+                                        <td>{{ t.comuna }}</td>
+                                        <td>{{ t.actividad }}</td>
+                                        <td>{{ t.desc_resultado }}</td>
+                                        <td>{{ t.observacion }}</td>
+                                        <td class='pull-center'>
+                                          {% if t.id_ejecutivo_cierre == 0 %}
+                                          <a data-toggle='tooltip' data-placement='top' name=\"btnasigna\" title='Tomar cierre de OT' class='btn btn-success btn-sm' href=\"despacho/tomar_orden/{{ t.n_orden }}\">
+                                              <i class='glyphicon glyphicon-send'></i>
+                                          </a>
+                                          {% elseif t.id_ejecutivo_cierre == id_user %}
+                                            {% if t.cierre_seguro == 0 %}
+                                            <a data-toggle='tooltip' data-placement='top' name=\"btncierre\" title='Cierre Asegurado' class='btn btn-warning btn-sm' onclick=\"cierre_asegurado({{ t.n_orden }})\">
+                                                <i class='glyphicon glyphicon-earphone'></i>
+                                            </a>
+                                            {% else %}
+                                            <a data-toggle='tooltip' data-placement='top' name=\"btncierre\" title='Cierre Asegurado' class='btn btn-success btn-sm' disabled>
+                                                <i class='glyphicon glyphicon-earphone'></i>
+                                            </a>
+                                          {% endif %}
+
+                                            {% if t.certificacion == 0 %}
+                                          <a data-toggle='tooltip' data-placement='top' id=\"btncertifica\" name=\"btncertifica\" title='Certificacion' class='btn btn-warning btn-sm' onclick=\"subir_certificacion({{ t.n_orden }})\">
+                                              <i class='glyphicon glyphicon-saved'></i>
+                                          </a>
+                                          {% else %}
+                                          <a data-toggle='tooltip' data-placement='top' id=\"btncertifica\" name=\"btncertifica\" title='Certificacion' class='btn btn-success btn-sm' disabled>
+                                              <i class='glyphicon glyphicon-saved'></i>
+                                          </a>
+                                          {% endif %}
+
+                                            {% if t.speed_test == 0 %}
+                                          <a data-toggle='tooltip' data-placement='top' id=\"btnspeedtest\" name=\"btnspeedtest\" title='Speed Test' class='btn btn-warning btn-sm' onclick=\"subir_st({{ t.n_orden }})\">
+                                              <i class='glyphicon glyphicon-open'></i>
+                                          </a>
+                                          {% else %}
+                                            <a data-toggle='tooltip' data-placement='top' id=\"btnspeedtest\" name=\"btnspeedtest\" title='Speed Test' class='btn btn-success btn-sm' disabled>
+                                              <i class='glyphicon glyphicon-open'></i>
+                                          </a>
+                                          {% endif %}
+
+                                          <a data-placement='top' name=\"btnfinalizar\" id=\"btnfinalizar\" title=\"Finalizar Orden\" class='btn btn-danger btn-sm' onclick=\"seguro({{ t.n_orden }});\">
+                                              <i class='glyphicon glyphicon-certificate'></i>
+                                          </a>
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block appScript %}
+
+  <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
+  <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
+
+  <script src=\"views/app/js/despacho/cierre.js\"></script>
+
+    <script>
+        \$(\"#dataordenes\").dataTable({
+            \"language\": {
+                \"search\": \"Buscar:\",
+                \"zeroRecords\": \"No hay datos para mostrar\",
+                \"info\": \"Mostrando _END_ Registros, de un total de _TOTAL_ \",
+                \"loadingRecords\": \"Cargando...\",
+                \"processing\": \"Procesando...\",
+                \"infoEmpty\": \"No hay entradas para mostrar\",
+                \"lengthMenu\": \"Mostrar _MENU_ Filas\",
+                \"paginate\": {
+                    \"first\": \"Primera\",
+                    \"last\": \"Ultima\",
+                    \"next\": \"Siguiente\",
+                    \"previous\": \"Anterior\"
+                }
+            },
+            \"autoWidth\": true,
+            \"scrollX\": true
+        });
+    </script>
+{% endblock %}
+", "despacho/cierre/listar_ordenes.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\despacho\\cierre\\listar_ordenes.twig");
     }
 }

@@ -81,6 +81,6 @@ class __TwigTemplate_749ccfb5c29caa18fbeb28ae7d332631c10c729ffcf9613e89fd944466f
     </div>
   </div>
 </div>
-", "portal/resetpass.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\portal\\resetpass.twig");
+", "portal/resetpass.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\portal\\resetpass.twig");
     }
 }

@@ -218,6 +218,6 @@ class __TwigTemplate_b1e8058f75be4483ae10bff593ef64b0a054db44b87180d1638412da8c0
     {% endblock %}
   </body>
 </html>
-", "overall/layout.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\overall\\layout.twig");
+", "overall/layout.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\overall\\layout.twig");
     }
 }

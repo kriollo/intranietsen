@@ -16,7 +16,6 @@ function cargarcom(comuna){
 }
 function cargarres(resultado,cumplimiento){
     document.formorden.textresultado.value=resultado;
-    document.formorden.textcumplimiento.value=cumplimiento;
 }
 function cargartipoorden(tipooden){
     document.formorden.texttipoorden.value=tipooden;
@@ -42,9 +41,6 @@ function cargarmodres(modresultado){
 // CONFIRMACION JS HECTORELFATHER---------------------------------------------------------------
 function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_redirect){
   switch(api_rest) {
-    case "registra_nueva_actividad":
-      title='Registro de Actividad';
-      break;
     case "registra_nuevo_bloque":
       title='Registro de Bloque';
       break;
@@ -56,9 +52,6 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
       break;
     case "registra_nuevo_resultado":
       title='Registro de Resultado';
-      break;
-    case "editar_actividad":
-      title='Modificar Actividad';
       break;
     case "editar_bloque":
       title='Modificar Bloque';
@@ -105,15 +98,6 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
     }
   });
 }
-
-$('#register_actividad').click(function(e) {
-  e.defaultPrevented;
-  execute_accion_confirmacion("POST","registra_nueva_actividad",'register_actividad_form','redirect','confirmacion/listar_actividades');
-});
-$('#update_actividad').click(function(e) {
-  e.defaultPrevented;
-  execute_accion_confirmacion("POST","editar_actividad",'editar_actividad_form','redirect','confirmacion/listar_actividades');
-});
 
 $('#register_bloque').click(function(e) {
   e.defaultPrevented;
@@ -163,13 +147,12 @@ $('#update_tipoorden').click(function(e) {
 $('#btningresar').click(function(e){
   e.defaultPrevented;
   execute_accion_confirmacion("post","ingresar_orden",'formorden','back','confirmacion/listar_ordenes');
-
 });
 $('#modbtningresar').click(function(e){
   e.defaultPrevented;
   execute_accion_confirmacion("post","modificar_la_orden",'formmodorden','back');
 });
-function asignardato(ordeneliminar){
+function Eliminar_OT(ordeneliminar){
     $('#textlisteliminar').val(ordeneliminar);
 }
 function revisar_por_fecha(){
@@ -279,3 +262,128 @@ $('#textidorden').focusout(function(event) {
         });
     }
 });
+function registrar_actividad() {
+    var formData = new FormData();
+    var speed_test=0, certificacion=0, cierre_seguro=0;
+    if ($('#speed_test').is(':checked')) {
+    speed_test = 1;
+    }
+    if ($('#certificacion').is(':checked')) {
+        certificacion = 1;
+    }
+    if ($('#cierre_seguro').is(':checked')) {
+        cierre_seguro = 1;
+    }
+    formData.append('actividad', document.getElementById('actividad').value);
+    formData.append('speed_test', speed_test);
+    formData.append('certificacion', certificacion);
+    formData.append('cierre_seguro', cierre_seguro);
+    $.ajax({
+        type: "POST",
+        url: "api/registra_nueva_actividad",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            if (data.success == 1) {
+                $.confirm({
+                    icon: 'glyphicon glyphicon-ok',
+                    title: 'Actividad',
+                    content: '<h4>Actividad Ingresada con exito</h4>',
+                    type: 'green',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Aceptar',
+                            btnClass: 'btn-green',
+                            action: function () {
+                                var referrer = document.referrer;
+                                 window.location.href = referrer;
+                            }
+                        },
+                    },
+                });
+            } else {
+                $.confirm({
+                    icon: 'glyphicon glyphicon-remove',
+                    title: 'Actividad',
+                    content: '<h4>No se pudo ingresar la actividad</h4>',
+                    type: 'red',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Aceptar',
+                            btnClass: 'btn-green',
+                            action: function () {
+                            }
+                        },
+                    },
+                });
+            }
+        },
+        error: function (xhr, status) {
+            msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
+        }
+    });
+}
+function editar_actividad(id) {
+    var formData = new FormData();
+    var speed_test = 0, certificacion = 0, cierre_seguro = 0;
+    if ($('#speed_test').is(':checked')) {
+        speed_test = 1;
+    }
+    if ($('#certificacion').is(':checked')) {
+        certificacion = 1;
+    }
+    if ($('#cierre_seguro').is(':checked')) {
+        cierre_seguro = 1;
+    }
+    formData.append('actividad', document.getElementById('actividad').value);
+    formData.append('speed_test', speed_test);
+    formData.append('certificacion', certificacion);
+    formData.append('cierre_seguro', cierre_seguro);
+    formData.append('id_actividad', id);
+    $.ajax({
+        type: "POST",
+        url: "api/editar_actividad",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            if (data.success == 1) {
+                $.confirm({
+                    icon: 'glyphicon glyphicon-ok',
+                    title: 'Actividad',
+                    content: '<h4>Actividad editada con exito</h4>',
+                    type: 'green',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Aceptar',
+                            btnClass: 'btn-green',
+                            action: function () {
+                                var referrer = document.referrer;
+                                window.location.href = referrer;
+                            }
+                        },
+                    },
+                });
+            } else {
+                $.confirm({
+                    icon: 'glyphicon glyphicon-remove',
+                    title: 'Actividad',
+                    content: '<h4>No se pudo editar la actividad</h4>',
+                    type: 'red',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Aceptar',
+                            btnClass: 'btn-green',
+                            action: function () {
+                            }
+                        },
+                    },
+                });
+            }
+        },
+        error: function (xhr, status) {
+            msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
+        }
+    });
+}

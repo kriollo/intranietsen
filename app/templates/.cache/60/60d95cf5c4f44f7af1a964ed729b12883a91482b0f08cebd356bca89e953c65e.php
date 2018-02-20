@@ -1,7 +1,7 @@
 <?php
 
 /* despacho/seguimiento.twig */
-class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a81864378c extends Twig_Template
+class __TwigTemplate_9826e45e3c6af304706e9723713ed6bd671120d47aba55f93b99f9993414ecd9 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -429,6 +429,231 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "despacho/seguimiento.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\despacho\\seguimiento.twig");
+        return new Twig_Source("{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel=\"stylesheet\" href=\"views/app/template/datatables/dataTables.bootstrap.css\">
+{% endblock %}
+{% block appBody %}
+<section class=\"content-header\">
+    <h1>
+        DESPACHO
+        <small>Seguimiento</small>
+    </h1>
+    <ol class=\"breadcrumb\">
+    <li><a href=\"#\"><i class=\"fa fa-home\"></i>Home</a></li>
+    <li class=\"active\">Dashboard</li>
+    </ol>
+</section>
+<section class=\"content\">
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            <div class=\"nav-tabs-custom\">
+                <ul class=\"nav nav-tabs pull-rigth\">
+                    <li ><a href=\"#tab_1-1\" data-toggle=\"tab\" onclick=\"actualizar_tablas_resumenes('{{ owner_user['id_user'] }}','usuario');\">RESUMEN SEGUIMIENTO</a></li>
+                    <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\">SEGUIMIENTO</a></li>
+                    <li><a id=\"tab3\" href=\"#tab_3-3\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes('{{ owner_user['id_user'] }}','*','usuario');\">VER ORDENES</a></li>
+                </ul>
+                <div class=\"tab-content\">
+                    <div class=\"tab-pane\" id=\"tab_1-1\">
+                        <div class=\"row\">
+                            <div class=\"col-xs-12\">
+                                <div class=\"box\">
+                                    <div class=\"box-header\">
+                                        <h3 class=\"box-title\">Comunas y Ordenes Asignadas</h3>
+                                    </div>
+                                    <div class=\"box-body\">
+                                        <table class=\"table table-bordered table-responsive\">
+                                            <thead>
+                                                <th>COMUNA</th>
+                                                {% for d in db_tipoorden if false != db_tipoorden %}
+                                                    <th class=\"text-center\">{{ d.descripcion }}</th>
+                                                {% endfor %}
+                                                <th class=\"text-center\">TOTAL</th>
+                                            </thead>
+                                            <tbody>
+                                                {% for c in db_comunas if false != db_comunas %}
+                                                <tr>
+                                                    <td>{{ c.comuna }}</td>
+                                                    {% set total_fila =0 %}
+                                                    {% for d in db_tipoorden if false != db_tipoorden %}
+                                                        {% set break_for = false %}
+                                                        {% for cant in db_cantidad_por_comuna if false != db_cantidad_por_comuna %}
+                                                            {% if break_for == false %}
+                                                                {% if c.comuna == cant.comuna and d.descripcion == cant.descripcion %}
+                                                                    <td class=\"text-center\">{{ cant.cantidad }}</td>
+                                                                    {% set total_fila = total_fila + cant.cantidad %}
+                                                                    {% set break_for = true %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if break_for == false %}
+                                                            <td class=\"text-center\">0</td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <td class=\"text-center\"><a onclick=\"mover_tab_3('{{ owner_user['id_user'] }}','{{ c.comuna }}','usuario');\">{{ total_fila }}</a></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=\"row\">
+                            <div class=\"col-md-12\">
+                                <div class=\"box\">
+                                    <div class=\"box-header\">
+                                        <h3 class=\"box-title\">Tecnicos Asignados</h3>
+                                    </div>
+                                    <div id=\"div_contenedor_tecnicos_asignados\" class=\"box-body\">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=\"tab-pane active\" id=\"tab_2-2\">
+                        <div class=\"box box-primary\">
+                            <div class=\"box-body resposible\">
+                                <div class=\"col-md-12\">
+                                    <div class=\"row\">
+                                        <div class=\"col-md-1\">
+                                            <label>Seleccione Comuna:
+                                        </div></label>
+                                        <div class=\"col-md-3\">
+                                            <select class=\"form-control\" id=\"comuna_Seguimiento\" name=\"comuna_Seguimiento\" onchange=\"carga_ordenes_comuna_seguimiento();\">
+                                                <option>--</option>
+                                                {% for d in db_comunas if false != db_comunas %}
+                                                    <option value=\"{{ d.comuna }}\">{{ d.comuna }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class=\"row\">
+                                        <form id=\"formseguimiento\" name=\"formseguimiento\" method=\"post\">
+                                            <table class=\"table table-bordered table-responsive\" id=\"tblseguimiento\" name=\"tblseguimiento\">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tipo Orden</th>
+                                                        <th>N° Orden</th>
+                                                        <th>Rut Cliente</th>
+                                                        <th>Fecha compromiso</th>
+                                                        <th>Bloque</th>
+                                                        <th>Prioridad</th>
+                                                        <th>Tecnico Asignado</th>
+                                                        <th>Estado de Orden</th>
+                                                        <th>OPERACIONES</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Carga Mediante archivo -->
+                                                </tbody>
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=\"tab-pane\" id=\"tab_3-3\">
+                        <div class=\"box box-primary\">
+                            <div class=\"box-body resposible\">
+                                <div class=\"col-md-12\">
+                                    <form id=\"formordenes\" name=\"formordenes\" method=\"post\">
+                                        <table class=\"table table-bordered table-responsive\" id=\"tblordenes\" name=\"tblordenes\">
+                                            <thead>
+                                                <tr>
+                                                <th>No</th>
+                                                <th>Tipo Orden</th>
+                                                <th>N° Orden</th>
+                                                <th>Rut Cliente</th>
+                                                <th>Fecha compromiso</th>
+                                                <th>Bloque</th>
+                                                <th>Comuna</th>
+                                                <th>Tecnico Asignado</th>
+                                                <th>Estado de Orden</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% set No = 1 %}
+                                                {% for t in db_ordeneshoy if false != db_ordeneshoy %}
+                                                    <tr>
+                                                        <td>{{ No }}</td>
+                                                        <td>{{t.desctipoorden}}</td>
+                                                        <td>{{t.n_orden}}</td>
+                                                        <td>{{t.rut_cliente}}</td>
+                                                        <td>{{t.fecha_compromiso}}</td>
+                                                        <td>{{t.bloque}}</td>
+                                                        <td>{{t.comuna}}</td>
+                                                        <td>{{t.nombre}}</td>
+                                                        <td>{{t.desc_estado_orden}}</td>
+                                                    </tr>
+                                                {% set No =  No + 1 %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block appScript %}
+
+  <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
+  <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
+
+  <script src=\"views/app/js/despacho/despacho.js\"></script>
+
+  <script>
+    \$(\"#tblseguimiento\").dataTable({
+      \"language\": {
+        \"search\": \"Buscar:\",
+        \"zeroRecords\": \"No hay datos para mostrar\",
+        \"info\": \"Mostrando _END_ Registros, de un total de _TOTAL_ \",
+        \"loadingRecords\": \"Cargando...\",
+        \"processing\": \"Procesando...\",
+        \"infoEmpty\": \"No hay entradas para mostrar\",
+        \"lengthMenu\": \"Mostrar _MENU_ Filas\",
+        \"paginate\": {
+          \"first\": \"Primera\",
+          \"last\": \"Ultima\",
+          \"next\": \"Siguiente\",
+          \"previous\": \"Anterior\"
+        }
+      },
+      \"autoWidth\": true,
+      \"bSort\": false
+    });
+  </script>
+  <script>
+    \$(\"#tblordenes\").dataTable({
+      \"language\": {
+        \"search\": \"Buscar:\",
+        \"zeroRecords\": \"No hay datos para mostrar\",
+        \"info\": \"Mostrando _END_ Registros, de un total de _TOTAL_ \",
+        \"loadingRecords\": \"Cargando...\",
+        \"processing\": \"Procesando...\",
+        \"infoEmpty\": \"No hay entradas para mostrar\",
+        \"lengthMenu\": \"Mostrar _MENU_ Filas\",
+        \"paginate\": {
+          \"first\": \"Primera\",
+          \"last\": \"Ultima\",
+          \"next\": \"Siguiente\",
+          \"previous\": \"Anterior\"
+        }
+      },
+      \"autoWidth\": true,
+      \"bSort\": false
+    });
+  </script>
+{% endblock %}
+", "despacho/seguimiento.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\despacho\\seguimiento.twig");
     }
 }

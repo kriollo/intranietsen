@@ -69,6 +69,6 @@ class __TwigTemplate_4eaa154f175390842a2f0bd362950de6d0ee9f6ad67f5dd625c9c4cde10
     </div>
   </div>
 </div>
-", "home/lostpass.twig", "C:\\xampp\\htdocs\\proyectos\\login\\app\\templates\\home\\lostpass.twig");
+", "home/lostpass.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\home\\lostpass.twig");
     }
 }

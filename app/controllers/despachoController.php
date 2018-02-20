@@ -37,14 +37,15 @@ class despachoController extends Controllers implements IControllers {
         switch($this->method){
             case 'seguimiento':
                 $cantidad=(new Model\Mdldespacho)->cantidad_ordenes();
+                $id_usuario = (new Model\Users)->getOwnerUser();
                 echo $this->template->render('despacho/seguimiento', array(
                     'menu_op' => $op,
-                    'db_comunas'=> (new Model\Mdldespacho)->comunas_asignadas(),
+                    'db_comunas'=> (new Model\Mdldespacho)->comunas_asignadas($id_usuario['id_user']),
+                    'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden(),
                     'db_cantidad_por_comuna'=> (new Model\Mdldespacho)->cantidad_ordenes(),
-                    'db_ordenes'=> (new Model\Mdldespacho)->ordenes(),
-                    'db_tecnicos'=> (new Model\Mdldespacho)->tecnicos(),
-                    'db_tbltecnicos'=> (new Model\Mdldespacho)->carga_tecnicos(),
-                    'db_estados'=> (new Model\Mdldespacho)->cargar_estados()
+                    //'db_tbltecnicos'=> (new Model\Mdldespacho)->carga_tecnicos($id_usuario['id_user']),
+                    'db_estados'=> (new Model\Mdldespacho)->cargar_estados(),
+                    'db_ordeneshoy' => (new Model\Mdldespacho)->listar_todas_ordenes()
                 ));
             break;
             case 'mantenedores_crud_masters':
@@ -91,6 +92,20 @@ class despachoController extends Controllers implements IControllers {
             break;
             case 'tomar_orden':
                 (new Model\Mdlcierre)->tomar_orden($router->getId(true));
+            break;
+            case 'listar_ordenes_ejecutivo':
+                $user = (new Model\Users)->getOwnerUser();
+                echo $this->template->render('despacho/supervisor/listado_ot', array(
+                    'menu_op' => $op,
+                    'personal_db' => (new Model\Mdlcoordinacion)->db_ejecutivos_despacho(),
+                    'id_user' => $user['id_user']
+                ));
+            break;
+            case 'visor_supervisor':
+                echo $this->template->render('despacho/supervisor/visor_supervisor', array(
+                    'menu_op' => $op,
+                    'personal_db' => (new Model\Mdlcoordinacion)->db_ejecutivos_despacho()
+                ));
             break;
             default:
                 echo $this->template->render('despacho/despacho', array(
