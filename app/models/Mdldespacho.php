@@ -52,7 +52,7 @@ class Mdldespacho extends Models implements IModels {
             $sql_idusuario =" and o.id_usuario_despacho='$idusuario'";
         }
 
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.rut_cliente,DATE_FORMAT(o.fecha_compromiso, '%d-%m-%Y') fecha_compromiso,o.bloque,o.bloque,o.comuna,t.nombre,o.codigo_tecnico,o.estado_orden,eo.descripcion desc_estado_orden,ton.descripcion desctipoorden,o.prioridad from (((tblordenes o left join tbltecnicos t on t.id_tecnicos=o.codigo_tecnico) left join tbl_estado_orden eo on o.estado_orden=eo.id_estado) inner join tbltipoorden ton on ton.id_tipoorden=o.tipoorden) inner join tblbloque b on b.bloque=o.bloque where  o.ubicacion='DESPACHO' $sql_idusuario $sql_comuna order by o.codigo_tecnico desc,o.fecha_compromiso asc,b.desde,o.prioridad asc,o.comuna $limit");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.rut_cliente,DATE_FORMAT(o.fecha_compromiso, '%d-%m-%Y') fecha_compromiso,o.bloque,o.bloque,o.comuna,t.nombre,o.codigo_tecnico,o.estado_orden,eo.descripcion desc_estado_orden,ton.descripcion desctipoorden,o.prioridad,o.speed_test from (((tblordenes o left join tbltecnicos t on t.id_tecnicos=o.codigo_tecnico) left join tbl_estado_orden eo on o.estado_orden=eo.id_estado) inner join tbltipoorden ton on ton.id_tipoorden=o.tipoorden) inner join tblbloque b on b.bloque=o.bloque where  o.ubicacion='DESPACHO' $sql_idusuario $sql_comuna order by o.codigo_tecnico desc,o.fecha_compromiso asc,b.desde,o.prioridad asc,o.comuna $limit");
 
     }
     public function cargar_tabla_seguimiento(){
@@ -135,6 +135,17 @@ class Mdldespacho extends Models implements IModels {
                     <option value="CIERRE">Cierre Seguro</option>
                     <option value="FINALIZADO">Finalizar</option>
                 </select>';
+
+                if ($value['speed_test'] == 0){
+                    $html_select3.="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-warning btn-sm' onclick=\"subir_st('".$value['n_orden']."')\">
+                        <i class='glyphicon glyphicon-open'></i>
+                    </a>";
+                }else{
+                    $html_select3.="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-success btn-sm' disabled>
+                        <i class='glyphicon glyphicon-open'></i>
+                    </a>";
+                }
+
 
                 $json['aaData'][]=array($value['desctipoorden'],$value['n_orden'],$value['rut_cliente'],$value['fecha_compromiso'],$value['bloque'],$value['prioridad'],$html_select,$html_select2,$html_select3);
             }
@@ -352,7 +363,6 @@ class Mdldespacho extends Models implements IModels {
 
         return array('success' => 1, 'message' => $html);
     }
-
     public function recargar_tabla_resumen_ordenes(){
         global $http;
         $idusuario=$http->request->get('idusuario');

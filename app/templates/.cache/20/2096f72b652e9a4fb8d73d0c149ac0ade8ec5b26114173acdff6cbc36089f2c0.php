@@ -193,7 +193,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
 
   <script src=\"views/app/js/despacho/despacho.js\"></script>
-
+  <script src=\"views/app/js/despacho/cierre.js\"></script>
   <script>
     \$(\"#tblseguimiento\").dataTable({
       \"language\": {
