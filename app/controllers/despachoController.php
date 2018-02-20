@@ -36,16 +36,12 @@ class despachoController extends Controllers implements IControllers {
 
         switch($this->method){
             case 'seguimiento':
-                //$cantidad=(new Model\Mdldespacho)->cantidad_ordenes();
                 $id_usuario = (new Model\Users)->getOwnerUser();
                 echo $this->template->render('despacho/seguimiento', array(
                     'menu_op' => $op,
                     'db_comunas'=> (new Model\Mdldespacho)->comunas_asignadas($id_usuario['id_user']),
                     'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden(),
-                    //'db_cantidad_por_comuna'=> (new Model\Mdldespacho)->cantidad_ordenes(),
-                    //'db_tbltecnicos'=> (new Model\Mdldespacho)->carga_tecnicos($id_usuario['id_user']),
-                    'db_estados'=> (new Model\Mdldespacho)->cargar_estados(),
-                    'db_ordeneshoy' => (new Model\Mdldespacho)->listar_todas_ordenes()
+                    'db_estados'=> (new Model\Mdldespacho)->cargar_estados()
                 ));
             break;
             case 'mantenedores_crud_masters':

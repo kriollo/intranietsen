@@ -52,7 +52,7 @@ class Mdldespacho extends Models implements IModels {
             $sql_idusuario =" and o.id_usuario_despacho='$idusuario'";
         }
 
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.rut_cliente,DATE_FORMAT(o.fecha_compromiso, '%d-%m-%Y') fecha_compromiso,o.bloque,o.bloque,o.comuna,t.nombre,o.codigo_tecnico,o.estado_orden,eo.descripcion desc_estado_orden,ton.descripcion desctipoorden,o.prioridad from (((tblordenes o left join tbltecnicos t on t.id_tecnicos=o.codigo_tecnico) left join tbl_estado_orden eo on o.estado_orden=eo.id_estado) inner join tbltipoorden ton on ton.id_tipoorden=o.tipoorden) inner join tblbloque b on b.bloque=o.bloque where  o.ubicacion='DESPACHO' $sql_idusuario $sql_comuna order by o.codigo_tecnico desc,o.fecha_compromiso,b.desde,o.prioridad asc,o.comuna $limit");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.rut_cliente,DATE_FORMAT(o.fecha_compromiso, '%d-%m-%Y') fecha_compromiso,o.bloque,o.bloque,o.comuna,t.nombre,o.codigo_tecnico,o.estado_orden,eo.descripcion desc_estado_orden,ton.descripcion desctipoorden,o.prioridad from (((tblordenes o left join tbltecnicos t on t.id_tecnicos=o.codigo_tecnico) left join tbl_estado_orden eo on o.estado_orden=eo.id_estado) inner join tbltipoorden ton on ton.id_tipoorden=o.tipoorden) inner join tblbloque b on b.bloque=o.bloque where  o.ubicacion='DESPACHO' $sql_idusuario $sql_comuna order by o.codigo_tecnico desc,o.fecha_compromiso asc,b.desde,o.prioridad asc,o.comuna $limit");
 
     }
     public function cargar_tabla_seguimiento(){

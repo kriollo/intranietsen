@@ -31,39 +31,6 @@
                                         <h3 class="box-title">Comunas y Ordenes Asignadas</h3>
                                     </div>
                                     <div id="div_contenedor_resumen_ordenes" class="box-body">
-                                        <table class="table table-bordered table-responsive">
-                                            <thead>
-                                                <th>COMUNA</th>
-                                                {% for d in db_tipoorden if false != db_tipoorden %}
-                                                    <th class="text-center">{{ d.descripcion }}</th>
-                                                {% endfor %}
-                                                <th class="text-center">TOTAL</th>
-                                            </thead>
-                                            <tbody>
-                                                {% for c in db_comunas if false != db_comunas %}
-                                                <tr>
-                                                    <td>{{ c.comuna }}</td>
-                                                    {% set total_fila =0 %}
-                                                    {% for d in db_tipoorden if false != db_tipoorden %}
-                                                        {% set break_for = false %}
-                                                        {% for cant in db_cantidad_por_comuna if false != db_cantidad_por_comuna %}
-                                                            {% if break_for == false %}
-                                                                {% if c.comuna == cant.comuna and d.descripcion == cant.descripcion %}
-                                                                    <td class="text-center">{{ cant.cantidad }}</td>
-                                                                    {% set total_fila = total_fila + cant.cantidad %}
-                                                                    {% set break_for = true %}
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                        {% if break_for == false %}
-                                                            <td class="text-center">0</td>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                    <td class="text-center"><a onclick="mover_tab_3('{{ owner_user['id_user'] }}','{{ c.comuna }}','usuario');">{{ total_fila }}</a></td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -144,21 +111,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% set No = 1 %}
-                                                {% for t in db_ordeneshoy if false != db_ordeneshoy %}
-                                                    <tr>
-                                                        <td>{{ No }}</td>
-                                                        <td>{{t.desctipoorden}}</td>
-                                                        <td>{{t.n_orden}}</td>
-                                                        <td>{{t.rut_cliente}}</td>
-                                                        <td>{{t.fecha_compromiso}}</td>
-                                                        <td>{{t.bloque}}</td>
-                                                        <td>{{t.comuna}}</td>
-                                                        <td>{{t.nombre}}</td>
-                                                        <td>{{t.desc_estado_orden}}</td>
-                                                    </tr>
-                                                {% set No =  No + 1 %}
-                                                {% endfor %}
                                             </tbody>
                                         </table>
                                     </form>
