@@ -61,7 +61,7 @@ class Mdlcoordinacion extends Models implements IModels {
             $asignada = $this->db->select('*','tbl_coordinacion_ejecutivo_comuna',"id_usuario='$id_personal'");
 
             if ($noAsignada != true) {
-                return array('success' => 1,'comunasNoAsignadas' => $noAsignada);
+                return array('success' => 1, 'comunasAsignadas' => $asignada,'comunasNoAsignadas' => $noAsignada);
             }else {
                 return array('success' => 1, 'comunasAsignadas' => $asignada, 'comunasNoAsignadas' => $noAsignada);
             }
@@ -152,7 +152,7 @@ class Mdlcoordinacion extends Models implements IModels {
 // ------------------------------------------------------------------------------------------------------
 // DISTRIBUCION------------------------------------------------------------------------------------------
     public function getResumenOrdenesEjecutarBloques($fecha){
-        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso<='$fecha' group by o.comuna,o.bloque order by b.desde");
+        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso<='$fecha' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') group by o.comuna,o.bloque order by b.desde");
     }
     public function db_resumen_ejecutivo_comuna(){
         return $this->db->query_select("Select comuna,count(*) cantidad from tbl_coordinacion_ejecutivo_comuna  group by comuna");

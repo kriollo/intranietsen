@@ -46,7 +46,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
         <input type=\"hidden\" name=\"idusuario\" id=\"idusuario\" value=\"\">
 
         <select id=\"ejecutivo_filtro\" name=\"ejecutivo_filtro\" style=\"width:20em;\" onchange=\"document.getElementById('idusuario').value=document.getElementById('ejecutivo_filtro').value;\">
-            <option value=\"\">--</option>
+            <option value=\"0\">--</option>
             <option value=\"TODOS\">TODOS</option>
             ";
         // line 16
@@ -149,6 +149,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
                                                 <thead>
                                                     <tr>
                                                         <th>Tipo Orden</th>
+                                                        <th>Actividad</th>
                                                         <th>N° Orden</th>
                                                         <th>Rut Cliente</th>
                                                         <th>Fecha compromiso</th>
@@ -179,6 +180,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
                                                 <tr>
                                                 <th>No</th>
                                                 <th>Tipo Orden</th>
+                                                <th>Actividad</th>
                                                 <th>N° Orden</th>
                                                 <th>Rut Cliente</th>
                                                 <th>Fecha compromiso</th>
@@ -207,10 +209,10 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
 ";
     }
 
-    // line 141
+    // line 143
     public function block_appScript($context, array $blocks = array())
     {
-        // line 142
+        // line 144
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -274,7 +276,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
 
     public function getDebugInfo()
     {
-        return array (  214 => 142,  211 => 141,  142 => 75,  130 => 73,  125 => 72,  70 => 19,  58 => 17,  53 => 16,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  216 => 144,  213 => 143,  142 => 75,  130 => 73,  125 => 72,  70 => 19,  58 => 17,  53 => 16,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

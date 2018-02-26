@@ -81,9 +81,6 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
     case "modificar_la_orden":
       title="Modificacion en Orden";
       break;
-    case "eliminarorden":
-      title="Eliminar Orden";
-      break;
       // -------------------------------------------------------
   }
   $.ajax({
@@ -152,9 +149,6 @@ $('#modbtningresar').click(function(e){
   e.defaultPrevented;
   execute_accion_confirmacion("post","modificar_la_orden",'formmodorden','back');
 });
-function Eliminar_OT(ordeneliminar){
-    $('#textlisteliminar').val(ordeneliminar);
-}
 function revisar_por_fecha(){
     var formData = new FormData();
     formData.append('fecha',document.getElementById('revhasta').value);
@@ -386,4 +380,30 @@ function editar_actividad(id) {
             msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
         }
     });
+}
+function Eliminar_OT(id) {
+    $.confirm({
+        icon: 'fa fa-warning',
+        title: 'Eliminar OT!',
+        content: '<h3>¿Esta seguro que desea eliminar esta orden?</h3>',
+        type: 'red',
+        buttons: {
+            formSubmit: {
+                text: 'Eliminar',
+                btnClass: 'btn-red',
+                action: function () {
+                    location.href = 'confirmacion/eliminar_OT/' + id;
+                    $("#btnbuscar").trigger("click");
+
+                }
+            },
+            cancel: {
+                text: 'Cancelar',
+                action: function () {
+
+                }
+            }
+        },
+
+    })
 }

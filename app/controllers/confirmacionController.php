@@ -238,6 +238,9 @@ class confirmacionController extends Controllers implements IControllers {
                     'db_ejecutivos'=>(new Model\Mdlconfirmacion)->listar_ejecutivos()
                 ));
             break;
+            case 'eliminar_OT':
+                (new Model\Mdlconfirmacion)->eliminarorden($router->getId(true));
+            break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('confirmacion/confirmacion', array(

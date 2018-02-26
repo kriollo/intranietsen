@@ -61,7 +61,11 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                     <li><a id=\"tab3\" href=\"#tab_3-3\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes('";
         // line 23
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
-        echo "','*','usuario');\">VER ORDENES</a></li>
+        echo "','*','usuario');\">ORDENES ASIGANDAS</a></li>
+                    <li><a id=\"tab4\" href=\"#tab_4-4\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes('";
+        // line 24
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
+        echo "','*','sin_asignar');\">ORDENES SIN ASIGNAR</a></li>
                 </ul>
                 <div class=\"tab-content\">
                     <div class=\"tab-pane\" id=\"tab_1-1\">
@@ -100,12 +104,12 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                                             <select class=\"form-control\" id=\"comuna_Seguimiento\" name=\"comuna_Seguimiento\" onchange=\"carga_ordenes_comuna_seguimiento();\">
                                                 <option>--</option>
                                                 ";
-        // line 61
+        // line 62
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_comunas"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["db_comunas"] ?? null))) {
-                // line 62
+                // line 63
                 echo "                                                    <option value=\"";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "comuna", array()), "html", null, true);
                 echo "\">";
@@ -117,7 +121,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 64
+        // line 65
         echo "                                            </select>
                                         </div>
                                     </div>
@@ -128,14 +132,15 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                                                 <thead>
                                                     <tr>
                                                         <th>Tipo Orden</th>
+                                                        <th>Actividad</th>
                                                         <th>N° Orden</th>
                                                         <th>Rut Cliente</th>
                                                         <th>Fecha compromiso</th>
                                                         <th>Bloque</th>
-                                                        <th>Prioridad</th>
                                                         <th>Tecnico Asignado</th>
                                                         <th>Estado de Orden</th>
                                                         <th>OPERACIONES</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -152,25 +157,52 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                         <div class=\"box box-primary\">
                             <div class=\"box-body resposible\">
                                 <div class=\"col-md-12\">
-                                    <form id=\"formordenes\" name=\"formordenes\" method=\"post\">
-                                        <table class=\"table table-bordered table-responsive\" id=\"tblordenes\" name=\"tblordenes\">
+                                    <table class=\"table table-bordered table-responsive\" id=\"tblordenes\" name=\"tblordenes\">
+                                        <thead>
+                                            <tr>
+                                            <th>No</th>
+                                            <th>Tipo Orden</th>
+                                            <th>Actividad</th>
+                                            <th>N° Orden</th>
+                                            <th>Rut Cliente</th>
+                                            <th>Fecha compromiso</th>
+                                            <th>Bloque</th>
+                                            <th>Comuna</th>
+                                            <th>Tecnico Asignado</th>
+                                            <th>Estado de Orden</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=\"tab-pane\" id=\"tab_4-4\">
+                        <div class=\"box box-primary\">
+                            <div class=\"box-body resposible\">
+                                <div class=\"col-md-12\">
+                                    <!-- <form id=\"formordenes\" name=\"formordenes\" method=\"post\"> -->
+                                        <table class=\"table table-bordered table-responsive\" id=\"tblordenes_sin_asignar\" name=\"tblordenes_sin_asignar\">
                                             <thead>
                                                 <tr>
                                                 <th>No</th>
                                                 <th>Tipo Orden</th>
+                                                <th>Actividad</th>
                                                 <th>N° Orden</th>
                                                 <th>Rut Cliente</th>
                                                 <th>Fecha compromiso</th>
                                                 <th>Bloque</th>
                                                 <th>Comuna</th>
-                                                <th>Tecnico Asignado</th>
                                                 <th>Estado de Orden</th>
+                                                <th>Asignar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
                                         </table>
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                             </div>
                         </div>
@@ -184,10 +216,10 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
 ";
     }
 
-    // line 128
+    // line 157
     public function block_appScript($context, array $blocks = array())
     {
-        // line 129
+        // line 158
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -251,7 +283,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
 
     public function getDebugInfo()
     {
-        return array (  191 => 129,  188 => 128,  121 => 64,  109 => 62,  104 => 61,  63 => 23,  58 => 21,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  223 => 158,  220 => 157,  125 => 65,  113 => 63,  108 => 62,  67 => 24,  63 => 23,  58 => 21,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

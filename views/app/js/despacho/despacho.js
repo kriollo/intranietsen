@@ -1,11 +1,5 @@
     function execute_accion_despacho(method,api_rest,formulario,accion,accion_redirect){
         switch(api_rest) {
-            case "registra_nueva_actividad":
-                title='Registro de Actividad';
-            break;
-            case "registra_nuevo_bloque":
-                title='Registro de Bloque';
-            break;
             case "Mdldespacho_registra_nuevo_estado":
                 title='Registro de Estado';
             break;
@@ -41,6 +35,7 @@
         e.defaultPrevented;
         execute_accion_despacho("POST","Mdldespacho_modificar_estado",'editar_estado_form','redirect','despacho/listar_estados');
     });
+
     function carga_ordenes_comuna_seguimiento(){
         var formData=new FormData();
         formData.append('comuna', document.getElementById('comuna_Seguimiento').value);
@@ -99,29 +94,48 @@
         });
     }
     function asignarestado(asig){
-        asignar="idasignar-"+asig;
-        asignacion=document.getElementById(asignar).value
-
-        var formData=new FormData();
-        formData.append('orden', asig);
-        formData.append('estado', asignacion);
+        var formPost=new FormData();
+        formPost.append('orden', asig);
+        formPost.append('estado', document.getElementById("idasignar-"+asig).value);
         $.ajax({
             type : "POST",
             url : 'api/Mdldespacho_cambiar_estado',
             contentType:false,
             processData:false,
-            data : formData,
+            data : formPost,
             success : function(json) {
-            msg_box_alert(json.success,'datos',json.message);
-
-            },
-            error : function(xhr, status) {
-            msg_box_alert(99,'error',xhr.responseText);
+                if(json.success == 0 ){
+                    msg_box_alert(json.success,'datos',json.message);
+                }
+            },error : function(xhr, status) {
+                msg_box_alert(99,'error',xhr.responseText);
             }
         });
-        //recargar_tabla_resumen(asig);
     }
-
+    function asignar_ejecutivo(id,idusuario){
+        var formData = new FormData();
+        formData.append('n_orden', id);
+        formData.append('tec', idusuario);
+        $.ajax({
+            type: "POST",
+            url: "api/Mdldespacho_cambiar_eje",
+            contentType:false,
+            processData:false,
+            data : formData,
+            success: function (data) {
+                if (data.success == 1) {
+                    $.alert(data.msg)
+                    actualizar_tabla_ordenes(idusuario,'*','sin_asignar');
+                }
+                else {
+                    $.alert('No se puede mover orden');
+                }
+            },
+            error: function (xhr, status) {
+                msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
+            }
+        });
+    }
     function actualizar_tablas_resumenes(idusuario,opcion){
         var formData=new FormData();
         formData.append('idusuario',idusuario);
@@ -155,7 +169,6 @@
           }
       });
     }
-
     function seleccionaroperacion(idorden,orden){
         idoperacion="idoperacion-"+idorden;
         validoperacion=document.getElementById(idoperacion).value;
@@ -297,15 +310,19 @@
             }
         });
     }
-
     function actualizar_tabla_ordenes(idusuario,comuna,opcion){
         var fomr = new FormData();
         fomr.append('idusuario',idusuario);
         fomr.append('comuna',comuna);
         if (opcion == 'usuario'){
-            APIs_URL="api/Mdldespacho_actualizar_tabla_ordenes"
+            APIs_URL="api/Mdldespacho_actualizar_tabla_ordenes";
+            tabla = "#tblordenes";
+        }else if(opcion == 'sin_asignar'){
+            APIs_URL="api/Mdldespacho_actualizar_tabla_ordenes_sin_asignar";
+            tabla = "#tblordenes_sin_asignar";
         }else{
-            APIs_URL="api/Mdldespacho_actualizar_tabla_ordenes_super"
+            APIs_URL="api/Mdldespacho_actualizar_tabla_ordenes_super";
+            tabla = "#tblordenes";
         }
         $.ajax({
             type: "POST",
@@ -314,7 +331,7 @@
             processData:false,
             data : fomr,
             success : function(data){
-                var table= $('#tblordenes').DataTable();
+                var table= $(tabla).DataTable();
                 table.clear().draw();
                 if(data.success==1){
                     var ruta="views/app/temp/" + data.message;
@@ -339,6 +356,27 @@
         $.ajax({
               type : "POST",
               url : 'api/Mdldespacho_guardar_comuna_tecnico',
+              contentType:false,
+              processData:false,
+              data : formData,
+              success : function(json) {
+              msg_box_alert(json.success,'datos',json.message);
+              },
+              error : function(xhr, status) {
+                msg_box_alert(99,'error',xhr.responseText);
+              }
+        });
+    }
+    function guardar_asistencia_tecnico(idtecnico){
+
+        estado=document.getElementById('select_estado_tecnico-'+idtecnico).value;
+
+        var formData=new FormData();
+        formData.append('tecnico',idtecnico);
+        formData.append('estado',estado);
+        $.ajax({
+              type : "POST",
+              url : 'api/Mdldespacho_guardar_asistencia_tecnico',
               contentType:false,
               processData:false,
               data : formData,
@@ -412,27 +450,26 @@
             }
         });
     }
-
     function cambiar_prioridad(id) {
-       var vl =  $("#" + id +" option:selected").val();
-       var formData = new FormData();
-       formData.append('id', id);
-       formData.append('prio', vl);
-       $.ajax({
-           type: "POST",
-           url: 'api/Mdldespacho_cambiar_prioridad',
-           contentType: false,
-           processData: false,
-           data: formData,
-           success: function (json) {
-               $.alert({
-                   theme: 'supervan',
-                   icon: 'fa fa-refresh',
-                   title: 'Actualizacion',
-                   content: '<h3>Dato ' + json.msg+'</h3>',
-               })
-           }, error: function (xhr, status) {
-               alert(99, 'error', xhr.responseText);
-           }
-       });
-   };
+        var vl =  $("#" + id +" option:selected").val();
+        var formData = new FormData();
+        formData.append('id', id);
+        formData.append('prio', vl);
+        $.ajax({
+            type: "POST",
+            url: 'api/Mdldespacho_cambiar_prioridad',
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (json) {
+                $.alert({
+                    theme: 'supervan',
+                    icon: 'fa fa-refresh',
+                    title: 'Actualizacion',
+                    content: '<h3>Dato '+json.msg+'</h3>'
+                });
+            }, error: function (xhr, status) {
+                alert(99, 'error', xhr.responseText);
+            }
+        });
+    };

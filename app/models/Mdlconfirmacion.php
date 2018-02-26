@@ -465,9 +465,13 @@ class Mdlconfirmacion extends Models implements IModels {
         $idorden=$http->request->get('ordenid');
 
 
-        if ($this->functions->e($modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden)){
+        if ($this->functions->e( $modreg,$modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }else{
+        $datos=$this->db->query_select("select validate_rut('$modrutcliente')");
+        if($datos[0][0]==0){
+            return array('success' => 0, 'message' => 'Rut no valido');
+        }
 
             $prioridad = $this->getTipoOrdenById($tipoorden);
             $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
@@ -475,13 +479,13 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 1, 'message' => 'Datos Modificados');
         }
     }
-    public function eliminarorden(){
-        global $http;
+    public function eliminarorden($norden){
+        global $http,$config;
 
-        $norden=$http->request->get('textlisteliminar');
-        $clave2=$this->db->query_select("select name,pass from users where perfil='HD_SUPERVISOR'");
         $this->db->query("delete from tblordenes where id_orden='$norden';");
+        $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
         return array('success' => 1, 'message' => "Registro eliminado");
+
     }
     // --------------------------------------------------------------------------MODELO HECTORELFATHER
     // --------------------------------------------------------------------------MODELO JJARA

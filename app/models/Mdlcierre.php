@@ -72,7 +72,7 @@ class Mdlcierre extends Models implements IModels {
         $this->functions->redir($config['site']['url'] . 'despacho/listar_ordenes');
     }
 
-        public function speed_test(): array{
+    public function speed_test(): array{
         try{
         global $http;
 
@@ -100,7 +100,7 @@ class Mdlcierre extends Models implements IModels {
         }
     }
 
-     public function certificacion(): array{
+    public function certificacion(): array{
         try{
         global $http;
 
@@ -131,7 +131,7 @@ class Mdlcierre extends Models implements IModels {
         }
     }
 
-     public function finalizar($id) {
+    public function finalizar($id) {
         global $config,$http;
         # Actualiza Estado
          $this->db->update('tblordenes', array(

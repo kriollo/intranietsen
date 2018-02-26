@@ -507,9 +507,17 @@ $app->post('/Mdldespacho_actualizar_tabla_ordenes_super', function() use($app) {
     $u = new Model\Mdldespacho;
     return $app->json($u->actualizar_tabla_ordenes_super());
 });
+$app->post('/Mdldespacho_actualizar_tabla_ordenes_sin_asignar', function() use($app) {
+    $u = new Model\Mdldespacho;
+    return $app->json($u->actualizar_tabla_ordenes_sin_asignar());
+});
 $app->post('/Mdldespacho_guardar_comuna_tecnico', function() use($app) {
     $u = new Model\Mdldespacho;
     return $app->json($u->guardar_comuna_tecnico());
+});
+$app->post('/Mdldespacho_guardar_asistencia_tecnico', function() use($app) {
+    $u = new Model\Mdldespacho;
+    return $app->json($u->guardar_asistenca_tecnico());
 });
 //DESPACHO SEGUIMIENTO----------------------------------------------------------
 //DESPACHO MANTENEDORES---------------------------------------------------------
@@ -522,11 +530,7 @@ $app->post('/Mdldespacho_modificar_estado', function() use($app) {
     return $app->json($u->modificar_estado());
 });
 //------------------------------------------------------------------------------
-//DESPACHO VISOR SUPER---------------------------------------------------------
-$app->post('/Mdldespacho_traer_ot', function() use($app) {
-    $u = new Model\Mdldespacho;
-    return $app->json($u->traer_ot());
-});
+//DESPACHO VISOR SUPER----------------------------------------------------------
 $app->post('/Mdldespacho_traer_eje', function() use($app) {
     $u = new Model\Mdldespacho;
     return $app->json($u->db_ejecutivos());

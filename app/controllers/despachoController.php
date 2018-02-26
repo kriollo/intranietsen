@@ -89,14 +89,6 @@ class despachoController extends Controllers implements IControllers {
             case 'tomar_orden':
                 (new Model\Mdlcierre)->tomar_orden($router->getId(true));
             break;
-            case 'listar_ordenes_ejecutivo':
-                $user = (new Model\Users)->getOwnerUser();
-                echo $this->template->render('despacho/supervisor/listado_ot', array(
-                    'menu_op' => $op,
-                    'personal_db' => (new Model\Mdlcoordinacion)->db_ejecutivos_despacho(),
-                    'id_user' => $user['id_user']
-                ));
-            break;
             case 'visor_supervisor':
                 echo $this->template->render('despacho/supervisor/visor_supervisor', array(
                     'menu_op' => $op,

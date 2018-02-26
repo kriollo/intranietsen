@@ -5,7 +5,6 @@ $('#select_ejecutivo').on('change', function select_ejecutivo(){
     $('#tecnicosNoAsignados').remove();
     $('#tecnicosAsignados').remove();
     $('#resultado option').remove();
-    $('#boton_asignar').remove();
     $('#usuario').remove();
     $('#caja_secundaria').remove();
     $('#ejecutivos').append('<option>--</option>')
@@ -17,14 +16,12 @@ $('#select_ejecutivo').on('change', function select_ejecutivo(){
         success: function(json) {
             if (json.success == 1) {
                 var mes = json.message;
-                var but = $('<input type="button" id="boton_asignar" title="revisar" class="btn-success btn-md animated fadeIn" value="Asignar Tecnico">');
                 var inp = $('<form id="form_usuario" name="form_usuario"><input type="hidden" id="usuario" name="usuario"><input type="hidden" id="name" name="name"></form>')
 
                 for (var i = 0; i < mes.length; i++) {
                     $('#ejecutivos').append('<option class="opcion animated fadeIn" value="' + mes[i][0] + '">' + mes[i][1] + '</option>');
                 }
                 $('#resultado').append(inp);
-                $('#form_opciones').append(but);
                 $('#ejecutivos').on('change', function() {
                     $('#ejecutivos option:selected').each(function() {
                         var str = "";
@@ -60,7 +57,7 @@ $('#select_ejecutivo').one('click', function crear_select() {
 if ($('#caja_secundaria').length > 0) {
     $('#caja_secundaria').remove();
 } else {
-    $(document).on('click', '#boton_asignar', function traer_tecnicos() {
+    $(document).on('change', '#ejecutivos', function traer_tecnicos() {
         var select = $('#ejecutivos option:selected').text();
         if (select == '--') {
             msg_box_alert('0', 'Seleccione un ejecutivo', 'No hay ejecutivos seleccionados');
@@ -116,7 +113,7 @@ function quitar_tecnico(tecnico,usuario) {
                 $('#caja_secundaria').remove();
                 $('#tecnicosAsignados').remove();
                 $('#tecnicosNoAsignados').remove();
-                $("#boton_asignar").trigger('click');
+                $("#ejecutivos").trigger('change');
             } else {
                 msg_box_alert('Error');
             }
@@ -138,7 +135,7 @@ function asignar_tecnico(tecnico,usuario) {
         success: function(json) {
             if (json.success == 1) {
                 $('#caja_secundaria').remove();
-                $("#boton_asignar").trigger('click');
+                $("#ejecutivos").trigger('change');
             } else {
                 msg_box_alert('Error');
             }
