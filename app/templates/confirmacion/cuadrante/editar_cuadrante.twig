@@ -30,8 +30,8 @@
                   <select class="form-control" name="comuna" id="comuna">
                     {% for d in comuna if false != comuna %}
                         {% if d.estado == 1 %}
-                            {% if db_actividad.cod_comuna == d.nombre %}
-                                <option value="{{d.nombre}}" selected>{{d.nombre}}</option>
+                            {% if resultado_db.cod_comuna == d.nombre %}
+                                <option value="{{d.nombre}}" selected="selected">{{d.nombre}}</option>
                             {% else %}
                                 <option value="{{d.nombre}}">{{d.nombre}}</option>
                             {% endif %}
@@ -39,7 +39,7 @@
                     {% endfor %}
                   </select>
                 <div class="panel-footer text-center">
-                  <button type="button" id="update_cuadrante" onclick="editar_cuadrante({{ db_actividad.id_actividad }});" class="btn btn-default">Grabar</button>
+                  <button type="button" id="update_cuadrante" onclick="editar_cuadrante({{ resultado_db.id_cuadrante }});" class="btn btn-default">Grabar</button>
                 </div>
               </div>
             </form>

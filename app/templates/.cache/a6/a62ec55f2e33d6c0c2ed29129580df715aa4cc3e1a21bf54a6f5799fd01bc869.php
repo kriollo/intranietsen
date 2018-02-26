@@ -58,27 +58,27 @@ class __TwigTemplate_17dcac195a3261ff144b05f8126ea541d9a1b05bddc0b21fc2b36bb8150
               <div class=\"box-body col-sm-4\">
                 <div class=\"form-group\">
                   <input class=\"form-control\" name=\"nombre_cuadrante\" id=\"nombre_cuadrante\" type=\"text\" placeholder=\"Nombre del cuadrante\" required/>
-                  <input class=\"form-control\" name=\"nodo\" id=\"nodo\" type=\"number\" min='0' placeholder=\"nodo\" required/>
+                  <input class=\"form-control\" name=\"nodo\" id=\"nodo\" type=\"number\" min='1' placeholder=\"nodo\" required/>
                   <select class=\"form-control\" name=\"comuna\" id=\"comuna\">
-                ";
+                    ";
         // line 30
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["comuna"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["comuna"] ?? null))) {
                 // line 31
-                echo "                ";
+                echo "                        ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 1)) {
                     // line 32
-                    echo "                <option value=\"";
+                    echo "                            <option value=\"";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
                     echo "\">";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
                     echo "</option>
-                ";
+                        ";
                 }
                 // line 34
-                echo "                ";
+                echo "                    ";
             }
         }
         $_parent = $context['_parent'];

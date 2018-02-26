@@ -58,52 +58,54 @@ class __TwigTemplate_c3e79dbdf6232899fe79a3d97bba1f7ad191d65987232862cf28995483c
             <table id=\"dataTables1\" class=\"table table-bordered\">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>Comuna</th>
-                  <th>Nombre</th>
-                  <th>Nodo</th>
+                    <th>No</th>
+                    <th>Comuna</th>
+                    <th>Nombre</th>
+                    <th>Nodo</th>
+                    <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 ";
-        // line 33
-        $context["No"] = 1;
         // line 34
+        $context["No"] = 1;
+        // line 35
         echo "                ";
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["cuadrante_db"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["cuadrante_db"] ?? null))) {
-                // line 35
-                echo "                  <tr>
-                    <td>";
                 // line 36
+                echo "                  <tr>
+                      <td>";
+                // line 37
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
-                    <td>";
-                // line 37
+                      <td>";
+                // line 38
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cod_comuna", array()), "html", null, true);
                 echo "</td>
-                    <td>";
-                // line 38
+                      <td>";
+                // line 39
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
                 echo "</td>
-                    <td>";
-                // line 39
+                      <td>";
+                // line 40
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nodo", array()), "html", null, true);
                 echo "</td>
-                      <td class='center' width='80'>
+
+                    <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href=\"confirmacion/editar_cuadrante/";
-                // line 41
+                // line 43
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_cuadrante", array()), "html", null, true);
                 echo "\">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>
 
                       ";
-                // line 45
+                // line 47
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 0)) {
-                    // line 46
+                    // line 48
                     echo "                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href=\"confirmacion/estado_cuadrante/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_cuadrante", array()), "html", null, true);
                     echo "\">
@@ -112,18 +114,16 @@ class __TwigTemplate_c3e79dbdf6232899fe79a3d97bba1f7ad191d65987232862cf28995483c
 
                       ";
                 } else {
-                    // line 51
+                    // line 53
                     echo "                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href=\"confirmacion/estado_cuadrante/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_cuadrante", array()), "html", null, true);
                     echo "\">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
-
                       ";
                 }
-                // line 56
-                echo "
-                    </td>
+                // line 57
+                echo "                    </td>
                   </tr>
                   ";
                 // line 59
@@ -159,24 +159,24 @@ class __TwigTemplate_c3e79dbdf6232899fe79a3d97bba1f7ad191d65987232862cf28995483c
     <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 
     <script>
-     \$(\"#dataTables1\").dataTable({
-                \"language\": {
-                    \"search\": \"Buscar:\",
-                    \"zeroRecords\": \"No hay datos para mostrar\",
-                    \"info\":\"Mostrando _END_ Registros, de un total de _TOTAL_ \",
-                    \"loadingRecords\": \"Cargando...\",
-                    \"processing\":\"Procesando...\",
-                    \"infoEmpty\":\"No hay entradas para mostrar\",
-                    \"lengthMenu\": \"Mostrar _MENU_ Filas\",
-                    \"paginate\":{
-                      \"first\":\"Primera\",
-                      \"last\":\"Ultima\",
-                      \"next\":\"Siguiente\",
-                      \"previous\":\"Anterior\",
-                    }
-                              },
-                \"autoWidth\": true
-            });
+        \$(\"#dataTables1\").dataTable({
+            \"language\": {
+                \"search\": \"Buscar:\",
+                \"zeroRecords\": \"No hay datos para mostrar\",
+                \"info\":\"Mostrando _END_ Registros, de un total de _TOTAL_ \",
+                \"loadingRecords\": \"Cargando...\",
+                \"processing\":\"Procesando...\",
+                \"infoEmpty\":\"No hay entradas para mostrar\",
+                \"lengthMenu\": \"Mostrar _MENU_ Filas\",
+                \"paginate\":{
+                  \"first\":\"Primera\",
+                  \"last\":\"Ultima\",
+                  \"next\":\"Siguiente\",
+                  \"previous\":\"Anterior\",
+                }
+                          },
+            \"autoWidth\": true
+        });
     </script>
 
 ";
@@ -194,7 +194,7 @@ class __TwigTemplate_c3e79dbdf6232899fe79a3d97bba1f7ad191d65987232862cf28995483c
 
     public function getDebugInfo()
     {
-        return array (  155 => 72,  152 => 71,  139 => 61,  132 => 60,  130 => 59,  125 => 56,  116 => 51,  107 => 46,  105 => 45,  98 => 41,  93 => 39,  89 => 38,  85 => 37,  81 => 36,  78 => 35,  72 => 34,  70 => 33,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  155 => 72,  152 => 71,  139 => 61,  132 => 60,  130 => 59,  126 => 57,  118 => 53,  109 => 48,  107 => 47,  100 => 43,  94 => 40,  90 => 39,  86 => 38,  82 => 37,  79 => 36,  73 => 35,  71 => 34,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

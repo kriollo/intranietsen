@@ -66,7 +66,7 @@ class __TwigTemplate_93401b5ad50c13280889c3f11ad37fc0ae563b9b9ca9a6f68d9cbef4807
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_bloque"] ?? null), "bloque", array()), "html", null, true);
         echo "' required/>
                     <br>
-                    <input class=\"form-control\" name=\"limit\" id=\"limit\" type=\"number\" placeholder=\"Ingrese el limite de ordenes\" value='";
+                    <input class=\"form-control\" name=\"limit\" id=\"limit\" type=\"number\" placeholder=\"Ingrese el requerido de ordenes\" value='";
         // line 30
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_bloque"] ?? null), "limite_q_programacion", array()), "html", null, true);
         echo "' required/>

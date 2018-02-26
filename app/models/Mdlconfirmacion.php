@@ -165,9 +165,10 @@ class Mdlconfirmacion extends Models implements IModels {
             $zona = $http->request->get('zona');
             $subzona = $http->request->get('cod_sub_zona');
             $territorio = $http->request->get('territorio');
+            $requerido = $http->request->get('requerido');
 
             # Verificar que no están vacíos
-            if ($this->functions->e($comuna,$zona,$subzona,$territorio)) {
+            if ($this->functions->e($comuna,$zona,$subzona,$territorio,$requerido)) {
                 throw new ModelsException('Ingresar datos donde campos se especifica como Requerido');
             }
             # Registrar el bloque
@@ -175,7 +176,8 @@ class Mdlconfirmacion extends Models implements IModels {
                 'nombre' => strtoupper($comuna),
                 'zona'=>strtoupper($zona),
                 'cod_sub_zona'=>strtoupper($subzona),
-                'territorio'=>strtoupper($territorio)
+                'territorio'=>strtoupper($territorio),
+                'requerido'=>strtoupper($requerido)
             ));
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
@@ -292,15 +294,17 @@ class Mdlconfirmacion extends Models implements IModels {
             $zona = $http->request->get('zona');
             $subzona = $http->request->get('cod_sub_zona');
             $territorio = $http->request->get('territorio');
+            $requerido = $http->request->get('requerido');
 
-            if ($this->functions->e($comuna,$zona,$subzona,$territorio)) {
+            if ($this->functions->e($comuna,$zona,$subzona,$territorio,$requerido)) {
                 throw new ModelsException('Todos los datos son necesarios');
             }
             $this->db->update('tblcomuna',array(
             'nombre' => $comuna,
             'zona'=>strtoupper($zona),
             'cod_sub_zona'=>strtoupper($subzona),
-            'territorio'=>strtoupper($territorio)
+            'territorio'=>strtoupper($territorio),
+            'requerido'=>strtoupper($requerido)
             ),"id_comuna='$id_comuna'");
             //
             return array('success' => 1, 'message' => 'Modificacion de Comuna exitosa');
@@ -480,7 +484,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $idorden=$http->request->get('ordenid');
 
 
-        if ($this->functions->e( $modreg,$modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
+        if ($this->functions->e($modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }else{
         $datos=$this->db->query_select("select validate_rut('$modrutcliente')");
@@ -582,7 +586,7 @@ class Mdlconfirmacion extends Models implements IModels {
             global $http;
 
             # Obtener los datos $_POST
-            $nombre = $http->request->get('nombre_cuadrante');
+            $nombre = strtoupper($http->request->get('nombre_cuadrante'));
             $nodo = $http->request->get('nodo');
             $comuna = $http->request->get('comuna');
 
@@ -614,7 +618,7 @@ class Mdlconfirmacion extends Models implements IModels {
         try {
             global $http;
             #Obtener los datos $_POST
-            $nombre = $http->request->get('nombre_cuadrante');
+            $nombre = strtoupper($http->request->get('nombre_cuadrante'));
             $nodo = $http->request->get('nodo');
             $comuna = $http->request->get('comuna');
             $id_cuadrante = $http->request->get('id_cuadrante');
@@ -779,7 +783,7 @@ class Mdlconfirmacion extends Models implements IModels {
         return $this->db->query_select("select comuna,count(id_orden) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta' group by comuna order by cantidad desc");
     }
     public function confirma_resumen_x_bloque($desde,$hasta){
-        return $this->db->query_select("select bloque,count(id_orden) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta' group by bloque order by cantidad desc");
+        return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from (tblordenes o inner join tblbloque b on o.bloque=b.bloque) where fecha_dia between '$desde' and '$hasta' group by bloque order by cantidad desc");
     }
     // ------------------------------------------------------------------------------------------------------
     // REAGENDAMIENTO ORDEN

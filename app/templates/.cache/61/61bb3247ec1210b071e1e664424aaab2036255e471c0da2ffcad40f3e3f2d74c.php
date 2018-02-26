@@ -80,6 +80,11 @@ class __TwigTemplate_4c31c90f2573ebf722bcf054be5d45d491de87953a0798df019772b84e3
         // line 34
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_comuna"] ?? null), "territorio", array()), "html", null, true);
         echo "' required/>
+                    <br>
+                    <input class=\"form-control\" name=\"requerido\" id=\"requerido\" type=\"number\" placeholder=\"Requerido\" value='";
+        // line 36
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_comuna"] ?? null), "requerido", array()), "html", null, true);
+        echo "' required/>
                 </div>
                 <div class=\"panel-footer text-center\">
                   <button type=\"button\" id=\"update_comuna\" class=\"btn btn-default\">Grabar</button>
@@ -95,10 +100,10 @@ class __TwigTemplate_4c31c90f2573ebf722bcf054be5d45d491de87953a0798df019772b84e3
 ";
     }
 
-    // line 48
+    // line 50
     public function block_appScript($context, array $blocks = array())
     {
-        // line 49
+        // line 51
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
 ";
     }
@@ -115,7 +120,7 @@ class __TwigTemplate_4c31c90f2573ebf722bcf054be5d45d491de87953a0798df019772b84e3
 
     public function getDebugInfo()
     {
-        return array (  102 => 49,  99 => 48,  81 => 34,  76 => 32,  71 => 30,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
+        return array (  107 => 51,  104 => 50,  86 => 36,  81 => 34,  76 => 32,  71 => 30,  66 => 28,  61 => 26,  38 => 5,  35 => 4,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

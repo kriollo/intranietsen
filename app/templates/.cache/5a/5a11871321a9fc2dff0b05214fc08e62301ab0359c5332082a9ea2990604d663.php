@@ -81,11 +81,11 @@ class __TwigTemplate_3783fd50d122fe8e1751f5fff375707f5d2c68ec194c9d898406d15069c
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 1)) {
                     // line 33
                     echo "                            ";
-                    if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "cod_comuna", array()) == twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()))) {
+                    if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["resultado_db"] ?? null), "cod_comuna", array()) == twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()))) {
                         // line 34
                         echo "                                <option value=\"";
                         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
-                        echo "\" selected>";
+                        echo "\" selected=\"selected\">";
                         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array()), "html", null, true);
                         echo "</option>
                             ";
@@ -113,7 +113,7 @@ class __TwigTemplate_3783fd50d122fe8e1751f5fff375707f5d2c68ec194c9d898406d15069c
                 <div class=\"panel-footer text-center\">
                   <button type=\"button\" id=\"update_cuadrante\" onclick=\"editar_cuadrante(";
         // line 42
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_actividad"] ?? null), "id_actividad", array()), "html", null, true);
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["resultado_db"] ?? null), "id_cuadrante", array()), "html", null, true);
         echo ");\" class=\"btn btn-default\">Grabar</button>
                 </div>
               </div>

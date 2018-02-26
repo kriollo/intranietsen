@@ -28,6 +28,7 @@
                   <th>Zona</th>
                   <th>Sub zona</th>
                   <th>Territorio</th>
+                  <th>Requerido</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -40,7 +41,8 @@
                     <td>{{ d.zona }}</td>
                     <td>{{ d.cod_sub_zona }}</td>
                     <td>{{ d.territorio }}</td>
-
+                    <td>{{ d.requerido }}</td>
+                    
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_comuna/{{ d.id_comuna }}">
                       <i class='glyphicon glyphicon-edit'></i>

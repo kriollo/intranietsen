@@ -80,6 +80,8 @@
                                 <th>No</th>
                                 <th>Comuna</th>
                                 <th>Cantidad Gestión</th>
+                                <th>Requerido</th>
+                                <th>%</th>
                             </thead>
                             <tbody>
                                 {% set No = 1 %}
@@ -88,6 +90,8 @@
                                         <td>{{ No }}</td>
                                         <td>{{ d.comuna|raw|title }}</td>
                                         <td>{{ d.cantidad }}</td>
+                                        <td>{{ d.requerido }}</td>
+
                                     </tr>
                                 {% set No =  No + 1 %}
                                 {% endfor %}
@@ -107,6 +111,8 @@
                                 <th>No</th>
                                 <th>Comuna</th>
                                 <th>Cantidad Gestión</th>
+                                <th>Requerido</th>
+                                <th>%</th>
                             </thead>
                             <tbody>
                                 {% set No = 1 %}
@@ -115,6 +121,18 @@
                                         <td>{{ No }}</td>
                                         <td>{{ d.bloque|raw|title }}</td>
                                         <td>{{ d.cantidad }}</td>
+                                        <td>{{ d.requerido }}</td>
+                                        <td>
+                                            <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.cantidad / d.requerido)*100) |round }}%" role="progressbar" aria-valuenow="{{ ((d.cantidad / d.requerido)*100) |round }}" aria-valuemin="0" aria-valuemax="{{ d.requerido }}">
+                                              <span class="sr-only">{{ ((d.cantidad / d.requerido)*100) |round }}% </span>
+                                            </div>
+                                          </div>
+                                            
+                                        </td>
+                                        <td>
+                                            {{ ((d.cantidad / d.requerido)*100) |round }}%
+                                        </td>
                                     </tr>
                                 {% set No =  No + 1 %}
                                 {% endfor %}
