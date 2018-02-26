@@ -6,9 +6,9 @@
     <section class="content-header">
         <h1>
             Confirmación
-            <small>Listado de Bloque</small>
+            <small>Listado de Cuadrantes</small>
 
-          <a class="btn btn-primary btn-social pull-right" href="confirmacion/nuevo_bloque" title="Agregar" data-toggle="tooltip">
+          <a class="btn btn-primary btn-social pull-right" href="confirmacion/nuevo_cuadrante" title="Agregar" data-toggle="tooltip">
             <i class="fa fa-plus"></i> Agregar
           </a>
         </h1>
@@ -24,34 +24,31 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Bloque</th>
-                  <th>Requerido</th>
-                  <th>Desde</th>
-                  <th>Hasta</th>
-                  <th>Acciones</th>
+                  <th>Comuna</th>
+                  <th>Nombre</th>
+                  <th>Nodo</th>
                 </tr>
               </thead>
               <tbody>
                 {% set No = 1 %}
-                {% for d in bloques_db if false != bloques_db %}
+                {% for d in cuadrante_db if false != cuadrante_db %}
                   <tr>
                     <td>{{ No }}</td>
-                    <td>{{ d.bloque }}</td>
-                    <td>{{ d.limite_q_programacion }}</td>
-                    <td>{{ d.desde }}</td>
-                    <td>{{ d.hasta }}</td>
-                    <td class='center' width='80'>
-                      <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_bloque/{{ d.id_bloque }}">
+                    <td>{{ d.cod_comuna }}</td>
+                    <td>{{ d.nombre }}</td>
+                    <td>{{ d.nodo }}</td>
+                      <td class='center' width='80'>
+                      <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_cuadrante/{{ d.id_cuadrante }}">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>
 
                       {% if d.estado == 0 %}
-                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="confirmacion/estado_bloque/{{ d.id_bloque }}">
+                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="confirmacion/estado_cuadrante/{{ d.id_cuadrante }}">
                           <i class='glyphicon glyphicon-off'></i>
                           </a>
 
                       {% else %}
-                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="confirmacion/estado_bloque/{{ d.id_bloque }}">
+                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="confirmacion/estado_cuadrante/{{ d.id_cuadrante }}">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
 

@@ -388,6 +388,14 @@ $app->post('/editar_tipoorden', function() use($app) {
     $e = new Model\Mdlconfirmacion;
     return $app->json($e->editar_tipoorden());
 });
+$app->post('/registra_nuevo_cuadrante', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->registra_nuevo_cuadrante());
+});
+$app->post('/editar_cuadrante', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->editar_cuadrante());
+});
 //Maestros Confirmacion---------------------------------------------------------
 //Orden Confirmacion------------------------------------------------------------
 $app->post('/ingresar_orden', function() use($app) {
@@ -453,6 +461,10 @@ $app->post('/Mdlcoordinacion_quitar_tecnico', function() use($app) {
 });
 //Coordinacion Asigna Tecnico a Ejecutivo---------------------------------------
 //Coordinacion Distribuir Ordenes-----------------------------------------------
+$app->post('/Mdlcoordinacion_cargar_cuadrante', function() use($app) {
+    $u = new Model\Mdlcoordinacion;
+    return $app->json($u->cargar_cuadrante());
+  });
 $app->post('/Mdlcoordinacion_seleccionar_bloque', function() use($app) {
     $u = new Model\Mdlcoordinacion;
     return $app->json($u->seleccionar_bloque());

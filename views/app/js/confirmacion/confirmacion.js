@@ -71,6 +71,12 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
     case "editar_tipoorden":
         title='Modificar Tipo de Orden';
         break;
+    case "registra_nuevo_cuadrante":
+        title = 'Registrar Cuadrante';
+        break;
+    case "editar_cuadrante":
+        title = 'Modificar Cuadrante';
+        break;
     // CASOS DE HECTOR EL HECTORelfather
     case "ingresar_orden":
       title='Ingresar Orden';
@@ -140,7 +146,43 @@ $('#update_tipoorden').click(function(e) {
   e.defaultPrevented;
   execute_accion_confirmacion("POST","editar_tipoorden",'editar_tipoorden_form','redirect','confirmacion/listar_tipoorden');
 });
+$('#register_cuadrante').click(function (e) {
+    e.defaultPrevented;
+    execute_accion_confirmacion("POST", "registra_nuevo_cuadrante", 'register_cuadrante_form', 'redirect', 'confirmacion/listar_cuadrante');
+});
+$('#update_cuadrante').click(function (e) {
+    e.defaultPrevented;
+    execute_accion_confirmacion("POST", "editar_cuadrante", 'editar_cuadrante_form', 'redirect', 'confirmacion/listar_cuadrante');
+});
 // CONFIRMACION JS HECTORELFATHER---------------------------------------------------------------
+
+function Eliminar_OT(id) {
+    $.confirm({
+        icon: 'fa fa-warning',
+        title: 'Eliminar OT!',
+        content: '<h3>¿Esta seguro que desea eliminar esta orden?</h3>',
+        type: 'blue',
+        buttons: {
+            formSubmit: {
+                text: 'Eliminar',
+                btnClass: 'btn-blue',
+                action: function () {
+                    location.href = 'confirmacion/eliminar_OT/' + id;
+                    $("#btnbuscar").trigger("click");
+
+                }
+            },
+            cancel: {
+                text: 'Cancelar',
+                action: function () {
+
+                }
+            }
+        },
+
+    })
+}
+
 $('#btningresar').click(function(e){
   e.defaultPrevented;
   execute_accion_confirmacion("post","ingresar_orden",'formorden','back','confirmacion/listar_ordenes');

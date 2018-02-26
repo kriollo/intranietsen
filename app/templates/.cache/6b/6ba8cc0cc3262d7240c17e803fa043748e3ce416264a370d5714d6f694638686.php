@@ -105,7 +105,7 @@ class __TwigTemplate_18ee37c74c6b1d256f412025c06ca9c6162397cb0f72b8d252026229869
                                         <td>";
                 // line 43
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "actividad", array()), "html", null, true);
-                echo "</td>                                        
+                echo "</td>
                                         <td>";
                 // line 44
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "observacion", array()), "html", null, true);
@@ -160,11 +160,28 @@ $context["t"], "id_ejecutivo_cierre", array()) == ($context["id_user"] ?? null))
                                           ";
                     }
                     // line 70
-                    echo "
-                                            ";
-                    // line 71
+                    echo "                                          ";
                     if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "speed_test", array()) == 0)) {
-                        // line 72
+                        // line 71
+                        echo "                                        <a data-toggle='tooltip' data-placement='top' id=\"btnspeedtest\" name=\"btnspeedtest\" title='Speed Test' class='btn btn-warning btn-sm' onclick=\"subir_st(";
+                        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "n_orden", array()), "html", null, true);
+                        echo ")\">
+                                            <i class='glyphicon glyphicon-open'></i>
+                                        </a>
+                                        ";
+                    } else {
+                        // line 75
+                        echo "                                          <a data-toggle='tooltip' data-placement='top' id=\"btnspeedtest\" name=\"btnspeedtest\" title='Speed Test' class='btn btn-success btn-sm' onclick=\"mostrar_st(";
+                        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "n_orden", array()), "html", null, true);
+                        echo ");\">
+                                            <i class='glyphicon glyphicon-open'></i>
+                                        </a>
+                                        ";
+                    }
+                    // line 79
+                    echo "                                            <!-- ";
+                    if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "speed_test", array()) == 0)) {
+                        // line 80
                         echo "                                          <a data-toggle='tooltip' data-placement='top' id=\"btnspeedtest\" name=\"btnspeedtest\" title='Speed Test' class='btn btn-warning btn-sm' onclick=\"subir_st(";
                         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "n_orden", array()), "html", null, true);
                         echo ")\">
@@ -172,23 +189,24 @@ $context["t"], "id_ejecutivo_cierre", array()) == ($context["id_user"] ?? null))
                                           </a>
                                           ";
                     } else {
-                        // line 76
+                        // line 84
                         echo "                                            <a data-toggle='tooltip' data-placement='top' id=\"btnspeedtest\" name=\"btnspeedtest\" title='Speed Test' class='btn btn-success btn-sm' disabled>
                                               <i class='glyphicon glyphicon-open'></i>
                                           </a>
                                           ";
                     }
-                    // line 80
-                    echo "
+                    // line 87
+                    echo " -->
+
                                           <a data-placement='top' name=\"btnfinalizar\" id=\"btnfinalizar\" title=\"Finalizar Orden\" class='btn btn-danger btn-sm' onclick=\"seguro(";
-                    // line 81
+                    // line 89
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "n_orden", array()), "html", null, true);
                     echo ");\">
                                               <i class='glyphicon glyphicon-certificate'></i>
                                           </a>
                                         ";
                 }
-                // line 85
+                // line 93
                 echo "                                        </td>
                                     </tr>
                                 ";
@@ -197,7 +215,7 @@ $context["t"], "id_ejecutivo_cierre", array()) == ($context["id_user"] ?? null))
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['t'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 88
+        // line 96
         echo "                            </tbody>
                         </table>
                     </form>
@@ -210,10 +228,10 @@ $context["t"], "id_ejecutivo_cierre", array()) == ($context["id_user"] ?? null))
 ";
     }
 
-    // line 98
+    // line 106
     public function block_appScript($context, array $blocks = array())
     {
-        // line 99
+        // line 107
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -256,7 +274,7 @@ $context["t"], "id_ejecutivo_cierre", array()) == ($context["id_user"] ?? null))
 
     public function getDebugInfo()
     {
-        return array (  217 => 99,  214 => 98,  201 => 88,  192 => 85,  185 => 81,  182 => 80,  176 => 76,  168 => 72,  166 => 71,  163 => 70,  157 => 66,  149 => 62,  147 => 61,  144 => 60,  138 => 56,  130 => 52,  127 => 51,  125 => 50,  118 => 47,  116 => 46,  111 => 44,  107 => 43,  103 => 42,  99 => 41,  95 => 40,  91 => 39,  87 => 38,  83 => 37,  79 => 36,  76 => 35,  71 => 34,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  235 => 107,  232 => 106,  219 => 96,  210 => 93,  203 => 89,  199 => 87,  193 => 84,  185 => 80,  182 => 79,  174 => 75,  166 => 71,  163 => 70,  157 => 66,  149 => 62,  147 => 61,  144 => 60,  138 => 56,  130 => 52,  127 => 51,  125 => 50,  118 => 47,  116 => 46,  111 => 44,  107 => 43,  103 => 42,  99 => 41,  95 => 40,  91 => 39,  87 => 38,  83 => 37,  79 => 36,  76 => 35,  71 => 34,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

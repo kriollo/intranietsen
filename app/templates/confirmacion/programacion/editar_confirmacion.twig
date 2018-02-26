@@ -23,14 +23,16 @@
                     <div class="box-body">
                         <div class="col-md-4">
                             <label>ID Orden:</label><input type="text" name="textmodidorden" id="textmodidorden" class="form-control" value="{{db_modorden.n_orden}}" readonly>
+                        </div>
+                        <div class="col-md-4">
                             <label>Rut Cliente:</label><input type="text" name="textmodrutcliente" id="textmodrutcliente" class="form-control" value="{{db_modorden.rut_cliente}}">
                         </div>
                         <div class="col-md-4">
                             <label>Fecha Compromiso:</label><input type="date" name="textmodfecha" id="textmodfecha" class="form-control" value="{{db_modorden.fecha_compromiso}}">
                         </div>
-                        <div class="col-md-4">
+                        <!-- <div class="col-md-4">
                             <label>Reg:</label><input type="text" name="textmodreg" id="textmodreg" class="form-control" value="{{db_modorden.reg}}">
-                        </div>
+                        </div> -->
                         <div class="col-md-8">
                             <label>Ejecutivo:</label><input type="text" name="textuser" id="textuser" class="form-control" value="{{ db_modorden.name}}" readonly>
                         </div>
@@ -108,10 +110,10 @@
               {% endif %}
             {% endfor %}
             <div class="col-xs-2" style="border: 1px solid white">
-              <label>NODO:<input type="text" name="textmodnodo" id="textmodnodo" class="form-control" placeholder="NODO" value="{{db_modorden.nodo}}"></label>
+              <label>NODO:<input type="number" min='1' name="textmodnodo" id="textmodnodo" class="form-control" placeholder="NODO" value="{{db_modorden.nodo}}"></label>
             </div>
             <div class="col-xs-2" style="border: 1px solid white">
-              <label>SUBNODO:<input type="text" name="textmodsubnodo" id="textmodsubnodo" class="form-control" placeholder="SUBNODO" value="{{db_modorden.subnodo}}"></label>
+              <label>SUBNODO:<input type="number" min='1' name="textmodsubnodo" id="textmodsubnodo" class="form-control" placeholder="SUBNODO" value="{{db_modorden.subnodo}}"></label>
             </div>
           </div>
         </div>

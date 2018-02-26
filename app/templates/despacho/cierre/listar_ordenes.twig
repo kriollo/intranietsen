@@ -1,6 +1,22 @@
 {% extends 'portal/portal' %}
 {% block appStylos %}
   <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+    <style>
+        .zoom {
+            transition: transform .2s; /* Animation */
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .zoom:hover {
+            width: 500px;
+            height: 250px;
+        }
+    </style>
 {% endblock %}
 {% block appBody %}
 <section class="content-header">
@@ -40,7 +56,7 @@
                                         <td>{{ t.bloque }}</td>
                                         <td>{{ t.motivo }}</td>
                                         <td>{{ t.comuna }}</td>
-                                        <td>{{ t.actividad }}</td>                                        
+                                        <td>{{ t.actividad }}</td>
                                         <td>{{ t.observacion }}</td>
                                         <td class='pull-center'>
                                           {% if t.id_ejecutivo_cierre == 0 %}
@@ -67,15 +83,14 @@
                                               <i class='glyphicon glyphicon-saved'></i>
                                           </a>
                                           {% endif %}
-
-                                            {% if t.speed_test == 0 %}
-                                          <a data-toggle='tooltip' data-placement='top' id="btnspeedtest" name="btnspeedtest" title='Speed Test' class='btn btn-warning btn-sm' onclick="subir_st({{ t.n_orden }})">
-                                              <i class='glyphicon glyphicon-open'></i>
-                                          </a>
+                                          {% if t.speed_test == 0 %}
+                                            <a data-toggle='tooltip' data-placement='top' id="btnspeedtest" name="btnspeedtest" title='Speed Test' class='btn btn-warning btn-sm' onclick="subir_st({{ t.n_orden }})">
+                                                <i class='glyphicon glyphicon-open'></i>
+                                            </a>
                                           {% else %}
-                                            <a data-toggle='tooltip' data-placement='top' id="btnspeedtest" name="btnspeedtest" title='Speed Test' class='btn btn-success btn-sm' disabled>
-                                              <i class='glyphicon glyphicon-open'></i>
-                                          </a>
+                                              <a data-toggle='tooltip' data-placement='top' id="btnspeedtest" name="btnspeedtest" title='Speed Test' class='btn btn-success btn-sm' onclick="mostrar_st({{ t.n_orden }});">
+                                                <i class='glyphicon glyphicon-open'></i>
+                                              </a>
                                           {% endif %}
 
                                           <a data-placement='top' name="btnfinalizar" id="btnfinalizar" title="Finalizar Orden" class='btn btn-danger btn-sm' onclick="seguro({{ t.n_orden }});">

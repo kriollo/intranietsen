@@ -414,6 +414,10 @@ class Mdlconfirmacion extends Models implements IModels {
 
         $prioridad = $this->getTipoOrdenById($tipoorden);
 
+        if(is_numeric($nodo) == false || is_numeric($subnodo) == false){
+            return array('success' => 0, 'message' => 'El nodo y subnodo deben ser numeros');
+        }
+
         $this->db->insert('tblordenes', array(
             'n_orden'=>$orden,
             'operador'=> $operador,
@@ -432,6 +436,17 @@ class Mdlconfirmacion extends Models implements IModels {
             'fecha_dia'=>$fecha_dia,
             'prioridad' => $prioridad[0]['prioridad']
         ));
+
+        $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
+        $this->db->insert('tblhistorico', array(
+            'id_orden' => $datos[0]['id_orden'],
+            'n_orden' => $orden,
+            'fecha' => date('Y-m-d'),
+            'accion' => 'INGRESO',
+            'observacion' => $observacion,
+            'id_user' => $operador
+        ));
+
         return array('success' => 1, 'message' => 'Orden ingresada');
 
     }
@@ -547,6 +562,82 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+
+    public function getCuadranteById(int $id, string $select = '*') {
+        return $this->db->select($select,'tblcuadrante',"id_cuadrante='$id'",'LIMIT 1');
+    }
+    public function verCuadrante(string $select = '*'){
+        return $this->db->select($select,'tblcuadrante
+        ');
+    }
+    public function update_estado_Cuadrante($id) {
+        global $config;
+        # Actualiza Estado
+        $this->db->query("UPDATE tblcuadrante SET estado=if(estado=0,1,0) WHERE id_cuadrante=$id LIMIT 1;");
+        # Redireccionar a la página principal del controlador
+        $this->functions->redir($config['site']['url'] . 'confirmacion/listar_cuadrante');
+    }
+    public function registra_nuevo_Cuadrante() : array {
+        try {
+            global $http;
+
+            # Obtener los datos $_POST
+            $nombre = $http->request->get('nombre_cuadrante');
+            $nodo = $http->request->get('nodo');
+            $comuna = $http->request->get('comuna');
+
+            # Verificar que no están vacíos
+            if ($this->functions->e($nombre,$nodo,$comuna)) {
+                throw new ModelsException('El campo nodo debe ser un numero');
+            }
+
+            if (is_numeric($nodo)) {
+
+                $result= $this->db->select('nodo', 'tblcuadrante', "cod_comuna='$comuna' and nodo=".$nodo, 'LIMIT 1');
+                if (false !== $result){
+                    return array('success' => 0, 'message' => 'El nodo ingresado ya ha sido asignado a cuadrante');
+                }
+
+                # Registrar el bloque
+                $this->db->insert('tblcuadrante', array(
+                'nombre' => $nombre,
+                'nodo' => $nodo,
+                'cod_comuna' => $comuna
+                ));
+            }
+            return array('success' => 1, 'message' => 'Registrado con éxito.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+    public function editar_Cuadrante(): array {
+        try {
+            global $http;
+            #Obtener los datos $_POST
+            $nombre = $http->request->get('nombre_cuadrante');
+            $nodo = $http->request->get('nodo');
+            $comuna = $http->request->get('comuna');
+            $id_cuadrante = $http->request->get('id_cuadrante');
+
+            if ($this->functions->e($nombre,$nodo,$comuna)) {
+                throw new ModelsException('Todos los datos son necesarios');
+            }
+            $result= $this->db->select('nodo', 'tblcuadrante', "cod_comuna='$comuna' and nodo=".$nodo." and id_cuadrante<>". $id_cuadrante, 'LIMIT 1');
+            if (false !== $result){
+                return array('success' => 0, 'message' => 'El nodo ingresado ya ha sido asignado a cuadrante');
+            }
+            $this->db->update('tblcuadrante',array(
+            'nombre' => $nombre,
+            'nodo' => $nodo,
+            'cod_comuna' => $comuna
+            ),"id_cuadrante='$id_cuadrante'");
+            //
+            return array('success' => 1, 'message' => 'Modificacion de Resultado');
+        }catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
 
     public function confirma_lista_por_fecha(){
         global $http;
@@ -756,19 +847,22 @@ class Mdlconfirmacion extends Models implements IModels {
 
         if ('undefined' == $bloque){ return array('success' => 0, 'message' => 'Debe seleccionar Bloque'); }
 
+
+
         $this->db->update('tblordenes',array(
             'fecha_compromiso' => $fecha,
             'bloque' => $bloque,
             'ubicacion' => 'CONFIRMACION'
         ),"n_orden='$id'");
 
+        $REAGENDA='Fecha Anterior: '.$datos[0]['fecha_compromiso'].' - Bloque: '.$datos[0]['bloque'].'  A  Fecha Nueva: '.$fecha.' - Bloque: '.$bloque;
 
         $this->db->insert('tblhistorico', array(
             'id_orden' => $datos[0]['id_orden'],
             'n_orden' => $id,
-            'fecha' => $datos[0]['fecha_compromiso'],
+            'fecha' => date('Y-m-d'),
             'accion' => 'REAGENDAMIENTO',
-            'observacion' => $datos[0]['observacion'],
+            'observacion' => $REAGENDA,
             'id_user' => $usu[0][0]
         ));
         return array('success' => 1, 'bloque' => $bloque, 'id' => $id, 'fecha' => $fecha);

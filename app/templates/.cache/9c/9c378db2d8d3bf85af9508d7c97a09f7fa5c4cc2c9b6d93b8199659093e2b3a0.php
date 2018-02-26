@@ -11,6 +11,7 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
         $this->parent = $this->loadTemplate("portal/portal", "coordinacion/coordinacion.twig", 1);
         $this->blocks = array(
             'appBody' => array($this, 'block_appBody'),
+            'appScript' => array($this, 'block_appScript'),
         );
     }
 
@@ -110,9 +111,13 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
                                     echo "                                                        ";
                                     if (((twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "nombre", array()) == twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "comuna", array())) && (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "bloque", array()) == twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "bloque", array())))) {
                                         // line 43
-                                        echo "                                                            <td class=\"text-right\">";
+                                        echo "                                                            <td class=\"text-right\"><a onclick=\"vercuadrante('";
+                                        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "nombre", array()), "html", null, true);
+                                        echo "','";
+                                        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "bloque", array()), "html", null, true);
+                                        echo "')\">";
                                         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "cantidad", array()), "html", null, true);
-                                        echo "</td>
+                                        echo "</a></td>
                                                             ";
                                         // line 44
                                         $context["total_fila"] = (($context["total_fila"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "cantidad", array()));
@@ -340,6 +345,15 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
 ";
     }
 
+    // line 125
+    public function block_appScript($context, array $blocks = array())
+    {
+        // line 126
+        echo "  <script src=\"views/app/js/coordinacion/distribucion.js\"></script>
+
+";
+    }
+
     public function getTemplateName()
     {
         return "coordinacion/coordinacion.twig";
@@ -352,7 +366,7 @@ class __TwigTemplate_ece541fc78ace13a916bc24d3614c731a55d588517d637be32acbc6e640
 
     public function getDebugInfo()
     {
-        return array (  330 => 114,  323 => 113,  319 => 111,  316 => 110,  309 => 109,  306 => 108,  303 => 107,  301 => 106,  296 => 105,  293 => 104,  290 => 103,  284 => 102,  281 => 101,  276 => 100,  272 => 98,  263 => 95,  256 => 94,  252 => 92,  249 => 91,  242 => 90,  239 => 89,  236 => 88,  234 => 87,  231 => 86,  228 => 85,  225 => 84,  219 => 83,  216 => 82,  211 => 81,  206 => 79,  203 => 78,  198 => 77,  194 => 75,  184 => 73,  179 => 72,  161 => 56,  150 => 53,  143 => 52,  139 => 50,  136 => 49,  129 => 48,  126 => 47,  123 => 46,  120 => 45,  118 => 44,  113 => 43,  110 => 42,  107 => 41,  101 => 40,  98 => 39,  92 => 38,  90 => 37,  86 => 36,  83 => 35,  78 => 34,  73 => 31,  63 => 29,  58 => 28,  31 => 3,  28 => 2,  11 => 1,);
+        return array (  352 => 126,  349 => 125,  335 => 114,  328 => 113,  324 => 111,  321 => 110,  314 => 109,  311 => 108,  308 => 107,  306 => 106,  301 => 105,  298 => 104,  295 => 103,  289 => 102,  286 => 101,  281 => 100,  277 => 98,  268 => 95,  261 => 94,  257 => 92,  254 => 91,  247 => 90,  244 => 89,  241 => 88,  239 => 87,  236 => 86,  233 => 85,  230 => 84,  224 => 83,  221 => 82,  216 => 81,  211 => 79,  208 => 78,  203 => 77,  199 => 75,  189 => 73,  184 => 72,  166 => 56,  155 => 53,  148 => 52,  144 => 50,  141 => 49,  134 => 48,  131 => 47,  128 => 46,  125 => 45,  123 => 44,  114 => 43,  111 => 42,  108 => 41,  102 => 40,  99 => 39,  93 => 38,  91 => 37,  87 => 36,  84 => 35,  79 => 34,  74 => 31,  64 => 29,  59 => 28,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

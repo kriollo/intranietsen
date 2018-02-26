@@ -88,3 +88,37 @@
             }
         });
     }
+    function vercuadrante(idcomuna,bloque) {
+        var formData = new FormData();
+        formData.append('idcomuna', idcomuna);
+        formData.append('bloque', bloque);
+        $.ajax({
+            type: "POST",
+            url: "api/Mdlcoordinacion_cargar_cuadrante",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if (data.success == 1) {
+                    $.confirm({
+                    title: 'Cuadrante',
+                    content: data.html,
+                    type: 'blue',
+                    columnClass: 'col-md-12',
+                    buttons: {
+                    formSubmit: {
+                    text: 'Aceptar',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                    }
+                    },
+                    },
+                    });
+                } else {
+                    $.alert('No se lograron cargar los datos');
+                }
+            },error: function (xhr, status) {
+                msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
+            }
+        });
+    }

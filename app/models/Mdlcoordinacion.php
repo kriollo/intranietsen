@@ -32,7 +32,7 @@ class Mdlcoordinacion extends Models implements IModels {
       * Característica para establecer conexión con base de datos.
     */
     use DBModel;
-
+    protected $user = array();
     // Asigna Comuna a Ejecutivo
     public function verComuna(string $select = '*'){
         return $this->db->select($select,'tblcomuna');
@@ -296,12 +296,98 @@ class Mdlcoordinacion extends Models implements IModels {
         return array('success' => 1);
     }
 // ------------------------------------------------------------------------------------------------------
+    public function cargar_cuadrante(){
+
+        global $http;
+        $datusu=$this->user;
+        $idcomuna=$http->request->get('idcomuna');
+        $bloque=$http->request->get('bloque');
+        $cuadrante=$this->db->query_select("select nombre from tblcuadrante where cod_comuna='$idcomuna' group by nombre");
+        $actividades=$this->db->query_select("select * from tblactividad");
+
+
+
+        $html="<div class='box-body'>
+        <table class='table table-bordered table-responsive'>
+        <thead>
+        <th>Cuadrante</th>";
+        if($actividades!=false){
+            foreach ($actividades as $key => $value) {
+                $html.="<th class='text-center'>".$value['actividad']."</th>";
+            }
+        }
+        $html.="<th>Total</th>
+        </thead>
+        <tbody>";
+        if ($cuadrante!=false){
+            $cantidades=$this->db->query_select("select tblcuadrante.nombre,tblordenes.comuna,actividad,count(id_orden) as cantidad from tblordenes inner join tblcuadrante on tblcuadrante.nodo=tblordenes.nodo where comuna='$idcomuna' and bloque='$bloque' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') GROUP by tblcuadrante.nombre,actividad");
+            foreach ($cuadrante as $key2 => $value2) {
+                $html.="<tr>
+                <td>".$value2['nombre']."</td>";
+                $total_fila=0;
+                if($actividades!=false){
+                    foreach ($actividades as $key => $value) {
+                        $break_for=false;
+                        if($cantidades!=false){
+                            foreach ($cantidades as $cant => $cantidad) {
+                                if($break_for==false){
+                                    if($value['actividad']==$cantidad['actividad'] and $value2['nombre']==$cantidad['nombre'] ){
+                                        $html.="<td class='text-right'>".$cantidad['cantidad']."</td>";
+                                        $total_fila+=$cantidad['cantidad'];
+                                        $break_for = true;
+                                    }
+                                }
+                            }
+                        }
+                        if($break_for==false){
+                            $html.="<td class='text-right'>0</td>";
+                        }
+                    }
+                }
+                $html.="<td class='text-right'>$total_fila</td>
+                </tr>";
+            }
+        }else{
+            $sincuadrante=$this->db->query_select("select tblordenes.comuna,actividad,count(id_orden) as cantidad from tblordenes where comuna='$idcomuna' and bloque='$bloque' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') GROUP by actividad");
+            $html.="<tr>
+            <td>Sin cuadrante</td>";
+            $total_fila=0;
+            if($actividades!=false){
+                foreach ($actividades as $key => $value) {
+                    $break_for=false;
+                    if($sincuadrante!=false){
+                        foreach ($sincuadrante as $sin => $sincuadra) {
+                            if($break_for==false){
+                                if($value['actividad']==$sincuadra['actividad']){
+                                    $html.="<td class='text-right'>".$sincuadra['cantidad']."</td>";
+                                    $total_fila+=$sincuadra['cantidad'];
+                                    $break_for = true;
+                                }
+                            }
+                        }
+                    }
+                    if($break_for==false){
+                        $html.="<td class='text-right'>0</td>";
+                    }
+                }
+            }
+            $html.="<td class='text-right'>$total_fila</td>
+            </tr>";
+        }
+        $html.="</tbody>
+        </table>
+        </div>";
+
+
+        return array('success' => 1, 'html'=>$html);
+    }
     /**
       * __construct()
     */
     public function __construct(IRouter $router = null) {
         parent::__construct($router);
         $this->startDBConexion();
+        $this->user=(new Model\Users)->getOwnerUser();
     }
 
     /**

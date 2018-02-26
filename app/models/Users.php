@@ -147,7 +147,7 @@ class Users extends Models implements IModels {
      */
     private function authentication(string $email,string $pass) : bool {
         $email = $this->db->scape($email);
-        $query = $this->db->select('id_user,pass,estado','users',"email='$email'",'LIMIT 1');
+        $query = $this->db->select('id_user,pass,estado','users',"email='$email' or rut_personal='$email' ",'LIMIT 1');
 
         # Incio de sesión con éxito
         if(false !== $query && Strings::chash($query[0]['pass'],$pass) && $query[0]['estado'] == 1 ) {
@@ -249,9 +249,9 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Credenciales incompletas.');
             }
             # Verificar email
-            if (!Strings::is_email($email)) {
-                throw new ModelsException('El email no tiene un formato válido.');
-            }
+            // if (!Strings::is_email($email)) {
+            //     throw new ModelsException('El email no tiene un formato válido.');
+            // }
 
             # Añadir intentos
             $this->setNewAttempt($email);
@@ -368,7 +368,7 @@ class Users extends Models implements IModels {
     public function update_usuario() : array {
         try {
             global $http;
- 
+
             # Obtener los datos $_POST
             $id_user = $http->request->get('id_user');
             $name = $http->request->get('name');
@@ -841,7 +841,7 @@ class Users extends Models implements IModels {
         $mpdf = new mPDF('c', 'A4-L');
         $mpdf->allow_charset_conversion=true;
         $mpdf->charset_in = 'iso-8859-4';
-        
+
         $mpdf->SetDisplayMode('fullpage');
         $html="<html>";
         $html.="<head>

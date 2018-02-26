@@ -1,6 +1,23 @@
 {% extends 'portal/portal' %}
 {% block appStylos %}
   <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+  <style>
+
+.zoom {
+    transition: transform .2s; /* Animation */
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.zoom:hover {
+    width: 500px;
+    height: 250px;
+}
+</style>
 {% endblock %}
 {% block appBody %}
 <section class="content-header">

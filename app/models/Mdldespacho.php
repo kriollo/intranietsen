@@ -222,7 +222,7 @@ class Mdldespacho extends Models implements IModels {
                         <i class='glyphicon glyphicon-open'></i>
                     </a>";
                 }else{
-                    $html_select4="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-success btn-sm' disabled>
+                    $html_select4="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-success btn-sm' onclick=\"mostrar_st('".$value['n_orden']."')\">
                         <i class='glyphicon glyphicon-open'></i>
                     </a>";
                 }
@@ -350,7 +350,7 @@ class Mdldespacho extends Models implements IModels {
                 $html.="<th class='text-center'>TOTAL</th>
             </thead>
             <tbody>";
-                if (false != $comunasasignadas){
+                if (false != $comunasasignadas and false!=$cantidadporcomuna){
                     foreach ($comunasasignadas as $key2 => $value2) {
                         $html.="<tr>
                         <td>".$value2['comuna']."</td>";

@@ -188,6 +188,33 @@ class confirmacionController extends Controllers implements IControllers {
                 (new Model\Mdlconfirmacion)->update_estado_tipoorden($router->getId(true));
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
+            case 'listar_cuadrante':
+                echo $this->template->render('confirmacion/cuadrante/listar_cuadrante', array(
+                    'menu_op' => $op,
+                    'cuadrante_db' => (new Model\Mdlconfirmacion)->verCuadrante()
+                ));
+            break;
+            case 'nuevo_cuadrante':
+                echo $this->template->render('confirmacion/cuadrante/nuevo_cuadrante', array(
+                    'menu_op' => $op,
+                    'comuna' => (new Model\Mdlconfirmacion)->verComunas()
+                ));
+            break;
+            case 'editar_cuadrante':
+                if($this->isset_id and false !== ($data = (new Model\Mdlconfirmacion)->getCuadranteById($router->getId()))) {
+                    echo $this->template->render('confirmacion/cuadrante/editar_cuadrante', array(
+                        'menu_op' => $op,
+                        'resultado_db' => $data[0],
+                        'comuna' => (new Model\Mdlconfirmacion)->verComunas()
+                    ));
+                } else {
+                    $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+                }
+            break;
+            case 'estado_cuadrante':
+                (new Model\Mdlconfirmacion)->update_estado_cuadrante($router->getId(true));
+            break;
+            // ------------------------------------------------------------------------------------------------------------------------------------------
             case "programacion":
                 echo $this->template->render('confirmacion/programacion/programacion', array(
                     'menu_op' => $op,

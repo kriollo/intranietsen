@@ -175,3 +175,81 @@ function seguro(id) {
         }
   })
 }
+
+function mostrar_st(id) {
+  var foto = id + "_st";
+  var tabla = '<table width="1050" height="350">' +
+    '<tr>' +
+    ' <td><h2>Ultima imagen de la orden n°: '+id+'</h2></td>' +
+    '  <td><img class="zoom" src="views/app/images/speedtest/' + foto + '.jpg?"' + new Date().getTime()+'; alt="speed test n° orden: '+id+'" ismap></td>' +
+    '</tr>' +
+    '</table>';
+  $.confirm({
+    theme: 'supervan',
+    icon: 'glyphicon glyphicon-camera',
+    title: 'Speed Test!',
+    content: tabla,
+    type: 'green',
+    columnClass: 'col-md-12',
+    typeAnimated: true,
+    buttons: {
+      confirmar: {
+        text: '<h3>Subir otra imagen.</h3>',
+        btnClass: 'btn-green',
+        action: function () {
+          var div = '<h2><label for="file">Seleccione la foto del speed test</label></h2>' +
+            '<h2><input style="border-radius:15px;" type="file" id="fileinput" accept=".jpg" class="form-control"/></h2>';
+
+          $.confirm({
+            theme: 'supervan',
+            icon: 'glyphicon glyphicon-camera',
+            title: 'Subir Speed Test',
+            type: 'purple',
+            typeAnimated: true,
+            content: div,
+            buttons: {
+              confirmar: {
+                text: '<h3>Subir ST.</h3>',
+                btnClass: 'btn-green',
+                action: function () {
+                  var formData = new FormData();
+                  formData.append('fileinput', document.getElementById('fileinput').files[0]);
+                  formData.append('id', id);
+                  $.ajax({
+                    type: "POST",
+                    url: "api/Mdlcierre_speed_test",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (data) {
+                      if (data.success == 1) {
+                        // INGRESAR QUE WEA
+                        location.reload();
+                      } else {
+                        $.alert('Es necesario subir una imagen ');
+                      }
+                    },
+                    error: function (xhr, status) {
+                      msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
+                    }
+                  });
+                }
+              },
+              cancelar: {
+                text: '<h3>Cancelar</h3>',
+                btnClass: 'btn-red',
+                action: function () { }
+              },
+            }
+
+          });
+        }
+      },
+      cancel: {
+        text: '<h3>Cancelar</h3>',
+        btnClass: 'btn-red',
+        action: function () {}
+      },
+    }
+  })
+}

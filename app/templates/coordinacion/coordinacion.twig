@@ -40,7 +40,7 @@
                                                 {% for c in db_resumen_ordenes_bloques if false != db_resumen_ordenes_bloques %}
                                                     {% if break_for == false %}
                                                         {% if b.nombre == c.comuna and d.bloque == c.bloque %}
-                                                            <td class="text-right">{{ c.cantidad }}</td>
+                                                            <td class="text-right"><a onclick="vercuadrante('{{b.nombre}}','{{d.bloque}}')">{{ c.cantidad }}</a></td>
                                                             {% set total_fila = total_fila + c.cantidad %}
                                                             {% set break_for = true %}
                                                         {% endif %}
@@ -121,4 +121,8 @@
         </div>
     </div>
 </section>
+{% endblock %}
+{% block appScript %}
+  <script src="views/app/js/coordinacion/distribucion.js"></script>
+
 {% endblock %}

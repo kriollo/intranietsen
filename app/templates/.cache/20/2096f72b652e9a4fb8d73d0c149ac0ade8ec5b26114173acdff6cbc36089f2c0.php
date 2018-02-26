@@ -31,13 +31,30 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
     {
         // line 3
         echo "  <link rel=\"stylesheet\" href=\"views/app/template/datatables/dataTables.bootstrap.css\">
+  <style>
+
+.zoom {
+    transition: transform .2s; /* Animation */
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.zoom:hover {
+    width: 500px;
+    height: 250px;
+}
+</style>
 ";
     }
 
-    // line 5
+    // line 22
     public function block_appBody($context, array $blocks = array())
     {
-        // line 6
+        // line 23
         echo "<section class=\"content-header\">
     <h1>
         DESPACHO
@@ -54,16 +71,16 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
             <div class=\"nav-tabs-custom\">
                 <ul class=\"nav nav-tabs pull-rigth\">
                     <li ><a href=\"#tab_1-1\" data-toggle=\"tab\" onclick=\"actualizar_tablas_resumenes('";
-        // line 21
+        // line 38
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
         echo "','usuario');\">RESUMEN SEGUIMIENTO</a></li>
                     <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\">SEGUIMIENTO</a></li>
                     <li><a id=\"tab3\" href=\"#tab_3-3\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes('";
-        // line 23
+        // line 40
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
         echo "','*','usuario');\">ORDENES ASIGANDAS</a></li>
                     <li><a id=\"tab4\" href=\"#tab_4-4\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes('";
-        // line 24
+        // line 41
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
         echo "','*','sin_asignar');\">ORDENES SIN ASIGNAR</a></li>
                 </ul>
@@ -104,12 +121,12 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                                             <select class=\"form-control\" id=\"comuna_Seguimiento\" name=\"comuna_Seguimiento\" onchange=\"carga_ordenes_comuna_seguimiento();\">
                                                 <option>--</option>
                                                 ";
-        // line 62
+        // line 79
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_comunas"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["db_comunas"] ?? null))) {
-                // line 63
+                // line 80
                 echo "                                                    <option value=\"";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "comuna", array()), "html", null, true);
                 echo "\">";
@@ -121,7 +138,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 65
+        // line 82
         echo "                                            </select>
                                         </div>
                                     </div>
@@ -216,10 +233,10 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
 ";
     }
 
-    // line 157
+    // line 174
     public function block_appScript($context, array $blocks = array())
     {
-        // line 158
+        // line 175
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -283,7 +300,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
 
     public function getDebugInfo()
     {
-        return array (  223 => 158,  220 => 157,  125 => 65,  113 => 63,  108 => 62,  67 => 24,  63 => 23,  58 => 21,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  240 => 175,  237 => 174,  142 => 82,  130 => 80,  125 => 79,  84 => 41,  80 => 40,  75 => 38,  58 => 23,  55 => 22,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
