@@ -448,7 +448,78 @@ class Mdlconfirmacion extends Models implements IModels {
             'fecha' => date('Y-m-d'),
             'accion' => 'INGRESO',
             'observacion' => $observacion,
-            'id_user' => $operador
+            'id_user' => $operador,
+            'bloque' => $bloque,
+            'fecha_compromiso' => $fechacompromiso,
+            'resultado' => $resultado
+        ));
+
+        return array('success' => 1, 'message' => 'Orden ingresada');
+
+    }
+    public function reingresar_orden(){
+        global $http;
+
+        $orden=$http->request->get('reordenid');
+        $id=$http->request->get('reordenid1');
+        $operador=$http->request->get('reid');
+        $rutcliente=$http->request->get('rerutcliente');
+        $fechacompromiso=$http->request->get('refecha');
+        $nodo=$http->request->get('renodo');
+        $subnodo=$http->request->get('resubnodo');
+        $bloque=$http->request->get('rebloque');
+        $motivo=$http->request->get('remotivo');
+        $comuna=$http->request->get('recomuna');
+        $actividad=$http->request->get('reactividad');
+        $resultado=$http->request->get('reresultado');
+        $observacion=$http->request->get('reobservacion');
+        $tipoorden=$http->request->get('retipoorden');
+        $fecha_dia=date('Y-m-d');
+
+        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
+            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
+        }
+
+        $datos=$this->db->query_select("select validate_rut('$rutcliente')");
+        if($datos[0][0]==0){
+            return array('success' => 0, 'message' => 'Rut no valido');
+        }
+
+        $prioridad = $this->getTipoOrdenById($tipoorden);
+
+        if(is_numeric($nodo) == false || is_numeric($subnodo) == false){
+            return array('success' => 0, 'message' => 'El nodo y subnodo deben ser numeros');
+        }
+        //$eliminar = $this->db->query("delete from tblordenes where id_orden='$id';");
+
+        $this->db->update('tblordenes', array(
+            'operador'=> $operador,
+            'rut_cliente'=>$rutcliente,
+            'fecha_compromiso'=>$fechacompromiso,
+            'bloque'=>$bloque,
+            'motivo'=>$motivo,
+            'nodo' => $nodo,
+            'subnodo' => $subnodo,
+            'comuna'=>$comuna,
+            'tipoorden'=>$tipoorden,
+            'actividad'=>$actividad,
+            'resultado'=>$resultado,
+            'observacion'=>$observacion,
+            'fecha_dia'=>$fecha_dia,
+            'prioridad' => $prioridad[0]['prioridad']
+        ),"id_orden='$id'");
+
+        $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
+        $this->db->insert('tblhistorico', array(
+            'id_orden' => $datos[0]['id_orden'],
+            'n_orden' => $orden,
+            'fecha' => date('Y-m-d'),
+            'accion' => 'REINGRESO',
+            'observacion' => $observacion,
+            'id_user' => $operador,
+            'bloque' => $bloque,
+            'fecha_compromiso' => $fechacompromiso,
+            'resultado' => $resultado
         ));
 
         return array('success' => 1, 'message' => 'Orden ingresada');
@@ -463,6 +534,10 @@ class Mdlconfirmacion extends Models implements IModels {
     public function get_orden_byId(int $id){
         return $this->db->query_select("select tblordenes.*, users.name from
         tblordenes inner join users on tblordenes.operador=users.id_user where id_orden ='$id' limit 1");
+    }
+    public function get_orden_bynorden(int $norden){
+        return $this->db->query_select("select tblordenes.*, users.name from
+        tblordenes inner join users on tblordenes.operador=users.id_user where n_orden ='$norden' limit 1");
     }
     public function modificar_la_orden(){
         global $http;
@@ -495,6 +570,20 @@ class Mdlconfirmacion extends Models implements IModels {
             $prioridad = $this->getTipoOrdenById($tipoorden);
             $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
             comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'  WHERE id_orden='$idorden'");
+
+            $this->db->insert('tblhistorico', array(
+                'id_orden' => $idorden,
+                'n_orden' => $modorden,
+                'fecha' => date('Y-m-d'),
+                'accion' => 'MODIFICACION',
+                'observacion' => $modobservacion,
+                'id_user' => $operador,
+                'bloque' => $modbloque,
+                'fecha_compromiso' => $modfechacompromiso,
+                'resultado' => $modresultado
+            ));
+
+
             return array('success' => 1, 'message' => 'Datos Modificados');
         }
     }
@@ -771,19 +860,21 @@ class Mdlconfirmacion extends Models implements IModels {
         }
     }
     public function confirma_q_orden_x_estado_confirmacion($desde,$hasta){
-        return $this->db->query_select("select if(r.grupo = 0,'No Confirma','Confirma') Resultado,count(o.id_orden) cantidad from tblordenes o inner join tblresultado r on o.resultado=r.id_resultado where fecha_dia between '$desde' and '$hasta' group by r.grupo order by Resultado");
+        return $this->db->query_select("select if(r.grupo = 0,'No Confirma','Confirma') Resultado,count(o.id_orden) cantidad from tblordenes o inner join tblresultado r on o.resultado=r.id_resultado where fecha_compromiso between '$desde' and '$hasta' group by r.grupo order by Resultado");
     }
     public function confirma_top_5_best_ejecutivo($desde,$hasta){
-        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from tblordenes o inner join users u on o.operador=u.id_user where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad desc limit 5");
+        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from (tblordenes o inner join users u on o.operador=u.id_user) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad desc limit 5");
     }
     public function confirma_top_5_bad_ejecutivo($desde,$hasta){
-        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from tblordenes o inner join users u on o.operador=u.id_user where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad asc limit 5");
+        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from (tblordenes o inner join users u on o.operador=u.id_user) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad asc limit 5");
     }
     public function confirma_resumen_x_comuna($desde,$hasta){
-        return $this->db->query_select("select comuna,count(id_orden) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta' group by comuna order by cantidad desc");
+
+        return $this->db->query_select("select o.comuna,b.requerido requerido,count(o.id_orden) cantidad,(select count(*) cuenta from tblbloque where estado=1) q_bloque from ((tblordenes o inner join tblcomuna b on o.comuna=b.nombre) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 ) where fecha_compromiso between '$desde' and '$hasta' group by o.comuna order by cantidad desc");
     }
     public function confirma_resumen_x_bloque($desde,$hasta){
-        return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from (tblordenes o inner join tblbloque b on o.bloque=b.bloque) where fecha_dia between '$desde' and '$hasta' group by bloque order by cantidad desc");
+
+        return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblbloque b on o.bloque=b.bloque) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1) where fecha_compromiso between '$desde' and '$hasta' group by o.bloque order by b.desde asc");
     }
     // ------------------------------------------------------------------------------------------------------
     // REAGENDAMIENTO ORDEN
@@ -792,40 +883,19 @@ class Mdlconfirmacion extends Models implements IModels {
             global $http;
             #Obtener los datos $_POST
             $norden = $http->request->get('orden');
-
-            $comparacion = $this->db->query_select("
-            SELECT id_orden, ubicacion
-            FROM `tblordenes`
-            WHERE `n_orden` = '$norden'  ;");
+            $comparacion = $this->get_orden_bynorden($norden);
 
             if ($comparacion == false ) {
                 return array('success' => 0, 'message' => 'No Existe');
-                # code...
             }else {
-                $bloques = $this->carga_bloque();
+                //$bloques = $this->carga_bloque();
 
-                $dato = $comparacion[0]['id_orden'];
+                //$dato = $comparacion[0]['id_orden'];
                 $ubicacion = $comparacion[0]['ubicacion'];
-                $fecha = date("Y-m-d");
+                //$fecha = date("Y-m-d");
 
                 $html="<label>Su orden se encuentra en ".$ubicacion."</label>
-                <form action='' class='formName' name='rbutt' id='rbutt'>
-                <div class='form-group'>
-                <label>Fecha reagendamiento</label>
-                <input type='date' value='".$fecha."' class='fecha form-control' name='fecha' id='fecha' min='".$fecha."' required />
-                <label>Bloque</label>
-                <div class='box-body'>";
-
-                foreach ($bloques as $key => $value) {
-                    $html.="<div class='col-xs-4' style='border: 1px solid white'>
-                       <label><input type='radio' name='rbbloque' value='".$value['bloque']."'>
-                       <font size='4'>".$value['bloque']."</font></label>
-                    </div>";
-                }
-
-                $html.="</div>
-                </div>
-                </form>";
+                <h3>¿Desea reingresarla?</h3>";
 
                 if ($ubicacion == 'CONFIRMACION' || $ubicacion == 'DESPACHO') {
                     return array('success' => 2, 'message' => 'ORDEN YA INGRESADA');
@@ -837,43 +907,114 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-
     public function confirmacion_reagendar() :array{
-    try {
+        try {
+            global $http;
+
+
+            $fecha = $http->request->get('fecha');
+            $bloque = $http->request->get('bloque');
+            $id = $http->request->get('id');
+            $datos = $this->db->select('*','tblordenes',"n_orden='$id'");
+            $usu=(new Model\Users)->getOwnerUser();
+
+            if ('undefined' == $bloque){ return array('success' => 0, 'message' => 'Debe seleccionar Bloque'); }
+
+
+
+            $this->db->update('tblordenes',array(
+                'fecha_compromiso' => $fecha,
+                'bloque' => $bloque,
+                'ubicacion' => 'CONFIRMACION'
+            ),"n_orden='$id'");
+
+            $REAGENDA='Fecha Anterior: '.$datos[0]['fecha_compromiso'].' - Bloque: '.$datos[0]['bloque'].'  A  Fecha Nueva: '.$fecha.' - Bloque: '.$bloque;
+
+            $this->db->insert('tblhistorico', array(
+                'id_orden' => $datos[0]['id_orden'],
+                'n_orden' => $id,
+                'fecha' => date('Y-m-d'),
+                'accion' => 'REAGENDAMIENTO',
+                'observacion' => $REAGENDA,
+                'id_user' => $usu[0][0]
+            ));
+            return array('success' => 1, 'bloque' => $bloque, 'id' => $id, 'fecha' => $fecha);
+        } catch (\Exception $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+    public function consultar_historico(){
         global $http;
 
+        $norden = $http->request->get('norden');
 
-        $fecha = $http->request->get('fecha');
-        $bloque = $http->request->get('bloque');
-        $id = $http->request->get('id');
-        $datos = $this->db->select('*','tblordenes',"n_orden='$id'");
-        $usu=(new Model\Users)->getOwnerUser();
+        $datos = $this->db->query_select("SELECT
+        h.hora,
+        h.accion,
+        h.observacion,
+        h.bloque,
+        h.fecha_compromiso,
+        h.resultado,
+        h.id_user,
+        r.nombre,
+        u.name
+         FROM ((tblhistorico h
+         inner JOIN users u
+         ON h.id_user = u.id_user)
+         left JOIN tblresultado r
+         ON h.resultado = r.id_resultado)
+         WHERE h.n_orden = '$norden' ORDER BY fecha desc,hora desc");
 
-        if ('undefined' == $bloque){ return array('success' => 0, 'message' => 'Debe seleccionar Bloque'); }
+            $html = '<div class="box-body">
+                <table id="historico" class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th>Fecha registro</th>
+                    <th>Accion</th>
+                    <th>Observacion</th>
+                    <th>Bloque</th>
+                    <th>Fecha compromiso</th>
+                    <th>Resultado</th>
+                    <th>Usuario</th>
+                    </tr>
+                </thead>
+              <tbody>';
+              if (false != $datos) {
+                foreach ($datos as $key => $value) {
+                     $html .= '
+                  <td>'.$value['hora'].'</th>
+                  <td>'.$value['accion'].'</th>
+                  <td>'.$value['observacion'].'</th>
+                  <td>'.$value['bloque'].'</th>
+                  <td>'.$value['fecha_compromiso'].'</th>
+                  <td>'.$value['nombre'].'</th>
+                  <td>'.$value['name'].'</th></tr>';
+                }
+            }
 
-
-
-        $this->db->update('tblordenes',array(
-            'fecha_compromiso' => $fecha,
-            'bloque' => $bloque,
-            'ubicacion' => 'CONFIRMACION'
-        ),"n_orden='$id'");
-
-        $REAGENDA='Fecha Anterior: '.$datos[0]['fecha_compromiso'].' - Bloque: '.$datos[0]['bloque'].'  A  Fecha Nueva: '.$fecha.' - Bloque: '.$bloque;
-
-        $this->db->insert('tblhistorico', array(
-            'id_orden' => $datos[0]['id_orden'],
-            'n_orden' => $id,
-            'fecha' => date('Y-m-d'),
-            'accion' => 'REAGENDAMIENTO',
-            'observacion' => $REAGENDA,
-            'id_user' => $usu[0][0]
-        ));
-        return array('success' => 1, 'bloque' => $bloque, 'id' => $id, 'fecha' => $fecha);
-    } catch (\Exception $e) {
-        return array('success' => 0, 'message' => $e->getMessage());
-    }
-
+            $html .=  '</tbody>
+            </table>
+            </div>
+            <script>$("#historico").dataTable({
+                        "language": {
+                            "search": "Buscar:",
+                            "zeroRecords": "No hay datos para mostrar",
+                            "info": "Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                            "loadingRecords": "Cargando...",
+                            "processing": "Procesando...",
+                            "infoEmpty": "No hay entradas para mostrar",
+                            "lengthMenu": "Mostrar _MENU_ Filas",
+                            "paginate": {
+                                "first": "Primera",
+                                "last": "Ultima",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            }
+                        },
+                        "autoWidth": true,
+                        "scrollX": true
+                    });</script>';
+        return array('success' => 1, 'html' => $html);
     }
 
     /**

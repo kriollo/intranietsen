@@ -61,7 +61,7 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
                     <table id=\"dataordenes\" name=\"dataordenes\" class=\"table table-bordered\">
                         <thead>
                             <tr>
-                                <th>Numero Orden</th>
+                                <th>N°Orden</th>
                                 <th>Rut Cliente</th>
                                 <th>Fecha Compromiso</th>
                                 <th>Bloque</th>
@@ -121,11 +121,17 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
                 // line 53
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "observacion", array()), "html", null, true);
                 echo "</td>
-                                    <td class='pull-right' width='40'>
-                                        ";
+                                    <td >
+                                            <a data-toggle='tooltip' data-placement='top' id=\"historicoorden\" name=\"historicoorden\" title='Historico Orden' class='btn btn-primary btn-sm' onclick=\"historico(";
                 // line 55
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "n_orden", array()), "html", null, true);
+                echo ");\">
+                                                <i class='glyphicon glyphicon-eye-open'></i>
+                                            </a>
+                                        ";
+                // line 58
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "ubicacion", array()) == "CONFIRMACION")) {
-                    // line 56
+                    // line 59
                     echo "                                            <a data-toggle='tooltip' data-placement='top' id=\"btnmodificar\" name=\"btnmodificar\" title='Modificar' class='btn btn-success btn-sm' href=\"confirmacion/editar_confirmacion/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "id_orden", array()), "html", null, true);
                     echo "\">
@@ -133,26 +139,27 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
                                             </a>
                                         ";
                 } else {
-                    // line 60
+                    // line 63
                     echo "                                            <a data-toggle='tooltip' data-placement='top' id=\"btnmodificar\" name=\"btnmodificar\" title='Modificar' class='btn btn-success btn-sm' disabled>
                                                 <i class='glyphicon glyphicon-edit'></i>
                                             </a>
                                         ";
                 }
-                // line 64
-                echo "                                    </td>
+                // line 67
+                echo "
+                                    </td>
                                 </tr>
                                 ";
-                // line 66
+                // line 70
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 67
+                // line 71
                 echo "                            ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['t'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 68
+        // line 72
         echo "                        </tbody>
                     </table>
                 </div>
@@ -163,10 +170,10 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
 ";
     }
 
-    // line 76
+    // line 80
     public function block_appScript($context, array $blocks = array())
     {
-        // line 77
+        // line 81
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -190,8 +197,10 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
                     \"previous\": \"Anterior\"
                 }
             },
-            \"autoWidth\": true
+            \"autoWidth\": true,
+            \"scrollX\": true
         });
+
     </script>
 ";
     }
@@ -208,7 +217,7 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
 
     public function getDebugInfo()
     {
-        return array (  170 => 77,  167 => 76,  156 => 68,  149 => 67,  147 => 66,  143 => 64,  137 => 60,  129 => 56,  127 => 55,  122 => 53,  118 => 52,  114 => 51,  110 => 50,  106 => 49,  102 => 48,  98 => 47,  94 => 46,  90 => 45,  87 => 44,  81 => 43,  79 => 42,  46 => 11,  43 => 10,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  177 => 81,  174 => 80,  163 => 72,  156 => 71,  154 => 70,  149 => 67,  143 => 63,  135 => 59,  133 => 58,  127 => 55,  122 => 53,  118 => 52,  114 => 51,  110 => 50,  106 => 49,  102 => 48,  98 => 47,  94 => 46,  90 => 45,  87 => 44,  81 => 43,  79 => 42,  46 => 11,  43 => 10,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

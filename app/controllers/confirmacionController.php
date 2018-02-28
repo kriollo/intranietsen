@@ -226,6 +226,22 @@ class confirmacionController extends Controllers implements IControllers {
                     'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
                 ));
             break;
+            case "reingresar_confirmacion":
+                if($this->isset_id and false !== ($orden=(new Model\Mdlconfirmacion)->get_orden_bynorden($router->getId(true)))){
+                    echo $this->template->render('confirmacion/programacion/reingresar_confirmacion', array(
+                        'menu_op' => $op,
+                        'db_modorden'=>$orden[0],
+                        'db_motivo'=>(new Model\Mdlconfirmacion)->carga_motivo(),
+                        'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque(),
+                        'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),
+                        'db_actividad'=>(new Model\Mdlconfirmacion)->carga_actividad(),
+                        'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado(),
+                        'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
+                    ));
+                } else {
+                    $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+                }
+            break;
             case "listar_ordenes":
                 $carusu=(new Model\Users)->getOwnerUser();
                 $usuario=$carusu['id_user'];

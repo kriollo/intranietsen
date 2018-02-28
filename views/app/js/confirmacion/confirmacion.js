@@ -2,7 +2,6 @@
  * Ajax action to api rest
 */
 function cargarblo(bloque){
-
     document.formorden.textbloque.value=bloque;
 }
 function cargarmot(motivo){
@@ -23,6 +22,7 @@ function cargartipoorden(tipooden){
 function cargarmodtipoorden(tipooden){
     document.formmodorden.textmodtipoorden.value=tipooden;
 }
+
 function cargarmodblo(modbloque){
     document.formmodorden.textmodbloque.value=modbloque;
 }
@@ -37,6 +37,25 @@ function cargarmodcom(modcomuna){
 }
 function cargarmodres(modresultado){
     document.formmodorden.textmodresultado.value=modresultado;
+}
+function cargarretipoorden(tipooden) {
+    document.formreorden.retipoorden.value = tipooden;
+}
+
+function cargarreblo(modbloque) {
+    document.formreorden.rebloque.value = modbloque;
+}
+function cargarremot(modmotivo) {
+    document.formreorden.remotivo.value = modmotivo;
+}
+function cargarreact(modactividad) {
+    document.formreorden.reactividad.value = modactividad;
+}
+function cargarrecom(modcomuna) {
+    document.formreorden.recomuna.value = modcomuna;
+}
+function cargarreres(modresultado) {
+    document.formreorden.reresultado.value = modresultado;
 }
 // CONFIRMACION JS HECTORELFATHER---------------------------------------------------------------
 function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_redirect){
@@ -87,6 +106,9 @@ function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_re
     case "modificar_la_orden":
       title="Modificacion en Orden";
       break;
+    case "reingresar_orden":
+        title = 'reIngresar Orden';
+        break;
       // -------------------------------------------------------
   }
   $.ajax({
@@ -158,14 +180,15 @@ $('#update_cuadrante').click(function (e) {
 
 function Eliminar_OT(id) {
     $.confirm({
+        escapeKey: 'cancel',
         icon: 'fa fa-warning',
         title: 'Eliminar OT!',
         content: '<h3>¿Esta seguro que desea eliminar esta orden?</h3>',
-        type: 'blue',
+        type: 'red',
         buttons: {
             formSubmit: {
                 text: 'Eliminar',
-                btnClass: 'btn-blue',
+                btnClass: 'btn-red',
                 action: function () {
                     location.href = 'confirmacion/eliminar_OT/' + id;
                     $("#btnbuscar").trigger("click");
@@ -187,10 +210,15 @@ $('#btningresar').click(function(e){
   e.defaultPrevented;
   execute_accion_confirmacion("post","ingresar_orden",'formorden','back','confirmacion/listar_ordenes');
 });
+$('#btnreingresar').click(function (e) {
+    e.defaultPrevented;
+    execute_accion_confirmacion("post", "reingresar_orden", 'formreorden', 'back', 'confirmacion/listar_ordenes');
+});
 $('#modbtningresar').click(function(e){
   e.defaultPrevented;
   execute_accion_confirmacion("post","modificar_la_orden",'formmodorden','back');
 });
+
 function revisar_por_fecha(){
     var formData = new FormData();
     formData.append('fecha',document.getElementById('revhasta').value);
@@ -222,61 +250,32 @@ $('#btn_exporta_excel_ordenes').click(function(e) {
     location.href = 'confirmacion/exporta_excel_ordenes?fecha='+fecha;
 });
 
-$('#textidorden').focusout(function(event) {
+$('#textidorden').focusout(function (event) {
     if (!!$('#textidorden').val().trim() != false) {
         var formData = new FormData();
-        formData.append('orden',document.getElementById('textidorden').value);
+        var id = $('#textidorden').val();
+        formData.append('orden', id);
         $.ajax({
             type: "POST",
             url: "api/confirmacion_buscar_norden",
-            contentType:false,
-            processData:false,
-            data : formData,
-            success : function(data){
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
                 var bloque = data.bloque;
-                if(data.success==1){
+                if (data.success == 1) {
                     $.confirm({
+                        escapeKey: 'cancel',
                         icon: 'fa fa-warning',
-                        title: 'Reagendamiento!',
+                        title: 'Orden Tecnica!',
                         content: data.html,
                         type: 'blue',
                         buttons: {
                             formSubmit: {
-                                text: 'Reagendar',
+                                text: 'ReIngresar',
                                 btnClass: 'btn-blue',
                                 action: function () {
-                                    var fecha = this.$content.find('.fecha').val();
-                                    var rb = $('input[name=rbbloque]:checked', '#rbutt').val()
-                                    var id = $('#textidorden').val()
-                                    if (undefined == rb ){
-                                        $.alert('No se logro reagendar la orden: Debe selecciar Bloque');
-                                        $('#textidorden').val('');
-                                        //$('#textidorden').trigger('focusout');
-                                    }else{
-                                        var formReag = new FormData();
-                                        formReag.append('fecha',fecha);
-                                        formReag.append('bloque',rb);
-                                        formReag.append('id',id);
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "api/confirmacion_reagendar",
-                                            contentType:false,
-                                            processData:false,
-                                            data : formReag,
-                                            success : function(data){
-                                                if(data.success==1){
-                                                    $.alert('Orden reagendada, fecha: ' + fecha + ', Bloque: ' + rb);
-                                                }else {
-                                                    $.alert('No se logro reagendar la orden: ' + data.message);
-                                                }
-                                                $('#textidorden').val('');
-                                                $('#textidorden').focus();
-                                            },
-                                            error : function(xhr, status) {
-                                                msg_box_alert(99,'Filtrar Ordenes',xhr.responseText);
-                                            }
-                                        });
-                                    }
+                                    location.href = 'confirmacion/reingresar_confirmacion/' + id;
                                 }
                             },
                             cancel: {
@@ -288,21 +287,24 @@ $('#textidorden').focusout(function(event) {
                             }
                         },
                     });
-                }else if (data.success == 2) {
+                } else if (data.success == 2) {
                     alert(data.message);
                     location.reload();
                 }
-            },error : function(xhr, status) {
-                msg_box_alert(99,'Filtrar Ordenes',xhr.responseText);
+            },
+            error: function (xhr, status) {
+                msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
             }
         });
     }
 });
+
+
 function registrar_actividad() {
     var formData = new FormData();
     var speed_test=0, certificacion=0, cierre_seguro=0;
     if ($('#speed_test').is(':checked')) {
-    speed_test = 1;
+        speed_test = 1;
     }
     if ($('#certificacion').is(':checked')) {
         certificacion = 1;
@@ -323,6 +325,7 @@ function registrar_actividad() {
         success: function (data) {
             if (data.success == 1) {
                 $.confirm({
+                    escapeKey: 'formSubmit',
                     icon: 'glyphicon glyphicon-ok',
                     title: 'Actividad',
                     content: '<h4>Actividad Ingresada con exito</h4>',
@@ -333,13 +336,14 @@ function registrar_actividad() {
                             btnClass: 'btn-green',
                             action: function () {
                                 var referrer = document.referrer;
-                                 window.location.href = referrer;
+                                window.location.href = referrer;
                             }
                         },
                     },
                 });
             } else {
                 $.confirm({
+                    escapeKey: 'formSubmit',
                     icon: 'glyphicon glyphicon-remove',
                     title: 'Actividad',
                     content: '<h4>No se pudo ingresar la actividad</h4>',
@@ -386,6 +390,7 @@ function editar_actividad(id) {
         success: function (data) {
             if (data.success == 1) {
                 $.confirm({
+                    escapeKey: 'formSubmit',
                     icon: 'glyphicon glyphicon-ok',
                     title: 'Actividad',
                     content: '<h4>Actividad editada con exito</h4>',
@@ -403,6 +408,7 @@ function editar_actividad(id) {
                 });
             } else {
                 $.confirm({
+                    escapeKey: 'formSubmit',
                     icon: 'glyphicon glyphicon-remove',
                     title: 'Actividad',
                     content: '<h4>No se pudo editar la actividad</h4>',
@@ -423,29 +429,54 @@ function editar_actividad(id) {
         }
     });
 }
-function Eliminar_OT(id) {
-    $.confirm({
-        icon: 'fa fa-warning',
-        title: 'Eliminar OT!',
-        content: '<h3>¿Esta seguro que desea eliminar esta orden?</h3>',
-        type: 'red',
-        buttons: {
-            formSubmit: {
-                text: 'Eliminar',
-                btnClass: 'btn-red',
-                action: function () {
-                    location.href = 'confirmacion/eliminar_OT/' + id;
-                    $("#btnbuscar").trigger("click");
 
-                }
-            },
-            cancel: {
-                text: 'Cancelar',
-                action: function () {
+function historico(norden) {
+    var formData = new FormData();
+    formData.append('norden', norden);
+    $.ajax({
+        type: "POST",
+        url: "api/consultar_historico",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            if (data.success == 1) {
+                $.confirm({
+                    escapeKey: 'formSubmit',
+                    icon: 'glyphicon glyphicon-list-alt',
+                    columnClass: 'col-md-12',
+                    title: 'Historial de OT',
+                    content: data.html,
+                    type: 'blue',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Aceptar',
+                            btnClass: 'btn-default',
+                            action: function () {
 
-                }
+                            }
+                        },
+                    },
+                });
+            } else {
+                $.confirm({
+                    escapeKey: 'formSubmit',
+                    icon: 'glyphicon glyphicon-remove',
+                    title: 'Actividad',
+                    content: '<h4>No se pudo editar la actividad</h4>',
+                    type: 'red',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Aceptar',
+                            btnClass: 'btn-green',
+                            action: function () {}
+                        },
+                    },
+                });
             }
         },
-
-    })
+        error: function (xhr, status) {
+            msg_box_alert(99, 'Filtrar Ordenes', xhr.responseText);
+        }
+    });
 }

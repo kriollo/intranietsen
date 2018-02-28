@@ -423,6 +423,14 @@ $app->post('/confirmacion_reagendar', function() use($app) {
     $u = new Model\Mdlconfirmacion;
     return $app->json($u->confirmacion_reagendar());
 });
+$app->post('/reingresar_orden', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->reingresar_orden());
+});
+$app->post('/consultar_historico', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->consultar_historico());
+});
 //Orden Confirmacion------------------------------------------------------------
 //Coordinacion Asigna Ejecutivo Comuna------------------------------------------
 $app->post('/Mdlcoordinacion_select_ejecutivo', function() use($app) {

@@ -26,7 +26,7 @@
                     <table id="dataordenes" name="dataordenes" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Numero Orden</th>
+                                <th>N°Orden</th>
                                 <th>Rut Cliente</th>
                                 <th>Fecha Compromiso</th>
                                 <th>Bloque</th>
@@ -51,7 +51,10 @@
                                     <td>{{ t.actividad }}</td>
                                     <td>{{ t.desc_resultado }}</td>
                                     <td>{{ t.observacion }}</td>
-                                    <td class='pull-right' width='40'>
+                                    <td >
+                                            <a data-toggle='tooltip' data-placement='top' id="historicoorden" name="historicoorden" title='Historico Orden' class='btn btn-primary btn-sm' onclick="historico({{t.n_orden}});">
+                                                <i class='glyphicon glyphicon-eye-open'></i>
+                                            </a>
                                         {% if t.ubicacion == "CONFIRMACION"  %}
                                             <a data-toggle='tooltip' data-placement='top' id="btnmodificar" name="btnmodificar" title='Modificar' class='btn btn-success btn-sm' href="confirmacion/editar_confirmacion/{{t.id_orden}}">
                                                 <i class='glyphicon glyphicon-edit'></i>
@@ -61,6 +64,7 @@
                                                 <i class='glyphicon glyphicon-edit'></i>
                                             </a>
                                         {% endif %}
+
                                     </td>
                                 </tr>
                                 {% set No = No + 1 %}
@@ -97,7 +101,9 @@
                     "previous": "Anterior"
                 }
             },
-            "autoWidth": true
+            "autoWidth": true,
+            "scrollX": true
         });
+
     </script>
 {% endblock %}
