@@ -117,6 +117,7 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
                     <p>Col A -> Rut</p>
                     <p>Col B -> Nombre</p>
                     <p>Col C -> Codigo Tango</p>
+                    <p>Col D -> Telefono</p>
                     </span>
                 </div>
             </div>
@@ -126,10 +127,10 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
 ";
     }
 
-    // line 74
+    // line 75
     public function block_appScript($context, array $blocks = array())
     {
-        // line 75
+        // line 76
         echo "    <script src=\"views/app/js/rrhh/tecnicos.js\"></script>
 ";
     }
@@ -146,7 +147,7 @@ class __TwigTemplate_3b1fa80500ef1bd2d4646f976d0d6268dc53639b325f0b6d131ee8f7917
 
     public function getDebugInfo()
     {
-        return array (  133 => 75,  130 => 74,  112 => 58,  105 => 57,  103 => 56,  98 => 54,  94 => 53,  90 => 52,  87 => 51,  81 => 50,  79 => 49,  32 => 4,  29 => 3,  11 => 1,);
+        return array (  134 => 76,  131 => 75,  112 => 58,  105 => 57,  103 => 56,  98 => 54,  94 => 53,  90 => 52,  87 => 51,  81 => 50,  79 => 49,  32 => 4,  29 => 3,  11 => 1,);
     }
 
     public function getSourceContext()

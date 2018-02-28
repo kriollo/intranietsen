@@ -506,7 +506,11 @@ class Mdlconfirmacion extends Models implements IModels {
             'resultado'=>$resultado,
             'observacion'=>$observacion,
             'fecha_dia'=>$fecha_dia,
-            'prioridad' => $prioridad[0]['prioridad']
+            'prioridad' => $prioridad[0]['prioridad'],
+            'ubicacion' => 'CONFIRMACION',
+            'estado_orden' => '1',
+            'codigo_tecnico' => '0',
+            'id_usuario_despacho' => '0',
         ),"id_orden='$id'");
 
         $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
@@ -557,7 +561,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $tipoorden=$http->request->get('textmodtipoorden');
         $modfecha_dia=date('Y-m-d');
         $idorden=$http->request->get('ordenid');
-
+        $operador=$http->request->get('textmodid');
 
         if ($this->functions->e($modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
@@ -747,13 +751,16 @@ class Mdlconfirmacion extends Models implements IModels {
             )
             );
             foreach ($result as $key => $value) {
+                $html = "<a data-toggle='tooltip' data-placement='top' id='historicoorden' name='historicoorden' title='Historico Orden' class='btn btn-primary btn-sm' onclick=\"historico('".$value['n_orden']."');\">
+                    <i class='glyphicon glyphicon-eye-open'></i>
+                </a>";
                 if ($value['ubicacion']=='CONFIRMACION'){
-                    $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
+                    $html.='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
                         <i class="glyphicon glyphicon-edit"></i></a>
                         <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="Eliminar_OT('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
                     </a>';
                 }else{
-                    $html='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" disabled >
+                    $html.='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" disabled >
                         <i class="glyphicon glyphicon-edit"></i></a>
                         <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" class="btn btn-danger btn-sm" disabled>                    <i class="glyphicon glyphicon-remove"></i>
                     </a>';
@@ -1012,7 +1019,8 @@ class Mdlconfirmacion extends Models implements IModels {
                             }
                         },
                         "autoWidth": true,
-                        "scrollX": true
+                        "scrollX": true,
+                        "order": [[ 0, "desc" ]]
                     });</script>';
         return array('success' => 1, 'html' => $html);
     }

@@ -285,6 +285,10 @@ class confirmacionController extends Controllers implements IControllers {
                 (new Model\Mdlconfirmacion)->eliminarorden($router->getId(true));
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
+            case 'report_agendamiento':
+                
+            break;
+            // ------------------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('confirmacion/confirmacion', array(
                     'menu_op' => $op,

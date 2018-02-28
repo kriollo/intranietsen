@@ -64,6 +64,7 @@ class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e
                   <th>No</th>
                   <th>Rut</th>
                   <th>Nombres</th>
+                  <th>Telefono</th>
                   <th>Codigo Tecnico</th>
                   
                   <th>Acciones</th>
@@ -71,46 +72,50 @@ class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e
               </thead>
               <tbody>
                 ";
-        // line 38
-        $context["No"] = 1;
         // line 39
+        $context["No"] = 1;
+        // line 40
         echo "                ";
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["tecnicos_db"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["tecnicos_db"] ?? null))) {
-                // line 40
+                // line 41
                 echo "                  <tr>
                     <td>";
-                // line 41
+                // line 42
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
                     <td>";
-                // line 42
+                // line 43
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "rut", array()), "html", null, true);
                 echo "</td>
                     <td>";
-                // line 43
+                // line 44
                 echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array())), "html", null, true);
                 echo "</td>
                     <td>";
-                // line 44
+                // line 45
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "telefono", array()), "html", null, true);
+                echo "</td>
+                    <td>";
+                // line 46
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "codigo", array()), "html", null, true);
                 echo "</td>
                     
 
                     <td class='center' width='80'>
                       <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href=\"rrhh/editar_tecnico/";
-                // line 48
+                // line 50
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_tecnicos", array()), "html", null, true);
                 echo "\">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>
 
                       ";
-                // line 52
+                // line 54
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 0)) {
-                    // line 53
+                    // line 55
                     echo "                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href=\"rrhh/estado_tecnico/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_tecnicos", array()), "html", null, true);
                     echo "\">
@@ -119,7 +124,7 @@ class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e
 
                       ";
                 } else {
-                    // line 58
+                    // line 60
                     echo "                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href=\"rrhh/estado_tecnico/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_tecnicos", array()), "html", null, true);
                     echo "\">
@@ -128,21 +133,21 @@ class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e
 
                       ";
                 }
-                // line 63
+                // line 65
                 echo "
                     </td>
                   </tr>
                   ";
-                // line 66
+                // line 68
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 67
+                // line 69
                 echo "                ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 68
+        // line 70
         echo "              </tbody>
             </table>
             </div>
@@ -155,10 +160,10 @@ class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e
 ";
     }
 
-    // line 78
+    // line 80
     public function block_appScript($context, array $blocks = array())
     {
-        // line 79
+        // line 81
         echo "    <!-- DATA TABES SCRIPT -->
     <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
     <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -201,7 +206,7 @@ class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e
 
     public function getDebugInfo()
     {
-        return array (  162 => 79,  159 => 78,  146 => 68,  139 => 67,  137 => 66,  132 => 63,  123 => 58,  114 => 53,  112 => 52,  105 => 48,  98 => 44,  94 => 43,  90 => 42,  86 => 41,  83 => 40,  77 => 39,  75 => 38,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  167 => 81,  164 => 80,  151 => 70,  144 => 69,  142 => 68,  137 => 65,  128 => 60,  119 => 55,  117 => 54,  110 => 50,  103 => 46,  99 => 45,  95 => 44,  91 => 43,  87 => 42,  84 => 41,  78 => 40,  76 => 39,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

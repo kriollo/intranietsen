@@ -8,24 +8,28 @@
   </style>
 {% endblock %}
 {% block appBody %}
-<section class="content-header">
-    <h1>
-        Confirmación
-        <small>Listado de Ordenes Registradas por día</small>
+<div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <h1>
+                Confirmación
+                <small>Listado de Ordenes Registradas por día</small>
 
-        <div class="pull-right">
-            <label>Fecha Registro: </label>
-            <label>&nbsp;</label>
-            <input type="date" id="revhasta" name="revhasta" value='{{ "now"|date("Y-m-d") }}'>
-            <label>&nbsp;</label>
-            <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar_por_fecha()" class="btn btn-primary">Aplicar Filtrar</button>
-            <button type="button" onclick="location.reload();" class="btn btn-primary">Quitar Filtro</button>
-            <a class="btn btn-success btn-social" id="btn_exporta_excel_ordenes" title="Exportar a Excel" data-toggle="tooltip">
-                <i class="fa fa-arrow-down"></i> Exportar Excel
-            </a>
-        </div>
-    </h1>
-</section>
+                <div class="pull-right">
+                    <label>Fecha Registro: </label>
+                    <label>&nbsp;</label>
+                    <input type="date" id="revhasta" name="revhasta" value='{{ "now"|date("Y-m-d") }}'>
+                    <label>&nbsp;</label>
+                    <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar_por_fecha()" class="btn btn-primary">Aplicar Filtrar</button>
+                    <button type="button" onclick="location.reload();" class="btn btn-primary">Quitar Filtro</button>
+                    <a class="btn btn-success btn-social" id="btn_exporta_excel_ordenes" title="Exportar a Excel" data-toggle="tooltip">
+                        <i class="fa fa-arrow-down"></i> Exportar Excel
+                    </a>
+                </div>
+            </h1>
+        </section>
+    </div>
+</div>
 <section class="content">
     <div class="row">
         <div class="col-md-12">

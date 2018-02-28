@@ -179,15 +179,21 @@ class Mdltecnicos extends Models implements IModels {
                         $codigo= $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getvalue();
                         $telefono= $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getvalue();
 
-     					$this->db->query_select("Delete from tbltecnicos Where codigo='$codigo'");
-
-                        $this->db->Insert('tbltecnicos', array(
-                           // 'id_tecnicos'=>$id_tec,
-                           'rut'=>$rut,
-                           'nombre'=>$nombre,
-                           'codigo'=>$codigo,
-                           'telefono'=>$telefono
-                        ));
+     					$result= $this->db->query_select("Select id_tecnicos from tbltecnicos Where codigo='$codigo'");
+                        if (false == $result){
+                            $this->db->Insert('tbltecnicos', array(
+                               'rut'=>$rut,
+                               'nombre'=>$nombre,
+                               'codigo'=>$codigo,
+                               'telefono'=>$telefono
+                            ));
+                        }else{
+                            $this->db->Update('tbltecnicos', array(
+                               'rut'=>$rut,
+                               'nombre'=>$nombre,
+                               'telefono'=>$telefono
+                           ),"codigo ='$codigo'");
+                        }
                     }else{
                         $param=1;
                         return array('success' => 1, 'message' => "Datos cargados" );

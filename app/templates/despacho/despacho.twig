@@ -13,6 +13,51 @@
 
     <!-- Main content -->
     <section class="content">
+        <div class="row">
+        {% set count = 1 %}
+        {% set tope = 11 %}
+        {% for d in db_asistencia_tecnico if false != db_asistencia_tecnico %}
+            {% if count == 1 %}
+                <div class="col-md-3">
+                    <table class="table table-bordered">
+                        <thead>
+                            <th>TEC</th>
+                            <th>ASI</th>
+                        </thead>
+                        <tbody>
+
+            {% endif %}
+                            <tr>
+                                <td>{{ d.codigo }}</td>
+                                <td>
+                                {% if d.asistencia == "AUS" %}
+                                    <span class="label label-danger">
+                                {% elseif d.asistencia == "PRE" %}
+                                    <span class="label label-success">
+                                {% else  %}
+                                    <span class="label label-warning">
+
+
+                                {% endif %}
+                                {{ d.asistencia }}</td>
+                            </tr>
+            {% set count = count + 1 %}
+            {% if count == tope %}
+
+                        </tbody>
+                    </table>
+                </div>
+                {% set count = 1 %}
+            {% endif %}
+
+        {% endfor %}
+        {% if count < tope %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        </div>
     </section>
     <!-- /.content -->
 

@@ -80,12 +80,12 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
         <div class=\"col-md-12\">
             <div class=\"nav-tabs-custom\">
                 <ul class=\"nav nav-tabs pull-rigth\">
-                    <li ><a href=\"#tab_1-1\" data-toggle=\"tab\" onclick=\"actualizar_tablas_resumenes(document.getElementById('idusuario').value,'super');\">RESUMEN SEGUIMIENTO</a></li>
-                    <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\">SEGUIMIENTO</a></li>
+                    <li class=\"active\"><a href=\"#tab_1-1\" data-toggle=\"tab\" onclick=\"actualizar_tablas_resumenes(document.getElementById('idusuario').value,'super');\">RESUMEN SEGUIMIENTO</a></li>
+                    <!-- <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\">SEGUIMIENTO</a></li> -->
                     <li><a id=\"tab3\" href=\"#tab_3-3\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes(document.getElementById('idusuario').value,'*');\">VER ORDENES</a></li>
                 </ul>
                 <div class=\"tab-content\">
-                    <div class=\"tab-pane\" id=\"tab_1-1\">
+                    <div class=\"tab-pane active\" id=\"tab_1-1\">
                         <div class=\"row\">
                             <div class=\"col-xs-12\">
                                 <div class=\"box\">
@@ -109,7 +109,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
                             </div>
                         </div>
                     </div>
-                    <div class=\"tab-pane active\" id=\"tab_2-2\">
+                    <!-- <div class=\"tab-pane active\" id=\"tab_2-2\">
                         <div class=\"box box-primary\">
                             <div class=\"box-body resposible\">
                                 <div class=\"col-md-12\">
@@ -162,14 +162,14 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
                                                 </thead>
                                                 <tbody>
                                                     <!-- Carga Mediante archivo -->
-                                                </tbody>
+                                                <!-- </tbody>
                                             </table>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class=\"tab-pane\" id=\"tab_3-3\">
                         <div class=\"box box-primary\">
                             <div class=\"box-body resposible\">

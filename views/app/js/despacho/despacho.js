@@ -169,7 +169,7 @@
           }
       });
     }
-    function seleccionaroperacion(idorden,orden){
+    function seleccionaroperacion(idorden,orden,cod_tecnico){
         idoperacion="idoperacion-"+idorden;
         validoperacion=document.getElementById(idoperacion).value;
         var formData=new FormData();
@@ -197,6 +197,7 @@
                                     fomr.append('idorden', idorden);
                                     fomr.append('n_orden', orden);
                                     fomr.append('opcion', validoperacion);
+                                    fomr.append('id_tecnico', cod_tecnico);
                                     $.ajax({
                                         type : "POST",
                                         url : 'api/Mdldespacho_guardar_escalamiento',
@@ -237,6 +238,7 @@
                                         fomr.append('idorden', idorden);
                                         fomr.append('n_orden', orden);
                                         fomr.append('opcion', validoperacion);
+                                        fomr.append('id_tecnico', cod_tecnico);
                                         $.ajax({
                                             type : "POST",
                                             url : 'api/Mdldespacho_guardar_escalamiento',
@@ -279,6 +281,7 @@
                                         fomr.append('idorden', idorden);
                                         fomr.append('n_orden', orden);
                                         fomr.append('opcion', validoperacion);
+                                        fomr.append('id_tecnico', cod_tecnico);
                                         $.ajax({
                                             type : "POST",
                                             url : 'api/Mdldespacho_guardar_escalamiento',

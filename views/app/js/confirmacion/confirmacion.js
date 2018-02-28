@@ -208,11 +208,11 @@ function Eliminar_OT(id) {
 
 $('#btningresar').click(function(e){
   e.defaultPrevented;
-  execute_accion_confirmacion("post","ingresar_orden",'formorden','back','confirmacion/listar_ordenes');
+  execute_accion_confirmacion("post","ingresar_orden",'formorden','reload');
 });
 $('#btnreingresar').click(function (e) {
     e.defaultPrevented;
-    execute_accion_confirmacion("post", "reingresar_orden", 'formreorden', 'back', 'confirmacion/listar_ordenes');
+    execute_accion_confirmacion("post", "reingresar_orden", 'formreorden', 'reload');
 });
 $('#modbtningresar').click(function(e){
   e.defaultPrevented;

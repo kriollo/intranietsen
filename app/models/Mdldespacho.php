@@ -203,26 +203,26 @@ class Mdldespacho extends Models implements IModels {
                 }
                 //OPERACIONES
                 if ($value['codigo_tecnico'] == '0'){
-                    $html_select3 ='<select id="idoperacion-'.$value['id_orden'].'" name="idoperacion-'.$value['id_orden'].'" onchange=\'seleccionaroperacion("'.$value['id_orden'].'","'.$value['n_orden'].'")\' disabled>';
+                    $html_select3 ='<select id="idoperacion-'.$value['id_orden'].'" name="idoperacion-'.$value['id_orden'].'" onchange=\'seleccionaroperacion("'.$value['id_orden'].'","'.$value['n_orden'].'","'.$value['codigo_tecnico'].'")\' disabled>';
                 }else{
-                    $html_select3 ='<select id="idoperacion-'.$value['id_orden'].'" name="idoperacion-'.$value['id_orden'].'" onchange=\'seleccionaroperacion("'.$value['id_orden'].'","'.$value['n_orden'].'")\'>';
+                    $html_select3 ='<select id="idoperacion-'.$value['id_orden'].'" name="idoperacion-'.$value['id_orden'].'" onchange=\'seleccionaroperacion("'.$value['id_orden'].'","'.$value['n_orden'].'","'.$value['codigo_tecnico'].'")\'>';
                 }
 
 
                 $html_select3.='<option value="OPCIONES">Opciones</option>
                     <option value="REDES">Escalado a redes</option>
                     <option value="OTROS">Escalado a otros</option>
-                    <option value="ANULAR">Anular</option>
+                    <option value="ANULADA">Anular</option>
                     <option value="CIERRE">Cierre Seguro</option>
                     <option value="FINALIZADO">Finalizar</option>
                 </select>';
 
                 if ($value['speed_test'] == 0){
-                    $html_select4="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-warning btn-sm' onclick=\"subir_st('".$value['n_orden']."')\">
+                    $html_select4="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-warning btn-sm' onclick=\"subir_st('".$value['n_orden']."','seguimiento')\">
                         <i class='glyphicon glyphicon-open'></i>
                     </a>";
                 }else{
-                    $html_select4="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-success btn-sm' onclick=\"mostrar_st('".$value['n_orden']."')\">
+                    $html_select4="<a data-toggle='tooltip' data-placement='top' id='btnspeedtest' name='btnspeedtest' title='Speed Test' class='btn btn-success btn-sm' onclick=\"mostrar_st('".$value['n_orden']."','seguimiento')\">
                         <i class='glyphicon glyphicon-open'></i>
                     </a>";
                 }
@@ -281,10 +281,13 @@ class Mdldespacho extends Models implements IModels {
                             }
                         $html.="</select>";
                     }else{
-                        if (NULL == $value['estado']){
-                            $html.="Ausente";
+                        $estado=strtoupper(substr($value['estado'],0,3));
+                        if (NULL == $value['estado'] || $estado=='AUS'){
+                            $html.="<span class='label label-danger'>AUS</span>- ".substr($value['fechahora'],-8);
+                        }elseif($estado == 'PRE' ){
+                            $html.="<span class='label label-success'>".$estado."</span> - ".substr($value['fechahora'],-8);
                         }else{
-                            $html.=$value['estado']." - ".substr($value['fechahora'],-8);
+                            $html.="<span class='label label-warning'>".$estado."</span> - ".substr($value['fechahora'],-8);
                         }
                     }
                 $html.="</td>";
@@ -539,6 +542,7 @@ class Mdldespacho extends Models implements IModels {
             $opcion=$http->request->get('opcion');
             $observacion=$http->request->get('observacion');
             $opcioncombo=$http->request->get('valopcion');
+            $id_tecnico=$http->request->get('id_tecnico');
             if($opcion=="CIERRE"){
                 $observacion="Orden cerrada";
             }else if($opcion=="FINALIZADO"){
@@ -552,16 +556,28 @@ class Mdldespacho extends Models implements IModels {
                 'fecha' => $fecha,
                 'accion' => $opcion,
                 'observacion' => $observacion,
+                'id_estado' => $opcioncombo,
+                'id_tecnico' => $id_tecnico,
                 'id_user' => $datusu['id_user']
             ));
 
-            if($opcion=="CIERRE" OR "FINALIZADO"){
-
+            if($opcion=="CIERRE"){
                 $this->db->query_select("update tblordenes set estado_orden='1', ubicacion='$opcion' where id_orden='$idorden'");
-                return array('success' => 1, 'message' => 'Orden Escalada');
+                return array('success' => 1, 'message' => 'Orden ESCALADA a proceso de CIERRE');
+            }elseif($opcion=="FINALIZADO"){
+                $resultado=$this->db->query_select("select resultado from tblordenes where id_orden='$idorden'");
+                $res=$resultado[0][0];
+                $consulta=$this->db->query_select("select * from tblresultado where (cierre_seguro='1' and  id_resultado='$res' ) OR (certificacion='1' and  id_resultado='$res') OR (speed_test='1' and  id_resultado='$res')");
+                if($consulta!=false){
+                  $this->db->query_select("update tblordenes set estado_orden='1', ubicacion='CIERRE' where id_orden='$idorden'");
+                  return array('success' => 1, 'message' => 'Orden Requiere proceso de CIERRE y ha sido ESCALADA');
+                }else{
+                    $this->db->query_select("update tblordenes set estado_orden='1', ubicacion='$opcion' where id_orden='$idorden'");
+                    return array('success' => 1, 'message' => 'Orden FINALIZADA');
+                }
             }else{
                 $this->db->query_select("update tblordenes set estado_orden=$opcioncombo, ubicacion='$opcion' where id_orden='$idorden'");
-                return array('success' => 1, 'message' => 'Orden Escalada');
+                return array('success' => 1, 'message' => 'Orden Escalada a '.$opcion);
             }
         } catch (\Exception $e) {
             return array('success' => 0, 'message' => 'Ha ocurrido un error');
@@ -685,7 +701,13 @@ class Mdldespacho extends Models implements IModels {
         }
     }
     //--------------------------------------------------------------------------
+    //consultas y reportes------------------------------------------------------
+    public function getAsistenciaTecnico($fecha){
+        $sql="select t.codigo,if(ast.estado is null,'AUS',upper(substr(ast.estado,1,3))) asistencia from tbltecnicos t left join tblasistenciatecnico ast on t.id_tecnicos=ast.id_tecnico and CAST(ast.fechahora AS DATE)='$fecha' Order by t.codigo";
+        return $this->db->query_select($sql);
+    }
 
+    //--------------------------------------------------------------------------
     /**
       * __construct()
     */

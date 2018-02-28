@@ -74,7 +74,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
         // line 38
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
         echo "','usuario');\">RESUMEN SEGUIMIENTO</a></li>
-                    <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\">SEGUIMIENTO</a></li>
+                    <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\" onclick=\"carga_ordenes_comuna_seguimiento();\">SEGUIMIENTO</a></li>
                     <li><a id=\"tab3\" href=\"#tab_3-3\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes('";
         // line 40
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);

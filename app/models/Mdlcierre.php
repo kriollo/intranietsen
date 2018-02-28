@@ -86,7 +86,7 @@ class Mdlcierre extends Models implements IModels {
               $ext_foto = $img->getClientOriginalExtension();
               $img_name = $id.'_st.'.$ext_foto;
 
-              $img->move(API_INTERFACE . 'views/app/images/speedtest/', $img_name);
+              $img->move(API_INTERFACE . 'views/app/disco/speedtest/', $img_name);
               $this->db->update('tblordenes', array(
                 'speed_test' => '1'
             ),"n_orden='$id'");
@@ -102,31 +102,14 @@ class Mdlcierre extends Models implements IModels {
 
     public function certificacion(): array{
         try{
-        global $http;
+            global $http;
 
             $id = $http->request->get('id');
-            $img = $http->files->get('fileinput');
-            $foto = 0;
-            $img_name="";
-
-            if (null !== $img && true == Files::is_image($img->getClientOriginalName()) ){
-              $foto = 1;
-              $ext_foto = $img->getClientOriginalExtension();
-              $img_name = $id.'_cert.'.$ext_foto;
-
-              $img->move(API_INTERFACE . 'views/app/images/certificacion/', $img_name);
-               $this->db->update('tblordenes', array(
+            $this->db->update('tblordenes', array(
                 'certificacion' => '1'
             ),"n_orden='$id'");
-            }else{
-            return array('success' => 2, 'message' => 'Falta la imagen');
-            }
-
-
-
-             return array('success' => 1);
-                }
-                catch (Exception $e) {
+            return array('success' => 1);
+        }catch (Exception $e) {
             return array('success' => 0, 'message' => 'Datos no encontrados');
         }
     }

@@ -36,7 +36,7 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs pull-rigth">
                     <li ><a href="#tab_1-1" data-toggle="tab" onclick="actualizar_tablas_resumenes('{{ owner_user['id_user'] }}','usuario');">RESUMEN SEGUIMIENTO</a></li>
-                    <li class="active"><a href="#tab_2-2" data-toggle="tab">SEGUIMIENTO</a></li>
+                    <li class="active"><a href="#tab_2-2" data-toggle="tab" onclick="carga_ordenes_comuna_seguimiento();">SEGUIMIENTO</a></li>
                     <li><a id="tab3" href="#tab_3-3" data-toggle="tab" onclick="actualizar_tabla_ordenes('{{ owner_user['id_user'] }}','*','usuario');">ORDENES ASIGANDAS</a></li>
                     <li><a id="tab4" href="#tab_4-4" data-toggle="tab" onclick="actualizar_tabla_ordenes('{{ owner_user['id_user'] }}','*','sin_asignar');">ORDENES SIN ASIGNAR</a></li>
                 </ul>
