@@ -480,3 +480,58 @@ function historico(norden) {
         }
     });
 }
+
+
+//informes----------------------------------------------------------------------------------------------------------------------------
+function revisarporfecha(){
+  $.ajax({
+    type : 'POST',
+    url : 'api/Mdlconfirmacion_revisar_fecha',
+    data : $('#forminforme').serialize(),
+    success : function(json) {
+        if(json.success==1){
+            $('#tabla').html(json.html);
+            $('#tablaposterior').html(json.html2);
+        }
+    },
+    error : function(xhr, status) {
+      msg_box_alert(99,'title',xhr.responseText);
+    }
+  });
+  $.ajax({
+    type : 'POST',
+    url : 'api/Mdlconfirmacion_obtener_bloque',    
+    success : function(json) {
+        verbloque(json.bloque);
+    },
+    error : function(xhr, status) {
+      msg_box_alert(99,'title',xhr.responseText);
+    }
+  });
+
+}
+
+function verbloque(bloque){
+  var formData = new FormData();
+  formData.append('bloque',bloque);
+  formData.append('fecha',document.getElementById('calendariohoy').value)
+  $.ajax({
+    type : 'POST',
+    url : 'api/Mdlconfirmacion_revisar_bloque',
+    contentType: false,
+    processData: false,
+    data: formData,
+    success : function(data) {
+        if(data.success==1){
+            $('#tablacomuna').html(data.html);
+            $('#comunapos').html(data.html2);
+        }
+    },
+    error : function(xhr, status) {
+      msg_box_alert(99,'title',xhr.responseText);
+    }
+  });
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------

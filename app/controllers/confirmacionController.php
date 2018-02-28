@@ -286,7 +286,17 @@ class confirmacionController extends Controllers implements IControllers {
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
             case 'report_agendamiento':
-                
+                $bloque=(new Model\Mdlconfirmacion)->ObtenerBloqueActual();
+                echo $this->template->render('confirmacion/reporteria/report_agendamiento', array(
+                   'menu_op' => $op,
+                   'fecha'=>date('Y-m-d'),
+                   'fecha2'=>date('d-m-Y',strtotime('+1 day')),
+                   'bloque'=>($bloque['bloque']),
+                   'informe_hoy'=>(new Model\Mdlconfirmacion)->confirma_informe(date('Y-m-d')),
+                   'cantcomunas'=>(new Model\Mdlconfirmacion)->datcomunas(date('Y-m-d'),$bloque['bloque']),
+                   'comunapos'=>(new Model\Mdlconfirmacion)->datcomunas(date('Y-m-d',strtotime('+1 day')),$bloque['bloque']),
+                   'informe_posterior'=>(new Model\Mdlconfirmacion)->confirma_informe(date('Y-m-d',strtotime('+1 day'))),
+                ));
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
             default:

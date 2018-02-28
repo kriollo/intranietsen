@@ -1025,6 +1025,175 @@ class Mdlconfirmacion extends Models implements IModels {
         return array('success' => 1, 'html' => $html);
     }
 
+// REPORTERIA
+    function ObtenerBloqueActual(){
+        $result= $this->db->query_select("select bloque from tblbloque where estado=1 and desde<=time(now()) and hasta>=time(now()) LIMIT 1");
+        if ($result == false){
+            $result= $this->db->query_select("select bloque from tblbloque where estado=1 order by desde asc LIMIT 1");
+        }
+        return $result[0];
+    }
+    public function confirma_informe($fecha){
+        return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblbloque b on o.bloque=b.bloque) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1) where fecha_compromiso='$fecha' and (ubicacion='CONFIRMACION' OR ubicacion='DESPACHO') group by o.bloque order by b.desde asc");
+    }
+    public function datcomunas($fecha,$bloque){
+        return $this->db->query_select("select tblcomuna.nombre,tblcomuna.requerido,count(tblordenes.id_orden) as cantidad from ((tblcomuna inner join tblordenes on tblcomuna.nombre=tblordenes.comuna) inner join tblresultado r on tblordenes.resultado=r.id_resultado and grupo=1) where tblordenes.fecha_compromiso='$fecha' and tblordenes.bloque='$bloque' and (ubicacion='DESPACHO' or ubicacion='CONFIRMACION') GROUP BY tblcomuna.nombre");
+    }
+    public function revisar_fecha(){
+        global $http;
+        $fechacompromiso=$http->request->get('calendariohoy');
+        //agendamiento hoy---------------------------------------------------------------------------------------------------------------------------
+        $datos=$this->confirma_informe($fechacompromiso);
+        $html="<table class='table table-bordered table-responsive' id='tbldatos'>
+        <thead>
+            <th>Bloque</th>
+            <th>Cliente Agendado</th>
+            <th>Requerido</th>
+            <th>Progreso</th>
+            <th>%</th>
+        </thead>
+        <tbody>";
+        if($datos!=false){
+            foreach ($datos as $key => $value) {
+                $html.="<tr>
+                <td><a onclick=\"verbloque('".$value['bloque']."')\">".$value['bloque']."</a></td>
+                <td>".$value['cantidad']."</td>
+                <td>".$value['requerido']."</td>";
+                $datos=round(($value['cantidad'] / $value['requerido'] * 100),1);
+                $html.="<td><div class='progress progress-xs'>
+                    <div class='progress-bar progress-bar-aqua' style='width:".$datos."%' role='progressbar' aria-valuenow=".$datos." aria-valuemin='0' aria-valuemax=".$value['requerido'].">
+                        <span class='sr-only'>".$datos."%</span>
+                    </div>
+                </div></td>";
+                $html.="<td>".$datos."%</td>
+                </tr>";
+            }
+            $html.="</tbody>
+            </table>";
+        }
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+        //agendamiento posterior----------------------------------------------------------------------------------------------------------------------
+        $fechacompromiso2=strtotime($fechacompromiso);
+        $fechacompromiso3=date('Y-m-d',strtotime('+1 day',$fechacompromiso2));
+        $posterior=$this->confirma_informe($fechacompromiso3);
+
+          $html2="<div align='right' class='col-md-6'>
+          <input type='text' class='form-control' id='calendariopost' name='calendariopost' value=".date('d-m-Y',strtotime('+1 day',$fechacompromiso2))." disabled>
+          </div>
+          <table class='table table-bordered table-responsive' id='tblposterior'>
+          <thead>
+              <th>Bloque</th>
+              <th>Cliente Agendado</th>
+              <th>Requerido</th>
+              <th>Progreso</th>
+              <th>%</th>
+          </thead>
+          <tbody>";
+            if($posterior!=false){
+                foreach ($posterior as $key => $post) {
+                  $html2.="<tr>
+                  <td>".$post['bloque']."</td>
+                  <td>".$post['cantidad']."</td>
+                  <td>".$post['requerido']."</td>";
+                  $datospos=round(($post['cantidad'] / $post['requerido'] * 100),1);
+                  $html2.="<td><div class='progress progress-xs'>
+                          <div class='progress-bar progress-bar-aqua' style='width:".$datospos."%' role='progressbar' aria-valuenow=".$datospos." aria-valuemin='0' aria-valuemax=".$post['requerido'].">
+                              <span class='sr-only'>".$datospos."%</span>
+                          </div>
+                      </div></td>";
+                  $html2.="<td>".$datospos."%</td>
+                  </tr>";
+                }
+                $html2.="</tbody>
+                </table>";
+            }
+        return array('success' => 1, 'html' => $html, 'html2' => $html2);
+    }
+
+function revisar_bloque(){
+    global $http;
+    $bloque=$http->request->get('bloque');
+    $fecha=$http->request->get('fecha');
+
+    $cantcomunas=$this->datcomunas($fecha,$bloque); //$this->db->query_select("select tblcomuna.nombre,tblcomuna.requerido,count(tblordenes.id_orden) as cantidad from tblcomuna inner join tblordenes on tblcomuna.nombre=tblordenes.comuna where tblordenes.bloque='$bloque' and fecha_compromiso='$fecha' and (ubicacion='DESPACHO' or ubicacion='CONFIRMACION') GROUP BY tblcomuna.nombre");
+    $html="<div class='box-header'>
+        <h3 class='box-title col-xs-2'><label>Comunas</label></h3>
+        <h3 class='box-title col-xs-3'><label>Bloque: ".$bloque."</label></h3>
+    </div>
+    <div class='box-body'>
+        <table class='table table-bordered'>
+            <thead>
+              <th>Comuna</th>
+              <th>Cantidad Gestion </th>
+              <th>Requerido</th>
+              <th>Progreso</th>
+              <th>%</th>
+            </thead>
+            <tbody>";
+
+            if($cantcomunas!=false){
+                foreach ($cantcomunas as $cant => $cantcomuna) {
+                  $html.="<tr>
+                    <td>".$cantcomuna['nombre']."</td>
+                    <td>".$cantcomuna['cantidad']."</td>
+                    <td>".$cantcomuna['requerido']."</td>";
+                    $consulta=round(($cantcomuna['cantidad'] / $cantcomuna['requerido'] * 100),1);
+                    $html.="<td><div class='progress progress-xs'>
+                            <div class='progress-bar progress-bar-aqua' style='width:".$consulta."%' role='progressbar' aria-valuenow=".$consulta." aria-valuemin='0' aria-valuemax=".$cantcomuna['requerido'].">
+                                <span class='sr-only'>".$consulta."%</span>
+                            </div>
+                        </div></td>";
+                    $html.="<td>".$consulta."%</td>
+                    </tr>";
+              }
+          }
+        $html.="</tbody>
+      </table>
+  </div>";
+
+  $fecha2=strtotime($fecha);
+  $fecha3=date('Y-m-d',strtotime('+1 day',$fecha2));
+
+  $posterior=$this->datcomunas($fecha3,$bloque);
+  //$posterior=$this->db->query_select("select tblcomuna.nombre,tblcomuna.requerido,count(tblordenes.id_orden) as cantidad from tblcomuna inner join tblordenes on tblcomuna.nombre=tblordenes.comuna where tblordenes.bloque='$bloque' and fecha_compromiso='$fecha3' and (ubicacion='DESPACHO' or ubicacion='CONFIRMACION') GROUP BY tblcomuna.nombre");
+  $html2="<div class='box-header'>
+          <h3 class='box-title col-xs-2'><label>Comunas</label></h3>
+          <h3 class='box-title col-xs-3'><label>Bloque: ".$bloque."</label></h3>
+          <h3 class='box-title col-xs-4'><label>Fecha: ".$fecha3."</label></h3>
+      </div>
+      <div class='box-body'>
+          <table class='table table-bordered'>
+              <thead>
+                <th>Comuna</th>
+                <th>Cantidad Gestion </th>
+                <th>Requerido</th>
+                <th>Progreso</th>
+                <th>%</th>
+              </thead>
+              <tbody>";
+              if($posterior!=false){
+                  foreach ($posterior as $po => $poste) {
+                    $html2.="<tr>
+                      <td>".$poste['nombre']."</td>
+                      <td>".$poste['cantidad']."</td>
+                      <td>".$poste['requerido']."</td>";
+                      $consposte=round(($poste['cantidad'] / $poste['requerido'] * 100),1);
+                      $html2.="<td><div class='progress progress-xs'>
+                              <div class='progress-bar progress-bar-aqua' style='width:".$consposte."%' role='progressbar' aria-valuenow=".$consposte." aria-valuemin='0' aria-valuemax=".$poste['requerido'].">
+                                  <span class='sr-only'>".$consposte."%</span>
+                              </div>
+                          </div></td>";
+                      $html2.="<td>".$consposte."%</td>
+                      </tr>";
+                }
+            }
+          $html2.="</tbody>
+        </table>
+    </div>";
+    return array('success' => 1, 'html' => $html, 'html2'=> $html2);
+}
+
+
     /**
     * __construct()
     */

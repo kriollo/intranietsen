@@ -431,6 +431,19 @@ $app->post('/consultar_historico', function() use($app) {
     $u = new Model\Mdlconfirmacion;
     return $app->json($u->consultar_historico());
 });
+//REPORTERIA
+$app->post('/Mdlconfirmacion_revisar_fecha', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->revisar_fecha());
+});
+$app->post('/Mdlconfirmacion_revisar_bloque', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->revisar_bloque());
+});
+$app->post('/Mdlconfirmacion_obtener_bloque', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->ObtenerBloqueActual());
+});
 //Orden Confirmacion------------------------------------------------------------
 //Coordinacion Asigna Ejecutivo Comuna------------------------------------------
 $app->post('/Mdlcoordinacion_select_ejecutivo', function() use($app) {
