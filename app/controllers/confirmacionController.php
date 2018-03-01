@@ -275,12 +275,6 @@ class confirmacionController extends Controllers implements IControllers {
             case "exporta_excel_ordenes":
                 (new Model\Mdlconfirmacion)->exporta_excel_ordenes();
             break;
-            case "listar_ejecutivos":
-                echo $this->template->render('confirmacion/programacion/listar_ejecutivos', array(
-                    'menu_op'=>$op,
-                    'db_ejecutivos'=>(new Model\Mdlconfirmacion)->listar_ejecutivos()
-                ));
-            break;
             case 'eliminar_OT':
                 (new Model\Mdlconfirmacion)->eliminarorden($router->getId(true));
             break;

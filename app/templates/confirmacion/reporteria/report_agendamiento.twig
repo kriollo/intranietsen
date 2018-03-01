@@ -36,11 +36,13 @@
                                             <th>%</th>
                                         </thead>
                                         <tbody>
+                                            {%set total_agendado = 0 %}
+                                            {%set total_requerido = 0 %}
                                             {% for i in informe_hoy if false != informe_hoy %}
                                             <tr>
                                                 <td><a onclick="verbloque('{{ i.bloque }}')">{{ i.bloque }}</a></td>
                                                 <td>{{ i.cantidad }}</td>
-                                                <td>{{i.requerido}}</td>
+                                                <td>{{ i.requerido }}</td>
                                                 <td>
                                                     <div class="progress progress-xs">
                                                         <div class="progress-bar progress-bar-aqua" style="width: {{ ((i.cantidad / i.requerido)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((i.cantidad / i.requerido)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ i.requerido }}">
@@ -50,7 +52,22 @@
                                                 </td>
                                                 <td>{{((i.cantidad / i.requerido) *100) | round(1,'ceil')  }}%</td>
                                             </tr>
+                                                {%set total_agendado = total_agendado + i.cantidad %}
+                                                {%set total_requerido = total_requerido +i.requerido  %}
                                             {% endfor %}
+                                            <tr>
+                                                <td>TOTAL</td>
+                                                <td>{{ total_agendado }}</td>
+                                                <td>{{ total_requerido }}</td>
+                                                <td>
+                                                    <div class="progress progress-xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: {{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ total_requerido }}">
+                                                            <span class="sr-only">{{ ((total_agendado / total_requerido) *100) | round(1, 'ceil') }}% </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{((total_agendado / total_requerido) *100) | round(1,'ceil')  }}%</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -79,11 +96,13 @@
                                             <th>%</th>
                                         </thead>
                                         <tbody>
+                                            {%set total_agendado = 0 %}
+                                            {%set total_requerido = 0 %}
                                             {% for p in informe_posterior if false != informe_posterior %}
                                                 <tr>
                                                     <td>{{ p.bloque }}</td>
                                                     <td>{{ p.cantidad }}</td>
-                                                    <td>{{p.requerido}}</td>
+                                                    <td>{{ p.requerido}}</td>
                                                     <td>
                                                         <div class="progress progress-xs">
                                                             <div class="progress-bar progress-bar-aqua" style="width: {{ ((p.cantidad / p.requerido)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((p.cantidad / p.requerido)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ p.requerido }}">
@@ -93,7 +112,22 @@
                                                     </td>
                                                     <td>{{((p.cantidad / p.requerido) *100) | round(1,'ceil')  }}%</td>
                                                 </tr>
+                                                {%set total_agendado = total_agendado + p.cantidad %}
+                                                {%set total_requerido = total_requerido + p.requerido  %}
                                             {% endfor %}
+                                            <tr>
+                                                <td>TOTAL</td>
+                                                <td>{{ total_agendado }}</td>
+                                                <td>{{ total_requerido }}</td>
+                                                <td>
+                                                    <div class="progress progress-xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: {{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ total_requerido }}">
+                                                            <span class="sr-only">{{ ((total_agendado / total_requerido) *100) | round(1, 'ceil') }}% </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{((total_agendado / total_requerido) *100) | round(1,'ceil')  }}%</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

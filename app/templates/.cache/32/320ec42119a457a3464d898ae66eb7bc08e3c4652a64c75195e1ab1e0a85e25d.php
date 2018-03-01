@@ -192,7 +192,8 @@ class __TwigTemplate_dd5c219efda92f0f8ec05e09b6387a852adfead2f6d94565dbfd4ccbe97
                       \"previous\":\"Anterior\",
                     }
                               },
-                \"autoWidth\": true
+                \"autoWidth\": true,
+                \"scrollX\": true
             });
     </script>
 

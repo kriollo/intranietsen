@@ -381,7 +381,7 @@ class Mdlconfirmacion extends Models implements IModels {
         {
             $sql_filtro=" and u.id_user='$idusuario'";
         }
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro  order by o.id_orden");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion,c.territorio from ((tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user) inner join tblcomuna c on c.nombre=o.comuna where o.fecha_dia='$fecha' $sql_filtro  order by o.id_orden");
     }
     public function ingresar_orden(){
         global $http;
@@ -808,12 +808,16 @@ class Mdlconfirmacion extends Models implements IModels {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'MOTIVO');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', 'OPERADOR');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', 'FECHA_REGISTRO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', 'FECHA_REGISTRO');
 
             $fila = 2;
             foreach ($u as $value => $data) {
 
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['n_orden']);
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $data['rut_cliente']);
+              $dif= 12 - strlen($data['rut_cliente']);
+              $rut = str_repeat('0',$dif).$data['rut_cliente'];
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $rut);
+
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['fecha_compromiso']);
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['bloque']);
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['motivo']);
@@ -826,12 +830,13 @@ class Mdlconfirmacion extends Models implements IModels {
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$fila, $data['motivo'] );
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$fila, $data['name'] );
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$fila, $data['fecha_dia'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$fila, $data['territorio'] );
 
               $fila++;
             }
 
             //autisize para las columna
-            foreach(range('A','N') as $columnID)
+            foreach(range('A','O') as $columnID)
             {
                 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
             }
