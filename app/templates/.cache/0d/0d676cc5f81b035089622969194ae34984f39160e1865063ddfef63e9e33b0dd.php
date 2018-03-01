@@ -38,24 +38,29 @@ class __TwigTemplate_db75796255a05efffdefe3418977819c1e9bfc1f109d6a6657db29f80f2
     public function block_appBody($context, array $blocks = array())
     {
         // line 6
-        echo "  <section class=\"content-header\">
-      <h4>
-        <i class=\"fa fa-user\"></i> GESTIÓN DE USUARIOS
+        echo "<div class=\"row\">
+  <div class=\"col-md-12\">
+      <section class=\"content-header\">
+          <h4>
+            <i class=\"fa fa-user\"></i> GESTIÓN DE USUARIOS
 
-        <a class=\"btn btn-danger btn-social pull-right\" href=\"administracion/generar_pdf_users\" target=\"_blank\" title=\"Generar PDF\" data-toggle=\"tooltip\">
-          <i class=\"fa fa-arrow-down\"></i> Generar PDF
-        </a>
+            <a class=\"btn btn-danger btn-social pull-right\" href=\"administracion/generar_pdf_users\" target=\"_blank\" title=\"Generar PDF\" data-toggle=\"tooltip\">
+              <i class=\"fa fa-arrow-down\"></i> Generar PDF
+            </a>
 
-        <a class=\"btn btn-success btn-social pull-right\" href=\"administracion/exporta_excel_users\" title=\"Exportar a Excel\" data-toggle=\"tooltip\">
-          <i class=\"fa fa-arrow-down\"></i> Exportar Excel
-        </a>
+            <a class=\"btn btn-success btn-social pull-right\" href=\"administracion/exporta_excel_users\" title=\"Exportar a Excel\" data-toggle=\"tooltip\">
+              <i class=\"fa fa-arrow-down\"></i> Exportar Excel
+            </a>
 
-        <a class=\"btn btn-primary btn-social pull-right\" href=\"administracion/registro_user\" title=\"Agregar\" data-toggle=\"tooltip\">
-          <i class=\"fa fa-plus\"></i> Agregar
-        </a>
+            <a class=\"btn btn-primary btn-social pull-right\" href=\"administracion/registro_user\" title=\"Agregar\" data-toggle=\"tooltip\">
+              <i class=\"fa fa-plus\"></i> Agregar
+            </a>
 
-      </h4>
-  </section>
+          </h4>
+      </section>
+  </div>
+</div>
+
   <section class=\"content\">
     <div class=\"row\">
       <div class=\"col-md-12\">
@@ -77,69 +82,69 @@ class __TwigTemplate_db75796255a05efffdefe3418977819c1e9bfc1f109d6a6657db29f80f2
             </thead>
             <tbody>
               ";
-        // line 44
+        // line 49
         $context["No"] = 1;
-        // line 45
+        // line 50
         echo "              ";
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_users"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["db_users"] ?? null))) {
-                // line 46
+                // line 51
                 echo "                <tr>
                   <td>";
-                // line 47
+                // line 52
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 48
+                // line 53
                 echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "name", array())), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 49
+                // line 54
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "rut_personal", array()), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 50
+                // line 55
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "email", array()), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 51
+                // line 56
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "fono", array()), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 52
+                // line 57
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cargo", array()), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 53
+                // line 58
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "perfil", array()), "html", null, true);
                 echo "</td>
                   <td>";
-                // line 54
+                // line 59
                 echo ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "rol", array())) ? ("Admin") : ("Usuario"));
                 echo "</td>
                   <td class='center' width='150'>
                     <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href=\"administracion/editar_user/";
-                // line 56
+                // line 61
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_user", array()), "html", null, true);
                 echo "\">
                     <i class='glyphicon glyphicon-edit'></i>
                     </a>
                     <button type=\"button\" id=\"btn_reset_pass\" title='Reset Pass' class=\"btn btn-info btn-sm\" data-toggle=\"modal\" onclick=\"carga_modal_reset_pass('";
-                // line 59
+                // line 64
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_user", array()), "html", null, true);
                 echo "')\"><i class='glyphicon glyphicon-cog'></i></button>
                     <a data-toggle='tooltip' data-placement='top' title='Revisar Perfil de accesos' class='btn btn-info btn-sm' href=\"administracion/editar_perfil_user/";
-                // line 60
+                // line 65
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_user", array()), "html", null, true);
                 echo "\">
                     <i class='glyphicon glyphicon-list-alt'></i>
                     </a>
                     ";
-                // line 63
+                // line 68
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 0)) {
-                    // line 64
+                    // line 69
                     echo "                        <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href=\"administracion/estado_user/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_user", array()), "html", null, true);
                     echo "\">
@@ -148,7 +153,7 @@ class __TwigTemplate_db75796255a05efffdefe3418977819c1e9bfc1f109d6a6657db29f80f2
 
                     ";
                 } else {
-                    // line 69
+                    // line 74
                     echo "                        <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href=\"administracion/estado_user/";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_user", array()), "html", null, true);
                     echo "\">
@@ -157,21 +162,21 @@ class __TwigTemplate_db75796255a05efffdefe3418977819c1e9bfc1f109d6a6657db29f80f2
 
                     ";
                 }
-                // line 74
+                // line 79
                 echo "
                   </td>
                 </tr>
                 ";
-                // line 77
+                // line 82
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 78
+                // line 83
                 echo "              ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 79
+        // line 84
         echo "            </tbody>
           </table>
           </div>
@@ -180,14 +185,14 @@ class __TwigTemplate_db75796255a05efffdefe3418977819c1e9bfc1f109d6a6657db29f80f2
     </div>
   </section>
   ";
-        // line 86
-        $this->loadTemplate("administracion/reset_pass_user", "administracion/listado_usuarios.twig", 86)->display($context);
+        // line 91
+        $this->loadTemplate("administracion/reset_pass_user", "administracion/listado_usuarios.twig", 91)->display($context);
     }
 
-    // line 88
+    // line 93
     public function block_appScript($context, array $blocks = array())
     {
-        // line 89
+        // line 94
         echo "    <!-- DATA TABES SCRIPT -->
     <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
     <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -230,7 +235,7 @@ class __TwigTemplate_db75796255a05efffdefe3418977819c1e9bfc1f109d6a6657db29f80f2
 
     public function getDebugInfo()
     {
-        return array (  191 => 89,  188 => 88,  184 => 86,  175 => 79,  168 => 78,  166 => 77,  161 => 74,  152 => 69,  143 => 64,  141 => 63,  135 => 60,  131 => 59,  125 => 56,  120 => 54,  116 => 53,  112 => 52,  108 => 51,  104 => 50,  100 => 49,  96 => 48,  92 => 47,  89 => 46,  83 => 45,  81 => 44,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  196 => 94,  193 => 93,  189 => 91,  180 => 84,  173 => 83,  171 => 82,  166 => 79,  157 => 74,  148 => 69,  146 => 68,  140 => 65,  136 => 64,  130 => 61,  125 => 59,  121 => 58,  117 => 57,  113 => 56,  109 => 55,  105 => 54,  101 => 53,  97 => 52,  94 => 51,  88 => 50,  86 => 49,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

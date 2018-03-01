@@ -491,7 +491,7 @@ class __TwigTemplate_78bc926b608153ca31be61d5e413255fd4b187aaff23c43adde611e5120
         echo "\">
         <input type=\"hidden\" name=\"reid\" id=\"reid\" value=\"";
         // line 217
-        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "operador", array()), "html", null, true);
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_user", array(), "array"), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"reordenid\" id=\"reordenid\" value=\"";
         // line 218

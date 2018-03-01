@@ -81,7 +81,6 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
             <div class=\"nav-tabs-custom\">
                 <ul class=\"nav nav-tabs pull-rigth\">
                     <li class=\"active\"><a href=\"#tab_1-1\" data-toggle=\"tab\" onclick=\"actualizar_tablas_resumenes(document.getElementById('idusuario').value,'super');\">RESUMEN SEGUIMIENTO</a></li>
-                    <!-- <li class=\"active\"><a href=\"#tab_2-2\" data-toggle=\"tab\">SEGUIMIENTO</a></li> -->
                     <li><a id=\"tab3\" href=\"#tab_3-3\" data-toggle=\"tab\" onclick=\"actualizar_tabla_ordenes(document.getElementById('idusuario').value,'*');\">VER ORDENES</a></li>
                 </ul>
                 <div class=\"tab-content\">
@@ -109,67 +108,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
                             </div>
                         </div>
                     </div>
-                    <!-- <div class=\"tab-pane active\" id=\"tab_2-2\">
-                        <div class=\"box box-primary\">
-                            <div class=\"box-body resposible\">
-                                <div class=\"col-md-12\">
-                                    <div class=\"row\">
-                                        <div class=\"col-md-1\">
-                                            <label>Seleccione Comuna:
-                                        </div></label>
-                                        <div class=\"col-md-3\">
-                                            <select class=\"form-control\" id=\"comuna_Seguimiento\" name=\"comuna_Seguimiento\" onchange=\"carga_ordenes_comuna_seguimiento();\">
-                                                <option>--</option>
-                                                ";
-        // line 72
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["db_comunas"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
-            if ((false != ($context["db_comunas"] ?? null))) {
-                // line 73
-                echo "                                                    <option value=\"";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "comuna", array()), "html", null, true);
-                echo "\">";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "comuna", array()), "html", null, true);
-                echo "</option>
-                                                ";
-            }
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 75
-        echo "                                            </select>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class=\"row\">
-                                        <form id=\"formseguimiento\" name=\"formseguimiento\" method=\"post\">
-                                            <table class=\"table table-bordered table-responsive\" id=\"tblseguimiento\" name=\"tblseguimiento\">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Tipo Orden</th>
-                                                        <th>Actividad</th>
-                                                        <th>N° Orden</th>
-                                                        <th>Rut Cliente</th>
-                                                        <th>Fecha compromiso</th>
-                                                        <th>Bloque</th>
-                                                        <th>Prioridad</th>
-                                                        <th>Tecnico Asignado</th>
-                                                        <th>Estado de Orden</th>
-                                                        <th>OPERACIONES</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <!-- Carga Mediante archivo -->
-                                                <!-- </tbody>
-                                            </table>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+
                     <div class=\"tab-pane\" id=\"tab_3-3\">
                         <div class=\"box box-primary\">
                             <div class=\"box-body resposible\">
@@ -209,10 +148,10 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
 ";
     }
 
-    // line 143
+    // line 98
     public function block_appScript($context, array $blocks = array())
     {
-        // line 144
+        // line 99
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -276,7 +215,7 @@ class __TwigTemplate_090cb4c44adde023934663916a54edc7ccf80454a2b9115f9bd94faebda
 
     public function getDebugInfo()
     {
-        return array (  216 => 144,  213 => 143,  142 => 75,  130 => 73,  125 => 72,  70 => 19,  58 => 17,  53 => 16,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  155 => 99,  152 => 98,  70 => 19,  58 => 17,  53 => 16,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

@@ -198,7 +198,8 @@ class __TwigTemplate_c93f319beba95a99887cd54bc6475350353c205ff6d5d5969134814015a
                 }
             },
             \"autoWidth\": true,
-            \"scrollX\": true
+            \"scrollX\": true,
+            \"bSort\": false
         });
 
     </script>

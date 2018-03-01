@@ -3,24 +3,29 @@
   <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
 {% endblock %}
 {% block appBody %}
-  <section class="content-header">
-      <h4>
-        <i class="fa fa-user"></i> GESTIÓN DE USUARIOS
+<div class="row">
+  <div class="col-md-12">
+      <section class="content-header">
+          <h4>
+            <i class="fa fa-user"></i> GESTIÓN DE USUARIOS
 
-        <a class="btn btn-danger btn-social pull-right" href="administracion/generar_pdf_users" target="_blank" title="Generar PDF" data-toggle="tooltip">
-          <i class="fa fa-arrow-down"></i> Generar PDF
-        </a>
+            <a class="btn btn-danger btn-social pull-right" href="administracion/generar_pdf_users" target="_blank" title="Generar PDF" data-toggle="tooltip">
+              <i class="fa fa-arrow-down"></i> Generar PDF
+            </a>
 
-        <a class="btn btn-success btn-social pull-right" href="administracion/exporta_excel_users" title="Exportar a Excel" data-toggle="tooltip">
-          <i class="fa fa-arrow-down"></i> Exportar Excel
-        </a>
+            <a class="btn btn-success btn-social pull-right" href="administracion/exporta_excel_users" title="Exportar a Excel" data-toggle="tooltip">
+              <i class="fa fa-arrow-down"></i> Exportar Excel
+            </a>
 
-        <a class="btn btn-primary btn-social pull-right" href="administracion/registro_user" title="Agregar" data-toggle="tooltip">
-          <i class="fa fa-plus"></i> Agregar
-        </a>
+            <a class="btn btn-primary btn-social pull-right" href="administracion/registro_user" title="Agregar" data-toggle="tooltip">
+              <i class="fa fa-plus"></i> Agregar
+            </a>
 
-      </h4>
-  </section>
+          </h4>
+      </section>
+  </div>
+</div>
+
   <section class="content">
     <div class="row">
       <div class="col-md-12">
@@ -109,7 +114,8 @@
                       "previous":"Anterior",
                     }
                               },
-                "autoWidth": true
+                "autoWidth": true,
+                "scrollX": true
             });
     </script>
 

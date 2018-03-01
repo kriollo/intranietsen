@@ -212,7 +212,7 @@ $('#btningresar').click(function(e){
 });
 $('#btnreingresar').click(function (e) {
     e.defaultPrevented;
-    execute_accion_confirmacion("post", "reingresar_orden", 'formreorden', 'reload');
+    execute_accion_confirmacion("post", "reingresar_orden", 'formreorden', 'redirect','confirmacion/programacion');
 });
 $('#modbtningresar').click(function(e){
   e.defaultPrevented;
@@ -275,7 +275,7 @@ $('#textidorden').focusout(function (event) {
                                 text: 'ReIngresar',
                                 btnClass: 'btn-blue',
                                 action: function () {
-                                    location.href = 'confirmacion/reingresar_confirmacion/' + id;
+                                    location.href =  data.url;
                                 }
                             },
                             cancel: {
@@ -288,8 +288,11 @@ $('#textidorden').focusout(function (event) {
                         },
                     });
                 } else if (data.success == 2) {
-                    alert(data.message);
-                    location.reload();
+
+                    $.alert(data.message);
+                    setTimeout(function(){
+                        location.reload();
+                    },1000);
                 }
             },
             error: function (xhr, status) {
@@ -500,7 +503,7 @@ function revisarporfecha(){
   });
   $.ajax({
     type : 'POST',
-    url : 'api/Mdlconfirmacion_obtener_bloque',    
+    url : 'api/Mdlconfirmacion_obtener_bloque',
     success : function(json) {
         verbloque(json.bloque);
     },

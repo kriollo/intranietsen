@@ -381,12 +381,13 @@ class Mdlconfirmacion extends Models implements IModels {
         {
             $sql_filtro=" and u.id_user='$idusuario'";
         }
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion from (tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user where o.fecha_dia='$fecha' $sql_filtro  order by o.id_orden");
     }
     public function ingresar_orden(){
         global $http;
 
-        $orden=$http->request->get('textidorden');
+        $orden=str_replace(".",'',$http->request->get('textidorden'));
+
         $operador=$http->request->get('textid');
         $reg=$http->request->get('textreg');
         $rutcliente=$http->request->get('textrutcliente');
@@ -460,7 +461,9 @@ class Mdlconfirmacion extends Models implements IModels {
     public function reingresar_orden(){
         global $http;
 
-        $orden=$http->request->get('reordenid');
+
+
+        $orden=str_replace('.','',$http->request->get('reordenid'));
         $id=$http->request->get('reordenid1');
         $operador=$http->request->get('reid');
         $rutcliente=$http->request->get('rerutcliente');
@@ -539,14 +542,14 @@ class Mdlconfirmacion extends Models implements IModels {
         return $this->db->query_select("select tblordenes.*, users.name from
         tblordenes inner join users on tblordenes.operador=users.id_user where id_orden ='$id' limit 1");
     }
-    public function get_orden_bynorden(int $norden){
+    public function get_orden_bynorden(string $norden){
         return $this->db->query_select("select tblordenes.*, users.name from
         tblordenes inner join users on tblordenes.operador=users.id_user where n_orden ='$norden' limit 1");
     }
     public function modificar_la_orden(){
         global $http;
 
-        $modorden=$http->request->get('textmodidorden');
+        $modorden=str_replace('.','',$http->request->get('textmodidorden'));
         $modreg=$http->request->get('textmodreg');
         $modrutcliente=$http->request->get('textmodrutcliente');
         $modfechacompromiso=$http->request->get('textmodfecha');
@@ -877,7 +880,7 @@ class Mdlconfirmacion extends Models implements IModels {
     }
     public function confirma_resumen_x_comuna($desde,$hasta){
 
-        return $this->db->query_select("select o.comuna,b.requerido requerido,count(o.id_orden) cantidad,(select count(*) cuenta from tblbloque where estado=1) q_bloque from ((tblordenes o inner join tblcomuna b on o.comuna=b.nombre) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 ) where fecha_compromiso between '$desde' and '$hasta' group by o.comuna order by cantidad desc");
+        return $this->db->query_select("select o.comuna,b.requerido requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblcomuna b on o.comuna=b.nombre) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 ) where fecha_compromiso between '$desde' and '$hasta' group by o.comuna order by cantidad desc");
     }
     public function confirma_resumen_x_bloque($desde,$hasta){
 
@@ -889,7 +892,7 @@ class Mdlconfirmacion extends Models implements IModels {
         try {
             global $http;
             #Obtener los datos $_POST
-            $norden = $http->request->get('orden');
+            $norden = str_replace(".",'',$http->request->get('orden'));
             $comparacion = $this->get_orden_bynorden($norden);
 
             if ($comparacion == false ) {
@@ -899,15 +902,16 @@ class Mdlconfirmacion extends Models implements IModels {
 
                 //$dato = $comparacion[0]['id_orden'];
                 $ubicacion = $comparacion[0]['ubicacion'];
+                $usuario = $comparacion[0]['name'];
                 //$fecha = date("Y-m-d");
 
                 $html="<label>Su orden se encuentra en ".$ubicacion."</label>
                 <h3>¿Desea reingresarla?</h3>";
 
-                if ($ubicacion == 'CONFIRMACION' || $ubicacion == 'DESPACHO') {
-                    return array('success' => 2, 'message' => 'ORDEN YA INGRESADA');
+                if ($ubicacion == 'DESPACHO') {
+                    return array('success' => 2, 'message' => 'Orden ya Ingresada por: '.$usuario);
                 }else {
-                    return array('success' => 1, 'html' => $html);
+                    return array('success' => 1, 'html' => $html, 'url' => 'confirmacion/reingresar_confirmacion/'.$norden );
                 }
             }
         }catch (ModelsException $e) {
@@ -1110,88 +1114,86 @@ class Mdlconfirmacion extends Models implements IModels {
         return array('success' => 1, 'html' => $html, 'html2' => $html2);
     }
 
-function revisar_bloque(){
-    global $http;
-    $bloque=$http->request->get('bloque');
-    $fecha=$http->request->get('fecha');
+    function revisar_bloque(){
+        global $http;
+        $bloque=$http->request->get('bloque');
+        $fecha=$http->request->get('fecha');
 
-    $cantcomunas=$this->datcomunas($fecha,$bloque); //$this->db->query_select("select tblcomuna.nombre,tblcomuna.requerido,count(tblordenes.id_orden) as cantidad from tblcomuna inner join tblordenes on tblcomuna.nombre=tblordenes.comuna where tblordenes.bloque='$bloque' and fecha_compromiso='$fecha' and (ubicacion='DESPACHO' or ubicacion='CONFIRMACION') GROUP BY tblcomuna.nombre");
-    $html="<div class='box-header'>
-        <h3 class='box-title col-xs-2'><label>Comunas</label></h3>
-        <h3 class='box-title col-xs-3'><label>Bloque: ".$bloque."</label></h3>
-    </div>
-    <div class='box-body'>
-        <table class='table table-bordered'>
-            <thead>
-              <th>Comuna</th>
-              <th>Cantidad Gestion </th>
-              <th>Requerido</th>
-              <th>Progreso</th>
-              <th>%</th>
-            </thead>
-            <tbody>";
+        $cantcomunas=$this->datcomunas($fecha,$bloque);
+        $html="<div class='box-header'>
+            <h3 class='box-title col-xs-2'><label>Comunas</label></h3>
+            <h3 class='box-title col-xs-3'><label>Bloque: ".$bloque."</label></h3>
+        </div>
+        <div class='box-body'>
+            <table class='table table-bordered'>
+                <thead>
+                  <th>Comuna</th>
+                  <th>Cantidad Gestion </th>
+                  <th>Requerido</th>
+                  <th>Progreso</th>
+                  <th>%</th>
+                </thead>
+                <tbody>";
 
-            if($cantcomunas!=false){
-                foreach ($cantcomunas as $cant => $cantcomuna) {
-                  $html.="<tr>
-                    <td>".$cantcomuna['nombre']."</td>
-                    <td>".$cantcomuna['cantidad']."</td>
-                    <td>".$cantcomuna['requerido']."</td>";
-                    $consulta=round(($cantcomuna['cantidad'] / $cantcomuna['requerido'] * 100),1);
-                    $html.="<td><div class='progress progress-xs'>
-                            <div class='progress-bar progress-bar-aqua' style='width:".$consulta."%' role='progressbar' aria-valuenow=".$consulta." aria-valuemin='0' aria-valuemax=".$cantcomuna['requerido'].">
-                                <span class='sr-only'>".$consulta."%</span>
-                            </div>
-                        </div></td>";
-                    $html.="<td>".$consulta."%</td>
-                    </tr>";
+                if($cantcomunas!=false){
+                    foreach ($cantcomunas as $cant => $cantcomuna) {
+                      $html.="<tr>
+                        <td>".$cantcomuna['nombre']."</td>
+                        <td>".$cantcomuna['cantidad']."</td>
+                        <td>".$cantcomuna['requerido']."</td>";
+                        $consulta=round(($cantcomuna['cantidad'] / $cantcomuna['requerido'] * 100),1);
+                        $html.="<td><div class='progress progress-xs'>
+                                <div class='progress-bar progress-bar-aqua' style='width:".$consulta."%' role='progressbar' aria-valuenow=".$consulta." aria-valuemin='0' aria-valuemax=".$cantcomuna['requerido'].">
+                                    <span class='sr-only'>".$consulta."%</span>
+                                </div>
+                            </div></td>";
+                        $html.="<td>".$consulta."%</td>
+                        </tr>";
+                  }
               }
-          }
-        $html.="</tbody>
-      </table>
-  </div>";
+            $html.="</tbody>
+          </table>
+      </div>";
 
-  $fecha2=strtotime($fecha);
-  $fecha3=date('Y-m-d',strtotime('+1 day',$fecha2));
-
-  $posterior=$this->datcomunas($fecha3,$bloque);
-  //$posterior=$this->db->query_select("select tblcomuna.nombre,tblcomuna.requerido,count(tblordenes.id_orden) as cantidad from tblcomuna inner join tblordenes on tblcomuna.nombre=tblordenes.comuna where tblordenes.bloque='$bloque' and fecha_compromiso='$fecha3' and (ubicacion='DESPACHO' or ubicacion='CONFIRMACION') GROUP BY tblcomuna.nombre");
-  $html2="<div class='box-header'>
-          <h3 class='box-title col-xs-2'><label>Comunas</label></h3>
-          <h3 class='box-title col-xs-3'><label>Bloque: ".$bloque."</label></h3>
-          <h3 class='box-title col-xs-4'><label>Fecha: ".$fecha3."</label></h3>
-      </div>
-      <div class='box-body'>
-          <table class='table table-bordered'>
-              <thead>
-                <th>Comuna</th>
-                <th>Cantidad Gestion </th>
-                <th>Requerido</th>
-                <th>Progreso</th>
-                <th>%</th>
-              </thead>
-              <tbody>";
-              if($posterior!=false){
-                  foreach ($posterior as $po => $poste) {
-                    $html2.="<tr>
-                      <td>".$poste['nombre']."</td>
-                      <td>".$poste['cantidad']."</td>
-                      <td>".$poste['requerido']."</td>";
-                      $consposte=round(($poste['cantidad'] / $poste['requerido'] * 100),1);
-                      $html2.="<td><div class='progress progress-xs'>
-                              <div class='progress-bar progress-bar-aqua' style='width:".$consposte."%' role='progressbar' aria-valuenow=".$consposte." aria-valuemin='0' aria-valuemax=".$poste['requerido'].">
-                                  <span class='sr-only'>".$consposte."%</span>
-                              </div>
-                          </div></td>";
-                      $html2.="<td>".$consposte."%</td>
-                      </tr>";
+      $fecha2=strtotime($fecha);
+      $fecha3=date('Y-m-d',strtotime('+1 day',$fecha2));
+      $posterior=$this->datcomunas($fecha3,$bloque);
+      $html2="<div class='box-header'>
+              <h3 class='box-title col-xs-2'><label>Comunas</label></h3>
+              <h3 class='box-title col-xs-3'><label>Bloque: ".$bloque."</label></h3>
+              <h3 class='box-title col-xs-4'><label>Fecha: ".date('d-m-Y',strtotime('+1 day',$fecha2))."</label></h3>
+          </div>
+          <div class='box-body'>
+              <table class='table table-bordered'>
+                  <thead>
+                    <th>Comuna</th>
+                    <th>Cantidad Gestion </th>
+                    <th>Requerido</th>
+                    <th>Progreso</th>
+                    <th>%</th>
+                  </thead>
+                  <tbody>";
+                  if($posterior!=false){
+                      foreach ($posterior as $po => $poste) {
+                        $html2.="<tr>
+                          <td>".$poste['nombre']."</td>
+                          <td>".$poste['cantidad']."</td>
+                          <td>".$poste['requerido']."</td>";
+                          $consposte=round(($poste['cantidad'] / $poste['requerido'] * 100),1);
+                          $html2.="<td><div class='progress progress-xs'>
+                                  <div class='progress-bar progress-bar-aqua' style='width:".$consposte."%' role='progressbar' aria-valuenow=".$consposte." aria-valuemin='0' aria-valuemax=".$poste['requerido'].">
+                                      <span class='sr-only'>".$consposte."%</span>
+                                  </div>
+                              </div></td>";
+                          $html2.="<td>".$consposte."%</td>
+                          </tr>";
+                    }
                 }
-            }
-          $html2.="</tbody>
-        </table>
-    </div>";
-    return array('success' => 1, 'html' => $html, 'html2'=> $html2);
-}
+              $html2.="</tbody>
+            </table>
+        </div>";
+        return array('success' => 1, 'html' => $html, 'html2'=> $html2);
+    }
 
 
     /**

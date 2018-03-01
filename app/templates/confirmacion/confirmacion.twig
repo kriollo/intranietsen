@@ -66,10 +66,10 @@
                   </div>
                 </div><!-- ./col -->
             </div><!-- ./col -->
-        </div>
 
-        <div class="row">
-            <div class="col-xs-6">
+
+        <!-- <div class="row"> -->
+            <div class="col-lg-6">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Resumen por Comuna</h3>
@@ -90,16 +90,16 @@
                                         <td>{{ No }}</td>
                                         <td>{{ d.comuna|raw|title }}</td>
                                         <td>{{ d.cantidad }}</td>
-                                        <td>{{ (d.requerido * d.q_bloque) }}</td>
+                                        <td>{{ (d.requerido ) }}</td>
                                         <td width="100">
                                             <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.cantidad /  (d.requerido * d.q_bloque))*100) |round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.cantidad /  (d.requerido * d.q_bloque))*100) |round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{  (d.requerido * d.q_bloque) }}">
-                                                    <span class="sr-only">{{ ((d.cantidad /  (d.requerido * d.q_bloque))*100) |round(1, 'ceil') }}% </span>
+                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{  (d.requerido ) }}">
+                                                    <span class="sr-only">{{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}% </span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            {{ ((d.cantidad /  (d.requerido * d.q_bloque))*100) |round(1, 'ceil') }}%
+                                            {{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}%
                                         </td>
                                     </tr>
                                 {% set No =  No + 1 %}
@@ -109,7 +109,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-lg-6">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Resumen por Bloque</h3>
@@ -149,9 +149,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6">
+        <!-- </div>
+        <div class="row"> -->
+            <div class="col-lg-6">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Top 5 Mayor Gestión Confirmación</h3>
@@ -178,7 +178,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-lg-6">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Top 5 Menor Gestión Confirmación</h3>

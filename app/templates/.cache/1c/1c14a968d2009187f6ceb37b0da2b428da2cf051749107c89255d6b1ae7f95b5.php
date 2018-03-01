@@ -113,10 +113,10 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                   </div>
                 </div><!-- ./col -->
             </div><!-- ./col -->
-        </div>
 
-        <div class=\"row\">
-            <div class=\"col-xs-6\">
+
+        <!-- <div class=\"row\"> -->
+            <div class=\"col-lg-6\">
                 <div class=\"box\">
                     <div class=\"box-header\">
                         <h3 class=\"box-title\">Resumen por Comuna</h3>
@@ -156,21 +156,21 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                 echo "</td>
                                         <td>";
                 // line 93
-                echo twig_escape_filter($this->env, (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_bloque", array())), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()), "html", null, true);
                 echo "</td>
                                         <td width=\"100\">
                                             <div class=\"progress progress-xs\">
                                                 <div class=\"progress-bar progress-bar-aqua\" style=\"width: ";
                 // line 96
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_bloque", array()))) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
                 echo "%\" role=\"progressbar\" aria-valuenow=\"";
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_bloque", array()))) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
                 echo "\" aria-valuemin=\"0\" aria-valuemax=\"";
-                echo twig_escape_filter($this->env, (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_bloque", array())), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()), "html", null, true);
                 echo "\">
                                                     <span class=\"sr-only\">";
                 // line 97
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_bloque", array()))) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
                 echo "% </span>
                                                 </div>
                                             </div>
@@ -178,7 +178,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                                         <td>
                                             ";
                 // line 102
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / (twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_bloque", array()))) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
                 echo "%
                                         </td>
                                     </tr>
@@ -198,7 +198,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                     </div>
                 </div>
             </div>
-            <div class=\"col-xs-6\">
+            <div class=\"col-lg-6\">
                 <div class=\"box\">
                     <div class=\"box-header\">
                         <h3 class=\"box-title\">Resumen por Bloque</h3>
@@ -280,9 +280,9 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                     </div>
                 </div>
             </div>
-        </div>
-        <div class=\"row\">
-            <div class=\"col-xs-6\">
+        <!-- </div>
+        <div class=\"row\"> -->
+            <div class=\"col-lg-6\">
                 <div class=\"box\">
                     <div class=\"box-header\">
                         <h3 class=\"box-title\">Top 5 Mayor Gestión Confirmación</h3>
@@ -335,7 +335,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                     </div>
                 </div>
             </div>
-            <div class=\"col-xs-6\">
+            <div class=\"col-lg-6\">
                 <div class=\"box\">
                     <div class=\"box-header\">
                         <h3 class=\"box-title\">Top 5 Menor Gestión Confirmación</h3>
