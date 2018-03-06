@@ -544,6 +544,55 @@ function verbloque(bloque){
     }
   });
 }
+$('#txtmeta').focusout(function (event) {
+ var forms = new FormData();
+ forms.append('meta',document.getElementById('txtmeta').value)
+ $.ajax({
+   type : 'POST',
+   url : 'api/Mdlconfirmacion_refrescardatos',
+   contentType: false,
+   processData: false,
+   data: forms,
+   success : function(data) {
+       if(data.success==1){
+           $('#tbldatos').html(data.html);
 
+       }
+   },
+   error : function(xhr, status) {
+     msg_box_alert(99,'title',xhr.responseText);
+   }
+ });
+
+});
+
+function revisar_por_fecha_reporte_produccion(){
+ var desde=document.getElementById('textdesde').value;
+ var hasta=document.getElementById('texthasta').value;
+
+ if(desde>hasta){
+     $.alert("Las fechas ingresadas son erroneas");
+ }else{
+   var formd = new FormData();
+   formd.append('desde',desde);
+   formd.append('hasta',hasta);
+   $.ajax({
+     type : 'POST',
+     url : 'api/Mdlconfirmacion_filtrar_fecha',
+     contentType: false,
+     processData: false,
+     data: formd,
+     success : function(data) {
+         if(data.success==1){
+             $('#tblfiltro').html(data.html);
+
+         }
+     },
+     error : function(xhr, status) {
+       msg_box_alert(99,'title',xhr.responseText);
+     }
+   });
+ }
+}
 
 //----------------------------------------------------------------------------------------------------------------------------

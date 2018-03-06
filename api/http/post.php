@@ -444,6 +444,14 @@ $app->post('/Mdlconfirmacion_obtener_bloque', function() use($app) {
     $u = new Model\Mdlconfirmacion;
     return $app->json($u->ObtenerBloqueActual());
 });
+$app->post('/Mdlconfirmacion_refrescardatos', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->refrescardatos());
+});
+$app->post('/Mdlconfirmacion_filtrar_fecha', function() use($app) {
+    $e = new Model\Mdlconfirmacion;
+    return $app->json($e->filtrar_fecha());
+});
 //Orden Confirmacion------------------------------------------------------------
 //Coordinacion Asigna Ejecutivo Comuna------------------------------------------
 $app->post('/Mdlcoordinacion_select_ejecutivo', function() use($app) {

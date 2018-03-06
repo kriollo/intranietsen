@@ -1312,6 +1312,92 @@ class Mdlconfirmacion extends Models implements IModels {
         return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from ((tblordenes o  inner join tblresultado r on o.resultado=r.id_resultado and r.grupo=1) inner join tblbloque b on o.bloque=b.bloque) where fecha_compromiso between '$desde' and '$hasta' group by o.bloque order by b.desde asc");
     }
 
+    public function calc_llamados($fecha){
+        return $this->db->query_select("select h.id_user, count(h.id_orden) as cantidad, users.name,(select count(h2.id_orden) from tblhistorico h2 where h2.id_user=h.id_user ) cantidad_total from (tblhistorico h inner join users on h.id_user=users.id_user) INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha='$fecha' and tblresultado.grupo='1' group by h.id_user");
+    }
+    public function getMetas(){
+        return $this->db->query_select("select * from tblmetas where activo=1");
+    }
+    public function refrescar_datos_produccion_ejecutivo_confirmacion(){
+      global $http;
+      $meta=$http->request->get('meta');
+      $this->db->query("Update tblmetas set meta=$meta");
+      $datosmetas=$this->metas();
+
+      $html="<table class='table table-bordered' id='tblprod' name='tblprod'>
+           <thead>
+               <th>Nombre</th>
+               <th>Llamados</th>
+               <th>Llamados Confirmados</th>
+               <th>Progreso</th>
+               <th>%</th>
+           </thead>
+
+           <tbody>";
+            foreach ($datosmetas as $key => $value) {
+              $total=0;
+              $total_confirmados=0;
+              $cantllamados=$this->calc_llamados(date('Y-m-d'));
+              foreach ($cantllamados as $key2 => $value2) {
+              $html.="<tr>
+                     <td style='width:100%;''>".$value2['name']."</td>
+                     <td>".$value2['cantidad_total']."</td>
+                     <td>".$value2['cantidad']."</td>";
+                     $datores=round(($value2['cantidad'] / $meta * 100),1);
+                     $html.="<td class='col-lg-1'><div class='progress progress-xs'>
+                             <div class='progress-bar progress-bar-aqua' style='width:".$datores."%' role='progressbar' aria-valuenow=".$datores." aria-valuemin='0' aria-valuemax=".$meta.">
+                                 <span class='sr-only'>".$datores."% </span>
+                             </div>
+                         </div></td>
+                     <td>".$datores."%</td>";
+                     $total=$total + $value2['cantidad_total'];
+                    $total_confirmados=$total_confirmados + $value2['cantidad'];
+
+                $html.="<tr>";
+              }
+             $html.="<td>TOTAL:</td>
+             <td>".$total."</td>
+             <td>".$total_confirmados."</td>
+           </tbody>
+         </table>";
+    }
+        return array('success' => 1, 'html' => $html);
+    }
+
+    public function medir_cant_llamados($desde,$hasta){
+        return $this->db->query_select("select  count(h.id_orden) as confirmados, fecha, (select count(h2.id_orden) from tblhistorico h2 where fecha BETWEEN '$desde' and '$hasta') llamados from tblhistorico h INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha BETWEEN '$desde' and '$hasta' and tblresultado.grupo='1' group by fecha" );
+    }
+    public function filtrar_fecha(){
+        global $http;
+        $desde=$http->request->get('desde');
+        $hasta=$http->request->get('hasta');
+
+        $filtro=$this->medir_cant_llamados($desde,$hasta);
+
+
+        $html="<table class='table table-bordered'>
+        <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Llamados realizados</th>
+          <th>Llamados confirmados</th>
+        </thead>
+        <tbody>";
+        foreach ($filtro as $key => $value) {
+        $html.=
+               "<td>".$value['fecha']."</td>
+               <td>".$value['llamados']."</td>
+               <td>".$value['confirmados']."</td>
+               </tr>";
+        }
+        $html.="
+
+        </tbody>
+        </table>";
+
+        return array('success' => 1, 'html' => $html);
+    }
+
     /**
     * __construct()
     */

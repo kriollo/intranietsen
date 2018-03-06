@@ -1,0 +1,68 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+          <section class="content-header">
+                <div class="row">
+                <div class="col-lg-12">
+            <div class="col-lg-5">
+              <h2>
+                  Confirmación
+                  <small>Listado de Ordenes Registradas por día</small>
+              </h2>
+              </div>
+            <div class="col-lg-7">
+            <div class="">
+                <h4>
+                <label>Fecha Desde: </label>
+                <label>&nbsp;</label>
+                <input type="date" id="textdesde" name="textdesde" value='{{ "now"|date("Y-m-d") }}'>
+                <label>&nbsp;</label>
+                <label>Fecha Hasta: </label>
+                <label>&nbsp;</label>
+                <input type="date" id="texthasta" name="texthasta" value='{{ "now"|date("Y-m-d") }}'>
+                <label>&nbsp;</label>
+                <button type="button" name="btnbuscar" id="btnbuscar" onclick="revisar()" class="btn btn-primary">Aplicar Filtrar</button>
+                </h4>
+                </div>
+                </div>
+            </div>
+          </div>
+          </section>
+          <section>
+    <div class="row">
+        <div class="col-lg-12">
+          <div class="col-lg-6">
+            <div class="box-header">
+             <h3 class="box-title">Datos</h3>
+           </div>
+           <div id="tblfiltro" name="tblfiltro">
+             <table class="table table-bordered">
+               <thead>
+                 <tr>
+                 <th>Fecha</th>
+                 <th>Llamados realizados</th>
+                 <th>Llamados confirmados</th>
+               </thead>
+               <tbody>
+                 {% for c in cant_llamados if false != cant_llamados %}
+                 <td>{{c.fecha}}</td>
+                 <td>{{c.llamados}}</td>
+                 <td>{{c.confirmados}}</td>
+                 {% endfor %}
+               </tbody>
+             </table>
+           </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="box-header">
+             <h3 class="box-title">Graficos</h3>
+           </div>
+          </div>
+
+        </div>
+        </div>
+    </section>
+    {% endblock %}
+    {% block appScript %}
+      <script src="views/app/js/confirmacion/confirmacion.js"></script>
+
+    {% endblock %}
