@@ -70,25 +70,44 @@
             <div class="col-lg-6">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Top 10 Mayor Gestión Confirmación</h3>
+                        <h3 class="box-title">Gestión Confirmación Hoy - Meta: {{ metas }} confirmaciones</h3>
                     </div>
                     <div class="box-body">
                         <table class="table table-bordered">
                             <thead>
                                 <th>No</th>
                                 <th>Comuna</th>
-                                <th>Cantidad Gestión</th>
+                                <th>Llamados</th>
+                                <th>confirmados</th>
+                                <th></th>
+                                <th></th>
                             </thead>
                             <tbody>
                                 {% set No = 1 %}
-                                {% for d in confirma_top_5_best_ejecutivo if false != confirma_top_5_best_ejecutivo %}
+                                {% set total = 0 %}
+                                {% set total_confirmados = 0 %}
+                                {% for d in confirma_resumen_llamados_ejecutivos if false != confirma_resumen_llamados_ejecutivos %}
                                     <tr>
                                         <td>{{ No }}</td>
                                         <td>{{ d.name|raw|title }}</td>
+                                        <td>{{ d.cantidad_total }}</td>
                                         <td>{{ d.cantidad }}</td>
+                                        <td class="col-lg-1"><div class="progress progress-xs">
+                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.cantidad / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.cantidad / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
+                                                    <span class="sr-only">{{ ((d.cantidad / metas) *100) | round(1, 'ceil') }}% </span>
+                                                </div>
+                                            </div></td>
+                                        <td>{{((d.cantidad / metas) *100) | round(1,'ceil')  }}%</td>
                                     </tr>
-                                {% set No =  No + 1 %}
+                                    {% set No =  No + 1 %}
+                                    {% set total = total + d.cantidad_total %}
+                                    {% set total_confirmados = total_confirmados + d.cantidad %}
                                 {% endfor %}
+                                <tr>
+                                <td colspan="2">TOTAL:</td>
+                                <td>{{total}}</td>
+                                <td>{{total_confirmados}}</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -151,65 +170,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-lg-6">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Resumen por Comuna</h3>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <th>No</th>
-                                <th>Comuna</th>
-                                <th>Confirmado</th>
-                                <th>Requerido</th>
-                                <th colspan="2">%</th>
-                            </thead>
-                            <tbody>
-                                {% set No = 1 %}
-                                {%set total_agendado = 0 %}
-                                {%set total_requerido = 0 %}
-                                {% for d in confirma_resumen_x_comuna if false != confirma_resumen_x_comuna %}
-                                    <tr>
-                                        <td>{{ No }}</td>
-                                        <td>{{ d.comuna|raw|title }}</td>
-                                        <td>{{ d.cantidad }}</td>
-                                        <td>{{ (d.requerido ) }}</td>
-                                        <td width="100">
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{  (d.requerido ) }}">
-                                                    <span class="sr-only">{{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}% </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {{ ((d.cantidad /  (d.requerido ))*100) |round(1, 'ceil') }}%
-                                        </td>
-                                    </tr>
-                                    {%set total_agendado = total_agendado + d.cantidad %}
-                                    {%set total_requerido = total_requerido + d.requerido  %}
-                                {% set No =  No + 1 %}
-                                {% endfor %}
-                                <tr>
-                                    <td colspan="2">TOTAL</td>
-                                    <td>{{ total_agendado }}</td>
-                                    <td>{{ total_requerido }}</td>
-                                    <td>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar progress-bar-aqua" style="width: {{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((total_agendado / total_requerido)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ total_requerido }}">
-                                                <span class="sr-only">{{ ((total_agendado / total_requerido) *100) | round(1, 'ceil') }}% </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{((total_agendado / total_requerido) *100) | round(1,'ceil')  }}%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> -->
-
-
         </div>
     </section>
     <!-- /.content -->

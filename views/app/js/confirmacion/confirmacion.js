@@ -544,28 +544,29 @@ function verbloque(bloque){
     }
   });
 }
-$('#txtmeta').focusout(function (event) {
- var forms = new FormData();
- forms.append('meta',document.getElementById('txtmeta').value)
- $.ajax({
-   type : 'POST',
-   url : 'api/Mdlconfirmacion_refrescardatos',
-   contentType: false,
-   processData: false,
-   data: forms,
-   success : function(data) {
-       if(data.success==1){
-           $('#tbldatos').html(data.html);
-
-       }
-   },
-   error : function(xhr, status) {
-     msg_box_alert(99,'title',xhr.responseText);
-   }
- });
-
-});
-
+    $('#txtmeta').focusout(function (event) {
+        actualiza_datos_meta_y_tabla();
+    });
+    function actualiza_datos_meta_y_tabla(){
+        var forms = new FormData();
+        forms.append('meta',document.getElementById('txtmeta').value)
+        forms.append('fecha',$('input[name=fecha]').val());
+        $.ajax({
+            type : 'POST',
+            url : 'api/Mdlconfirmacion_refrescardatos',
+            contentType: false,
+            processData: false,
+            data: forms,
+            success : function(data) {
+                if(data.success==1){
+                    $('#tbldatos').html(data.html);
+                }
+            },
+            error : function(xhr, status) {
+                msg_box_alert(99,'title',xhr.responseText);
+            }
+        });
+    }
 function revisar_por_fecha_reporte_produccion(){
  var desde=document.getElementById('textdesde').value;
  var hasta=document.getElementById('texthasta').value;

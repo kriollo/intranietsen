@@ -167,7 +167,7 @@ class Mdltecnicos extends Models implements IModels {
              $objReader = new PHPExcel_Reader_Excel2007();
              $objPHPExcel = $objReader->load($archivo);
 
-             $i=2;
+             $i=2;$count=0;
              $param=0;
              $id_tec="";
              while($param==0){
@@ -194,15 +194,18 @@ class Mdltecnicos extends Models implements IModels {
                                'telefono'=>$telefono
                            ),"codigo ='$codigo'");
                         }
+                        $cont=0;
                     }else{
-                        $param=1;
-                        return array('success' => 1, 'message' => "Datos cargados" );
+                        $cont++;
                     }
+                    if ($cont>10){$param=1;}
+
                     $i++;
                  } catch (\Exception $e) {
                     return array('success' => 0, 'message' => $e->getMessage() );
                  }
              }
+             return array('success' => 1, 'message' => "Datos cargados" );
          }else{
              return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
          }

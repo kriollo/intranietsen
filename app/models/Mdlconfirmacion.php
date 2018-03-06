@@ -1313,57 +1313,110 @@ class Mdlconfirmacion extends Models implements IModels {
     }
 
     public function calc_llamados($fecha){
-        return $this->db->query_select("select h.id_user, count(h.id_orden) as cantidad, users.name,(select count(h2.id_orden) from tblhistorico h2 where h2.id_user=h.id_user and fecha='$fecha' ) cantidad_total from (tblhistorico h inner join users on h.id_user=users.id_user) INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha='$fecha' and tblresultado.grupo='1' group by h.id_user");
+        $fecha2=strtotime($fecha);
+        $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
+        $sql="select h.id_user,u.name,count(*) acum_total_sinconf,
+        (select count(h2.id_user) from tblhistorico h2 INNER join tblresultado r2 on h2.resultado=r2.id_resultado and r2.grupo=1 where h2.id_user=h.id_user and h2.fecha between '$fecha3' and '$fecha' ) acum_total_conf,
+        (select count(h3.id_user) from tblhistorico h3 INNER join tblresultado r3 on h3.resultado=r3.id_resultado and r3.grupo=1 where h3.id_user=h.id_user and h3.fecha = '$fecha') acum_hoy_conf,
+        (select count(h4.id_user) from tblhistorico h4 where h4.id_user=h.id_user and h4.fecha = '$fecha') acum_hoy_total
+        from tblhistorico h inner join users u on h.id_user=u.id_user where h.fecha between '$fecha3' and '$fecha'
+        group by h.id_user
+        order by acum_total_sinconf desc";
+
+        $result= $this->db->query_select($sql);
+        return $result;
     }
     public function getMetas(){
         $result= $this->db->query_select("select * from tblmetas where activo=1");
         return $result[0]['meta'];
     }
+    public function getCantidadDiasTrabajados($iduser,$fecha){
+
+        $result= $this->db->query_select('select count(*) from (select fecha,count(*) from tblhistorico h5  where h5.id_user="'.$iduser.'" and h5.fecha<="'.$fecha.'" group by h5.fecha) cuenta');
+        if (false != $result){
+            return $result[0][0];
+        }else {
+                return '0';
+        }
+    }
     public function refrescar_datos_produccion_ejecutivo_confirmacion(){
       global $http;
-      $meta=$http->request->get('meta');
+      $meta = $http->request->get('meta');
+      $fecha = $http->request->get('fecha');
       $this->db->query("Update tblmetas set meta=$meta");
-      $datosmetas=$this->getMetas();
+
+      $fecha2=strtotime($fecha);
+      $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
 
       $html="<table class='table table-bordered' id='tblprod' name='tblprod'>
+          <thead>
+              <th colspan='2'></th>
+              <th colspan='4' class='text-center'>Hoy -> $fecha </th>
+              <th colspan='3' class='text-center'>Acumulado desde -> $fecha3</th>
+          </thead>
            <thead>
                <th>Nombre</th>
+               <th>Dias Trabajados</th>
                <th>Llamados</th>
-               <th>Llamados Confirmados</th>
+               <th>Confirmados</th>
                <th>Progreso</th>
                <th>%</th>
+               <th>Llamados</th>
+               <th>Confirmados</th>
+               <th>Prom Dia</th>
            </thead>
 
            <tbody>";
 
               $total=0;
               $total_confirmados=0;
-              $cantllamados=$this->calc_llamados(date('Y-m-d'));
+              $cantllamados=$this->calc_llamados($fecha);
               foreach ($cantllamados as $key2 => $value2) {
+                  $diastrab=$this->getCantidadDiasTrabajados($value2['id_user'],$fecha);
               $html.="<tr>
-                     <td style='width:100%;''>".$value2['name']."</td>
-                     <td>".$value2['cantidad_total']."</td>
-                     <td>".$value2['cantidad']."</td>";
-                     $datores=round(($value2['cantidad'] / $meta * 100),1);
-                     $html.="<td class='col-lg-1'><div class='progress progress-xs'>
+                     <td>".$value2['name']."</td>
+                     <td>".$diastrab."</td>
+                     <td>".$value2['acum_hoy_total']."</td>
+                     <td>".$value2['acum_hoy_conf']."</td>";
+                     $datores=round(($value2['acum_hoy_conf'] / $meta * 100),1);
+                     $html.="<td class='col-lg-2'><div class='progress progress-xs'>
                              <div class='progress-bar progress-bar-aqua' style='width:".$datores."%' role='progressbar' aria-valuenow=".$datores." aria-valuemin='0' aria-valuemax=".$meta.">
                                  <span class='sr-only'>".$datores."% </span>
                              </div>
                          </div></td>
                      <td>".$datores."%</td>";
-                     $total=$total + $value2['cantidad_total'];
-                    $total_confirmados=$total_confirmados + $value2['cantidad'];
+                     $total=$total + $value2['acum_hoy_total'];
+                    $total_confirmados=$total_confirmados + $value2['acum_hoy_conf'];
+                    $promdia=round(($value2['acum_total_conf'] / $diastrab),1);
+                    $html.="<td>".$value2['acum_total_sinconf']."</td>
+                            <td>".$value2['acum_total_conf']."</td>
+                            <td>".$promdia."</td>";
 
                 $html.="<tr>";
               }
-             $html.="<td>TOTAL:</td>
+             $html.="<td colspan='2'>TOTAL:</td>
              <td>".$total."</td>
              <td>".$total_confirmados."</td>
            </tbody>
          </table>";
-    
+
         return array('success' => 1, 'html' => $html);
     }
+
+    public function cargar_grafico_llamadas(){
+        global $http;
+        $fecha = $http->request->get('fecha');
+
+        $result = $this->calc_llamados($fecha);
+        unset($pend_valores_test);
+        foreach ($result as $key => $value) {
+            $pend_valores_test[]=array("x" => $value['name'], "y" =>$value['acum_hoy_conf'],"z" => $value['acum_hoy_total']);
+        }
+        if (isset($pend_valores_test)){
+            return $pend_valores_test;
+        }
+    }
+
 
     public function medir_cant_llamados($desde,$hasta){
         return $this->db->query_select("select  count(h.id_orden) as confirmados, fecha, (select count(h2.id_orden) from tblhistorico h2 where fecha BETWEEN '$desde' and '$hasta') llamados from tblhistorico h INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha BETWEEN '$desde' and '$hasta' and tblresultado.grupo='1' group by fecha" );

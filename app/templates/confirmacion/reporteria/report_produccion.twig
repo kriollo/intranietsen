@@ -11,59 +11,164 @@
         </ol>
     </section>
     <section class="content">
-      <form id="formproductividad" name="formproductividad">
         <div class="row">
-          <div class="col-lg-12">
-          <div class="box">
-            <div class="col-lg-6">
-              <div class="box-header">
-               <h3 class="box-title">Total Llamados</h3>
-               <div class="box-body">
-                 <div id="tbldatos" name="tbldatos">
-                     <table class='table table-bordered' id="tblproductividad" name="tblproductividad">
-                       <thead>
-                           <th>Nombre</th>
-                           <th>Llamados</th>
-                           <th>Llamados Confirmados</th>
-                           <th>Progreso</th>
-                           <th>%</th>
-                       </thead>
-                       <tbody>
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Total Llamados</h3>
+                        <label>Seleccione Fecha:
+                        <input type="date" class="form-control" name="fecha" id="fecha" value="{{ "now"|date("Y-m-d") }}" onchange="actualiza_datos_meta_y_tabla();carga_grafico_mensual_pendientes();">
+                        </label>
+                    </div>
+                    <div class="box-body" id="tbldatos" name="tbldatos">
+                        <table class='table table-bordered' id="tblproductividad" name="tblproductividad">
+                            <thead>
+                                <th colspan='2'></th>
+                                <th colspan='4' class='text-center'>Hoy -> {{ "now"|date("Y-m-d") }} </th>
+                                <th colspan='3' class='text-center'>Acumulado desde -> {{ fecha_desde }}</th>
+                            </thead>
+                        <thead>
+                            <th>Nombre</th>
+                            <th>Dias Trabajados</th>
+                            <th>Llamados</th>
+                            <th>Confirmados</th>
+                            <th>Progreso</th>
+                            <th>%</th>
+                            <th>Llamados</th>
+                            <th>Confirmados</th>
+                            <th>Prom Dia</th>
+                        </thead>
+                        <tbody>
 
-                             {% set total = 0 %}
-                             {% set total_confirmados = 0 %}
-                             {% for l in llamados if false != llamados %}
-                                 <tr>
-                                     <td style="width:100%;">{{ l.name }}</td>
-                                     <td>{{l.cantidad_total}}</td>
-                                     <td>{{l.cantidad}}</td>
-                                     <td class="col-lg-1"><div class="progress progress-xs">
-                                             <div class="progress-bar progress-bar-aqua" style="width: {{ ((l.cantidad / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((l.cantidad / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
-                                                 <span class="sr-only">{{ ((l.cantidad / metas) *100) | round(1, 'ceil') }}% </span>
-                                             </div>
-                                         </div></td>
-                                     <td>{{((l.cantidad / metas) *100) | round(1,'ceil')  }}%</td>
-                                     {% set total = total + l.cantidad_total %}
-                                     {% set total_confirmados = total_confirmados + l.cantidad %}
-                                 <tr>
-                             {% endfor %}
-                             <td>TOTAL:</td>
-                             <td>{{total}}</td>
-                             <td>{{total_confirmados}}</td>
-                       </tbody>
-                     </table>
-                 </div>
+                         {% set total = 0 %}
+                         {% set total_confirmados = 0 %}
+                         {% for l in llamados if false != llamados %}
+                             <tr>
+                                 <td >{{ l.name }}</td>
+                                 <td></td>
+                                 <td>{{l.acum_hoy_total}}</td>
+                                 <td>{{l.acum_hoy_conf}}</td>
+                                 <td class="col-lg-2"><div class="progress progress-xs">
+                                         <div class="progress-bar progress-bar-aqua" style="width: {{ ((l.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((l.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
+                                             <span class="sr-only">{{ ((l.acum_hoy_conf / metas) *100) | round(1, 'ceil') }}% </span>
+                                         </div>
+                                     </div></td>
+                                 <td>{{((l.acum_hoy_conf / metas) *100) | round(1,'ceil')  }}%</td>
+                                 {% set total = total + l.acum_hoy_total %}
+                                 {% set total_confirmados = total_confirmados + l.acum_hoy_conf %}
+
+                                 <td>{{ l.acum_total_sinconf }}</td>
+                                 <td>{{ l.acum_total_conf }}</td>
+                                 <td>{{ l.acum_total_conf }}</td>
+                             <tr>
+                         {% endfor %}
+                         <td>TOTAL:</td>
+                         <td>{{total}}</td>
+                         <td>{{total_confirmados}}</td>
+                        </tbody>
+                    </table>
+
+                    </div>
+                    <div class="box-footer">
+                        <form id="formproductividad" name="formproductividad">
+                            <label>Meta total: <input type="number" class="text-center"id="txtmeta" name="txtmeta" value="{{metas}}"></label>
+                        </form>
+                    </div>
                 </div>
-                  <label>Meta total: <input type="number" class="text-center"id="txtmeta" name="txtmeta" value="{{metas}}"></label>
-             </div>
             </div>
-          </div>
         </div>
-      </div>
-      </form>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Grafica</h3>
+                    </div>
+                    <div class="box-body" id="grafico_llamados_confirmadas">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     {% endblock %}
     {% block appScript %}
       <script src="views/app/js/confirmacion/confirmacion.js"></script>
+      <script src="http://code.highcharts.com/stock/highstock.js"></script>
+      <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
+        <script>
+            $(document).ready(function() {
+                carga_grafico_mensual_pendientes();
+            });
+
+            function carga_grafico_mensual_pendientes(){
+                var formData = new FormData();
+                formData.append('fecha',$('input[name=fecha]').val());
+                $.ajax({
+                    type: "POST",
+                    url: "api/Mdlconfirmacion_grafico_llamados_confirmadas",
+                    contentType:false,
+                    processData:false,
+                    data : formData,
+                    success : function(data){
+                        var serie= []; var valor= []; var valor_total= [];
+                        $.each(data, function(i,o){
+                            serie.push(String(o.x));
+                            valor.push(parseFloat(o.y));
+                            valor_total.push(parseFloat(o.z));
+                        });
+
+                        var grafico_reag= $('#grafico_llamados_confirmadas').highcharts({
+                            chart:{
+                                type: 'column',
+                                animation: Highcharts.svg,
+                                width: 1200,
+                                height: 300
+                            },
+                            title:{text: 'Ordenes Confirmadas'},
+                            xAxis:{categories: serie},
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Total Llamados'
+                                },
+                                stackLabels: {
+                                    enabled: true,
+                                    style: {
+                                        fontWeight: 'bold',
+                                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                    }
+                                }
+                            },
+                            legend: { align: 'right',
+                                    x: -30,
+                                    verticalAlign: 'top',
+                                    y: 25,
+                                    floating: true,
+                                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                    borderColor: '#CCC',
+                                    borderWidth: 1,
+                                    shadow: false },
+                            exporting: { enabled: true },
+                            tooltip: {
+                                headerFormat: '<b>{point.x}</b><br/>',
+                                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal',
+                                    dataLabels: {
+                                        enabled: true,
+                                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                                    }
+                                }
+                            },
+                            series: [{ name: 'Confirmados', data:valor},{name: "Total Llamados" , data:valor_total}]
+                        });
+                    },
+                    error : function(xhr, status) {
+                      msg_box_alert(99,'Filtrar Ordenes',xhr.responseText);
+                    }
+                });
+            }
+        </script>
     {% endblock %}

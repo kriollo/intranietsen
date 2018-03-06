@@ -294,9 +294,12 @@ class confirmacionController extends Controllers implements IControllers {
                 ));
             break;
             case 'report_produccion':
+                $fecha2=strtotime(date('Y-m-d'));
+                $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
                 echo $this->template->render('confirmacion/reporteria/report_produccion', array(
                    'menu_op' => $op,
                    'metas'=>(new Model\Mdlconfirmacion)->getMetas(),
+                   'fecha_desde' => $fecha3,
                    'llamados'=>(new Model\Mdlconfirmacion)->calc_llamados(date('Y-m-d')),
                 ));
             break;
@@ -312,8 +315,8 @@ class confirmacionController extends Controllers implements IControllers {
                     'menu_op' => $op,
                     'confirma_q_ordenes_gestionadas' => (new Model\Mdlconfirmacion)->confirma_q_ordenes_gestionadas(date('Y-m-d'),date('Y-m-d')),
                     'confirma_q_orden_x_estado_confirmacion' => (new Model\Mdlconfirmacion)->confirma_q_orden_x_estado_confirmacion(date('Y-m-d'),date('Y-m-d')),
-                    'confirma_top_5_best_ejecutivo' => (new Model\Mdlconfirmacion)->confirma_top_5_best_ejecutivo(date('Y-m-d'),date('Y-m-d')),
-                    'confirma_resumen_x_comuna' => (new Model\Mdlconfirmacion)->confirma_resumen_x_comuna(date('Y-m-d'),date('Y-m-d')),
+                    'metas'=>(new Model\Mdlconfirmacion)->getMetas(),
+                    'confirma_resumen_llamados_ejecutivos'=>(new Model\Mdlconfirmacion)->calc_llamados(date('Y-m-d')),
                     'confirma_resumen_x_bloque' => (new Model\Mdlconfirmacion)->confirma_resumen_x_bloque(date('Y-m-d'),date('Y-m-d'))
                 ));
             break;
