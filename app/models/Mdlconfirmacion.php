@@ -1316,7 +1316,8 @@ class Mdlconfirmacion extends Models implements IModels {
         return $this->db->query_select("select h.id_user, count(h.id_orden) as cantidad, users.name,(select count(h2.id_orden) from tblhistorico h2 where h2.id_user=h.id_user ) cantidad_total from (tblhistorico h inner join users on h.id_user=users.id_user) INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha='$fecha' and tblresultado.grupo='1' group by h.id_user");
     }
     public function getMetas(){
-        return $this->db->query_select("select * from tblmetas where activo=1");
+        $result= $this->db->query_select("select * from tblmetas where activo=1");
+        return $result[0]['meta'];
     }
     public function refrescar_datos_produccion_ejecutivo_confirmacion(){
       global $http;

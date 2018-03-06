@@ -20,48 +20,42 @@
                <h3 class="box-title">Total Llamados</h3>
                <div class="box-body">
                  <div id="tbldatos" name="tbldatos">
+                     <table class='table table-bordered' id="tblproductividad" name="tblproductividad">
+                       <thead>
+                           <th>Nombre</th>
+                           <th>Llamados</th>
+                           <th>Llamados Confirmados</th>
+                           <th>Progreso</th>
+                           <th>%</th>
+                       </thead>
+                       <tbody>
 
-
-                 <table class='table table-bordered' id="tblproductividad" name="tblproductividad">
-                   <thead>
-                       <th>Nombre</th>
-                       <th>Llamados</th>
-                       <th>Llamados Confirmados</th>
-                       <th>Progreso</th>
-                       <th>%</th>
-                   </thead>
-
-                   <tbody>
-                    {% for m in metas if false != metas %}
-                     {% set total = 0 %}
-                     {% set total_confirmados = 0 %}
-                     {% for l in llamados if false != llamados %}
-                         <tr>
-                             <td style="width:100%;">{{ l.name }}</td>
-                             <td>{{l.cantidad_total}}</td>
-                             <td>{{l.cantidad}}</td>
-                             <td class="col-lg-1"><div class="progress progress-xs">
-                                     <div class="progress-bar progress-bar-aqua" style="width: {{ ((l.cantidad / m.meta)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((l.cantidad / m.meta)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ m.meta }}">
-                                         <span class="sr-only">{{ ((l.cantidad / m.meta) *100) | round(1, 'ceil') }}% </span>
-                                     </div>
-                                 </div></td>
-                             <td>{{((l.cantidad / m.meta) *100) | round(1,'ceil')  }}%</td>
-                             {% set total = total + l.cantidad_total %}
-                             {% set total_confirmados = total_confirmados + l.cantidad %}
-                         <tr>
-                     {% endfor %}
-                     <td>TOTAL:</td>
-                     <td>{{total}}</td>
-                     <td>{{total_confirmados}}</td>
-                   </tbody>
-                 </table>
-
-
+                             {% set total = 0 %}
+                             {% set total_confirmados = 0 %}
+                             {% for l in llamados if false != llamados %}
+                                 <tr>
+                                     <td style="width:100%;">{{ l.name }}</td>
+                                     <td>{{l.cantidad_total}}</td>
+                                     <td>{{l.cantidad}}</td>
+                                     <td class="col-lg-1"><div class="progress progress-xs">
+                                             <div class="progress-bar progress-bar-aqua" style="width: {{ ((l.cantidad / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((l.cantidad / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
+                                                 <span class="sr-only">{{ ((l.cantidad / metas) *100) | round(1, 'ceil') }}% </span>
+                                             </div>
+                                         </div></td>
+                                     <td>{{((l.cantidad / metas) *100) | round(1,'ceil')  }}%</td>
+                                     {% set total = total + l.cantidad_total %}
+                                     {% set total_confirmados = total_confirmados + l.cantidad %}
+                                 <tr>
+                             {% endfor %}
+                             <td>TOTAL:</td>
+                             <td>{{total}}</td>
+                             <td>{{total_confirmados}}</td>
+                       </tbody>
+                     </table>
                  </div>
-                  </div>
-                  <label>Meta total: <input type="number" class="text-center"id="txtmeta" name="txtmeta" value="{{m.meta}}"></label>
-                  </div>
-             {% endfor %}
+                </div>
+                  <label>Meta total: <input type="number" class="text-center"id="txtmeta" name="txtmeta" value="{{metas}}"></label>
+             </div>
             </div>
           </div>
         </div>
