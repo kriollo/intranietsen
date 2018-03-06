@@ -51,7 +51,7 @@ class coordinacionController extends Controllers implements IControllers {
                 ));
             break;
             // -------------------------------------------------------------------------------------------------------------------------------------------------------
-            default:
+            default: 
                 echo $this->template->render('coordinacion/coordinacion', array(
                     'menu_op' => $op,
                     'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),

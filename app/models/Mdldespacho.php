@@ -565,9 +565,9 @@ class Mdldespacho extends Models implements IModels {
                 $this->db->query_select("update tblordenes set estado_orden='1', ubicacion='$opcion' where id_orden='$idorden'");
                 return array('success' => 1, 'message' => 'Orden ESCALADA a proceso de CIERRE');
             }elseif($opcion=="FINALIZADO"){
-                $resultado=$this->db->query_select("select resultado from tblordenes where id_orden='$idorden'");
+                $resultado=$this->db->query_select("select actividad from tblordenes where id_orden='$idorden'");
                 $res=$resultado[0][0];
-                $consulta=$this->db->query_select("select * from tblresultado where (cierre_seguro='1' and  id_resultado='$res' ) OR (certificacion='1' and  id_resultado='$res') OR (speed_test='1' and  id_resultado='$res')");
+                $consulta=$this->db->query_select("select * from tblactividad where (cierre_seguro='1' and  actividad='$res' ) OR (certificacion='1' and  actividad='$res') OR (speed_test='1' and  actividad='$res')");
                 if($consulta!=false){
                   $this->db->query_select("update tblordenes set estado_orden='1', ubicacion='CIERRE' where id_orden='$idorden'");
                   return array('success' => 1, 'message' => 'Orden Requiere proceso de CIERRE y ha sido ESCALADA');

@@ -226,8 +226,24 @@ class confirmacionController extends Controllers implements IControllers {
                     'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
                 ));
             break;
+            case "editar_confirmacion":
+                if($this->isset_id and false !== ($orden=(new Model\Mdlconfirmacion)->get_orden_byId($router->getId(true)))){
+                    echo $this->template->render('confirmacion/programacion/editar_confirmacion', array(
+                        'menu_op' => $op,
+                        'db_modorden'=>$orden[0],
+                        'db_motivo'=>(new Model\Mdlconfirmacion)->carga_motivo(),
+                        'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque(),
+                        'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),
+                        'db_actividad'=>(new Model\Mdlconfirmacion)->carga_actividad(),
+                        'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado(),
+                        'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
+                    ));
+                } else {
+                    $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
+                }
+            break;
             case "reingresar_confirmacion":
-                if($this->isset_id and false !== ($orden=(new Model\Mdlconfirmacion)->get_orden_bynorden($router->getId(true)))){
+                if($this->isset_id and false !== ($orden=(new Model\Mdlconfirmacion)->get_orden_byId($router->getId(true)))){
                     echo $this->template->render('confirmacion/programacion/reingresar_confirmacion', array(
                         'menu_op' => $op,
                         'db_modorden'=>$orden[0],
@@ -247,31 +263,16 @@ class confirmacionController extends Controllers implements IControllers {
                 $usuario=$carusu['id_user'];
                 echo $this->template->render('confirmacion/programacion/listar_ordenes', array(
                     'menu_op' => $op,
-                    'db_ordenes'=>(new Model\Mdlconfirmacion)->listar_ordenes(date('Y-m-d'),$usuario)
+                    'db_ordenes'=>(new Model\Mdlconfirmacion)->listar_ordenes(date('Y-m-d'),date('Y-m-d'),$usuario,'1')
                 ));
             break;
             case "listar_allorden":
                 echo $this->template->render('confirmacion/programacion/listar_allorden', array(
                     'menu_op' => $op,
-                    'db_ordenes'=>(new Model\Mdlconfirmacion)->listar_ordenes(date('Y-m-d'),'')
+                    'db_ordenes'=>(new Model\Mdlconfirmacion)->listar_ordenes(date('Y-m-d'),date('Y-m-d'),'','1')
                 ));
             break;
-            case "editar_confirmacion":
-                if($this->isset_id and false !== ($orden=(new Model\Mdlconfirmacion)->get_orden_byId($router->getId(true)))){
-                    echo $this->template->render('confirmacion/programacion/editar_confirmacion', array(
-                        'menu_op' => $op,
-                        'db_modorden'=>$orden[0],
-                        'db_motivo'=>(new Model\Mdlconfirmacion)->carga_motivo(),
-                        'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque(),
-                        'db_comuna'=>(new Model\Mdlconfirmacion)->carga_comunas(),
-                        'db_actividad'=>(new Model\Mdlconfirmacion)->carga_actividad(),
-                        'db_resultado'=>(new Model\Mdlconfirmacion)->carga_resultado(),
-                        'db_tipoorden'=>(new Model\Mdlconfirmacion)->carga_tipoorden()
-                    ));
-                } else {
-                    $this->functions->redir($config['site']['url'] . 'confirmacion/&error=true');
-                }
-            break;
+
             case "exporta_excel_ordenes":
                 (new Model\Mdlconfirmacion)->exporta_excel_ordenes();
             break;
@@ -299,7 +300,6 @@ class confirmacionController extends Controllers implements IControllers {
                     'confirma_q_ordenes_gestionadas' => (new Model\Mdlconfirmacion)->confirma_q_ordenes_gestionadas(date('Y-m-d'),date('Y-m-d')),
                     'confirma_q_orden_x_estado_confirmacion' => (new Model\Mdlconfirmacion)->confirma_q_orden_x_estado_confirmacion(date('Y-m-d'),date('Y-m-d')),
                     'confirma_top_5_best_ejecutivo' => (new Model\Mdlconfirmacion)->confirma_top_5_best_ejecutivo(date('Y-m-d'),date('Y-m-d')),
-                    'confirma_top_5_bad_ejecutivo' => (new Model\Mdlconfirmacion)->confirma_top_5_bad_ejecutivo(date('Y-m-d'),date('Y-m-d')),
                     'confirma_resumen_x_comuna' => (new Model\Mdlconfirmacion)->confirma_resumen_x_comuna(date('Y-m-d'),date('Y-m-d')),
                     'confirma_resumen_x_bloque' => (new Model\Mdlconfirmacion)->confirma_resumen_x_bloque(date('Y-m-d'),date('Y-m-d'))
                 ));

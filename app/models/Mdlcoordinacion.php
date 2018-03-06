@@ -51,6 +51,7 @@ class Mdlcoordinacion extends Models implements IModels {
             return array('success' => 0, 'message' => 'Datos no encontrados');
         }
     }
+
     public function traer_comuna(): array {
         try {
             global $http;
@@ -152,7 +153,7 @@ class Mdlcoordinacion extends Models implements IModels {
 // ------------------------------------------------------------------------------------------------------
 // DISTRIBUCION------------------------------------------------------------------------------------------
     public function getResumenOrdenesEjecutarBloques($fecha){
-        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso<='$fecha' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') group by o.comuna,o.bloque order by b.desde");
+        return $this->db->query_select("select o.comuna,b.bloque,count(*) cantidad from tblordenes o inner join tblbloque b on o.bloque=b.bloque where o.fecha_compromiso<='$fecha' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') group by o.comuna,o.bloque order by o.comuna,b.desde,o.bloque");
     }
     public function db_resumen_ejecutivo_comuna(){
         return $this->db->query_select("Select comuna,count(*) cantidad from tbl_coordinacion_ejecutivo_comuna  group by comuna");
@@ -302,6 +303,7 @@ class Mdlcoordinacion extends Models implements IModels {
         $datusu=$this->user;
         $idcomuna=$http->request->get('idcomuna');
         $bloque=$http->request->get('bloque');
+
         $cuadrante=$this->db->query_select("select nombre from tblcuadrante where cod_comuna='$idcomuna' group by nombre");
         $actividades=$this->db->query_select("select * from tblactividad");
 
@@ -320,7 +322,7 @@ class Mdlcoordinacion extends Models implements IModels {
         </thead>
         <tbody>";
         if ($cuadrante!=false){
-            $cantidades=$this->db->query_select("select tblcuadrante.nombre,tblordenes.comuna,actividad,count(id_orden) as cantidad from tblordenes inner join tblcuadrante on tblcuadrante.nodo=tblordenes.nodo where comuna='$idcomuna' and bloque='$bloque' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') GROUP by tblcuadrante.nombre,actividad");
+            $cantidades=$this->db->query_select("select tblcuadrante.nombre,tblordenes.comuna,actividad,count(id_orden) as cantidad from tblordenes inner join tblcuadrante on tblcuadrante.nodo=tblordenes.nodo where fecha_compromiso<='".date('Y-m-d')."' and comuna='$idcomuna' and bloque='$bloque' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') GROUP by tblcuadrante.nombre,actividad");
             foreach ($cuadrante as $key2 => $value2) {
                 $html.="<tr>
                 <td>".$value2['nombre']."</td>";
@@ -348,7 +350,7 @@ class Mdlcoordinacion extends Models implements IModels {
                 </tr>";
             }
         }else{
-            $sincuadrante=$this->db->query_select("select tblordenes.comuna,actividad,count(id_orden) as cantidad from tblordenes where comuna='$idcomuna' and bloque='$bloque' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') GROUP by actividad");
+            $sincuadrante=$this->db->query_select("select tblordenes.comuna,actividad,count(id_orden) as cantidad from tblordenes where fecha_compromiso<='".date('Y-m-d')."' and  comuna='$idcomuna' and bloque='$bloque' and (ubicacion='CONFIRMACION' or ubicacion='DESPACHO') GROUP by actividad");
             $html.="<tr>
             <td>Sin cuadrante</td>";
             $total_fila=0;

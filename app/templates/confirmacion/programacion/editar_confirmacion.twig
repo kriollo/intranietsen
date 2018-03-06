@@ -65,6 +65,31 @@
                 </div>
             </div>
         </div>
+        <div id="reage" name="reage" class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">REAGENDAMIENTOS</h3>
+                    </div>
+                    <div class="box-body">
+                        {% for i in 1..20 %}
+                            {% if i == db_modorden.reagendamiento %}
+                                <div class="col-xs-1" style="border: 1px solid white">
+                                    <label><input type="radio" name="reag" id="reag-{{i}}" onchange="cargarreag('{{i}}')" checked>
+                                    {{i}}</label>
+                                </div>
+                            {% else %}
+                                <div class="col-xs-1" style="border: 1px solid white">
+                                    <label><input type="radio" name="reag" id="reag-{{i}}" onchange="cargarreag('{{i}}')">
+                                    {{i}}</label>
+                                </div>
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="modmotivo" name="modmotivo" class="row">
           <div class="col-xs-12">
             <div class="box">
@@ -216,6 +241,8 @@
         <input type="hidden" name="textmodresultado" id="textmodresultado" value="{{ db_modorden.resultado }}">
         <input type="hidden" name="textmodid" id="textmodid" value="{{ db_modorden.operador }}">
         <input type="hidden" name="ordenid" id="ordenid" value="{{ db_modorden.id_orden }}">
+        <input type="hidden" name="reagendamiento" id="reagendamiento" value="{{ db_modorden.reagendamiento }}">
+
       </div>
       </form>
     </section>

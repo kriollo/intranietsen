@@ -16,7 +16,16 @@
                 <small>Listado de Ordenes Registradas por día</small>
 
                 <div class="pull-right">
-                    <label>Fecha Registro: </label>
+                    <label>Filtrar Por: </label>
+                    <label>&nbsp;</label>
+                    <labe><input type="radio" name="fecha" id='registro' checked>Registro</label>
+                    <label>&nbsp;</label>
+                    <labe><input type="radio" name="fecha" id='compromiso'>Compromiso</label>
+                    <label>&nbsp;</label>
+                    <label>&nbsp;</label>
+                    <label>Fecha:</label>
+                    <label>&nbsp;</label>
+                    <input type="date" id="revdesde" name="revdesde" value='{{ "now"|date("Y-m-d") }}'>
                     <label>&nbsp;</label>
                     <input type="date" id="revhasta" name="revhasta" value='{{ "now"|date("Y-m-d") }}'>
                     <label>&nbsp;</label>
@@ -42,9 +51,10 @@
                                     <th>N°Orden</th>
                                     <th>Operador</th>
                                     <th>Rut Cliente</th>
-                                    <th>Fecha Compromiso</th>
+                                    <th>Compromiso</th>
                                     <th>Bloque</th>
                                     <th>Motivo</th>
+                                    <th>Reag.</th>
                                     <th>Comuna</th>
                                     <th>Actividad</th>
                                     <th>Resultado</th>
@@ -62,6 +72,7 @@
                                         <td>{{ t.fecha_compromiso }}</td>
                                         <td>{{ t.bloque }}</td>
                                         <td>{{ t.motivo }}</td>
+                                        <td>{{ t.reagendamiento }}</td>
                                         <td>{{ t.comuna }}</td>
                                         <td>{{ t.actividad }}</td>
                                         <td>{{ t.desc_resultado }}</td>

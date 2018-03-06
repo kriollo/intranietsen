@@ -57,6 +57,9 @@ function cargarrecom(modcomuna) {
 function cargarreres(modresultado) {
     document.formreorden.reresultado.value = modresultado;
 }
+function cargarreag(reag) {
+    $('#reagendamiento').val(reag);
+}
 // CONFIRMACION JS HECTORELFATHER---------------------------------------------------------------
 function execute_accion_confirmacion(method,api_rest,formulario,accion,accion_redirect){
   switch(api_rest) {
@@ -221,7 +224,10 @@ $('#modbtningresar').click(function(e){
 
 function revisar_por_fecha(){
     var formData = new FormData();
-    formData.append('fecha',document.getElementById('revhasta').value);
+
+    formData.append('fecha_desde',document.getElementById('revdesde').value);
+    formData.append('fecha_hasta',document.getElementById('revhasta').value);
+    formData.append('filtropor',document.getElementById('registro').checked? 1:0);
     $.ajax({
         type: "POST",
         url: "api/confirma_lista_por_fecha",
@@ -237,6 +243,8 @@ function revisar_por_fecha(){
                 request.done(function (resultado) {
                     table.rows.add(resultado.aaData).draw();
                 });
+            }else{
+                $.alert(data.message);
             }
         },
         error : function(xhr, status) {
@@ -245,9 +253,11 @@ function revisar_por_fecha(){
     });
 }
 $('#btn_exporta_excel_ordenes').click(function(e) {
-    var fecha=document.getElementById('revhasta').value;
+    var fecha_desde=document.getElementById('revdesde').value;
+    var fecha_hasta=document.getElementById('revhasta').value;
+    var filtropor=document.getElementById('registro').checked? 1:0;
 
-    location.href = 'confirmacion/exporta_excel_ordenes?fecha='+fecha;
+    location.href = 'confirmacion/exporta_excel_ordenes?fecha_desde='+fecha_desde+'&fecha_hasta='+fecha_hasta+'&filtropor='+filtropor ;
 });
 
 $('#textidorden').focusout(function (event) {
@@ -288,7 +298,6 @@ $('#textidorden').focusout(function (event) {
                         },
                     });
                 } else if (data.success == 2) {
-
                     $.alert(data.message);
                     setTimeout(function(){
                         location.reload();
@@ -447,7 +456,7 @@ function historico(norden) {
                 $.confirm({
                     escapeKey: 'formSubmit',
                     icon: 'glyphicon glyphicon-list-alt',
-                    columnClass: 'col-md-12',
+                    columnClass: 'col-lg-12',
                     title: 'Historial de OT',
                     content: data.html,
                     type: 'blue',

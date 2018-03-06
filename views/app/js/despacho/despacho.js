@@ -124,7 +124,17 @@
             data : formData,
             success: function (data) {
                 if (data.success == 1) {
-                    $.alert(data.msg)
+                    $.alert({
+                        type: 'green',
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Asignacion:',
+                        content: '<h4 class="text-center">'+data.msg+'</h4>',
+                        autoClose: 'Ok|1000',
+                         buttons: {
+                             Ok: function () {
+                             }
+                         }
+                    })
                     actualizar_tabla_ordenes(idusuario,'*','sin_asignar');
                 }
                 else {

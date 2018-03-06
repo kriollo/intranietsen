@@ -356,7 +356,7 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-    // --------------------------------------------------------------------------MODELO HECTORELFATHER
+
     public function carga_comunas(){
         return $this->db->query_select("select * from tblcomuna where estado='1' order by nombre");
     }
@@ -375,235 +375,7 @@ class Mdlconfirmacion extends Models implements IModels {
     public function carga_tipoorden(){
         return $this->db->query_select("select * from tbltipoorden where estado='1'");
     }
-    public function listar_ordenes($fecha,$idusuario){
-        $sql_filtro="";
-        if ($idusuario!="")
-        {
-            $sql_filtro=" and u.id_user='$idusuario'";
-        }
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion,c.territorio from ((tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user) inner join tblcomuna c on c.nombre=o.comuna where o.fecha_dia='$fecha' $sql_filtro  order by o.id_orden");
-    }
-    public function ingresar_orden(){
-        global $http;
 
-        $orden=str_replace(".",'',$http->request->get('textidorden'));
-
-        $operador=$http->request->get('textid');
-        $reg=$http->request->get('textreg');
-        $rutcliente=$http->request->get('textrutcliente');
-        $fechacompromiso=$http->request->get('textfecha');
-        $nodo=$http->request->get('textnodo');
-        $subnodo=$http->request->get('textsubnodo');
-        $bloque=$http->request->get('textbloque');
-        $motivo=$http->request->get('textmotivo');
-        $comuna=$http->request->get('textcomuna');
-        $actividad=$http->request->get('textactividad');
-        $resultado=$http->request->get('textresultado');
-        $observacion=$http->request->get('textobservacion');
-        $tipoorden=$http->request->get('texttipoorden');
-        $fecha_dia=date('Y-m-d');
-
-        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
-            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
-        }
-
-        $consulta=$this->db->query_select("select n_orden from tblordenes where n_orden='$orden'");
-        if($consulta!=false){
-            return array('success' => 0, 'message' => 'No se puede ingresar ya que existe ese número de orden');
-        }
-
-        $datos=$this->db->query_select("select validate_rut('$rutcliente')");
-        if($datos[0][0]==0){
-            return array('success' => 0, 'message' => 'Rut no valido');
-        }
-
-        $prioridad = $this->getTipoOrdenById($tipoorden);
-
-        if(is_numeric($nodo) == false || is_numeric($subnodo) == false){
-            return array('success' => 0, 'message' => 'El nodo y subnodo deben ser numeros');
-        }
-
-        $this->db->insert('tblordenes', array(
-            'n_orden'=>$orden,
-            'operador'=> $operador,
-            'reg'=>$reg,
-            'rut_cliente'=>$rutcliente,
-            'fecha_compromiso'=>$fechacompromiso,
-            'bloque'=>$bloque,
-            'motivo'=>$motivo,
-            'nodo' => $nodo,
-            'subnodo' => $subnodo,
-            'comuna'=>$comuna,
-            'tipoorden'=>$tipoorden,
-            'actividad'=>$actividad,
-            'resultado'=>$resultado,
-            'observacion'=>$observacion,
-            'fecha_dia'=>$fecha_dia,
-            'prioridad' => $prioridad[0]['prioridad']
-        ));
-
-        $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
-        $this->db->insert('tblhistorico', array(
-            'id_orden' => $datos[0]['id_orden'],
-            'n_orden' => $orden,
-            'fecha' => date('Y-m-d'),
-            'accion' => 'INGRESO',
-            'observacion' => $observacion,
-            'id_user' => $operador,
-            'bloque' => $bloque,
-            'fecha_compromiso' => $fechacompromiso,
-            'resultado' => $resultado
-        ));
-
-        return array('success' => 1, 'message' => 'Orden ingresada');
-
-    }
-    public function reingresar_orden(){
-        global $http;
-
-
-
-        $orden=str_replace('.','',$http->request->get('reordenid'));
-        $id=$http->request->get('reordenid1');
-        $operador=$http->request->get('reid');
-        $rutcliente=$http->request->get('rerutcliente');
-        $fechacompromiso=$http->request->get('refecha');
-        $nodo=$http->request->get('renodo');
-        $subnodo=$http->request->get('resubnodo');
-        $bloque=$http->request->get('rebloque');
-        $motivo=$http->request->get('remotivo');
-        $comuna=$http->request->get('recomuna');
-        $actividad=$http->request->get('reactividad');
-        $resultado=$http->request->get('reresultado');
-        $observacion=$http->request->get('reobservacion');
-        $tipoorden=$http->request->get('retipoorden');
-        $fecha_dia=date('Y-m-d');
-
-        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
-            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
-        }
-
-        $datos=$this->db->query_select("select validate_rut('$rutcliente')");
-        if($datos[0][0]==0){
-            return array('success' => 0, 'message' => 'Rut no valido');
-        }
-
-        $prioridad = $this->getTipoOrdenById($tipoorden);
-
-        if(is_numeric($nodo) == false || is_numeric($subnodo) == false){
-            return array('success' => 0, 'message' => 'El nodo y subnodo deben ser numeros');
-        }
-        //$eliminar = $this->db->query("delete from tblordenes where id_orden='$id';");
-
-        $this->db->update('tblordenes', array(
-            'operador'=> $operador,
-            'rut_cliente'=>$rutcliente,
-            'fecha_compromiso'=>$fechacompromiso,
-            'bloque'=>$bloque,
-            'motivo'=>$motivo,
-            'nodo' => $nodo,
-            'subnodo' => $subnodo,
-            'comuna'=>$comuna,
-            'tipoorden'=>$tipoorden,
-            'actividad'=>$actividad,
-            'resultado'=>$resultado,
-            'observacion'=>$observacion,
-            'fecha_dia'=>$fecha_dia,
-            'prioridad' => $prioridad[0]['prioridad'],
-            'ubicacion' => 'CONFIRMACION',
-            'estado_orden' => '1',
-            'codigo_tecnico' => '0',
-            'id_usuario_despacho' => '0',
-        ),"id_orden='$id'");
-
-        $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
-        $this->db->insert('tblhistorico', array(
-            'id_orden' => $datos[0]['id_orden'],
-            'n_orden' => $orden,
-            'fecha' => date('Y-m-d'),
-            'accion' => 'REINGRESO',
-            'observacion' => $observacion,
-            'id_user' => $operador,
-            'bloque' => $bloque,
-            'fecha_compromiso' => $fechacompromiso,
-            'resultado' => $resultado
-        ));
-
-        return array('success' => 1, 'message' => 'Orden ingresada');
-
-    }
-    public function vermod(){
-        global $http,$config;
-        $desde=$http->query->get('btnmodificar');
-
-        return array('success' => 1, 'message' => 'btnmodificar');
-    }
-    public function get_orden_byId(int $id){
-        return $this->db->query_select("select tblordenes.*, users.name from
-        tblordenes inner join users on tblordenes.operador=users.id_user where id_orden ='$id' limit 1");
-    }
-    public function get_orden_bynorden(string $norden){
-        return $this->db->query_select("select tblordenes.*, users.name from
-        tblordenes inner join users on tblordenes.operador=users.id_user where n_orden ='$norden' limit 1");
-    }
-    public function modificar_la_orden(){
-        global $http;
-
-        $modorden=str_replace('.','',$http->request->get('textmodidorden'));
-        $modreg=$http->request->get('textmodreg');
-        $modrutcliente=$http->request->get('textmodrutcliente');
-        $modfechacompromiso=$http->request->get('textmodfecha');
-        $modbloque=$http->request->get('textmodbloque');
-        $modmotivo=$http->request->get('textmodmotivo');
-        $modcomuna=$http->request->get('textmodcomuna');
-        $modnodo=$http->request->get('textmodnodo');
-        $modsubnodo=$http->request->get('textmodsubnodo');
-        $modactividad=$http->request->get('textmodactividad');
-        $modresultado=$http->request->get('textmodresultado');
-        $modobservacion=$http->request->get('textmodobservacion');
-        $tipoorden=$http->request->get('textmodtipoorden');
-        $modfecha_dia=date('Y-m-d');
-        $idorden=$http->request->get('ordenid');
-        $operador=$http->request->get('textmodid');
-
-        if ($this->functions->e($modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
-            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
-        }else{
-        $datos=$this->db->query_select("select validate_rut('$modrutcliente')");
-        if($datos[0][0]==0){
-            return array('success' => 0, 'message' => 'Rut no valido');
-        }
-
-            $prioridad = $this->getTipoOrdenById($tipoorden);
-            $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
-            comuna='$modcomuna',nodo='$modnodo', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'  WHERE id_orden='$idorden'");
-
-            $this->db->insert('tblhistorico', array(
-                'id_orden' => $idorden,
-                'n_orden' => $modorden,
-                'fecha' => date('Y-m-d'),
-                'accion' => 'MODIFICACION',
-                'observacion' => $modobservacion,
-                'id_user' => $operador,
-                'bloque' => $modbloque,
-                'fecha_compromiso' => $modfechacompromiso,
-                'resultado' => $modresultado
-            ));
-
-
-            return array('success' => 1, 'message' => 'Datos Modificados');
-        }
-    }
-    public function eliminarorden($norden){
-        global $http,$config;
-
-        $this->db->query("delete from tblordenes where id_orden='$norden';");
-        $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
-        return array('success' => 1, 'message' => "Registro eliminado");
-
-    }
-    // --------------------------------------------------------------------------MODELO HECTORELFATHER
-    // --------------------------------------------------------------------------MODELO JJARA
     public function getTipoOrdenById(int $id, string $select = '*') {
         return $this->db->select($select,'tbltipoorden',"id_tipoorden='$id'",'LIMIT 1');
     }
@@ -739,167 +511,269 @@ class Mdlconfirmacion extends Models implements IModels {
     }
 
 
-    public function confirma_lista_por_fecha(){
-        global $http;
-        $fecha=$http->request->get('fecha');
-        $result=$this->listar_ordenes($fecha,'');
-
-        $usucompa=(new Model\Users)->getOwnerUser();
-
-        if ($result === false){
-            return array('success' => 0, 'message' => $fecha);
+    public function listar_ordenes($fecha_desde,$fecha_hasta,$idusuario,$filtropor){
+        $sql_filtro="";
+        if ($idusuario!="")
+        {
+            $sql_filtro=" and u.id_user='$idusuario'";
+        }
+        if($filtropor == '1'){
+            $sql_fecha_filtro=' o.fecha_dia between "'.$fecha_desde.'"  and "'.$fecha_hasta.'"';
         }else{
-            $json = array(
-            "aaData"=>array(
-            )
-            );
-            foreach ($result as $key => $value) {
-                $html = "<a data-toggle='tooltip' data-placement='top' id='historicoorden' name='historicoorden' title='Historico Orden' class='btn btn-primary btn-sm' onclick=\"historico('".$value['n_orden']."');\">
-                    <i class='glyphicon glyphicon-eye-open'></i>
-                </a>";
-                if ($value['ubicacion']=='CONFIRMACION'){
-                    $html.='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
-                        <i class="glyphicon glyphicon-edit"></i></a>
-                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="Eliminar_OT('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
-                    </a>';
-                }else{
-                    $html.='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" disabled >
-                        <i class="glyphicon glyphicon-edit"></i></a>
-                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" class="btn btn-danger btn-sm" disabled>                    <i class="glyphicon glyphicon-remove"></i>
-                    </a>';
-                }
-
-                $json['aaData'][] = array($value['n_orden'],$value['name'],$value['rut_cliente'],$value['fecha_compromiso'],$value['bloque'],$value['motivo'],$value['comuna'],$value['actividad'],$value['desc_resultado'],$value['observacion'], $html );
-            }
+            $sql_fecha_filtro=' o.fecha_compromiso between "'.$fecha_desde.'"  and "'.$fecha_hasta.'"';
         }
-        $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
-        $fh = fopen(API_INTERFACE . "views/app/temp/result_cons_".$usucompa['id_user'].".dbj", 'w');
-        fwrite($fh, $jsonencoded);
-        fclose($fh);
-        return array('success' => 1, 'message' => "result_cons_".$usucompa['id_user'].".dbj" );
+
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion,c.territorio,o.reagendamiento,cd.nombre cuadrante,fecha_dia_hora from (((tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user) inner join tblcomuna c on c.nombre=o.comuna) left join tblcuadrante cd on o.comuna=cd.cod_comuna and o.nodo=cd.nodo where ( $sql_fecha_filtro) $sql_filtro  order by o.id_orden");
     }
-    public function exporta_excel_ordenes() {
 
-        global $http,$config;
-        $fecha=$http->query->get('fecha');
+    // INGRESO - REINGRESO - MODIFICACION - ELIMINAR ORDEN
+    public function ingresar_orden(){
+        global $http;
 
-        $u=$this->listar_ordenes($fecha,'');
+        $orden=str_replace(".",'',$http->request->get('textidorden'));
 
-        if ( $u != false ){
+        $operador=$http->request->get('textid');
+        $reg=$http->request->get('textreg');
+        $rutcliente=$http->request->get('textrutcliente');
+        $fechacompromiso=$http->request->get('textfecha');
+        $nodo=$http->request->get('textnodo');
+        $subnodo=$http->request->get('textsubnodo');
+        $bloque=$http->request->get('textbloque');
+        $motivo=$http->request->get('textmotivo');
+        $comuna=$http->request->get('textcomuna');
+        $actividad=$http->request->get('textactividad');
+        $resultado=$http->request->get('textresultado');
+        $observacion=$http->request->get('textobservacion');
+        $tipoorden=$http->request->get('texttipoorden');
+        $reagendamiento=$http->request->get('reagendamiento');
+        $fecha_dia=date('Y-m-d');
 
-            $objPHPExcel = new PHPExcel();
-
-            //Informacion del excel
-            $objPHPExcel->getProperties() ->setCreator("Jorge Jara H.")
-                                          ->setLastModifiedBy("JJH")
-                                          ->setTitle("listado_ordenes_confirmacion");
-            //encabezado
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'NMRO_ORDEN');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'RUT_CLIENTE');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'FECHA_COMPROMISO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'BLOQUE');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'MOTIVO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'COD_COMUNA');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', 'NODO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', 'SUBNODO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', 'ACTIVIDAD');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', 'RESULTADO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', 'OBSERVACION');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'MOTIVO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', 'OPERADOR');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', 'FECHA_REGISTRO');
-            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', 'FECHA_REGISTRO');
-
-            $fila = 2;
-            foreach ($u as $value => $data) {
-
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['n_orden']);
-              $dif= 12 - strlen($data['rut_cliente']);
-              $rut = str_repeat('0',$dif).$data['rut_cliente'];
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $rut);
-
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['fecha_compromiso']);
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['bloque']);
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['motivo']);
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['comuna'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$fila, $data['nodo'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$fila, $data['subnodo'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$fila, $data['actividad'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$fila, $data['desc_resultado'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$fila, $data['observacion'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$fila, $data['motivo'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$fila, $data['name'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$fila, $data['fecha_dia'] );
-              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$fila, $data['territorio'] );
-
-              $fila++;
-            }
-
-            //autisize para las columna
-            foreach(range('A','O') as $columnID)
-            {
-                $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
-            }
-
-            $objPHPExcel->setActiveSheetIndex(0);
-
-            $objPHPExcel->getActiveSheet()->setTitle('listado_ordenes_confirmacion');
-
-            // Redirect output to a client’s web browser (Excel2007)
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="listado_ordenes_confirmacion.xlsx"');
-            header('Cache-Control: max-age=0');
-            // If you're serving to IE 9, then the following may be needed
-            header('Cache-Control: max-age=1');
-
-            // If you're serving to IE over SSL, then the following may be needed
-            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
-            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
-            header ('Pragma: public'); // HTTP/1.0
-
-            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-            $objWriter->save('php://output');
+        if ($this->functions->e($orden,$rutcliente,$reagendamiento,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
+            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }
-        else{
-            # Redireccionar a la página principal del controlador
-            $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
+
+        $consulta=$this->db->query_select("select n_orden from tblordenes where n_orden='$orden'");
+        if($consulta!=false){
+            return array('success' => 0, 'message' => 'No se puede ingresar ya que existe ese número de orden');
+        }
+
+        $datos=$this->db->query_select("select validate_rut('$rutcliente')");
+        if($datos[0][0]==0){
+            return array('success' => 0, 'message' => 'Rut no valido');
+        }
+
+        $prioridad = $this->getTipoOrdenById($tipoorden);
+
+        if(is_numeric($nodo) == false || is_numeric($subnodo) == false){
+            return array('success' => 0, 'message' => 'El nodo y subnodo deben ser numeros');
+        }
+
+        $this->db->insert('tblordenes', array(
+            'n_orden'=>$orden,
+            'operador'=> $operador,
+            'reg'=>$reg,
+            'rut_cliente'=>$rutcliente,
+            'fecha_compromiso'=>$fechacompromiso,
+            'bloque'=>$bloque,
+            'motivo'=>$motivo,
+            'reagendamiento' => $reagendamiento,
+            'nodo' => $nodo,
+            'subnodo' => $subnodo,
+            'comuna'=>$comuna,
+            'tipoorden'=>$tipoorden,
+            'actividad'=>$actividad,
+            'resultado'=>$resultado,
+            'observacion'=>$observacion,
+            'fecha_dia'=>$fecha_dia,
+            'prioridad' => $prioridad[0]['prioridad']
+        ));
+
+        $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
+        $this->db->insert('tblhistorico', array(
+            'id_orden' => $datos[0]['id_orden'],
+            'n_orden' => $orden,
+            'fecha' => date('Y-m-d'),
+            'accion' => 'INGRESO',
+            'observacion' => $observacion,
+            'id_user' => $operador,
+            'reagendamiento' => $reagendamiento,
+            'motivo_llamado' => $motivo,
+            'bloque' => $bloque,
+            'fecha_compromiso' => $fechacompromiso,
+            'resultado' => $resultado
+        ));
+
+        return array('success' => 1, 'message' => 'Orden ingresada');
+
+    }
+    public function reingresar_orden(){
+        global $http;
+
+
+
+        $orden=str_replace('.','',$http->request->get('reordenid'));
+        $id=$http->request->get('reordenid1');
+        $operador=$http->request->get('reid');
+        $rutcliente=$http->request->get('rerutcliente');
+        $fechacompromiso=$http->request->get('refecha');
+        $nodo=$http->request->get('renodo');
+        $subnodo=$http->request->get('resubnodo');
+        $bloque=$http->request->get('rebloque');
+        $motivo=$http->request->get('remotivo');
+        $comuna=$http->request->get('recomuna');
+        $actividad=$http->request->get('reactividad');
+        $resultado=$http->request->get('reresultado');
+        $observacion=$http->request->get('reobservacion');
+        $tipoorden=$http->request->get('retipoorden');
+        $reagendamiento=$http->request->get('reagendamiento');
+        $fecha_dia=date('Y-m-d');
+
+        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
+            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
+        }
+
+        $datos=$this->db->query_select("select validate_rut('$rutcliente')");
+        if($datos[0][0]==0){
+            return array('success' => 0, 'message' => 'Rut no valido');
+        }
+
+        $prioridad = $this->getTipoOrdenById($tipoorden);
+
+        if(is_numeric($nodo) == false || is_numeric($subnodo) == false){
+            return array('success' => 0, 'message' => 'El nodo y subnodo deben ser numeros');
+        }
+        //$eliminar = $this->db->query("delete from tblordenes where id_orden='$id';");
+
+        $this->db->update('tblordenes', array(
+            'operador'=> $operador,
+            'rut_cliente'=>$rutcliente,
+            'fecha_compromiso'=>$fechacompromiso,
+            'bloque'=>$bloque,
+            'motivo'=>$motivo,
+            'reagendamiento'=>$reagendamiento,
+            'nodo' => $nodo,
+            'subnodo' => $subnodo,
+            'comuna'=>$comuna,
+            'tipoorden'=>$tipoorden,
+            'actividad'=>$actividad,
+            'resultado'=>$resultado,
+            'observacion'=>$observacion,
+            'fecha_dia'=>$fecha_dia,
+            'prioridad' => $prioridad[0]['prioridad'],
+            'ubicacion' => 'CONFIRMACION',
+            'estado_orden' => '1',
+            'codigo_tecnico' => '0',
+            'id_usuario_despacho' => '0',
+        ),"id_orden='$id'");
+
+        $datos = $this->db->select('*','tblordenes',"n_orden='$orden'");
+        $this->db->insert('tblhistorico', array(
+            'id_orden' => $datos[0]['id_orden'],
+            'n_orden' => $orden,
+            'fecha' => date('Y-m-d'),
+            'accion' => 'REINGRESO',
+            'observacion' => $observacion,
+            'id_user' => $operador,
+            'bloque' => $bloque,
+            'motivo_llamado' => $motivo,
+            'reagendamiento'=>$reagendamiento,
+            'fecha_compromiso' => $fechacompromiso,
+            'resultado' => $resultado
+        ));
+
+        return array('success' => 1, 'message' => 'Orden ingresada');
+
+    }
+    public function modificar_la_orden(){
+        global $http;
+
+        $modorden=str_replace('.','',$http->request->get('textmodidorden'));
+        $modreg=$http->request->get('textmodreg');
+        $modrutcliente=$http->request->get('textmodrutcliente');
+        $modfechacompromiso=$http->request->get('textmodfecha');
+        $modbloque=$http->request->get('textmodbloque');
+        $modmotivo=$http->request->get('textmodmotivo');
+        $modcomuna=$http->request->get('textmodcomuna');
+        $modnodo=$http->request->get('textmodnodo');
+        $reagendamiento=$http->request->get('reagendamiento');
+        $modsubnodo=$http->request->get('textmodsubnodo');
+        $modactividad=$http->request->get('textmodactividad');
+        $modresultado=$http->request->get('textmodresultado');
+        $modobservacion=$http->request->get('textmodobservacion');
+        $tipoorden=$http->request->get('textmodtipoorden');
+        $modfecha_dia=date('Y-m-d');
+        $idorden=$http->request->get('ordenid');
+        $operador=$http->request->get('textmodid');
+
+        if ($this->functions->e($modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
+            return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
+        }else{
+        $datos=$this->db->query_select("select validate_rut('$modrutcliente')");
+        if($datos[0][0]==0){
+            return array('success' => 0, 'message' => 'Rut no valido');
+        }
+
+            $prioridad = $this->getTipoOrdenById($tipoorden);
+            $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
+            comuna='$modcomuna',nodo='$modnodo',reagendamiento='$reagendamiento', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'  WHERE id_orden='$idorden'");
+
+            $this->db->insert('tblhistorico', array(
+                'id_orden' => $idorden,
+                'n_orden' => $modorden,
+                'fecha' => date('Y-m-d'),
+                'accion' => 'MODIFICACION',
+                'observacion' => $modobservacion,
+                'reagendamiento' => $reagendamiento,
+                'motivo_llamado' => $modmotivo,
+                'id_user' => $operador,
+                'bloque' => $modbloque,
+                'fecha_compromiso' => $modfechacompromiso,
+                'resultado' => $modresultado
+            ));
+
+
+            return array('success' => 1, 'message' => 'Datos Modificados');
         }
     }
-    public function confirma_q_ordenes_gestionadas($desde,$hasta){
-        $result = $this->db->query_select("select count(*) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta'");
-        if (false != $result){
-            return $result[0]['cantidad'];
-        }else {
-            return array('0');
-        }
-    }
-    public function confirma_q_orden_x_estado_confirmacion($desde,$hasta){
-        return $this->db->query_select("select if(r.grupo = 0,'No Confirma','Confirma') Resultado,count(o.id_orden) cantidad from tblordenes o inner join tblresultado r on o.resultado=r.id_resultado where fecha_compromiso between '$desde' and '$hasta' group by r.grupo order by Resultado");
-    }
-    public function confirma_top_5_best_ejecutivo($desde,$hasta){
-        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from (tblordenes o inner join users u on o.operador=u.id_user) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad desc limit 5");
-    }
-    public function confirma_top_5_bad_ejecutivo($desde,$hasta){
-        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from (tblordenes o inner join users u on o.operador=u.id_user) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad asc limit 5");
-    }
-    public function confirma_resumen_x_comuna($desde,$hasta){
+    public function eliminarorden($norden){
+        global $config;
 
-        return $this->db->query_select("select o.comuna,b.requerido requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblcomuna b on o.comuna=b.nombre) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 ) where fecha_compromiso between '$desde' and '$hasta' group by o.comuna order by cantidad desc");
-    }
-    public function confirma_resumen_x_bloque($desde,$hasta){
+        $this->db->query("delete from tblordenes where id_orden='$norden';");
+        $this->db->query("delete from tblhistorico where id_orden='$norden';");
 
-        return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblbloque b on o.bloque=b.bloque) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1) where fecha_compromiso between '$desde' and '$hasta' group by o.bloque order by b.desde asc");
+        $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
+
+        return array('success' => 1, 'message' => "Registro eliminado");
     }
-    // ------------------------------------------------------------------------------------------------------
+
+    public function vermod(){
+        global $http;
+        $desde=$http->query->get('btnmodificar');
+
+        return array('success' => 1, 'message' => 'btnmodificar');
+    }
+
+    public function get_orden_byId(int $id){
+        return $this->db->query_select("select tblordenes.*, users.name from
+        tblordenes inner join users on tblordenes.operador=users.id_user where id_orden ='$id' limit 1");
+    }
+    public function get_orden_bynorden(string $norden){
+        return $this->db->query_select("select o.id_orden,o.ubicacion,u.name from
+        tblordenes o inner join users u on o.operador=u.id_user where o.n_orden ='$norden' limit 1");
+    }
+
     // REAGENDAMIENTO ORDEN
     public function confirmacion_buscar_norden(): array {
         try {
             global $http;
             #Obtener los datos $_POST
             $norden = str_replace(".",'',$http->request->get('orden'));
-            $comparacion = $this->get_orden_bynorden($norden);
 
+            if(strlen($norden) != 9){
+                return array('success' => 2, 'message' => 'Largo de numero de orden no valido ');
+            }
+
+            $comparacion = $this->get_orden_bynorden($norden);
             if ($comparacion == false ) {
                 return array('success' => 0, 'message' => 'No Existe');
             }else {
@@ -908,6 +782,7 @@ class Mdlconfirmacion extends Models implements IModels {
                 //$dato = $comparacion[0]['id_orden'];
                 $ubicacion = $comparacion[0]['ubicacion'];
                 $usuario = $comparacion[0]['name'];
+                $id_orden = $comparacion[0]['id_orden'];
                 //$fecha = date("Y-m-d");
 
                 $html="<label>Su orden se encuentra en ".$ubicacion."</label>
@@ -916,7 +791,7 @@ class Mdlconfirmacion extends Models implements IModels {
                 if ($ubicacion == 'DESPACHO') {
                     return array('success' => 2, 'message' => 'Orden ya Ingresada por: '.$usuario);
                 }else {
-                    return array('success' => 1, 'html' => $html, 'url' => 'confirmacion/reingresar_confirmacion/'.$norden );
+                    return array('success' => 1, 'html' => $html, 'url' => 'confirmacion/reingresar_confirmacion/'.$id_orden );
                 }
             }
         }catch (ModelsException $e) {
@@ -969,8 +844,10 @@ class Mdlconfirmacion extends Models implements IModels {
         h.accion,
         h.observacion,
         h.bloque,
+        h.motivo_llamado,
         h.fecha_compromiso,
         h.resultado,
+        h.reagendamiento,
         h.id_user,
         r.nombre,
         u.name
@@ -987,8 +864,10 @@ class Mdlconfirmacion extends Models implements IModels {
                     <tr>
                     <th>Fecha registro</th>
                     <th>Accion</th>
+                    <th>Reagendamientos</th>
                     <th>Observacion</th>
                     <th>Bloque</th>
+                    <th>Motivo llamado</th>
                     <th>Fecha compromiso</th>
                     <th>Resultado</th>
                     <th>Usuario</th>
@@ -1000,8 +879,10 @@ class Mdlconfirmacion extends Models implements IModels {
                      $html .= '
                   <td>'.$value['hora'].'</th>
                   <td>'.$value['accion'].'</th>
+                  <td>'.$value['reagendamiento'].'</th>
                   <td>'.$value['observacion'].'</th>
                   <td>'.$value['bloque'].'</th>
+                  <td>'.$value['motivo_llamado'].'</th>
                   <td>'.$value['fecha_compromiso'].'</th>
                   <td>'.$value['nombre'].'</th>
                   <td>'.$value['name'].'</th></tr>';
@@ -1034,7 +915,7 @@ class Mdlconfirmacion extends Models implements IModels {
         return array('success' => 1, 'html' => $html);
     }
 
-// REPORTERIA
+    // REPORTERIA
     function ObtenerBloqueActual(){
         $result= $this->db->query_select("select bloque from tblbloque where estado=1 and desde<=time(now()) and hasta>=time(now()) LIMIT 1");
         if ($result == false){
@@ -1063,6 +944,8 @@ class Mdlconfirmacion extends Models implements IModels {
         </thead>
         <tbody>";
         if($datos!=false){
+            $total_agendado = 0 ;
+            $total_requerido = 0 ;
             foreach ($datos as $key => $value) {
                 $html.="<tr>
                 <td><a onclick=\"verbloque('".$value['bloque']."')\">".$value['bloque']."</a></td>
@@ -1076,7 +959,23 @@ class Mdlconfirmacion extends Models implements IModels {
                 </div></td>";
                 $html.="<td>".$datos."%</td>
                 </tr>";
+                $total_agendado+=$value['cantidad'];
+                $total_requerido+=$value['requerido'];
             }
+            $html.="<tr>
+                    <td>TOTAL</td>
+                    <td>".$total_agendado."</td>
+                    <td>".$total_requerido."</td>
+                    <td>
+                        <div class='progress progress-xs'>
+                            <div class='progress-bar progress-bar-aqua' style='width: ".round(($total_agendado /$total_requerido * 100),1)."%' role='progressbar' aria-valuenow='".round(($total_agendado /$total_requerido * 100),1)."' aria-valuemin='0' aria-valuemax='".$total_requerido."'>
+                                <span class='sr-only'>".round(($total_agendado /$total_requerido * 100),1)."% </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>".round(($total_agendado /$total_requerido * 100),1)."%</td>
+                    </tr>";
+
             $html.="</tbody>
             </table>";
         }
@@ -1099,6 +998,8 @@ class Mdlconfirmacion extends Models implements IModels {
           </thead>
           <tbody>";
             if($posterior!=false){
+                $total_agendado = 0 ;
+                $total_requerido = 0 ;
                 foreach ($posterior as $key => $post) {
                   $html2.="<tr>
                   <td>".$post['bloque']."</td>
@@ -1112,7 +1013,22 @@ class Mdlconfirmacion extends Models implements IModels {
                       </div></td>";
                   $html2.="<td>".$datospos."%</td>
                   </tr>";
+                  $total_agendado+=$post['cantidad'];
+                  $total_requerido+=$post['requerido'];
                 }
+                $html2.="<tr>
+                        <td>TOTAL</td>
+                        <td>".$total_agendado."</td>
+                        <td>".$total_requerido."</td>
+                        <td>
+                            <div class='progress progress-xs'>
+                                <div class='progress-bar progress-bar-aqua' style='width: ".round(($total_agendado /$total_requerido * 100),1)."%' role='progressbar' aria-valuenow='".round(($total_agendado /$total_requerido * 100),1)."' aria-valuemin='0' aria-valuemax='".$total_requerido."'>
+                                    <span class='sr-only'>".round(($total_agendado /$total_requerido * 100),1)."% </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>".round(($total_agendado /$total_requerido * 100),1)."%</td>
+                        </tr>";
                 $html2.="</tbody>
                 </table>";
             }
@@ -1141,6 +1057,8 @@ class Mdlconfirmacion extends Models implements IModels {
                 <tbody>";
 
                 if($cantcomunas!=false){
+                    $total_agendado = 0 ;
+                    $total_requerido = 0 ;
                     foreach ($cantcomunas as $cant => $cantcomuna) {
                       $html.="<tr>
                         <td>".$cantcomuna['nombre']."</td>
@@ -1154,7 +1072,22 @@ class Mdlconfirmacion extends Models implements IModels {
                             </div></td>";
                         $html.="<td>".$consulta."%</td>
                         </tr>";
+                        $total_agendado+=$cantcomuna['cantidad'];
+                        $total_requerido+=$cantcomuna['requerido'];
                   }
+                  $html.="<tr>
+                          <td>TOTAL</td>
+                          <td>".$total_agendado."</td>
+                          <td>".$total_requerido."</td>
+                          <td>
+                              <div class='progress progress-xs'>
+                                  <div class='progress-bar progress-bar-aqua' style='width: ".round(($total_agendado /$total_requerido * 100),1)."%' role='progressbar' aria-valuenow='".round(($total_agendado /$total_requerido * 100),1)."' aria-valuemin='0' aria-valuemax='".$total_requerido."'>
+                                      <span class='sr-only'>".round(($total_agendado /$total_requerido * 100),1)."% </span>
+                                  </div>
+                              </div>
+                          </td>
+                          <td>".round(($total_agendado /$total_requerido * 100),1)."%</td>
+                          </tr>";
               }
             $html.="</tbody>
           </table>
@@ -1179,6 +1112,8 @@ class Mdlconfirmacion extends Models implements IModels {
                   </thead>
                   <tbody>";
                   if($posterior!=false){
+                      $total_agendado = 0 ;
+                      $total_requerido = 0 ;
                       foreach ($posterior as $po => $poste) {
                         $html2.="<tr>
                           <td>".$poste['nombre']."</td>
@@ -1192,7 +1127,22 @@ class Mdlconfirmacion extends Models implements IModels {
                               </div></td>";
                           $html2.="<td>".$consposte."%</td>
                           </tr>";
+                          $total_agendado+=$poste['cantidad'];
+                          $total_requerido+=$poste['requerido'];
                     }
+                    $html2.="<tr>
+                            <td>TOTAL</td>
+                            <td>".$total_agendado."</td>
+                            <td>".$total_requerido."</td>
+                            <td>
+                                <div class='progress progress-xs'>
+                                    <div class='progress-bar progress-bar-aqua' style='width: ".round(($total_agendado /$total_requerido * 100),1)."%' role='progressbar' aria-valuenow='".round(($total_agendado /$total_requerido * 100),1)."' aria-valuemin='0' aria-valuemax='".$total_requerido."'>
+                                        <span class='sr-only'>".round(($total_agendado /$total_requerido * 100),1)."% </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>".round(($total_agendado /$total_requerido * 100),1)."%</td>
+                            </tr>";
                 }
               $html2.="</tbody>
             </table>
@@ -1200,6 +1150,167 @@ class Mdlconfirmacion extends Models implements IModels {
         return array('success' => 1, 'html' => $html, 'html2'=> $html2);
     }
 
+    public function confirma_lista_por_fecha(){
+        global $http;
+        $fecha_desde=$http->request->get('fecha_desde');
+        $fecha_hasta=$http->request->get('fecha_hasta');
+        $filtropor=$http->request->get('filtropor');
+
+
+
+        $result=$this->listar_ordenes($fecha_desde,$fecha_hasta,'',$filtropor);
+
+
+        $usucompa=(new Model\Users)->getOwnerUser();
+
+        if ($result === false){
+            return array('success' => 0, 'message' => 'Para la fecha seleccionada no existen datos');
+        }else{
+            $json = array(
+            "aaData"=>array(
+            )
+            );
+            foreach ($result as $key => $value) {
+                $html = "<a data-toggle='tooltip' data-placement='top' id='historicoorden' name='historicoorden' title='Historico Orden' class='btn btn-primary btn-sm' onclick=\"historico('".$value['n_orden']."');\">
+                    <i class='glyphicon glyphicon-eye-open'></i>
+                </a>";
+                if ($value['ubicacion']=='CONFIRMACION'){
+                    $html.='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" href="confirmacion/editar_confirmacion/'.$value['id_orden'].'">
+                        <i class="glyphicon glyphicon-edit"></i></a>
+                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" onclick="Eliminar_OT('.$value['id_orden'].')" class="btn btn-danger btn-sm">                    <i class="glyphicon glyphicon-remove"></i>
+                    </a>';
+                }else{
+                    $html.='<a data-toggle="tooltip" data-placement="top" id="btnmodificar" name="btnmodificar" title="Modificar" class="btn btn-success btn-sm" disabled >
+                        <i class="glyphicon glyphicon-edit"></i></a>
+                        <a data-placement="top" name="btnlisteliminar" id="btnlisteliminar" title="Eliminar" class="btn btn-danger btn-sm" disabled>                    <i class="glyphicon glyphicon-remove"></i>
+                    </a>';
+                }
+
+                $json['aaData'][] = array($value['n_orden'],$value['name'],$value['rut_cliente'],$value['fecha_compromiso'],$value['bloque'],$value['motivo'],$value['reagendamiento'],$value['comuna'],$value['actividad'],$value['desc_resultado'],$value['observacion'], $html );
+            }
+        }
+        $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
+        $fh = fopen(API_INTERFACE . "views/app/temp/result_cons_".$usucompa['id_user'].".dbj", 'w');
+        fwrite($fh, $jsonencoded);
+        fclose($fh);
+        return array('success' => 1, 'message' => "result_cons_".$usucompa['id_user'].".dbj" );
+    }
+    public function exporta_excel_ordenes() {
+
+        global $http,$config;
+        $fecha_desde=$http->query->get('fecha_desde');
+        $fecha_hasta=$http->query->get('fecha_hasta');
+        $filtropor=$http->query->get('filtropor');
+
+        $u=$this->listar_ordenes($fecha_desde,$fecha_hasta,'',$filtropor);
+
+        if ( $u != false ){
+
+            $objPHPExcel = new PHPExcel();
+
+            //Informacion del excel
+            $objPHPExcel->getProperties() ->setCreator("Jorge Jara H.")
+                                          ->setLastModifiedBy("JJH")
+                                          ->setTitle("listado_ordenes_confirmacion");
+            //encabezado
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'NMRO_ORDEN');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'RUT_CLIENTE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'FECHA_COMPROMISO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'BLOQUE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'MOTIVO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'COD_COMUNA');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', 'NODO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', 'SUBNODO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', 'ACTIVIDAD');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', 'RESULTADO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', 'OBSERVACION');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'OPERADOR');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', 'FECHA_REGISTRO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', 'TERRITORIO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', 'REAGENDAMIENTOS');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', 'CUADRANTE');
+
+            $fila = 2;
+            foreach ($u as $value => $data) {
+
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['n_orden']);
+              $dif= 12 - strlen($data['rut_cliente']);
+              $rut = str_repeat('0',$dif).$data['rut_cliente'];
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $rut);
+
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['fecha_compromiso']);
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['bloque']);
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['motivo']);
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['comuna'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$fila, $data['nodo'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$fila, $data['subnodo'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$fila, $data['actividad'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$fila, $data['desc_resultado'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$fila, $data['observacion'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$fila, $data['name'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$fila, $data['fecha_dia_hora'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$fila, $data['territorio'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$fila, $data['reagendamiento'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$fila, $data['cuadrante'] );
+
+              $fila++;
+            }
+
+            //autisize para las columna
+            foreach(range('A','P') as $columnID)
+            {
+                $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+            }
+
+            $objPHPExcel->setActiveSheetIndex(0);
+
+            $objPHPExcel->getActiveSheet()->setTitle('listado_ordenes_confirmacion');
+
+            // Redirect output to a client’s web browser (Excel2007)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="listado_ordenes_confirmacion.xlsx"');
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+            $objWriter->save('php://output');
+        }
+        else{
+            # Redireccionar a la página principal del controlador
+            $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
+        }
+    }
+    public function confirma_q_ordenes_gestionadas($desde,$hasta){
+        $result = $this->db->query_select("select count(*) cantidad from tblordenes where fecha_dia between '$desde' and '$hasta'");
+        if (false != $result){
+            return $result[0]['cantidad'];
+        }else {
+            return array('0');
+        }
+    }
+    public function confirma_q_orden_x_estado_confirmacion($desde,$hasta){
+        return $this->db->query_select("select if(r.grupo = 0,'No Confirma','Confirma') Resultado,count(o.id_orden) cantidad from tblordenes o inner join tblresultado r on o.resultado=r.id_resultado where fecha_compromiso between '$desde' and '$hasta' group by r.grupo order by Resultado");
+    }
+    public function confirma_top_5_best_ejecutivo($desde,$hasta){
+        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from (tblordenes o inner join users u on o.operador=u.id_user) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad desc");
+    }
+    public function confirma_top_5_bad_ejecutivo($desde,$hasta){
+        return $this->db->query_select("select u.name,count(o.id_orden) cantidad from (tblordenes o inner join users u on o.operador=u.id_user) inner join tblresultado r on o.resultado=r.id_resultado and grupo=1 where fecha_dia between '$desde' and '$hasta' group by u.name order by cantidad asc limit 5");
+    }
+    public function confirma_resumen_x_comuna($desde,$hasta){
+        return $this->db->query_select("select o.comuna,b.requerido requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblresultado r on o.resultado=r.id_resultado and r.grupo=1) inner join tblcomuna b on o.comuna=b.nombre)  where fecha_compromiso between '$desde' and '$hasta' group by o.comuna order by cantidad desc");
+    }
+    public function confirma_resumen_x_bloque($desde,$hasta){
+
+        return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from ((tblordenes o  inner join tblresultado r on o.resultado=r.id_resultado and r.grupo=1) inner join tblbloque b on o.bloque=b.bloque) where fecha_compromiso between '$desde' and '$hasta' group by o.bloque order by b.desde asc");
+    }
 
     /**
     * __construct()

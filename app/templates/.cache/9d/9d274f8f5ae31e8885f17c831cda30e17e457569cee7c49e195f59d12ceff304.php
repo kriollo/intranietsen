@@ -1,14 +1,14 @@
 <?php
 
-/* confirmacion/motivocall/listar_motivocall.twig */
-class __TwigTemplate_1c7ac93652e50320eb3fd37caa9dadd9e8023c340a2c592e7629b3b1d8522e72 extends Twig_Template
+/* rrhh/tecnicos/listar_tecnicos.twig */
+class __TwigTemplate_ef3fac40d6cdd2c004a192fb84d4772633defb8125b787e05ccec96973e71be6 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
         parent::__construct($env);
 
         // line 1
-        $this->parent = $this->loadTemplate("portal/portal", "confirmacion/motivocall/listar_motivocall.twig", 1);
+        $this->parent = $this->loadTemplate("portal/portal", "rrhh/tecnicos/listar_tecnicos.twig", 1);
         $this->blocks = array(
             'appStylos' => array($this, 'block_appStylos'),
             'appBody' => array($this, 'block_appBody'),
@@ -40,12 +40,15 @@ class __TwigTemplate_1c7ac93652e50320eb3fd37caa9dadd9e8023c340a2c592e7629b3b1d85
         // line 6
         echo "    <section class=\"content-header\">
         <h1>
-            Confirmación
-            <small>Listado de Motivos de llamado</small>
-
-          <a class=\"btn btn-primary btn-social pull-right\" href=\"confirmacion/nuevo_motivocall\" title=\"Agregar\" data-toggle=\"tooltip\">
+            RRHH
+            <small>Listado de Tecnicos</small>
+          <a class=\"btn btn-primary btn-social pull-right\" href=\"rrhh/nuevo_tecnico\" title=\"Agregar\" data-toggle=\"tooltip\">
             <i class=\"fa fa-plus\"></i> Agregar
           </a>
+          <a class=\"btn btn-success btn-social pull-right\" href=\"rrhh/importar_tecnico\" title=\"Importar\" data-toggle=\"tooltip\">
+            <i class=\"fa fa-upload\"></i> Importar
+          </a>
+
         </h1>
     </section>
 
@@ -59,72 +62,92 @@ class __TwigTemplate_1c7ac93652e50320eb3fd37caa9dadd9e8023c340a2c592e7629b3b1d85
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Motivo de llamado</th>
+                  <th>Rut</th>
+                  <th>Nombres</th>
+                  <th>Telefono</th>
+                  <th>Codigo Tecnico</th>
+                  
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 ";
-        // line 32
+        // line 39
         $context["No"] = 1;
-        // line 33
+        // line 40
         echo "                ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["motivocall_db"] ?? null));
+        $context['_seq'] = twig_ensure_traversable(($context["tecnicos_db"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
-            if ((false != ($context["motivocall_db"] ?? null))) {
-                // line 34
+            if ((false != ($context["tecnicos_db"] ?? null))) {
+                // line 41
                 echo "                  <tr>
                     <td>";
-                // line 35
+                // line 42
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
                     <td>";
-                // line 36
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "motivo", array()), "html", null, true);
+                // line 43
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "rut", array()), "html", null, true);
                 echo "</td>
+                    <td>";
+                // line 44
+                echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre", array())), "html", null, true);
+                echo "</td>
+                    <td>";
+                // line 45
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "telefono", array()), "html", null, true);
+                echo "</td>
+                    <td>";
+                // line 46
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "codigo", array()), "html", null, true);
+                echo "</td>
+                    
+
                     <td class='center' width='80'>
-                      <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href=\"confirmacion/editar_motivocall/";
-                // line 38
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_motivo", array()), "html", null, true);
+                      <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href=\"rrhh/editar_tecnico/";
+                // line 50
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_tecnicos", array()), "html", null, true);
                 echo "\">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>
 
                       ";
-                // line 42
+                // line 54
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "estado", array()) == 0)) {
-                    // line 43
-                    echo "                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href=\"confirmacion/estado_motivocall/";
-                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_motivo", array()), "html", null, true);
+                    // line 55
+                    echo "                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href=\"rrhh/estado_tecnico/";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_tecnicos", array()), "html", null, true);
                     echo "\">
                           <i class='glyphicon glyphicon-off'></i>
                           </a>
+
                       ";
                 } else {
-                    // line 47
-                    echo "                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href=\"confirmacion/estado_motivocall/";
-                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_motivo", array()), "html", null, true);
+                    // line 60
+                    echo "                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href=\"rrhh/estado_tecnico/";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "id_tecnicos", array()), "html", null, true);
                     echo "\">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
+
                       ";
                 }
-                // line 51
+                // line 65
                 echo "
                     </td>
                   </tr>
                   ";
-                // line 54
+                // line 68
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 55
+                // line 69
                 echo "                ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 56
+        // line 70
         echo "              </tbody>
             </table>
             </div>
@@ -137,15 +160,15 @@ class __TwigTemplate_1c7ac93652e50320eb3fd37caa9dadd9e8023c340a2c592e7629b3b1d85
 ";
     }
 
-    // line 66
+    // line 80
     public function block_appScript($context, array $blocks = array())
     {
-        // line 67
+        // line 81
         echo "    <!-- DATA TABES SCRIPT -->
     <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
     <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
 
-    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
+    <script src=\"views/app/js/rrhh/tecnicos.js\"></script>
 
     <script>
      \$(\"#dataTables1\").dataTable({
@@ -174,7 +197,7 @@ class __TwigTemplate_1c7ac93652e50320eb3fd37caa9dadd9e8023c340a2c592e7629b3b1d85
 
     public function getTemplateName()
     {
-        return "confirmacion/motivocall/listar_motivocall.twig";
+        return "rrhh/tecnicos/listar_tecnicos.twig";
     }
 
     public function isTraitable()
@@ -184,11 +207,11 @@ class __TwigTemplate_1c7ac93652e50320eb3fd37caa9dadd9e8023c340a2c592e7629b3b1d85
 
     public function getDebugInfo()
     {
-        return array (  144 => 67,  141 => 66,  128 => 56,  121 => 55,  119 => 54,  114 => 51,  106 => 47,  98 => 43,  96 => 42,  89 => 38,  84 => 36,  80 => 35,  77 => 34,  71 => 33,  69 => 32,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  167 => 81,  164 => 80,  151 => 70,  144 => 69,  142 => 68,  137 => 65,  128 => 60,  119 => 55,  117 => 54,  110 => 50,  103 => 46,  99 => 45,  95 => 44,  91 => 43,  87 => 42,  84 => 41,  78 => 40,  76 => 39,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "confirmacion/motivocall/listar_motivocall.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\confirmacion\\motivocall\\listar_motivocall.twig");
+        return new Twig_Source("", "rrhh/tecnicos/listar_tecnicos.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\rrhh\\tecnicos\\listar_tecnicos.twig");
     }
 }

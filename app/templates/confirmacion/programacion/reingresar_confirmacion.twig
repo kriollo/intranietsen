@@ -65,30 +65,54 @@
                 </div>
             </div>
         </div>
-        <div id="modmotivo" name="modmotivo" class="row">
-          <div class="col-xs-12">
-            <div class="box">
-              <div class="box-header">
-                <h3 class="box-title">MOTIVO DEL LLAMADO</h3>
-              </div>
-              <div class="box-body">
-                {% for m in db_motivo if false != db_motivo %}
-                  {% if m.motivo == db_modorden.motivo %}
-                    <div class="col-xs-2" style="border: 1px solid white">
-                      <label><input type="radio" name="rbmodmotivo" id="{{m.motivo}}" onchange="cargarremot('{{m.motivo}}')" checked="checked">
-                      {{m.motivo}}</label>
+        <div id="reage" name="reage" class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">REAGENDAMIENTOS</h3>
                     </div>
-                  {% else %}
-                    <div class="col-xs-2" style="border: 1px solid white">
-                      <label><input type="radio" name="rbmodmotivo" id="{{m.motivo}}" onchange="cargarremot('{{m.motivo}}')">
-                      {{m.motivo}}</label>
+                    <div class="box-body">
+                    {% for i in 1..20 %}
+                        {% if i == db_modorden.reagendamiento %}
+                            <div class="col-xs-1" style="border: 1px solid white">
+                                <label><input type="radio" name="reag" id="reag-{{i}}" onchange="cargarreag('{{i}}')" checked>
+                                {{i}}</label>
+                            </div>
+                        {% else %}
+                            <div class="col-xs-1" style="border: 1px solid white">
+                                <label><input type="radio" name="reag" id="reag-{{i}}" onchange="cargarreag('{{i}}')">
+                                {{i}}</label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                     </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
+                </div>
             </div>
+        </div>
+    <div id="modmotivo" name="modmotivo" class="row">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">MOTIVO DEL LLAMADO</h3>
+          </div>
+          <div class="box-body">
+            {% for m in db_motivo if false != db_motivo %}
+              {% if m.motivo == db_modorden.motivo %}
+                <div class="col-xs-2" style="border: 1px solid white">
+                  <label><input type="radio" name="rbmodmotivo" id="{{m.motivo}}" onchange="cargarremot('{{m.motivo}}')" checked="checked">
+                  {{m.motivo}}</label>
+                </div>
+              {% else %}
+                <div class="col-xs-2" style="border: 1px solid white">
+                  <label><input type="radio" name="rbmodmotivo" id="{{m.motivo}}" onchange="cargarremot('{{m.motivo}}')">
+                  {{m.motivo}}</label>
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
+      </div>
+    </div>
     <div id="modcomuna" name="modcomuna" class="row">
       <div class="col-xs-12">
         <div class="box">
@@ -217,6 +241,7 @@
         <input type="hidden" name="reid" id="reid" value="{{ owner_user['id_user'] }}">
         <input type="hidden" name="reordenid" id="reordenid" value="{{ db_modorden.n_orden }}">
         <input type="hidden" name="reordenid1" id="reordenid1" value="{{ db_modorden.id_orden }}">
+        <input type="hidden" name="reagendamiento" id="reagendamiento" value="{{ db_modorden.reagendamiento }}">
       </div>
       </form>
     </section>

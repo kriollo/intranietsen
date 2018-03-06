@@ -57,6 +57,23 @@
                 </div>
             </div>
         </div>
+        <div id="reage" name="reage" class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">REAGENDAMIENTOS</h3>
+                    </div>
+                    <div class="box-body">
+                    {% for i in 1..20 %}
+                        <div class="col-xs-1" style="border: 1px solid white">
+                            <label><input type="radio" name="reag" id="reag-{{i}}" onchange="cargarreag('{{i}}')">
+                            {{i}}</label>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="motivocall" name="motivocall" class="row">
             <div class="col-xs-12">
                 <div class="box">
@@ -171,6 +188,7 @@
         <input type="hidden" name="textcomuna" id="textcomuna">
         <input type="hidden" name="textresultado" id="textresultado">
         <input type="hidden" name="texttipoorden" id="texttipoorden">
+        <input type="hidden" name="reagendamiento" id="reagendamiento">
         <input type="hidden" name="textid" id="textid" value="{{ owner_user['id_user'] }}">
     </form>
 </section>
