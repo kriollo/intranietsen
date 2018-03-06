@@ -1313,7 +1313,7 @@ class Mdlconfirmacion extends Models implements IModels {
     }
 
     public function calc_llamados($fecha){
-        return $this->db->query_select("select h.id_user, count(h.id_orden) as cantidad, users.name,(select count(h2.id_orden) from tblhistorico h2 where h2.id_user=h.id_user ) cantidad_total from (tblhistorico h inner join users on h.id_user=users.id_user) INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha='$fecha' and tblresultado.grupo='1' group by h.id_user");
+        return $this->db->query_select("select h.id_user, count(h.id_orden) as cantidad, users.name,(select count(h2.id_orden) from tblhistorico h2 where h2.id_user=h.id_user and fecha='$fecha' ) cantidad_total from (tblhistorico h inner join users on h.id_user=users.id_user) INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha='$fecha' and tblresultado.grupo='1' group by h.id_user");
     }
     public function getMetas(){
         $result= $this->db->query_select("select * from tblmetas where activo=1");
@@ -1323,7 +1323,7 @@ class Mdlconfirmacion extends Models implements IModels {
       global $http;
       $meta=$http->request->get('meta');
       $this->db->query("Update tblmetas set meta=$meta");
-      $datosmetas=$this->metas();
+      $datosmetas=$this->getMetas();
 
       $html="<table class='table table-bordered' id='tblprod' name='tblprod'>
            <thead>
@@ -1335,7 +1335,7 @@ class Mdlconfirmacion extends Models implements IModels {
            </thead>
 
            <tbody>";
-            foreach ($datosmetas as $key => $value) {
+
               $total=0;
               $total_confirmados=0;
               $cantllamados=$this->calc_llamados(date('Y-m-d'));
@@ -1361,7 +1361,7 @@ class Mdlconfirmacion extends Models implements IModels {
              <td>".$total_confirmados."</td>
            </tbody>
          </table>";
-    }
+    
         return array('success' => 1, 'html' => $html);
     }
 

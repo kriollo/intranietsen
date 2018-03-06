@@ -446,7 +446,7 @@ $app->post('/Mdlconfirmacion_obtener_bloque', function() use($app) {
 });
 $app->post('/Mdlconfirmacion_refrescardatos', function() use($app) {
     $e = new Model\Mdlconfirmacion;
-    return $app->json($e->refrescardatos());
+    return $app->json($e->refrescar_datos_produccion_ejecutivo_confirmacion());
 });
 $app->post('/Mdlconfirmacion_filtrar_fecha', function() use($app) {
     $e = new Model\Mdlconfirmacion;
