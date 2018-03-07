@@ -167,9 +167,11 @@ class Mdltecnicos extends Models implements IModels {
              $objReader = new PHPExcel_Reader_Excel2007();
              $objPHPExcel = $objReader->load($archivo);
 
-             $i=2;$count=0;
+             $i=2;
              $param=0;
              $id_tec="";
+             $cont=0;
+             $this->db->Update('tbltecnicos', array('estado' => '0'),"1=1");
              while($param==0){
                  try {
                     if ($objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue()!=NULL)
@@ -191,7 +193,8 @@ class Mdltecnicos extends Models implements IModels {
                             $this->db->Update('tbltecnicos', array(
                                'rut'=>$rut,
                                'nombre'=>$nombre,
-                               'telefono'=>$telefono
+                               'telefono'=>$telefono,
+                               'estado'=> '1'
                            ),"codigo ='$codigo'");
                         }
                         $cont=0;
@@ -199,13 +202,16 @@ class Mdltecnicos extends Models implements IModels {
                         $cont++;
                     }
                     if ($cont>10){$param=1;}
-
                     $i++;
                  } catch (\Exception $e) {
                     return array('success' => 0, 'message' => $e->getMessage() );
                  }
              }
-             return array('success' => 1, 'message' => "Datos cargados" );
+             if($i>2){
+                return array('success' => 1, 'message' => "Datos cargados exitosamente");
+             }else{
+                return array('success' => 0, 'message' => "Valla!!! algo salio mal!");
+             }
          }else{
              return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
          }

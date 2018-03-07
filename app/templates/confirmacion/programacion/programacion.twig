@@ -29,7 +29,7 @@
                                 <label>Rut Cliente:</label><input type="text" name="textrutcliente" id="textrutcliente" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                <label>Fecha Compromiso:</label><input type="date" name="textfecha" min="{{ "now"|date("Y-m-d") }}" id="textfecha" class="form-control" value="{{ "now"|date("Y-m-d") }}">
+                                <label>Fecha OT:</label><input type="date" name="fechaot" id="fechaot" class="form-control" value="{{ "now"|date("Y-m-d") }}">
                             </div>
                         </div>
 
@@ -53,6 +53,9 @@
                                 <font size="4">{{b.bloque}}</font></label>
                             </div>
                         {% endfor %}
+                         <div class="col-xs-4" style="border: 1px solid white">
+                               <label>Fecha Compromiso:</label><input type="date" name="textfecha" min="{{ "now"|date("Y-m-d") }}" id="textfecha" class="form-control" value="{{ "now"|date("Y-m-d") }}">
+                            </div>
                     </div>
                 </div>
             </div>

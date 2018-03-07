@@ -536,6 +536,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $reg=$http->request->get('textreg');
         $rutcliente=$http->request->get('textrutcliente');
         $fechacompromiso=$http->request->get('textfecha');
+        $fechaot=$http->request->get('fechaot');
         $nodo=$http->request->get('textnodo');
         $subnodo=$http->request->get('textsubnodo');
         $bloque=$http->request->get('textbloque');
@@ -548,7 +549,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $reagendamiento=$http->request->get('reagendamiento');
         $fecha_dia=date('Y-m-d');
 
-        if ($this->functions->e($orden,$rutcliente,$reagendamiento,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
+        if ($this->functions->e($fechaot,$orden,$rutcliente,$reagendamiento,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }
 
@@ -574,6 +575,7 @@ class Mdlconfirmacion extends Models implements IModels {
             'reg'=>$reg,
             'rut_cliente'=>$rutcliente,
             'fecha_compromiso'=>$fechacompromiso,
+            'fecha_ot'=>$fechaot,
             'bloque'=>$bloque,
             'motivo'=>$motivo,
             'reagendamiento' => $reagendamiento,
@@ -616,6 +618,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $operador=$http->request->get('reid');
         $rutcliente=$http->request->get('rerutcliente');
         $fechacompromiso=$http->request->get('refecha');
+        $fechaot=$http->request->get('fechaot');
         $nodo=$http->request->get('renodo');
         $subnodo=$http->request->get('resubnodo');
         $bloque=$http->request->get('rebloque');
@@ -628,7 +631,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $reagendamiento=$http->request->get('reagendamiento');
         $fecha_dia=date('Y-m-d');
 
-        if ($this->functions->e($orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
+        if ($this->functions->e($fechaot,$orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }
 
@@ -648,6 +651,7 @@ class Mdlconfirmacion extends Models implements IModels {
             'operador'=> $operador,
             'rut_cliente'=>$rutcliente,
             'fecha_compromiso'=>$fechacompromiso,
+            'fecha_ot'=>$fechaot,
             'bloque'=>$bloque,
             'motivo'=>$motivo,
             'reagendamiento'=>$reagendamiento,
@@ -691,6 +695,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $modreg=$http->request->get('textmodreg');
         $modrutcliente=$http->request->get('textmodrutcliente');
         $modfechacompromiso=$http->request->get('textmodfecha');
+        $fechaot=$http->request->get('fechaot');
         $modbloque=$http->request->get('textmodbloque');
         $modmotivo=$http->request->get('textmodmotivo');
         $modcomuna=$http->request->get('textmodcomuna');
@@ -705,7 +710,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $idorden=$http->request->get('ordenid');
         $operador=$http->request->get('textmodid');
 
-        if ($this->functions->e($modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
+        if ($this->functions->e( $fechaot,$modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }else{
         $datos=$this->db->query_select("select validate_rut('$modrutcliente')");
@@ -714,7 +719,7 @@ class Mdlconfirmacion extends Models implements IModels {
         }
 
             $prioridad = $this->getTipoOrdenById($tipoorden);
-            $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', bloque='$modbloque', motivo='$modmotivo',
+            $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', fecha_ot='$fechaot', bloque='$modbloque', motivo='$modmotivo',
             comuna='$modcomuna',nodo='$modnodo',reagendamiento='$reagendamiento', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'  WHERE id_orden='$idorden'");
 
             $this->db->insert('tblhistorico', array(
@@ -915,7 +920,8 @@ class Mdlconfirmacion extends Models implements IModels {
         return array('success' => 1, 'html' => $html);
     }
 
-    // REPORTERIA
+    // REPORTERIA---------------------------------------------------------------
+    //Reporte Ordenes Agendadas
     function ObtenerBloqueActual(){
         $result= $this->db->query_select("select bloque from tblbloque where estado=1 and desde<=time(now()) and hasta>=time(now()) LIMIT 1");
         if ($result == false){
@@ -1034,7 +1040,6 @@ class Mdlconfirmacion extends Models implements IModels {
             }
         return array('success' => 1, 'html' => $html, 'html2' => $html2);
     }
-
     function revisar_bloque(){
         global $http;
         $bloque=$http->request->get('bloque');
@@ -1308,18 +1313,19 @@ class Mdlconfirmacion extends Models implements IModels {
         return $this->db->query_select("select o.comuna,b.requerido requerido,count(o.id_orden) cantidad from ((tblordenes o inner join tblresultado r on o.resultado=r.id_resultado and r.grupo=1) inner join tblcomuna b on o.comuna=b.nombre)  where fecha_compromiso between '$desde' and '$hasta' group by o.comuna order by cantidad desc");
     }
     public function confirma_resumen_x_bloque($desde,$hasta){
-
         return $this->db->query_select("select o.bloque,b.limite_q_programacion requerido,count(o.id_orden) cantidad from ((tblordenes o  inner join tblresultado r on o.resultado=r.id_resultado and r.grupo=1) inner join tblbloque b on o.bloque=b.bloque) where fecha_compromiso between '$desde' and '$hasta' group by o.bloque order by b.desde asc");
     }
 
+    // Reporte Productividad Ejecutivo
     public function calc_llamados($fecha){
         $fecha2=strtotime($fecha);
         $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
         $sql="select h.id_user,u.name,count(*) acum_total_sinconf,
         (select count(h2.id_user) from tblhistorico h2 INNER join tblresultado r2 on h2.resultado=r2.id_resultado and r2.grupo=1 where h2.id_user=h.id_user and h2.fecha between '$fecha3' and '$fecha' ) acum_total_conf,
         (select count(h3.id_user) from tblhistorico h3 INNER join tblresultado r3 on h3.resultado=r3.id_resultado and r3.grupo=1 where h3.id_user=h.id_user and h3.fecha = '$fecha') acum_hoy_conf,
-        (select count(h4.id_user) from tblhistorico h4 where h4.id_user=h.id_user and h4.fecha = '$fecha') acum_hoy_total
-        from tblhistorico h inner join users u on h.id_user=u.id_user where h.fecha between '$fecha3' and '$fecha'
+        (select count(h4.id_user) from tblhistorico h4 where h4.id_user=h.id_user and h4.fecha = '$fecha') acum_hoy_total,
+        (select count(vdt.fecha) cuenta from view_dias_trabajados vdt where vdt.id_user=h.id_user and vdt.fecha<='$fecha' group by vdt.id_user) dias_trab
+        from tblhistorico h inner join users u on h.id_user=u.id_user where (accion='INGRESO' or accion='REINGRESO' or accion='MODIFICACION') and h.fecha between '$fecha3' and '$fecha'
         group by h.id_user
         order by acum_total_sinconf desc";
 
@@ -1329,15 +1335,6 @@ class Mdlconfirmacion extends Models implements IModels {
     public function getMetas(){
         $result= $this->db->query_select("select * from tblmetas where activo=1");
         return $result[0]['meta'];
-    }
-    public function getCantidadDiasTrabajados($iduser,$fecha){
-
-        $result= $this->db->query_select('select count(*) from (select fecha,count(*) from tblhistorico h5  where h5.id_user="'.$iduser.'" and h5.fecha<="'.$fecha.'" group by h5.fecha) cuenta');
-        if (false != $result){
-            return $result[0][0];
-        }else {
-                return '0';
-        }
     }
     public function refrescar_datos_produccion_ejecutivo_confirmacion(){
       global $http;
@@ -1372,10 +1369,9 @@ class Mdlconfirmacion extends Models implements IModels {
               $total_confirmados=0;
               $cantllamados=$this->calc_llamados($fecha);
               foreach ($cantllamados as $key2 => $value2) {
-                  $diastrab=$this->getCantidadDiasTrabajados($value2['id_user'],$fecha);
-              $html.="<tr>
+                $html.="<tr>
                      <td>".$value2['name']."</td>
-                     <td>".$diastrab."</td>
+                     <td>".$value2['dias_trab']."</td>
                      <td>".$value2['acum_hoy_total']."</td>
                      <td>".$value2['acum_hoy_conf']."</td>";
                      $datores=round(($value2['acum_hoy_conf'] / $meta * 100),1);
@@ -1387,14 +1383,14 @@ class Mdlconfirmacion extends Models implements IModels {
                      <td>".$datores."%</td>";
                      $total=$total + $value2['acum_hoy_total'];
                     $total_confirmados=$total_confirmados + $value2['acum_hoy_conf'];
-                    $promdia=round(($value2['acum_total_conf'] / $diastrab),1);
+                    $promdia=round(($value2['acum_total_conf'] / $value2['dias_trab']),1);
                     $html.="<td>".$value2['acum_total_sinconf']."</td>
                             <td>".$value2['acum_total_conf']."</td>
                             <td>".$promdia."</td>";
 
                 $html.="<tr>";
               }
-             $html.="<td colspan='2'>TOTAL:</td>
+              $html.="<td colspan='2'>TOTAL:</td>
              <td>".$total."</td>
              <td>".$total_confirmados."</td>
            </tbody>
@@ -1402,7 +1398,6 @@ class Mdlconfirmacion extends Models implements IModels {
 
         return array('success' => 1, 'html' => $html);
     }
-
     public function cargar_grafico_llamadas(){
         global $http;
         $fecha = $http->request->get('fecha');
@@ -1410,7 +1405,7 @@ class Mdlconfirmacion extends Models implements IModels {
         $result = $this->calc_llamados($fecha);
         unset($pend_valores_test);
         foreach ($result as $key => $value) {
-            $pend_valores_test[]=array("x" => $value['name'], "y" =>$value['acum_hoy_conf'],"z" => $value['acum_hoy_total']);
+            $pend_valores_test[]=array("x" => $value['name'], "y" =>$value['acum_hoy_conf'],"z" => $value['acum_hoy_total'],"a" => $value['acum_total_conf'],"b" => $value['acum_total_sinconf']);
         }
         if (isset($pend_valores_test)){
             return $pend_valores_test;

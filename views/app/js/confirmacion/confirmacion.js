@@ -548,6 +548,7 @@ function verbloque(bloque){
         actualiza_datos_meta_y_tabla();
     });
     function actualiza_datos_meta_y_tabla(){
+        $("#cargandoooo").html($("#cargador").html());
         var forms = new FormData();
         forms.append('meta',document.getElementById('txtmeta').value)
         forms.append('fecha',$('input[name=fecha]').val());
@@ -561,11 +562,14 @@ function verbloque(bloque){
                 if(data.success==1){
                     $('#tbldatos').html(data.html);
                 }
+                $("#cargandoooo").html("");
             },
             error : function(xhr, status) {
                 msg_box_alert(99,'title',xhr.responseText);
+                $("#cargandoooo").html("");
             }
         });
+
     }
 function revisar_por_fecha_reporte_produccion(){
  var desde=document.getElementById('textdesde').value;

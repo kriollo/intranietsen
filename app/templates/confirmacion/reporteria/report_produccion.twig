@@ -18,6 +18,7 @@
                         <h3 class="box-title">Total Llamados</h3>
                         <label>Seleccione Fecha:
                         <input type="date" class="form-control" name="fecha" id="fecha" value="{{ "now"|date("Y-m-d") }}" onchange="actualiza_datos_meta_y_tabla();carga_grafico_mensual_pendientes();">
+                        <div id="cargandoooo" name="cargandoooo"></div>
                         </label>
                     </div>
                     <div class="box-body" id="tbldatos" name="tbldatos">
@@ -45,7 +46,7 @@
                          {% for l in llamados if false != llamados %}
                              <tr>
                                  <td >{{ l.name }}</td>
-                                 <td></td>
+                                 <td>{{ l.dias_trab }}</td>
                                  <td>{{l.acum_hoy_total}}</td>
                                  <td>{{l.acum_hoy_conf}}</td>
                                  <td class="col-lg-2"><div class="progress progress-xs">
@@ -59,10 +60,14 @@
 
                                  <td>{{ l.acum_total_sinconf }}</td>
                                  <td>{{ l.acum_total_conf }}</td>
-                                 <td>{{ l.acum_total_conf }}</td>
+                                 {% if l.dias_trab == 0  %}
+                                    <td>0</td>
+                                 {% else %}
+                                    <td>{{ (( l.acum_total_conf / l.dias_trab )) | round(1, 'ceil') }}</td>
+                                 {% endif %}
                              <tr>
                          {% endfor %}
-                         <td>TOTAL:</td>
+                         <td colspan='2'>TOTAL:</td>
                          <td>{{total}}</td>
                          <td>{{total_confirmados}}</td>
                         </tbody>
@@ -88,12 +93,23 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Grafica</h3>
+                    </div>
+                    <div class="box-body" id="grafico_llamados_confirmadas_total">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     {% endblock %}
     {% block appScript %}
       <script src="views/app/js/confirmacion/confirmacion.js"></script>
-      <script src="http://code.highcharts.com/stock/highstock.js"></script>
-      <script src="http://code.highcharts.com/modules/exporting.js"></script>
+      <script src="views/app/template/highcharts/highstock.js"></script>
+      <script src="views/app/template/highcharts/exporting.js"></script>
 
         <script>
             $(document).ready(function() {
@@ -110,18 +126,20 @@
                     processData:false,
                     data : formData,
                     success : function(data){
-                        var serie= []; var valor= []; var valor_total= [];
+                        var serie= []; var valor= []; var valor_total= []; var valor_total_conf_acum= []; var valor_total_sinconf_acum= [];
                         $.each(data, function(i,o){
                             serie.push(String(o.x));
                             valor.push(parseFloat(o.y));
                             valor_total.push(parseFloat(o.z));
+                            valor_total_conf_acum.push(parseFloat(o.a));
+                            valor_total_sinconf_acum.push(parseFloat(o.b));
                         });
 
                         var grafico_reag= $('#grafico_llamados_confirmadas').highcharts({
                             chart:{
                                 type: 'column',
                                 animation: Highcharts.svg,
-                                width: 1200,
+
                                 height: 300
                             },
                             title:{text: 'Ordenes Confirmadas'},
@@ -163,6 +181,53 @@
                                 }
                             },
                             series: [{ name: 'Confirmados', data:valor},{name: "Total Llamados" , data:valor_total}]
+                        });
+
+                        var grafico_reag= $('#grafico_llamados_confirmadas_total').highcharts({
+                            chart:{
+                                type: 'column',
+                                animation: Highcharts.svg,
+                                height: 300
+                            },
+                            title:{text: 'Ordenes Confirmadas Acumulado'},
+                            xAxis:{categories: serie},
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Total Llamados'
+                                },
+                                stackLabels: {
+                                    enabled: true,
+                                    style: {
+                                        fontWeight: 'bold',
+                                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                    }
+                                }
+                            },
+                            legend: { align: 'right',
+                                    x: -30,
+                                    verticalAlign: 'top',
+                                    y: 25,
+                                    floating: true,
+                                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                    borderColor: '#CCC',
+                                    borderWidth: 1,
+                                    shadow: false },
+                            exporting: { enabled: true },
+                            tooltip: {
+                                headerFormat: '<b>{point.x}</b><br/>',
+                                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal',
+                                    dataLabels: {
+                                        enabled: true,
+                                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                                    }
+                                }
+                            },
+                            series: [{ name: 'Confirmados', data:valor_total_conf_acum},{name: "Total Llamados" , data:valor_total_sinconf_acum}]
                         });
                     },
                     error : function(xhr, status) {

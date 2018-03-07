@@ -160,30 +160,30 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                 echo "</td>
                                         <td>";
                 // line 93
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad_total", array()), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_total", array()), "html", null, true);
                 echo "</td>
                                         <td>";
                 // line 94
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_conf", array()), "html", null, true);
                 echo "</td>
                                         <td class=\"col-lg-1\"><div class=\"progress progress-xs\">
                                                 <div class=\"progress-bar progress-bar-aqua\" style=\"width: ";
                 // line 96
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_conf", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
                 echo "%\" role=\"progressbar\" aria-valuenow=\"";
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_conf", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
                 echo "\" aria-valuemin=\"0\" aria-valuemax=\"";
                 echo twig_escape_filter($this->env, ($context["metas"] ?? null), "html", null, true);
                 echo "\">
                                                     <span class=\"sr-only\">";
                 // line 97
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_conf", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
                 echo "% </span>
                                                 </div>
                                             </div></td>
                                         <td>";
                 // line 100
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
+                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_conf", array()) / ($context["metas"] ?? null)) * 100), 1, "ceil"), "html", null, true);
                 echo "%</td>
                                     </tr>
                                     ";
@@ -194,7 +194,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                 $context["total"] = (($context["total"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad_total", array()));
                 // line 104
                 echo "                                    ";
-                $context["total_confirmados"] = (($context["total_confirmados"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()));
+                $context["total_confirmados"] = (($context["total_confirmados"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "acum_hoy_conf", array()));
                 // line 105
                 echo "                                ";
             }
@@ -228,7 +228,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                         <table class=\"table table-bordered\">
                             <thead>
                                 <th>No</th>
-                                <th>Comuna</th>
+                                <th>Bloque</th>
                                 <th>Confirmado</th>
                                 <th>Requerido</th>
                                 <th colspan=\"2\">%</th>
