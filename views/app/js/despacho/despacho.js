@@ -124,17 +124,17 @@
             data : formData,
             success: function (data) {
                 if (data.success == 1) {
-                    $.alert({
-                        type: 'green',
-                        icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Asignacion:',
-                        content: '<h4 class="text-center">'+data.msg+'</h4>',
-                        autoClose: 'Ok|1000',
-                         buttons: {
-                             Ok: function () {
-                             }
-                         }
-                    })
+                    // $.alert({
+                    //     type: 'green',
+                    //     icon: 'glyphicon glyphicon-warning-sign',
+                    //     title: 'Asignacion:',
+                    //     content: '<h4 class="text-center">'+data.msg+'</h4>',
+                    //     autoClose: 'Ok|1000',
+                    //      buttons: {
+                    //          Ok: function () {
+                    //          }
+                    //      }
+                    // })
                     actualizar_tabla_ordenes(idusuario,'*','sin_asignar');
                 }
                 else {
@@ -258,6 +258,7 @@
                                             success : function(json) {
                                                 if(json.success==1){
                                                     msg_box_alert(json.success,'Orden',json.message);
+
                                                     carga_ordenes_comuna_seguimiento();
                                                 }else{
                                                     msg_box_alert(json.success,'Orden',json.message);

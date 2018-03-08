@@ -299,14 +299,15 @@ class confirmacionController extends Controllers implements IControllers {
                 echo $this->template->render('confirmacion/reporteria/report_produccion', array(
                    'menu_op' => $op,
                    'metas'=>(new Model\Mdlconfirmacion)->getMetas(),
-                   'fecha_desde' => $fecha3,
-                   'llamados'=>(new Model\Mdlconfirmacion)->calc_llamados(date('Y-m-d')),
+                   'fecha_desde' => $fecha3
                 ));
             break;
             case 'report_confirmados':
+                $fecha2=strtotime(date('Y-m-d'));
+                $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
                 echo $this->template->render('confirmacion/reporteria/report_confirmados', array(
                    'menu_op' => $op,
-                   'cant_llamados'=>(new Model\Mdlconfirmacion)->medir_cant_llamados(date('Y-m-d'),date('Y-m-d'))
+                   'fecha_desde' => $fecha3
                 ));
             break;
             // ------------------------------------------------------------------------------------------------------------------------------------------

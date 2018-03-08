@@ -561,6 +561,137 @@ function verbloque(bloque){
             success : function(data) {
                 if(data.success==1){
                     $('#tbldatos').html(data.html);
+
+                    var serie= []; var valor= []; var valor_total= []; var valor_total_conf_acum= []; var valor_total_sinconf_acum= [];
+                    $.each(data.data, function(i,o){
+                        serie.push(String(o.x));
+                        valor.push(parseFloat(o.y));
+                        valor_total.push(parseFloat(o.z));
+                        valor_total_conf_acum.push(parseFloat(o.a));
+                        valor_total_sinconf_acum.push(parseFloat(o.b));
+                    });
+
+                    var grafico_reag= $('#grafico_llamados_confirmadas').highcharts({
+                        chart:{
+                            type: 'column',
+                            animation: Highcharts.svg,
+                        },
+                        title:{text: 'Llamadas Confirmadas'},
+                        xAxis:{categories: serie},
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Total Llamados'
+                            },
+                            stackLabels: {
+                                enabled: true,
+                                style: {
+                                    fontWeight: 'bold',
+                                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                }
+                            }
+                        },
+                        legend: { align: 'right',
+                                x: -30,
+                                verticalAlign: 'top',
+                                y: 25,
+                                floating: true,
+                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                borderColor: '#CCC',
+                                borderWidth: 1,
+                                shadow: false },
+                        exporting: { enabled: true },
+                        tooltip: {
+                            headerFormat: '<b>{point.x}</b><br/>',
+                            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                                }
+                            }
+                        },
+                        series: [{ name: 'Confirmadas', data:valor},{name: "Total Llamados" , data:valor_total}],
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+                    var grafico_reag= $('#grafico_llamados_confirmadas_total').highcharts({
+                        chart:{
+                            type: 'column',
+                            animation: Highcharts.svg,
+                        },
+                        title:{text: 'Gestiones Confirmadas Acumulado'},
+                        xAxis:{categories: serie},
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Total Llamados'
+                            },
+                            stackLabels: {
+                                enabled: true,
+                                style: {
+                                    fontWeight: 'bold',
+                                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                }
+                            }
+                        },
+                        legend: { align: 'right',
+                                x: -30,
+                                verticalAlign: 'top',
+                                y: 25,
+                                floating: true,
+                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                borderColor: '#CCC',
+                                borderWidth: 1,
+                                shadow: false },
+                        exporting: { enabled: true },
+                        tooltip: {
+                            headerFormat: '<b>{point.x}</b><br/>',
+                            pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                                }
+                            }
+                        },
+                        series: [{ name: 'Confirmadas', data:valor_total_conf_acum},{name: "Total Llamados" , data:valor_total_sinconf_acum}],
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }]
+                        }
+                    });
+
+
                 }
                 $("#cargandoooo").html("");
             },
@@ -571,33 +702,98 @@ function verbloque(bloque){
         });
 
     }
-function revisar_por_fecha_reporte_produccion(){
- var desde=document.getElementById('textdesde').value;
- var hasta=document.getElementById('texthasta').value;
+    function revisar_por_fecha_reporte_produccion(){
+        var desde=document.getElementById('textdesde').value;
+        var hasta=document.getElementById('texthasta').value;
 
- if(desde>hasta){
-     $.alert("Las fechas ingresadas son erroneas");
- }else{
-   var formd = new FormData();
-   formd.append('desde',desde);
-   formd.append('hasta',hasta);
-   $.ajax({
-     type : 'POST',
-     url : 'api/Mdlconfirmacion_filtrar_fecha',
-     contentType: false,
-     processData: false,
-     data: formd,
-     success : function(data) {
-         if(data.success==1){
-             $('#tblfiltro').html(data.html);
+        if(desde>hasta){
+            $.alert("Las fechas ingresadas son erroneas");
+        }else{
+            var formd = new FormData();
+            formd.append('desde',desde);
+            formd.append('hasta',hasta);
+            $.ajax({
+                type : 'POST',
+                url : 'api/Mdlconfirmacion_filtrar_fecha',
+                contentType: false,
+                processData: false,
+                data: formd,
+                success : function(data) {
+                    if(data.success==1){
+                        $('#tblfiltro').html(data.html);
+                        var serie= []; var valor= []; var total=[];
+                        $.each(data.json, function(i,o){
+                            serie.push(String(o.x));
+                            valor.push(parseFloat(o.y));
+                            total.push(parseFloat(o.z));
+                        });
 
-         }
-     },
-     error : function(xhr, status) {
-       msg_box_alert(99,'title',xhr.responseText);
-     }
-   });
- }
-}
+                        var grafico_reag= $('#tblgraficos').highcharts({
+                            chart:{
+                                type: 'column',
+                                animation: Highcharts.svg,
+                            },
+                            title:{text: 'Gestiones Confirmadas diario'},
+                            xAxis:{categories: serie},
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Total Llamados'
+                                },
+                                stackLabels: {
+                                    enabled: true,
+                                    style: {
+                                        fontWeight: 'bold',
+                                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                                    }
+                                }
+                            },
+                            legend: { align: 'right',
+                                    x: -30,
+                                    verticalAlign: 'top',
+                                    y: 25,
+                                    floating: true,
+                                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                    borderColor: '#CCC',
+                                    borderWidth: 1,
+                                    shadow: false },
+                            exporting: { enabled: true },
+                            tooltip: {
+                                headerFormat: '<b>{point.x}</b><br/>',
+                                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                            },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal',
+                                    dataLabels: {
+                                        enabled: true,
+                                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                                    }
+                                }
+                            },
+                            series: [{ name: 'Confirmadas', data:valor },{ name: 'Llamados', data:total }],
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 500
+                                    },
+                                    chartOptions: {
+                                        legend: {
+                                            layout: 'horizontal',
+                                            align: 'center',
+                                            verticalAlign: 'bottom'
+                                        }
+                                    }
+                                }]
+                            }
+                        });
+                    }
+                },
+                error : function(xhr, status) {
+                    msg_box_alert(99,'title',xhr.responseText);
+                }
+            });
+        }
+    }
 
 //----------------------------------------------------------------------------------------------------------------------------

@@ -40,33 +40,6 @@
                     </div>
                 </div>
             </div>
-        <!-- </div>
-        <div id="modbloque" name="modbloque" class="row"> -->
-            <div class="col-xs-6">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">BLOQUE</h3>
-                    </div>
-                    <div class="box-body">
-                        {% for b in db_bloque if false != db_bloque %}
-                            {% if b.bloque == db_modorden.bloque %}
-                                <div class="col-md-3" style="border: 1px solid white">
-                                    <label><input type="radio" name="rbmodbloque" onchange="cargarreblo('{{b.bloque}}')" id="{{b.bloque}}" checked="checked">
-                                        <font size="4">{{b.bloque}}</font></label>
-                                </div>
-                            {% else %}
-                                <div class="col-md-3" style="border: 1px solid white">
-                                    <label><input type="radio" name="rbmodbloque" onchange="cargarreblo('{{b.bloque}}')" id="{{b.bloque}}">
-                                        <font size="4">{{b.bloque}}</font></label>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                        <div class="col-md-4" style="border: 1px solid white">
-                            <label>Fecha Compromiso:</label><input type="date" name="refecha" id="refecha" class="form-control" value="{{db_modorden.fecha_compromiso}}">
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div id="reage" name="reage" class="row">
             <div class="col-md-12">
@@ -219,6 +192,36 @@
            </div>
          </div>
        </div>
+      </div>
+      <div id="modbloque" name="modbloque" class="row">
+          <div class="col-xs-12">
+              <div class="box">
+                  <div class="box-header">
+                      <h3 class="box-title">BLOQUE</h3>
+                  </div>
+                  <div class="box-body">
+                      {% for b in db_bloque if false != db_bloque %}
+                          {% if b.bloque == db_modorden.bloque %}
+                              <div class="col-xs-3" style="border: 1px solid white">
+                                  <label><input type="radio" name="rbmodbloque" onchange="cargarreblo('{{b.bloque}}')" id="{{b.bloque}}" checked="checked">
+                                      <font size="4">{{b.bloque}}</font></label>
+                              </div>
+                          {% else %}
+                              <div class="col-xs-3" style="border: 1px solid white">
+                                  <label><input type="radio" name="rbmodbloque" onchange="cargarreblo('{{b.bloque}}')" id="{{b.bloque}}">
+                                      <font size="4">{{b.bloque}}</font></label>
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+
+                  </div>
+                  <div class="box-footer">
+                      <div class="col-md-3" style="border: 1px solid white">
+                          <label>Fecha Compromiso:</label><input type="date" name="refecha" id="refecha" class="form-control" value="{{db_modorden.fecha_compromiso}}">
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
       <div id="observacion" name="observacion" class="row">
           <div class="col-xs-12">

@@ -1339,9 +1339,9 @@ class Mdlconfirmacion extends Models implements IModels {
     public function refrescar_datos_produccion_ejecutivo_confirmacion(){
       global $http;
       $meta = $http->request->get('meta');
-      $fecha = $http->request->get('fecha');
       $this->db->query("Update tblmetas set meta=$meta");
 
+      $fecha = $http->request->get('fecha');
       $fecha2=strtotime($fecha);
       $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
 
@@ -1362,91 +1362,114 @@ class Mdlconfirmacion extends Models implements IModels {
                <th>Confirmados</th>
                <th>Prom Dia</th>
            </thead>
-
            <tbody>";
 
               $total=0;
               $total_confirmados=0;
               $cantllamados=$this->calc_llamados($fecha);
-              foreach ($cantllamados as $key2 => $value2) {
-                $html.="<tr>
-                     <td>".$value2['name']."</td>
-                     <td>".$value2['dias_trab']."</td>
-                     <td>".$value2['acum_hoy_total']."</td>
-                     <td>".$value2['acum_hoy_conf']."</td>";
-                     $datores=round(($value2['acum_hoy_conf'] / $meta * 100),1);
-                     $html.="<td class='col-lg-2'><div class='progress progress-xs'>
-                             <div class='progress-bar progress-bar-aqua' style='width:".$datores."%' role='progressbar' aria-valuenow=".$datores." aria-valuemin='0' aria-valuemax=".$meta.">
-                                 <span class='sr-only'>".$datores."% </span>
-                             </div>
-                         </div></td>
-                     <td>".$datores."%</td>";
-                     $total=$total + $value2['acum_hoy_total'];
-                    $total_confirmados=$total_confirmados + $value2['acum_hoy_conf'];
-                    $promdia=round(($value2['acum_total_conf'] / $value2['dias_trab']),1);
-                    $html.="<td>".$value2['acum_total_sinconf']."</td>
-                            <td>".$value2['acum_total_conf']."</td>
-                            <td>".$promdia."</td>";
+              unset($pend_valores_test);
+              if (false != $cantllamados){
+                  foreach ($cantllamados as $key2 => $value2) {
+                    $html.="<tr>
+                         <td>".$value2['name']."</td>
+                         <td>".$value2['dias_trab']."</td>
+                         <td>".$value2['acum_hoy_total']."</td>
+                         <td>".$value2['acum_hoy_conf']."</td>";
+                         $datores=round(($value2['acum_hoy_conf'] / $meta * 100),1);
+                         $html.="<td class='col-lg-2'><div class='progress progress-xs'>
+                                 <div class='progress-bar progress-bar-aqua' style='width:".$datores."%' role='progressbar' aria-valuenow=".$datores." aria-valuemin='0' aria-valuemax=".$meta.">
+                                     <span class='sr-only'>".$datores."% </span>
+                                 </div>
+                             </div></td>
+                         <td>".$datores."%</td>";
+                         $total=$total + $value2['acum_hoy_total'];
+                        $total_confirmados=$total_confirmados + $value2['acum_hoy_conf'];
+                        $promdia=round(($value2['acum_total_conf'] / $value2['dias_trab']),1);
+                        $html.="<td>".$value2['acum_total_sinconf']."</td>
+                                <td>".$value2['acum_total_conf']."</td>
+                                <td>".$promdia."</td>";
 
-                $html.="<tr>";
+                    $html.="<tr>";
+                    $pend_valores_test[]=array("x" => $value2['name'], "y" =>$value2['acum_hoy_conf'],"z" => $value2['acum_hoy_total'],"a" => $value2['acum_total_conf'],"b" => $value2['acum_total_sinconf']);
+                  }
               }
               $html.="<td colspan='2'>TOTAL:</td>
              <td>".$total."</td>
              <td>".$total_confirmados."</td>
            </tbody>
          </table>";
-
-        return array('success' => 1, 'html' => $html);
+         if (isset($pend_valores_test)){
+             return array('success' => 1, 'html' => $html, 'data' => $pend_valores_test );
+         }else{
+             return array('success' => 1, 'message'=>'error sistema');
+         }
     }
-    public function cargar_grafico_llamadas(){
-        global $http;
-        $fecha = $http->request->get('fecha');
-
-        $result = $this->calc_llamados($fecha);
-        unset($pend_valores_test);
-        foreach ($result as $key => $value) {
-            $pend_valores_test[]=array("x" => $value['name'], "y" =>$value['acum_hoy_conf'],"z" => $value['acum_hoy_total'],"a" => $value['acum_total_conf'],"b" => $value['acum_total_sinconf']);
-        }
-        if (isset($pend_valores_test)){
-            return $pend_valores_test;
-        }
-    }
-
 
     public function medir_cant_llamados($desde,$hasta){
-        return $this->db->query_select("select  count(h.id_orden) as confirmados, fecha, (select count(h2.id_orden) from tblhistorico h2 where fecha BETWEEN '$desde' and '$hasta') llamados from tblhistorico h INNER join tblresultado on h.resultado=tblresultado.id_resultado where fecha BETWEEN '$desde' and '$hasta' and tblresultado.grupo='1' group by fecha" );
+        $sql="select h.fecha,count(*) llamados,
+        (select count(h2.id_user) from tblhistorico h2 INNER join tblresultado r2 on h2.resultado=r2.id_resultado and r2.grupo=1 where h2.fecha=h.fecha and h2.fecha between '".$desde."' and '".$hasta."' ) confirmados
+        from tblhistorico h where (h.accion='INGRESO' or h.accion='REINGRESO' or h.accion='MODIFICACION') and h.fecha between '".$desde."' and '".$hasta."'
+        group by h.fecha
+        order by h.fecha asc";
+
+        return $this->db->query_select($sql);
     }
-    public function filtrar_fecha(){
+    public function filtrar_fecha_llamados(){
         global $http;
         $desde=$http->request->get('desde');
         $hasta=$http->request->get('hasta');
 
         $filtro=$this->medir_cant_llamados($desde,$hasta);
-
+        unset($pend_valores_test);
 
         $html="<table class='table table-bordered'>
         <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Llamados realizados</th>
-          <th>Llamados confirmados</th>
+            <tr>
+                <th>Fecha</th>
+                <th>Confirmados</th>
+                <th>No Confirmados</th>
+                <th>Total</th>
+            </tr>
         </thead>
         <tbody>";
-        foreach ($filtro as $key => $value) {
-        $html.=
-               "<td>".$value['fecha']."</td>
-               <td>".$value['llamados']."</td>
-               <td>".$value['confirmados']."</td>
-               </tr>";
-        }
-        $html.="
+            $llamadosrealizados=0;
+            $llamadosconfirmados=0;
+            $llamadosnoconfirmados=0;
+            if (false != $filtro){
+                foreach ($filtro as $key => $value) {
+                    $html.="<tr>";
+                        $html.="<td>".$value['fecha']."</td>";
+                        $fecha=$value['fecha'];
+                        $html.="<td>".$value['confirmados']."</td>";
 
+                        $noconfirmados=$value['llamados']-$value['confirmados'];
+                        $html.="<td>".$noconfirmados."</td>";
+                        $html.="<td>".$value['llamados']."</td>";
+                        $llamadosrealizados+=$value['llamados'];
+                        $llamadosconfirmados+=$value['confirmados'];
+                        $llamadosnoconfirmados+=$noconfirmados;
+                    $html.="</tr>";
+
+                    $pend_valores_test[]=array("x" => $value['fecha'], "y" =>$value['confirmados'], "z" =>$value['llamados'] );
+                }
+            }
+            $html.="<tr>";
+                $html.="<td>TOTAL</td>
+                <td>".$llamadosconfirmados."</td>
+                <td>".$llamadosnoconfirmados."</td>
+                <td>".$llamadosrealizados."</td>";
+            $html.="</tr>";
+            $html.="
         </tbody>
         </table>";
+        //-------------------------------------------------------------------------------
 
-        return array('success' => 1, 'html' => $html);
+        if (isset($pend_valores_test)){
+            return array('success' => 1, 'html'=>$html, 'json'=>$pend_valores_test);
+        }else{
+            return array('success' => 1, 'message'=>'error sistema');
+        }
     }
-
     /**
     * __construct()
     */

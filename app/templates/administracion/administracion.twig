@@ -83,14 +83,14 @@
           </tbody>
         </table>
       </div>
-      <div class="col-lg-2"></div>
-      <div class="col-lg-5">
+      <div class="col-lg-6">
         <p><strong>Usuarios On-line</strong></p>
         <table class="table table-bordered">
           <thead>
             <th>No</th>
             <th>Nombre</th>
             <th>E-Mail</th>
+            <th>perfil</th>
           </thead>
           <tbody>
             {% set No = 1 %}
@@ -99,6 +99,7 @@
                 <td>{{ No }}</td>
                 <td>{{ d.name|raw|title }}</td>
                 <td>{{ d.email }}</td>
+                <td>{{ d.perfil }}</td>
               </tr>
               {% set No =  No + 1 %}
             {% endfor %}

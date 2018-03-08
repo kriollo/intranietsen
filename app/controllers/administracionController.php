@@ -96,7 +96,7 @@ class administracionController extends Controllers implements IControllers {
               'q_perfiles' => count($u->getPerfiles()),
               'q_users' => count($u->getUsers('*','estado = 1')),
               'q_users_online' => count($u->getUsers('*','online_fecha > 0')),
-              'db_user_online' => $u->getUsers('name,email','online_fecha > 0'),
+              'db_user_online' => $u->getUsers('name,email,perfil','online_fecha > 0'),
               'last_user' => $u->getUsers('name,email','estado = 1 order by id_user desc Limit 5')
              ));
             break;
