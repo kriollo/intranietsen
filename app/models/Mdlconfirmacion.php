@@ -1390,9 +1390,11 @@ class Mdlconfirmacion extends Models implements IModels {
                                 <td>".$promdia."</td>";
 
                     $html.="<tr>";
-                    $pend_valores_test[]=array("x" => $value2['name'], "y" =>$value2['acum_hoy_conf'],"z" => $value2['acum_hoy_total'],"a" => $value2['acum_total_conf'],"b" => $value2['acum_total_sinconf']);
+                    $noconfirmados = $value2['acum_hoy_total'] - $value2['acum_hoy_conf'];
+                    $noconfirmadosTotal = $value2['acum_total_sinconf'] - $value2['acum_total_conf'];
+                    $pend_valores_test[]=array("x" => $value2['name'], "y" => $value2['acum_hoy_conf'],"z" => $noconfirmados ,"a" => $value2['acum_total_conf'],"b" => $noconfirmadosTotal);
                   }
-              }
+              };
               $html.="<td colspan='2'>TOTAL:</td>
              <td>".$total."</td>
              <td>".$total_confirmados."</td>
@@ -1450,7 +1452,7 @@ class Mdlconfirmacion extends Models implements IModels {
                         $llamadosnoconfirmados+=$noconfirmados;
                     $html.="</tr>";
 
-                    $pend_valores_test[]=array("x" => $value['fecha'], "y" =>$value['confirmados'], "z" =>$value['llamados'] );
+                    $pend_valores_test[]=array("x" => $value['fecha'], "y" =>$value['confirmados'], "z" =>$noconfirmados );
                 }
             }
             $html.="<tr>";

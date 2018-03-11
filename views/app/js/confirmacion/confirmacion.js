@@ -614,7 +614,7 @@ function verbloque(bloque){
                                 }
                             }
                         },
-                        series: [{ name: 'Confirmadas', data:valor},{name: "Total Llamados" , data:valor_total}],
+                        series: [{ name: 'Confirmadas', data:valor},{name: "No Confirmadas" , data:valor_total}],
                         responsive: {
                             rules: [{
                                 condition: {
@@ -674,7 +674,7 @@ function verbloque(bloque){
                                 }
                             }
                         },
-                        series: [{ name: 'Confirmadas', data:valor_total_conf_acum},{name: "Total Llamados" , data:valor_total_sinconf_acum}],
+                        series: [{ name: 'Confirmadas', data:valor_total_conf_acum},{name: "No Confirmadas" , data:valor_total_sinconf_acum}],
                         responsive: {
                             rules: [{
                                 condition: {
@@ -771,7 +771,7 @@ function verbloque(bloque){
                                     }
                                 }
                             },
-                            series: [{ name: 'Confirmadas', data:valor },{ name: 'Llamados', data:total }],
+                            series: [{ name: 'Confirmadas', data:valor },{ name: 'No Confirmadas', data:total }],
                             responsive: {
                                 rules: [{
                                     condition: {
