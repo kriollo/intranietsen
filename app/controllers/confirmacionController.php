@@ -310,6 +310,15 @@ class confirmacionController extends Controllers implements IControllers {
                    'fecha_desde' => $fecha3
                 ));
             break;
+            case "report_listar_allgestion":
+                echo $this->template->render('confirmacion/reporteria/listar_allgestion', array(
+                    'menu_op' => $op,
+                    'db_gestiones'=>(new Model\Mdlconfirmacion)->listar_gestiones(date('Y-m-d'),date('Y-m-d'),'','1')
+                ));
+            break;
+            case "exporta_excel_ordenes_gestiones":
+                (new Model\Mdlconfirmacion)->exporta_excel_ordenes_gestiones();
+            break;
             // ------------------------------------------------------------------------------------------------------------------------------------------
             default:
                 echo $this->template->render('confirmacion/confirmacion', array(

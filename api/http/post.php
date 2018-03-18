@@ -452,6 +452,10 @@ $app->post('/Mdlconfirmacion_filtrar_fecha', function() use($app) {
     $e = new Model\Mdlconfirmacion;
     return $app->json($e->filtrar_fecha_llamados());
 });
+$app->post('/confirma_lista_por_fecha_gestiones', function() use($app) {
+    $u = new Model\Mdlconfirmacion;
+    return $app->json($u->confirma_lista_por_fecha_gestiones());
+});
 //Orden Confirmacion------------------------------------------------------------
 //Coordinacion Asigna Ejecutivo Comuna------------------------------------------
 $app->post('/Mdlcoordinacion_select_ejecutivo', function() use($app) {

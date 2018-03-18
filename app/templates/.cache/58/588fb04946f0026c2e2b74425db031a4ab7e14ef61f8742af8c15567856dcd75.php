@@ -85,6 +85,74 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
                 </div>
             </div>
         </div>
+        <div id=\"bloque_ot\" name=\"bloque_ot\" class=\"row\">
+            <div class=\"col-xs-12\">
+                <div class=\"box\">
+                    <div class=\"box-header\">
+                        <h3 class=\"box-title\">BLOQUE FLUJO</h3>
+                    </div>
+                    <div class=\"box-body\">
+                        ";
+        // line 51
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["db_bloque"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["b"]) {
+            if ((false != ($context["db_bloque"] ?? null))) {
+                // line 52
+                echo "                            ";
+                if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()) == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "bloque_flujo", array()))) {
+                    // line 53
+                    echo "                                <div class=\"col-xs-3\" style=\"border: 1px solid white\">
+                                    <label><input type=\"radio\" name=\"rbbloque__flujo\" onchange=\"bloque_flujo('";
+                    // line 54
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
+                    echo "')\" id=\"rbbloque__flujo-";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
+                    echo "\" checked=\"checked\">
+                                        <font size=\"4\">";
+                    // line 55
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
+                    echo "</font></label>
+                                </div>
+                            ";
+                } else {
+                    // line 58
+                    echo "                                <div class=\"col-xs-3\" style=\"border: 1px solid white\">
+                                    <label><input type=\"radio\" name=\"rbbloque__flujo\" onchange=\"bloque_flujo('";
+                    // line 59
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
+                    echo "')\" id=\"rbbloque__flujo-";
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
+                    echo "\">
+                                        <font size=\"4\">";
+                    // line 60
+                    echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
+                    echo "</font></label>
+                                </div>
+                            ";
+                }
+                // line 63
+                echo "                        ";
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['b'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 64
+        echo "                    </div>
+                    <div class=\"box-footer\">
+                        <div class=\"col-md-3\" style=\"border: 1px solid white\">
+                            <label>Fecha Compromiso:</label><input type=\"date\" name=\"textfecha_flujo\" min=\"";
+        // line 67
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "now", "Y-m-d"), "html", null, true);
+        echo "\" id=\"textfecha_flujo\" class=\"form-control\" value=\"";
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "fecha_compromiso_flujo", array()), "html", null, true);
+        echo "\">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id=\"reage\" name=\"reage\" class=\"row\">
             <div class=\"col-md-12\">
                 <div class=\"box\">
@@ -93,51 +161,51 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
                     </div>
                     <div class=\"box-body\">
                         ";
-        // line 51
+        // line 80
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(range(1, 20));
         foreach ($context['_seq'] as $context["_key"] => $context["i"]) {
-            // line 52
+            // line 81
             echo "                            ";
             if (($context["i"] == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "reagendamiento", array()))) {
-                // line 53
+                // line 82
                 echo "                                <div class=\"col-xs-1\" style=\"border: 1px solid white\">
                                     <label><input type=\"radio\" name=\"reag\" id=\"reag-";
-                // line 54
+                // line 83
                 echo twig_escape_filter($this->env, $context["i"], "html", null, true);
                 echo "\" onchange=\"cargarreag('";
                 echo twig_escape_filter($this->env, $context["i"], "html", null, true);
                 echo "')\" checked>
                                     ";
-                // line 55
+                // line 84
                 echo twig_escape_filter($this->env, $context["i"], "html", null, true);
                 echo "</label>
                                 </div>
                             ";
             } else {
-                // line 58
+                // line 87
                 echo "                                <div class=\"col-xs-1\" style=\"border: 1px solid white\">
                                     <label><input type=\"radio\" name=\"reag\" id=\"reag-";
-                // line 59
+                // line 88
                 echo twig_escape_filter($this->env, $context["i"], "html", null, true);
                 echo "\" onchange=\"cargarreag('";
                 echo twig_escape_filter($this->env, $context["i"], "html", null, true);
                 echo "')\">
                                     ";
-                // line 60
+                // line 89
                 echo twig_escape_filter($this->env, $context["i"], "html", null, true);
                 echo "</label>
                                 </div>
                             ";
             }
-            // line 63
+            // line 92
             echo "
                         ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['i'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 65
+        // line 94
         echo "                    </div>
                 </div>
             </div>
@@ -150,52 +218,52 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
               </div>
               <div class=\"box-body\">
                 ";
-        // line 76
+        // line 105
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_motivo"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["m"]) {
             if ((false != ($context["db_motivo"] ?? null))) {
-                // line 77
+                // line 106
                 echo "                  ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()) == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "motivo", array()))) {
-                    // line 78
+                    // line 107
                     echo "                    <div class=\"col-xs-2\" style=\"border: 1px solid white\">
                       <label><input type=\"radio\" name=\"rbmodmotivo\" id=\"";
-                    // line 79
+                    // line 108
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodmot('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()), "html", null, true);
                     echo "')\" checked=\"checked\">
                       ";
-                    // line 80
+                    // line 109
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()), "html", null, true);
                     echo "</label>
                     </div>
                   ";
                 } else {
-                    // line 83
+                    // line 112
                     echo "                    <div class=\"col-xs-2\" style=\"border: 1px solid white\">
                       <label><input type=\"radio\" name=\"rbmodmotivo\" id=\"";
-                    // line 84
+                    // line 113
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodmot('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()), "html", null, true);
                     echo "')\">
                       ";
-                    // line 85
+                    // line 114
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["m"], "motivo", array()), "html", null, true);
                     echo "</label>
                     </div>
                   ";
                 }
-                // line 88
+                // line 117
                 echo "                ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['m'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 89
+        // line 118
         echo "              </div>
             </div>
           </div>
@@ -208,61 +276,61 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
           </div>
           <div class=\"box-body\">
             ";
-        // line 100
+        // line 129
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_comuna"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["c"]) {
             if ((false != ($context["db_comuna"] ?? null))) {
-                // line 101
+                // line 130
                 echo "              ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()) == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "comuna", array()))) {
-                    // line 102
+                    // line 131
                     echo "                <div class=\"col-xs-2\" style=\"border: 1px solid white\">
                   <label><input type=\"radio\" name=\"rbmodcomuna\" id=\"";
-                    // line 103
+                    // line 132
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodcom('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()), "html", null, true);
                     echo "')\" checked=\"checked\">
                   ";
-                    // line 104
+                    // line 133
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()), "html", null, true);
                     echo "</label>
                 </div>
               ";
                 } else {
-                    // line 107
+                    // line 136
                     echo "                <div class=\"col-xs-2\" style=\"border: 1px solid white\">
                   <label><input type=\"radio\" name=\"rbmodcomuna\" id=\"";
-                    // line 108
+                    // line 137
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodcom('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()), "html", null, true);
                     echo "')\">
                   ";
-                    // line 109
+                    // line 138
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "nombre", array()), "html", null, true);
                     echo "</label>
                 </div>
               ";
                 }
-                // line 112
+                // line 141
                 echo "            ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['c'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 113
+        // line 142
         echo "            <div class=\"col-xs-2\" style=\"border: 1px solid white\">
               <label>NODO:<input type=\"number\" min='1' name=\"textmodnodo\" id=\"textmodnodo\" class=\"form-control\" placeholder=\"NODO\" value=\"";
-        // line 114
+        // line 143
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "nodo", array()), "html", null, true);
         echo "\"></label>
             </div>
             <div class=\"col-xs-2\" style=\"border: 1px solid white\">
               <label>SUBNODO:<input type=\"number\" min='1' name=\"textmodsubnodo\" id=\"textmodsubnodo\" class=\"form-control\" placeholder=\"SUBNODO\" value=\"";
-        // line 117
+        // line 146
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "subnodo", array()), "html", null, true);
         echo "\"></label>
             </div>
@@ -278,52 +346,52 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
                 </div>
                 <div class=\"box-body\">
                     ";
-        // line 130
+        // line 159
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_tipoorden"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["r"]) {
             if ((false != ($context["db_tipoorden"] ?? null))) {
-                // line 131
+                // line 160
                 echo "                        ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "tipoorden", array()) == twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_tipoorden", array()))) {
-                    // line 132
+                    // line 161
                     echo "                            <div class=\"col-xs-3\" style=\"border: 1px solid white\">
                                 <label><input type=\"radio\" name=\"rmodtipoorden\" id=\"";
-                    // line 133
+                    // line 162
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "descripcion", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodtipoorden('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_tipoorden", array()), "html", null, true);
                     echo "')\"  checked=\"checked\">
                                 ";
-                    // line 134
+                    // line 163
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "descripcion", array()), "html", null, true);
                     echo "</label>
                             </div>
                         ";
                 } else {
-                    // line 137
+                    // line 166
                     echo "                            <div class=\"col-xs-3\" style=\"border: 1px solid white\">
                                 <label><input type=\"radio\" name=\"rmodtipoorden\" id=\"";
-                    // line 138
+                    // line 167
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "descripcion", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodtipoorden('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_tipoorden", array()), "html", null, true);
                     echo "')\">
                                 ";
-                    // line 139
+                    // line 168
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "descripcion", array()), "html", null, true);
                     echo "</label>
                             </div>
                         ";
                 }
-                // line 142
+                // line 171
                 echo "                    ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['r'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 143
+        // line 172
         echo "                </div>
             </div>
         </div>
@@ -336,52 +404,52 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
           </div>
           <div class=\"box-body\">
             ";
-        // line 154
+        // line 183
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_actividad"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["a"]) {
             if ((false != ($context["db_actividad"] ?? null))) {
-                // line 155
+                // line 184
                 echo "              ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()) == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "actividad", array()))) {
-                    // line 156
+                    // line 185
                     echo "                <div class=\"col-xs-3\" style=\"border: 1px solid white\">
                   <label><input type=\"radio\" name=\"rbmodactividad\" id=\"";
-                    // line 157
+                    // line 186
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodact('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()), "html", null, true);
                     echo "')\" checked=\"checked\">
                   ";
-                    // line 158
+                    // line 187
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()), "html", null, true);
                     echo "</label>
                 </div>
               ";
                 } else {
-                    // line 161
+                    // line 190
                     echo "                <div class=\"col-xs-3\" style=\"border: 1px solid white\">
                   <label><input type=\"radio\" name=\"rbmodactividad\" id=\"";
-                    // line 162
+                    // line 191
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodact('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()), "html", null, true);
                     echo "')\">
                   ";
-                    // line 163
+                    // line 192
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["a"], "actividad", array()), "html", null, true);
                     echo "</label>
                 </div>
               ";
                 }
-                // line 166
+                // line 195
                 echo "            ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['a'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 167
+        // line 196
         echo "          </div>
         </div>
       </div>
@@ -395,52 +463,52 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
           <div class=\"box-body\">
             <table id=\"tabla\" name=\"tabla\" class=\"table-bordered\">
               ";
-        // line 179
+        // line 208
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_resultado"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["r"]) {
             if ((false != ($context["db_resultado"] ?? null))) {
-                // line 180
+                // line 209
                 echo "                ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_resultado", array()) == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "resultado", array()))) {
-                    // line 181
+                    // line 210
                     echo "                  <div class=\"col-xs-4\" style=\"border: 1px solid white\">
                     <label><input type=\"radio\" name=\"rbmodresultado\" id=\"";
-                    // line 182
+                    // line 211
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_resultado", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodres('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_resultado", array()), "html", null, true);
                     echo "')\" checked=\"checked\">
                     ";
-                    // line 183
+                    // line 212
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "nombre", array()), "html", null, true);
                     echo "</label>
                   </div>
                 ";
                 } else {
-                    // line 186
+                    // line 215
                     echo "                  <div class=\"col-xs-4\" style=\"border: 1px solid white\">
                     <label><input type=\"radio\" name=\"rbmodresultado\" id=\"";
-                    // line 187
+                    // line 216
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "nombre", array()), "html", null, true);
                     echo "\" onchange=\"cargarmodres('";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "id_resultado", array()), "html", null, true);
                     echo "')\">
                     ";
-                    // line 188
+                    // line 217
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["r"], "nombre", array()), "html", null, true);
                     echo "</label>
                   </div>
                 ";
                 }
-                // line 191
+                // line 220
                 echo "              ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['r'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 192
+        // line 221
         echo "            </table>
            </div>
          </div>
@@ -454,57 +522,57 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
                   </div>
                   <div class=\"box-body\">
                       ";
-        // line 204
+        // line 233
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_bloque"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["b"]) {
             if ((false != ($context["db_bloque"] ?? null))) {
-                // line 205
+                // line 234
                 echo "                          ";
                 if ((twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()) == twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "bloque", array()))) {
-                    // line 206
+                    // line 235
                     echo "                              <div class=\"col-xs-3\" style=\"border: 1px solid white\">
                                   <label><input type=\"radio\" name=\"rbmodbloque\" onchange=\"cargarmodblo('";
-                    // line 207
+                    // line 236
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                     echo "')\" id=\"";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                     echo "\" checked=\"checked\">
                                       <font size=\"4\">";
-                    // line 208
+                    // line 237
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                     echo "</font></label>
                               </div>
                           ";
                 } else {
-                    // line 211
+                    // line 240
                     echo "                              <div class=\"col-xs-3\" style=\"border: 1px solid white\">
                                   <label><input type=\"radio\" name=\"rbmodbloque\" onchange=\"cargarmodblo('";
-                    // line 212
+                    // line 241
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                     echo "')\" id=\"";
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                     echo "\">
                                       <font size=\"4\">";
-                    // line 213
+                    // line 242
                     echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["b"], "bloque", array()), "html", null, true);
                     echo "</font></label>
                               </div>
                           ";
                 }
-                // line 216
+                // line 245
                 echo "                      ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['b'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 217
+        // line 246
         echo "                  </div>
                   <div class=\"box-footer\">
                       <div class=\"col-md-3\" style=\"border: 1px solid white\">
                           <label>Fecha Compromiso:</label><input type=\"date\" name=\"textmodfecha\" id=\"textmodfecha\" class=\"form-control\" value=\"";
-        // line 220
+        // line 249
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "fecha_compromiso", array()), "html", null, true);
         echo "\">
                       </div>
@@ -520,7 +588,7 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
                   </div>
                   <div class=\"box-body\">
                       <font size=\"4\"><input type=\"text\" name=\"textmodobservacion\" id=\"textmodobservacion\" placeholder=\"Ingrese una observacion correspondiente a la orden\" class=\"form-control\" value=\"";
-        // line 233
+        // line 262
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "observacion", array()), "html", null, true);
         echo "\"></font>
                   </div>
@@ -531,40 +599,44 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
         <a data-toggle='tooltip' data-placement='top' name=\"modbtningresar\" id=\"modbtningresar\" class='btn btn-success btn-sm'>Modificar Orden
         </a>
         <input type=\"hidden\" name=\"textmodactividad\" id=\"textmodactividad\" value=\"";
-        // line 241
+        // line 270
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "actividad", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"textmodtipoorden\" id=\"textmodtipoorden\" value=\"";
-        // line 242
+        // line 271
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "tipoorden", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"textmodbloque\" id=\"textmodbloque\" value=\"";
-        // line 243
+        // line 272
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "bloque", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"textmodmotivo\" id=\"textmodmotivo\" value=\"";
-        // line 244
+        // line 273
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "motivo", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"textmodcomuna\" id=\"textmodcomuna\" value=\"";
-        // line 245
+        // line 274
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "comuna", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"textmodresultado\" id=\"textmodresultado\" value=\"";
-        // line 246
+        // line 275
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "resultado", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"textmodid\" id=\"textmodid\" value=\"";
-        // line 247
+        // line 276
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "operador", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"ordenid\" id=\"ordenid\" value=\"";
-        // line 248
+        // line 277
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "id_orden", array()), "html", null, true);
         echo "\">
         <input type=\"hidden\" name=\"reagendamiento\" id=\"reagendamiento\" value=\"";
-        // line 249
+        // line 278
         echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "reagendamiento", array()), "html", null, true);
+        echo "\">
+        <input type=\"hidden\" name=\"textbloque_flujo\" id=\"textbloque_flujo\" value=\"";
+        // line 279
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["db_modorden"] ?? null), "bloque_flujo", array()), "html", null, true);
         echo "\">
 
       </div>
@@ -573,10 +645,10 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
   ";
     }
 
-    // line 255
+    // line 285
     public function block_appScript($context, array $blocks = array())
     {
-        // line 256
+        // line 286
         echo "    <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
     <script type=\"text/javascript\">
         window.onload= function(){
@@ -598,7 +670,7 @@ class __TwigTemplate_56e1de9b80af4e8bac878458f6f4fca6e6d1eff04c036ce81d157e0c394
 
     public function getDebugInfo()
     {
-        return array (  580 => 256,  577 => 255,  567 => 249,  563 => 248,  559 => 247,  555 => 246,  551 => 245,  547 => 244,  543 => 243,  539 => 242,  535 => 241,  524 => 233,  508 => 220,  503 => 217,  496 => 216,  490 => 213,  484 => 212,  481 => 211,  475 => 208,  469 => 207,  466 => 206,  463 => 205,  458 => 204,  444 => 192,  437 => 191,  431 => 188,  425 => 187,  422 => 186,  416 => 183,  410 => 182,  407 => 181,  404 => 180,  399 => 179,  385 => 167,  378 => 166,  372 => 163,  366 => 162,  363 => 161,  357 => 158,  351 => 157,  348 => 156,  345 => 155,  340 => 154,  327 => 143,  320 => 142,  314 => 139,  308 => 138,  305 => 137,  299 => 134,  293 => 133,  290 => 132,  287 => 131,  282 => 130,  266 => 117,  260 => 114,  257 => 113,  250 => 112,  244 => 109,  238 => 108,  235 => 107,  229 => 104,  223 => 103,  220 => 102,  217 => 101,  212 => 100,  199 => 89,  192 => 88,  186 => 85,  180 => 84,  177 => 83,  171 => 80,  165 => 79,  162 => 78,  159 => 77,  154 => 76,  141 => 65,  134 => 63,  128 => 60,  122 => 59,  119 => 58,  113 => 55,  107 => 54,  104 => 53,  101 => 52,  97 => 51,  80 => 37,  74 => 34,  68 => 31,  62 => 28,  56 => 25,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  652 => 286,  649 => 285,  639 => 279,  635 => 278,  631 => 277,  627 => 276,  623 => 275,  619 => 274,  615 => 273,  611 => 272,  607 => 271,  603 => 270,  592 => 262,  576 => 249,  571 => 246,  564 => 245,  558 => 242,  552 => 241,  549 => 240,  543 => 237,  537 => 236,  534 => 235,  531 => 234,  526 => 233,  512 => 221,  505 => 220,  499 => 217,  493 => 216,  490 => 215,  484 => 212,  478 => 211,  475 => 210,  472 => 209,  467 => 208,  453 => 196,  446 => 195,  440 => 192,  434 => 191,  431 => 190,  425 => 187,  419 => 186,  416 => 185,  413 => 184,  408 => 183,  395 => 172,  388 => 171,  382 => 168,  376 => 167,  373 => 166,  367 => 163,  361 => 162,  358 => 161,  355 => 160,  350 => 159,  334 => 146,  328 => 143,  325 => 142,  318 => 141,  312 => 138,  306 => 137,  303 => 136,  297 => 133,  291 => 132,  288 => 131,  285 => 130,  280 => 129,  267 => 118,  260 => 117,  254 => 114,  248 => 113,  245 => 112,  239 => 109,  233 => 108,  230 => 107,  227 => 106,  222 => 105,  209 => 94,  202 => 92,  196 => 89,  190 => 88,  187 => 87,  181 => 84,  175 => 83,  172 => 82,  169 => 81,  165 => 80,  147 => 67,  142 => 64,  135 => 63,  129 => 60,  123 => 59,  120 => 58,  114 => 55,  108 => 54,  105 => 53,  102 => 52,  97 => 51,  80 => 37,  74 => 34,  68 => 31,  62 => 28,  56 => 25,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

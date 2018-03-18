@@ -40,6 +40,28 @@
                 </div>
             </div>
         </div>
+        <div id="bloque_ot" name="bloque_ot" class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">BLOQUE FLUJO</h3>
+                    </div>
+                    <div class="box-body">
+                        {% for b in db_bloque if false != db_bloque %}
+                            <div class="col-xs-3" style="border: 1px solid white">
+                                <label><input type="radio" name="rbbloque__flujo" id="rbbloque__flujo-{{b.bloque}}" onchange="bloque_flujo('{{b.bloque}}')" >
+                                <font size="4">{{b.bloque}}</font></label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="box-footer">
+                        <div class="col-md-3" style="border: 1px solid white">
+                            <label>Fecha Compromiso:</label><input type="date" name="textfecha_flujo" min="{{ "now"|date("Y-m-d") }}" id="textfecha_flujo" class="form-control" value="{{ "now"|date("Y-m-d") }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="reage" name="reage" class="row">
             <div class="col-md-12">
                 <div class="box">
@@ -148,11 +170,11 @@
                 </div>
             </div>
         </div>
-        <div id="bloque" name="bloque" class="row"> 
+        <div id="bloque" name="bloque" class="row">
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">BLOQUE</h3>
+                        <h3 class="box-title">BLOQUE NUEVO</h3>
                     </div>
                     <div class="box-body">
                         {% for b in db_bloque if false != db_bloque %}
@@ -194,6 +216,7 @@
         <input type="hidden" name="texttipoorden" id="texttipoorden">
         <input type="hidden" name="reagendamiento" id="reagendamiento">
         <input type="hidden" name="textid" id="textid" value="{{ owner_user['id_user'] }}">
+        <input type="hidden" name="textbloque_flujo" id="textbloque_flujo">
     </form>
 </section>
 {% endblock %}

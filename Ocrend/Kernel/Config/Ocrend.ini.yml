@@ -17,9 +17,9 @@ database:
 
 # Configuración de servidor SMTP
 phpmailer:
-  host:
-  user:
-  pass:
+  host: smtp.gmail.com
+  user: alertas@websystem.cl
+  pass: alertas2018wys
   port: 465
 
 # Configuración de sesiones

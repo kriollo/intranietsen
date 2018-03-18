@@ -57,6 +57,9 @@ function cargarrecom(modcomuna) {
 function cargarreres(modresultado) {
     document.formreorden.reresultado.value = modresultado;
 }
+function bloque_flujo(bloque_flujo) {
+    $('#textbloque_flujo').val(bloque_flujo);
+}
 function cargarreag(reag) {
     $('#reagendamiento').val(reag);
 }
@@ -797,3 +800,38 @@ function verbloque(bloque){
     }
 
 //----------------------------------------------------------------------------------------------------------------------------
+    function revisar_por_fecha_gestiones(){
+        var formData = new FormData();
+
+        formData.append('fecha_desde',document.getElementById('revdesde').value);
+        formData.append('fecha_hasta',document.getElementById('revhasta').value);
+        $.ajax({
+            type: "POST",
+            url: "api/confirma_lista_por_fecha_gestiones",
+            contentType:false,
+            processData:false,
+            data : formData,
+            success : function(data){
+                var table= $('#dataordenes').DataTable();
+                table.clear().draw();
+                if(data.success==1){
+                    var ruta="views/app/temp/" + data.message;
+                    var request = $.ajax( ruta , {dataType:'json'} );
+                    request.done(function (resultado) {
+                        table.rows.add(resultado.aaData).draw();
+                    });
+                }else{
+                    $.alert(data.message);
+                }
+            },
+            error : function(xhr, status) {
+              msg_box_alert(99,'Filtrar Ordenes',xhr.responseText);
+            }
+        });
+    }
+    $('#btn_exporta_excel_ordenes_gestiones').click(function(e) {
+        var fecha_desde=document.getElementById('revdesde').value;
+        var fecha_hasta=document.getElementById('revhasta').value;
+
+        location.href = 'confirmacion/exporta_excel_ordenes_gestiones?fecha_desde='+fecha_desde+'&fecha_hasta='+fecha_hasta ;
+    });

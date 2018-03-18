@@ -523,7 +523,8 @@ class Mdlconfirmacion extends Models implements IModels {
             $sql_fecha_filtro=' o.fecha_compromiso between "'.$fecha_desde.'"  and "'.$fecha_hasta.'"';
         }
 
-        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion,c.territorio,o.reagendamiento,cd.nombre cuadrante,fecha_dia_hora from (((tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user) inner join tblcomuna c on c.nombre=o.comuna) left join tblcuadrante cd on o.comuna=cd.cod_comuna and o.nodo=cd.nodo where ( $sql_fecha_filtro) $sql_filtro  order by o.id_orden");
+        return $this->db->query_select("select o.id_orden,o.n_orden,o.operador,o.reg,o.rut_cliente, DATE_FORMAT(o.fecha_compromiso, '%d-%m-%y') fecha_compromiso,o.bloque,o.motivo,o.comuna,o.actividad,tr.nombre desc_resultado,o.observacion,DATE_FORMAT(o.fecha_dia, '%d-%m-%y') fecha_dia,o.nodo,o.subnodo,tr.nombre, u.name,o.ubicacion,c.territorio,o.reagendamiento,cd.nombre cuadrante,fecha_dia_hora,fecha_ot,fecha_compromiso_flujo,bloque_flujo
+        from (((tblordenes o inner join  tblresultado tr on tr.id_resultado=o.resultado) inner join users u on o.operador=u.id_user) inner join tblcomuna c on c.nombre=o.comuna) left join tblcuadrante cd on o.comuna=cd.cod_comuna and o.nodo=cd.nodo where ( $sql_fecha_filtro) $sql_filtro  order by o.id_orden");
     }
 
     // INGRESO - REINGRESO - MODIFICACION - ELIMINAR ORDEN
@@ -547,6 +548,9 @@ class Mdlconfirmacion extends Models implements IModels {
         $observacion=$http->request->get('textobservacion');
         $tipoorden=$http->request->get('texttipoorden');
         $reagendamiento=$http->request->get('reagendamiento');
+        $fecha_flujo = $http->request->get('textfecha_flujo');
+        $bloque_flujo = $http->request->get('textbloque_flujo');
+
         $fecha_dia=date('Y-m-d');
 
         if ($this->functions->e($fechaot,$orden,$rutcliente,$reagendamiento,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
@@ -587,6 +591,8 @@ class Mdlconfirmacion extends Models implements IModels {
             'resultado'=>$resultado,
             'observacion'=>$observacion,
             'fecha_dia'=>$fecha_dia,
+            'fecha_compromiso_flujo'=>$fecha_flujo,
+            'bloque_flujo'=>$bloque_flujo,
             'prioridad' => $prioridad[0]['prioridad']
         ));
 
@@ -602,7 +608,9 @@ class Mdlconfirmacion extends Models implements IModels {
             'motivo_llamado' => $motivo,
             'bloque' => $bloque,
             'fecha_compromiso' => $fechacompromiso,
-            'resultado' => $resultado
+            'resultado' => $resultado,
+            'fecha_compromiso_flujo'=>$fecha_flujo,
+            'bloque_flujo'=>$bloque_flujo,
         ));
 
         return array('success' => 1, 'message' => 'Orden ingresada');
@@ -629,6 +637,10 @@ class Mdlconfirmacion extends Models implements IModels {
         $observacion=$http->request->get('reobservacion');
         $tipoorden=$http->request->get('retipoorden');
         $reagendamiento=$http->request->get('reagendamiento');
+
+        $fecha_flujo = $http->request->get('textfecha_flujo');
+        $bloque_flujo = $http->request->get('textbloque_flujo');
+
         $fecha_dia=date('Y-m-d');
 
         if ($this->functions->e($fechaot,$orden,$rutcliente,$fechacompromiso,$bloque,$motivo,$comuna,$actividad,$resultado,$observacion,$subnodo,$nodo,$tipoorden)) {
@@ -663,6 +675,8 @@ class Mdlconfirmacion extends Models implements IModels {
             'resultado'=>$resultado,
             'observacion'=>$observacion,
             'fecha_dia'=>$fecha_dia,
+            'fecha_compromiso_flujo'=>$fecha_flujo,
+            'bloque_flujo'=>$bloque_flujo,
             'prioridad' => $prioridad[0]['prioridad'],
             'ubicacion' => 'CONFIRMACION',
             'estado_orden' => '1',
@@ -682,7 +696,9 @@ class Mdlconfirmacion extends Models implements IModels {
             'motivo_llamado' => $motivo,
             'reagendamiento'=>$reagendamiento,
             'fecha_compromiso' => $fechacompromiso,
-            'resultado' => $resultado
+            'resultado' => $resultado,
+            'fecha_compromiso_flujo'=>$fecha_flujo,
+            'bloque_flujo'=>$bloque_flujo
         ));
 
         return array('success' => 1, 'message' => 'Orden ingresada');
@@ -710,6 +726,9 @@ class Mdlconfirmacion extends Models implements IModels {
         $idorden=$http->request->get('ordenid');
         $operador=$http->request->get('textmodid');
 
+        $fecha_flujo = $http->request->get('textfecha_flujo');
+        $bloque_flujo = $http->request->get('textbloque_flujo');
+
         if ($this->functions->e( $fechaot,$modobservacion,$modorden,$modfechacompromiso,$modrutcliente,$modcomuna,$modbloque,$modmotivo,$modactividad,$modresultado,$tipoorden,$modnodo,$modsubnodo)){
             return array('success' => 0, 'message' => 'Debe ingresar o seleccionar todas las opciones');
         }else{
@@ -720,7 +739,9 @@ class Mdlconfirmacion extends Models implements IModels {
 
             $prioridad = $this->getTipoOrdenById($tipoorden);
             $this->db->query("UPDATE tblordenes set n_orden='$modorden', rut_cliente='$modrutcliente',reg='$modreg', fecha_compromiso='$modfechacompromiso', fecha_ot='$fechaot', bloque='$modbloque', motivo='$modmotivo',
-            comuna='$modcomuna',nodo='$modnodo',reagendamiento='$reagendamiento', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion', fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'  WHERE id_orden='$idorden'");
+            comuna='$modcomuna',nodo='$modnodo',reagendamiento='$reagendamiento', subnodo='$modsubnodo', tipoorden='$tipoorden', actividad='$modactividad', resultado='$modresultado', observacion='$modobservacion',
+            fecha_compromiso_flujo='$fecha_flujo',bloque_flujo='$bloque_flujo',fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'
+             WHERE id_orden='$idorden'");
 
             $this->db->insert('tblhistorico', array(
                 'id_orden' => $idorden,
@@ -733,7 +754,9 @@ class Mdlconfirmacion extends Models implements IModels {
                 'id_user' => $operador,
                 'bloque' => $modbloque,
                 'fecha_compromiso' => $modfechacompromiso,
-                'resultado' => $modresultado
+                'resultado' => $modresultado,
+                'fecha_compromiso_flujo'=>$fecha_flujo,
+                'bloque_flujo'=>$bloque_flujo
             ));
 
 
@@ -1234,6 +1257,9 @@ class Mdlconfirmacion extends Models implements IModels {
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', 'TERRITORIO');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', 'REAGENDAMIENTOS');
             $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', 'CUADRANTE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1', 'FECHA_OT');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1', 'FECHA__COMPROMISO_FLUJO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S1', 'BLOQUE_FLUJO');
 
             $fila = 2;
             foreach ($u as $value => $data) {
@@ -1257,12 +1283,15 @@ class Mdlconfirmacion extends Models implements IModels {
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$fila, $data['territorio'] );
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$fila, $data['reagendamiento'] );
               $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$fila, $data['cuadrante'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$fila, $data['fecha_ot'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$fila, $data['fecha_compromiso_flujo'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('S'.$fila, $data['bloque_flujo'] );
 
               $fila++;
             }
 
             //autisize para las columna
-            foreach(range('A','P') as $columnID)
+            foreach(range('A','S') as $columnID)
             {
                 $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
             }
@@ -1470,6 +1499,147 @@ class Mdlconfirmacion extends Models implements IModels {
             return array('success' => 1, 'html'=>$html, 'json'=>$pend_valores_test);
         }else{
             return array('success' => 1, 'message'=>'error sistema');
+        }
+    }
+
+    public function listar_gestiones($fecha_desde,$fecha_hasta){
+        $sql_filtro="";
+        $sql_fecha_filtro=' h.fecha between "'.$fecha_desde.'"  and "'.$fecha_hasta.'"';
+
+
+        return $this->db->query_select("select h.n_orden,o.rut_cliente,h.fecha_compromiso,o.fecha_ot,h.bloque,h.motivo_llamado,o.comuna,o.nodo,o.subnodo,o.actividad,tr.nombre desc_resultado,h.observacion, u.name,h.hora,h.reagendamiento,c.territorio,h.accion,cd.nombre cuadrante
+        from ((((tblhistorico h inner join tblordenes o on h.id_orden=o.id_orden)
+        inner join  tblresultado tr on tr.id_resultado=h.resultado)
+        inner join users u on h.id_user=u.id_user)
+        inner join tblcomuna c on c.nombre=o.comuna)
+        left join tblcuadrante cd on o.comuna=cd.cod_comuna and o.nodo=cd.nodo
+        where ( $sql_fecha_filtro) $sql_filtro
+        order by h.id_orden");
+    }
+    public function confirma_lista_por_fecha_gestiones(){
+        global $http;
+        $fecha_desde=$http->request->get('fecha_desde');
+        $fecha_hasta=$http->request->get('fecha_hasta');
+
+        $result=$this->listar_gestiones($fecha_desde,$fecha_hasta);
+
+
+        $usucompa=(new Model\Users)->getOwnerUser();
+
+        if ($result === false){
+            return array('success' => 0, 'message' => 'Para la fecha seleccionada no existen datos');
+        }else{
+            $json = array(
+            "aaData"=>array(
+            )
+            );
+            foreach ($result as $key => $value) {
+
+                $json['aaData'][] = array($value['n_orden'],$value['rut_cliente'],$value['fecha_compromiso'],$value['bloque'],$value['motivo_llamado'],$value['comuna'],$value['nodo'],$value['actividad'],$value['desc_resultado'],$value['observacion'],$value['name'] , $value['accion'] );
+            }
+        }
+        $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
+        $fh = fopen(API_INTERFACE . "views/app/temp/result_cons_".$usucompa['id_user'].".dbj", 'w');
+        fwrite($fh, $jsonencoded);
+        fclose($fh);
+        return array('success' => 1, 'message' => "result_cons_".$usucompa['id_user'].".dbj" );
+    }
+    public function exporta_excel_ordenes_gestiones() {
+
+        global $http,$config;
+        $fecha_desde=$http->query->get('fecha_desde');
+        $fecha_hasta=$http->query->get('fecha_hasta');
+
+
+        $u=$this->listar_gestiones($fecha_desde,$fecha_hasta);
+
+        if ( $u != false ){
+
+            $objPHPExcel = new PHPExcel();
+
+            //Informacion del excel
+            $objPHPExcel->getProperties() ->setCreator("Jorge Jara H.")
+                                          ->setLastModifiedBy("JJH")
+                                          ->setTitle("listado_ordenes_gestiones");
+            //encabezado
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'NMRO_ORDEN');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'RUT_CLIENTE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'FECHA_COMPROMISO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'BLOQUE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'MOTIVO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'COD_COMUNA');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', 'NODO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', 'SUBNODO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', 'ACTIVIDAD');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', 'RESULTADO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', 'OBSERVACION');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'OPERADOR');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', 'FECHA_REGISTRO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N1', 'TERRITORIO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O1', 'REAGENDAMIENTOS');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P1', 'CUADRANTE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q1', 'FECHA_OT');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R1', 'ACCION');
+
+
+            $fila = 2;
+            foreach ($u as $value => $data) {
+
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['n_orden']);
+              $dif= 12 - strlen($data['rut_cliente']);
+              $rut = str_repeat('0',$dif).$data['rut_cliente'];
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $rut);
+
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['fecha_compromiso']);
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['bloque']);
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['motivo_llamado']);
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['comuna'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$fila, $data['nodo'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$fila, $data['subnodo'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$fila, $data['actividad'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$fila, $data['desc_resultado'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$fila, $data['observacion'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$fila, $data['name'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$fila, $data['hora'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('N'.$fila, $data['territorio'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('O'.$fila, $data['reagendamiento'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('P'.$fila, $data['cuadrante'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('Q'.$fila, $data['fecha_ot'] );
+              $objPHPExcel->setActiveSheetIndex(0)->setCellValue('R'.$fila, $data['accion'] );
+
+
+              $fila++;
+            }
+
+            //autisize para las columna
+            foreach(range('A','S') as $columnID)
+            {
+                $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+            }
+
+            $objPHPExcel->setActiveSheetIndex(0);
+
+            $objPHPExcel->getActiveSheet()->setTitle('listado_ordenes_gestiones');
+
+            // Redirect output to a client’s web browser (Excel2007)
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="listado_ordenes_gestiones.xlsx"');
+            header('Cache-Control: max-age=0');
+            // If you're serving to IE 9, then the following may be needed
+            header('Cache-Control: max-age=1');
+
+            // If you're serving to IE over SSL, then the following may be needed
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public'); // HTTP/1.0
+
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+            $objWriter->save('php://output');
+        }
+        else{
+            # Redireccionar a la página principal del controlador
+            $this->functions->redir($config['site']['url'] . 'confirmacion/listar_allorden');
         }
     }
     /**

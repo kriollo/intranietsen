@@ -100,7 +100,7 @@
                                         <td>{{((d.acum_hoy_conf / metas) *100) | round(1,'ceil')  }}%</td>
                                     </tr>
                                     {% set No =  No + 1 %}
-                                    {% set total = total + d.cantidad_total %}
+                                    {% set total = total + d.acum_hoy_total %}
                                     {% set total_confirmados = total_confirmados + d.acum_hoy_conf %}
                                 {% endfor %}
                                 <tr>
