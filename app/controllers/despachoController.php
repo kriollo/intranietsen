@@ -17,7 +17,7 @@ use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 
 /**
- * Controlador rrhh/
+ * Controlador Despacho/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
@@ -75,6 +75,38 @@ class despachoController extends Controllers implements IControllers {
            case 'estado_estado':
                 (new Model\Mdldespacho)->update_estado_estado($router->getId(true));
            break;
+//Tecnicos-----------------------------------------------------------------------------------------------------------------------
+           case 'listar_tecnicos':
+               echo $this->template->render('despacho/tecnicos/listar_tecnicos', array(
+                   'menu_op' => $op,
+                   'tecnicos_db' => (new Model\Mdltecnicos)->verTecnicos()
+               ));
+           break;
+           case 'nuevo_tecnico':
+               echo $this->template->render('despacho/tecnicos/nuevo_tecnico', array(
+                   'menu_op' => $op
+               ));
+           break;
+           case 'importar_tecnico':
+               echo $this->template->render('despacho/tecnicos/importar_tecnico', array(
+                   'menu_op' => $op,
+                   'db_archivos' => (new Model\Varios)->listar_archivos_cargados('Carga de Tecnicos')
+               ));
+           break;
+           case 'editar_tecnico':
+               if($this->isset_id and false !== ($data = (new Model\Mdltecnicos)->getTecnicosById($router->getId()))) {
+                   echo $this->template->render('despacho/tecnicos/editar_tecnicos', array(
+                       'menu_op' => $op,
+                       'db_tecnico' => $data[0]
+                   ));
+               } else {
+                   $this->functions->redir($config['site']['url'] . 'despacho/&error=true');
+               }
+           break;
+           case 'estado_tecnico':
+               (new Model\Mdltecnicos)->update_estado_tecnico($router->getId(true));
+           break;
+//-------------------------------------------------------------------------------------------------------------------------------
            case 'listar_ordenes':
                 $user = (new Model\Users)->getOwnerUser();
                 echo $this->template->render('despacho/cierre/listar_ordenes', array(

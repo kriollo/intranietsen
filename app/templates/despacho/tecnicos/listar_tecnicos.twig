@@ -5,12 +5,12 @@
 {% block appBody %}
     <section class="content-header">
         <h1>
-            RRHH
+            Despacho
             <small>Listado de Tecnicos</small>
-          <a class="btn btn-primary btn-social pull-right" href="rrhh/nuevo_tecnico" title="Agregar" data-toggle="tooltip">
+          <a class="btn btn-primary btn-social pull-right" href="despacho/nuevo_tecnico" title="Agregar" data-toggle="tooltip">
             <i class="fa fa-plus"></i> Agregar
           </a>
-          <a class="btn btn-success btn-social pull-right" href="rrhh/importar_tecnico" title="Importar" data-toggle="tooltip">
+          <a class="btn btn-success btn-social pull-right" href="despacho/importar_tecnico" title="Importar" data-toggle="tooltip">
             <i class="fa fa-upload"></i> Importar
           </a>
 
@@ -31,7 +31,7 @@
                   <th>Nombres</th>
                   <th>Telefono</th>
                   <th>Codigo Tecnico</th>
-                  
+
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -44,20 +44,20 @@
                     <td>{{ d.nombre|raw|title }}</td>
                     <td>{{ d.telefono }}</td>
                     <td>{{ d.codigo }}</td>
-                    
+
 
                     <td class='center' width='80'>
-                      <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="rrhh/editar_tecnico/{{ d.id_tecnicos }}">
+                      <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="despacho/editar_tecnico/{{ d.id_tecnicos }}">
                       <i class='glyphicon glyphicon-edit'></i>
                       </a>
 
                       {% if d.estado == 0 %}
-                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="rrhh/estado_tecnico/{{ d.id_tecnicos }}">
+                          <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="despacho/estado_tecnico/{{ d.id_tecnicos }}">
                           <i class='glyphicon glyphicon-off'></i>
                           </a>
 
                       {% else %}
-                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="rrhh/estado_tecnico/{{ d.id_tecnicos }}">
+                          <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="despacho/estado_tecnico/{{ d.id_tecnicos }}">
                           <i class='glyphicon glyphicon-check'></i>
                           </a>
 
@@ -82,7 +82,7 @@
     <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 
-    <script src="views/app/js/rrhh/tecnicos.js"></script>
+    <script src="views/app/js/despacho/tecnicos.js"></script>
 
     <script>
      $("#dataTables1").dataTable({

@@ -60,6 +60,22 @@ class __TwigTemplate_52f06e787bfe3a26e7bd64284244fa8a0c0fc7e398bf233ac0ed0dbf5a6
             </fieldset>
           </form>
         </div>
+        <div class=\"col-lg-3\">
+          <form>
+            <fieldset>
+            <legend>Tecnicos</legend>
+              <div style=\"background-color:#8ee28d;color:#fff\" class=\"small-box\">
+                <div class=\"inner\">
+                  <h3>Listar</h3>
+                </div>
+                <div class=\"icon\">
+                  <i class=\"fa fa-user-plus\"></i>
+                </div>
+                  <a href=\"despacho/listar_tecnicos\" class=\"small-box-footer\" title=\"Ver Tecnicos\" data-toggle=\"tooltip\"><i class=\"fa fa-eye\"></i></a>
+              </div>
+            </fieldset>
+          </form>
+        </div>
       </div>
     </section>
     <!-- /.content -->

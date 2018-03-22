@@ -1,4 +1,4 @@
-function execute_accion_rrhh(method,api_rest,formulario,accion,accion_redirect){
+function execute_accion_despacho(method,api_rest,formulario,accion,accion_redirect){
   switch(api_rest) {
     case "registra_nuevo_tecnico":
       title='Registro de Tecnico';
@@ -22,11 +22,11 @@ function execute_accion_rrhh(method,api_rest,formulario,accion,accion_redirect){
 
 $('#register_tecnico').click(function(e) {
   e.defaultPrevented;
-  execute_accion_rrhh("POST","registra_nuevo_tecnico",'register_tecnico_form','redirect','rrhh/listar_tecnicos');
+  execute_accion_despacho("POST","registra_nuevo_tecnico",'register_tecnico_form','redirect','despacho/listar_tecnicos');
 });
 $('#update_tecnico').click(function(e) {
   e.defaultPrevented;
-  execute_accion_rrhh("POST","editar_tecnico",'editar_tecnico_form','reload');
+  execute_accion_despacho("POST","editar_tecnico",'editar_tecnico_form','reload');
 });
 
 function subirarchivoexcel(){

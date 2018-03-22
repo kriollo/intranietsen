@@ -3,12 +3,14 @@
 {% block appBody %}
 <section class="content-header">
     <h1>
-        RRHH
-        <small>Carga de Turnos</small>
+        Despacho
+        <small>Importar Tecnico</small>
     </h1>
     <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-    <li class="active">Cargar Turnos</li>
+    <li><a href="despacho/mantenedores_crud_masters">Mantenedores</a></li>
+    <li><a href="despacho/listar_tecnicos">Listado de Tecnicos</a></li>
+    <li class="active">Importar Tecnico</li>
     </ol>
 </section>
 
@@ -31,12 +33,11 @@
                             </div>
                             <div id="div_cargando">
                                 <a class="btn btn-success btn-social" title="Exportar a Excel" data-toggle="tooltip" onclick="subirarchivoexcel()">
-                                    <i class="fa fa-arrow-up"></i> Cargar Turnos 
+                                    <i class="fa fa-arrow-up"></i> Cargar Tecnicos
                                 </a>
                             </div>
                         </form>
                     </div>
-                    
                     <p><strong>Ultimos 5 archivos cargados</strong></p>
                     <table class="table table-bordered">
                       <thead>
@@ -56,21 +57,13 @@
                         {% endfor %}
                       </tbody>
                     </table>
-              
                 </div>
                 <div class="box-body col-sm-6">
                     <span><b>Formato de Archivo</b>
                     <p>Col A -> Rut</p>
-                    <p>Col B -> Servicio</p>
-                    <p>Col C -> Fecha</p>
-                    <p>Col D -> Hora de Ingreso</p>
-                    <p>Col E -> Hora de Salida</p>
-                    <p>Col F -> Número de Semana</p>
-                    <p>Col G -> Horas Turno</p>
-                    <p>Col H -> Hora Colacion</p>
-                    <p>Col H -> Horario Colacion</p>
-                    <p>Col H -> Hora Break 1</p>
-                    <p>Col H -> Hora Break 2</p>
+                    <p>Col B -> Nombre</p>
+                    <p>Col C -> Codigo Tango</p>
+                    <p>Col D -> Telefono</p>
                     </span>
                 </div>
             </div>
@@ -78,6 +71,7 @@
     </div>
 </section>
 {% endblock %}
+
 {% block appScript %}
-    <script src="views/app/js/rrhh/turnos.js"></script>
+    <script src="views/app/js/despacho/tecnicos.js"></script>
 {% endblock %}

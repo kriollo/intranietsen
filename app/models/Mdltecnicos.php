@@ -125,7 +125,7 @@ class Mdltecnicos extends Models implements IModels {
 
 
         # Redireccionar a la página principal del controlador
-        $this->functions->redir($config['site']['url'] . 'rrhh/listar_tecnicos');
+        $this->functions->redir($config['site']['url'] . 'despacho/listar_tecnicos');
     }
 
     /**
