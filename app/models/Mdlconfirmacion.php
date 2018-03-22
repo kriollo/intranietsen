@@ -1304,6 +1304,7 @@ class Mdlconfirmacion extends Models implements IModels {
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="listado_ordenes_confirmacion.xlsx"');
+            header('Content-Length: 9999999999');
             header('Cache-Control: max-age=0');
             // If you're serving to IE 9, then the following may be needed
             header('Cache-Control: max-age=1');
@@ -1626,6 +1627,7 @@ class Mdlconfirmacion extends Models implements IModels {
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="listado_ordenes_gestiones.xlsx"');
             header('Cache-Control: max-age=0');
+            header('Content-Length: 9999999999');
             // If you're serving to IE 9, then the following may be needed
             header('Cache-Control: max-age=1');
 

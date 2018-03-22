@@ -130,7 +130,7 @@ class __TwigTemplate_59d656e9d069fd8b534c6020e0fa4f3ebf8b67ce423fde0a03327a8d7eb
                 echo "</td>
                                         <td>";
                 // line 70
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "motivo", array()), "html", null, true);
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["t"], "motivo_llamado", array()), "html", null, true);
                 echo "</td>
                                         <td>";
                 // line 71

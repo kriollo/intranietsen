@@ -702,10 +702,7 @@ class Mdldespacho extends Models implements IModels {
     }
     //--------------------------------------------------------------------------
     //consultas y reportes------------------------------------------------------
-    public function getAsistenciaTecnico($fecha){
-        $sql="select t.codigo,if(ast.estado is null,'AUS',upper(substr(ast.estado,1,3))) asistencia from tbltecnicos t left join tblasistenciatecnico ast on t.id_tecnicos=ast.id_tecnico and CAST(ast.fechahora AS DATE)='$fecha' Order by t.codigo";
-        return $this->db->query_select($sql);
-    }
+    
 
     //--------------------------------------------------------------------------
     /**

@@ -98,7 +98,8 @@ class despachoController extends Controllers implements IControllers {
             default:
                 echo $this->template->render('despacho/despacho', array(
                     'menu_op' => $op,
-                    'db_asistencia_tecnico' => (new Model\Mdldespacho)->getAsistenciaTecnico(date('Y-m-d'))
+                    'db_asistencia_tecnico' => (new Model\Varios)->getAsistenciaTecnico(date('Y-m-d')),
+                    'db_asistencia_tecnico_Resumen' => (new Model\Varios)->getAsistenciaTecnicoResumen(date('Y-m-d'))
                 ));
             break;
         }

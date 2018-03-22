@@ -33,6 +33,12 @@ class Varios extends Models implements IModels {
     public function listar_archivos_cargados($idapp){
         return $this->db->query_select("SELECT * FROM tbl_historialarchivoscargados where app='$idapp' order by id desc limit 5");
     }
+    public function getMenuPPAL(){
+        return $this->db->query_select("Select id_menu,descripcion from tblmenu order by descripcion");
+    }
+    public function getSubMenu(int $id_menu=99){
+        return $this->db->query_select("Select id_menu,id_submenu,descripcion from tblsubmenu where id_menu='$id_menu' and estado=1 order by descripcion");
+    }
 
     final function diferencia_meses($fecha_inicio,$fecha_termino){
         $result= $this->db->query_select("select timestampdiff(month,'$fecha_inicio','$fecha_termino')");
@@ -41,8 +47,19 @@ class Varios extends Models implements IModels {
         }else{
             return $result[0];
         }
-            
+
     }
+
+    public function getAsistenciaTecnico($fecha){
+        $sql="select t.codigo,if(ast.estado is null,'AUS',upper(substr(ast.estado,1,3))) asistencia from tbltecnicos t left join tblasistenciatecnico ast on t.id_tecnicos=ast.id_tecnico and CAST(ast.fechahora AS DATE)='$fecha' Order by t.codigo";
+        return $this->db->query_select($sql);
+    }
+    public function getAsistenciaTecnicoResumen($fecha){
+        $sql="select if(ast.estado is null,'AUS',upper(substr(ast.estado,1,3))) asistencia,count(t.codigo) cuenta from tbltecnicos t left join tblasistenciatecnico ast on t.id_tecnicos=ast.id_tecnico and CAST(ast.fechahora AS DATE)='$fecha' group by ast.estado";
+        return $this->db->query_select($sql);
+    }
+
+    
     /**
       * __construct()
     */
@@ -53,7 +70,7 @@ class Varios extends Models implements IModels {
 
     /**
       * __destruct()
-    */ 
+    */
     public function __destruct() {
         parent::__destruct();
         $this->endDBConexion();
