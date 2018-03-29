@@ -67,49 +67,73 @@
                 </div><!-- ./col -->
             </div><!-- ./col -->
             <!-- Resumen TOP 10 -->
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Gestión Confirmación Hoy - Meta: {{ metas }} confirmaciones</h3>
                     </div>
                     <div class="box-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <th>No</th>
-                                <th>Comuna</th>
-                                <th>Llamados</th>
-                                <th>confirmados</th>
-                                <th></th>
-                                <th></th>
-                            </thead>
-                            <tbody>
-                                {% set No = 1 %}
-                                {% set total = 0 %}
-                                {% set total_confirmados = 0 %}
-                                {% for d in confirma_resumen_llamados_ejecutivos if false != confirma_resumen_llamados_ejecutivos %}
-                                    <tr>
-                                        <td>{{ No }}</td>
-                                        <td>{{ d.name|raw|title }}</td>
-                                        <td>{{ d.acum_hoy_total }}</td>
-                                        <td>{{ d.acum_hoy_conf }}</td>
-                                        <td class="col-lg-1"><div class="progress progress-xs">
-                                                <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
-                                                    <span class="sr-only">{{ ((d.acum_hoy_conf / metas) *100) | round(1, 'ceil') }}% </span>
-                                                </div>
-                                            </div></td>
-                                        <td>{{((d.acum_hoy_conf / metas) *100) | round(1,'ceil')  }}%</td>
-                                    </tr>
-                                    {% set No =  No + 1 %}
-                                    {% set total = total + d.acum_hoy_total %}
-                                    {% set total_confirmados = total_confirmados + d.acum_hoy_conf %}
-                                {% endfor %}
+                        {% set count = 1 %}
+                        {% set mitad = (confirma_resumen_llamados_ejecutivos|length /2) | round(0, 'ceil') %}
+                        {% set tope = mitad %}
+
+                        {% set No = 1 %}
+                        {% set total = 0 %}
+                        {% set total_confirmados = 0 %}
+                        {% for d in confirma_resumen_llamados_ejecutivos if false != confirma_resumen_llamados_ejecutivos %}
+                            {% if count == 1 %}
+                                <div class="col-lg-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>No</th>
+                                            <th>Comuna</th>
+                                            <th>Llamados</th>
+                                            <th>confirmados</th>
+                                            <th></th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+
+                            {% endif %}
+
                                 <tr>
-                                <td colspan="2">TOTAL:</td>
-                                <td>{{total}}</td>
-                                <td>{{total_confirmados}}</td>
+                                    <td>{{ No }}</td>
+                                    <td>{{ d.name|raw|title }}</td>
+                                    <td>{{ d.acum_hoy_total }}</td>
+                                    <td>{{ d.acum_hoy_conf }}</td>
+                                    <td class="col-lg-1"><div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-aqua" style="width: {{ ((d.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}%" role="progressbar" aria-valuenow="{{ ((d.acum_hoy_conf / metas)*100) | round(1, 'ceil') }}" aria-valuemin="0" aria-valuemax="{{ metas }}">
+                                                <span class="sr-only">{{ ((d.acum_hoy_conf / metas) *100) | round(1, 'ceil') }}% </span>
+                                            </div>
+                                        </div></td>
+                                    <td>{{((d.acum_hoy_conf / metas) *100) | round(1,'ceil')  }}%</td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                {% set No =  No + 1 %}
+                                {% set total = total + d.acum_hoy_total %}
+                                {% set total_confirmados = total_confirmados + d.acum_hoy_conf %}
+                                {% set count = count + 1 %}
+                            
+
+
+                            {% if count == tope %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% set count = 1 %}
+                            {% endif %}
+
+                        {% endfor %}
+                        {% if count < tope %}
+                                        <tr>
+                                            <td colspan="2">TOTAL:</td>
+                                            <td>{{total}}</td>
+                                            <td>{{total_confirmados}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>

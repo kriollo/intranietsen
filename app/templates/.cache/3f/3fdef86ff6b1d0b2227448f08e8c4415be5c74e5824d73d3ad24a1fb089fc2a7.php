@@ -574,7 +574,7 @@ class __TwigTemplate_36bbb4f24b3dc9384e11ccc928ea43cb9fb6240546d0e59120db61aadb2
         echo "  <script src=\"views/app/js/confirmacion/confirmacion.js\"></script>
   <script type=\"text/javascript\">
     setInterval(function() {
-        location.href = \"visor\"
+        location.href = \"visor/confirmacion_produccion_dia\"
     }, 120000);
   </script>
 ";

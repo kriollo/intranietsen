@@ -20,6 +20,7 @@ phpmailer:
   host: smtp.gmail.com
   user: alertas@websystem.cl
   pass: alertas2018wys
+  SMTPSecure: tls
   port: 465
 
 # Configuración de sesiones

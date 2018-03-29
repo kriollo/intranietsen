@@ -565,13 +565,16 @@ function verbloque(bloque){
                 if(data.success==1){
                     $('#tbldatos').html(data.html);
 
-                    var serie= []; var valor= []; var valor_total= []; var valor_total_conf_acum= []; var valor_total_sinconf_acum= [];
+                    var serie= []; var valor= []; var valor_total= []; var valor_total_conf_acum= []; var valor_total_sinconf_acum= [];   var porcentaje_conf = [];
+                    var porcentaje_conf_total = [];
                     $.each(data.data, function(i,o){
                         serie.push(String(o.x));
                         valor.push(parseFloat(o.y));
                         valor_total.push(parseFloat(o.z));
                         valor_total_conf_acum.push(parseFloat(o.a));
                         valor_total_sinconf_acum.push(parseFloat(o.b));
+                        porcentaje_conf.push(parseFloat(Math.round(o.p).toFixed(2)));
+                        porcentaje_conf_total.push(parseFloat(Math.round(o.pt).toFixed(2)));
                     });
 
                     var grafico_reag= $('#grafico_llamados_confirmadas').highcharts({
@@ -579,9 +582,12 @@ function verbloque(bloque){
                             type: 'column',
                             animation: Highcharts.svg,
                         },
-                        title:{text: 'Llamadas Confirmadas'},
-                        xAxis:{categories: serie},
-                        yAxis: {
+                        title:{text: 'PRODUCCION TOTAL DIARIA'},
+                        subtitle:{text:'Entre Confirmados y No confirmados'},
+                        xAxis: {
+                            categories: serie
+                        },
+                        yAxis: [{
                             min: 0,
                             title: {
                                 text: 'Total Llamados'
@@ -593,12 +599,16 @@ function verbloque(bloque){
                                     color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
                                 }
                             }
-                        },
+                        }, {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                text: 'Porcentaje Produccion'
+                            },
+                            opposite: true
+                        }],
                         legend: { align: 'right',
-                                x: -30,
                                 verticalAlign: 'top',
-                                y: 25,
-                                floating: true,
                                 backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
                                 borderColor: '#CCC',
                                 borderWidth: 1,
@@ -615,9 +625,31 @@ function verbloque(bloque){
                                     enabled: true,
                                     color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
                                 }
+                            },
+                            line: {
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                enableMouseTracking: false
                             }
                         },
-                        series: [{ name: 'Confirmadas', data:valor},{name: "No Confirmadas" , data:valor_total}],
+                        series: [{
+                            name: 'Confirmadas',
+                            data: valor
+                        }, {
+                            name: "No Confirmadas",
+                            data: valor_total
+                        }, {
+                            name: "Produccion",
+                            type: 'spline',
+                            data: porcentaje_conf,
+                            color: '#FF0000',
+                              tooltip: {
+                                headerFormat: '<b>{point.x}</b><br/>',
+                                pointFormat: '{series.name}: {point.y}',
+                                valueSuffix: ' %'
+                            }
+                        }],
                         responsive: {
                             rules: [{
                                 condition: {
@@ -639,9 +671,16 @@ function verbloque(bloque){
                             type: 'column',
                             animation: Highcharts.svg,
                         },
-                        title:{text: 'Gestiones Confirmadas Acumulado'},
-                        xAxis:{categories: serie},
-                        yAxis: {
+                       title: {
+                               text: 'PRODUCCION TOTAL HISTORICA'
+                           },
+                           subtitle: {
+                               text: 'Entre Gestiones Confirmadas y No confirmadas'
+                           },
+                        xAxis: {
+                            categories: serie
+                        },
+                        yAxis: [{
                             min: 0,
                             title: {
                                 text: 'Total Llamados'
@@ -653,11 +692,16 @@ function verbloque(bloque){
                                     color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
                                 }
                             }
-                        },
+                        }, {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                text: 'Porcentaje Produccion'
+                            },
+                            opposite: true
+                        }],
                         legend: { align: 'right',
-                                x: -30,
                                 verticalAlign: 'top',
-                                y: 25,
                                 floating: true,
                                 backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
                                 borderColor: '#CCC',
@@ -677,7 +721,23 @@ function verbloque(bloque){
                                 }
                             }
                         },
-                        series: [{ name: 'Confirmadas', data:valor_total_conf_acum},{name: "No Confirmadas" , data:valor_total_sinconf_acum}],
+                        series: [{
+                            name: 'Confirmadas',
+                            data: valor_total_conf_acum
+                        }, {
+                            name: "No Confirmadas",
+                            data: valor_total_sinconf_acum
+                        }, {
+                            name: "Produccion Total",
+                            type: 'spline',
+                            data: porcentaje_conf_total,
+                            color: '#FF0000',
+                            tooltip: {
+                                headerFormat: '<b>{point.x}</b><br/>',
+                                pointFormat: '{series.name}: {point.y}',
+                                valueSuffix: ' %'
+                            }
+                        }],
                         responsive: {
                             rules: [{
                                 condition: {

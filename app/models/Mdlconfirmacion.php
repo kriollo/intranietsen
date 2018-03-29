@@ -743,6 +743,10 @@ class Mdlconfirmacion extends Models implements IModels {
             fecha_compromiso_flujo='$fecha_flujo',bloque_flujo='$bloque_flujo',fecha_dia='$modfecha_dia', prioridad='".$prioridad[0]['prioridad']."'
              WHERE id_orden='$idorden'");
 
+
+            //$orden = $this->get_orden_byId($idorden);
+            $usu=(new Model\Users)->getOwnerUser();
+
             $this->db->insert('tblhistorico', array(
                 'id_orden' => $idorden,
                 'n_orden' => $modorden,
@@ -751,7 +755,7 @@ class Mdlconfirmacion extends Models implements IModels {
                 'observacion' => $modobservacion,
                 'reagendamiento' => $reagendamiento,
                 'motivo_llamado' => $modmotivo,
-                'id_user' => $operador,
+                'id_user' => $usu['id_user'],
                 'bloque' => $modbloque,
                 'fecha_compromiso' => $modfechacompromiso,
                 'resultado' => $modresultado,
@@ -1347,7 +1351,7 @@ class Mdlconfirmacion extends Models implements IModels {
     }
 
     // Reporte Productividad Ejecutivo
-    public function calc_llamados($fecha){
+    public function calc_llamados($fecha, string $ordenarpor='acum_total_sinconf'){
         $fecha2=strtotime($fecha);
         $fecha3=date('Y-m',strtotime('-1 month',$fecha2)).'-25';
         $sql="select h.id_user,u.name,count(*) acum_total_sinconf,
@@ -1357,7 +1361,7 @@ class Mdlconfirmacion extends Models implements IModels {
         (select count(vdt.fecha) cuenta from view_dias_trabajados vdt where vdt.id_user=h.id_user and vdt.fecha<='$fecha' group by vdt.id_user) dias_trab
         from tblhistorico h inner join users u on h.id_user=u.id_user where (accion='INGRESO' or accion='REINGRESO' or accion='MODIFICACION') and h.fecha between '$fecha3' and '$fecha'
         group by h.id_user
-        order by acum_total_sinconf desc";
+        order by $ordenarpor desc";
 
         $result= $this->db->query_select($sql);
         return $result;
@@ -1386,8 +1390,8 @@ class Mdlconfirmacion extends Models implements IModels {
                <th>Dias Trabajados</th>
                <th>Llamados</th>
                <th>Confirmados</th>
-               <th>Progreso</th>
                <th>%</th>
+               <th></th>
                <th>Llamados</th>
                <th>Confirmados</th>
                <th>Prom Dia</th>
@@ -1406,12 +1410,8 @@ class Mdlconfirmacion extends Models implements IModels {
                          <td>".$value2['acum_hoy_total']."</td>
                          <td>".$value2['acum_hoy_conf']."</td>";
                          $datores=round(($value2['acum_hoy_conf'] / $meta * 100),1);
-                         $html.="<td class='col-lg-2'><div class='progress progress-xs'>
-                                 <div class='progress-bar progress-bar-aqua' style='width:".$datores."%' role='progressbar' aria-valuenow=".$datores." aria-valuemin='0' aria-valuemax=".$meta.">
-                                     <span class='sr-only'>".$datores."% </span>
-                                 </div>
-                             </div></td>
-                         <td>".$datores."%</td>";
+                         $html.="
+                         <td>".$datores."%</td><td class='col-lg-2'></td>";
                          $total=$total + $value2['acum_hoy_total'];
                         $total_confirmados=$total_confirmados + $value2['acum_hoy_conf'];
                         $promdia=round(($value2['acum_total_conf'] / $value2['dias_trab']),1);
@@ -1422,7 +1422,17 @@ class Mdlconfirmacion extends Models implements IModels {
                     $html.="<tr>";
                     $noconfirmados = $value2['acum_hoy_total'] - $value2['acum_hoy_conf'];
                     $noconfirmadosTotal = $value2['acum_total_sinconf'] - $value2['acum_total_conf'];
-                    $pend_valores_test[]=array("x" => $value2['name'], "y" => $value2['acum_hoy_conf'],"z" => $noconfirmados ,"a" => $value2['acum_total_conf'],"b" => $noconfirmadosTotal);
+                    if ($value2['acum_total_conf'] == 0) {
+                        $promedioconf_acum = 0;
+                    }else {
+                       $promedioconf_acum = (($value2['acum_total_conf']*100)/$value2['acum_total_sinconf']);
+                    }
+                    if ($value2['acum_hoy_conf'] == 0) {
+                        $promedioconf = 0;
+                    }else {
+                        $promedioconf = (($value2['acum_hoy_conf']*100)/$value2['acum_hoy_total']);
+                    }
+                    $pend_valores_test[]=array("x" => $value2['name'], "y" => $value2['acum_hoy_conf'],"z" => $noconfirmados ,"a" => $value2['acum_total_conf'],"b" => $noconfirmadosTotal,"p" => $promedioconf,"pt" => $promedioconf_acum);
                   }
               };
               $html.="<td colspan='2'>TOTAL:</td>

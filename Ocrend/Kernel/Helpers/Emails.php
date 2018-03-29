@@ -42,7 +42,8 @@ final class Emails {
       $mail->Username = $config['phpmailer']['user'];
       $mail->Password = $config['phpmailer']['pass'];
       $mail->Port = $config['phpmailer']['port'];
-      $mail->SMTPSecure = 'ssl';
+      $mail->SMTPSecure = $config['phpmailer']['SMTPSecure'];
+      //$mail->SMTPSecure = 'ssl';
       $mail->SMTPOptions = array(
           'ssl' => array(
               'verify_peer' => false,

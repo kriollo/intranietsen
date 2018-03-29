@@ -41,6 +41,12 @@ class visorController extends Controllers implements IControllers {
                    'informe_posterior'=>(new Model\Mdlconfirmacion)->confirma_informe(date('Y-m-d',strtotime('+1 day'))),
                 ));
             break;
+            case 'confirmacion_produccion_dia':
+                echo $this->template->render('visor/confirmacion_produccion_dia', array(
+                    'metas'=>(new Model\Mdlconfirmacion)->getMetas(),
+                    'confirma_resumen_llamados_ejecutivos'=>(new Model\Mdlconfirmacion)->calc_llamados(date('Y-m-d'),'acum_hoy_conf')
+                ));
+            break;
             default:
                 echo $this->template->render('visor/asistencia_tecnicos', array(
                     'db_asistencia_tecnico' => (new Model\Varios)->getAsistenciaTecnico(date('Y-m-d')),
