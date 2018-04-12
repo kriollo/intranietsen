@@ -1,0 +1,99 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            Cierre Seguro
+            <small>Principal</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Gestión Cierre Hoy</h3>
+                    </div>
+                    <div class="box-body">
+                        {% set count = 1 %}
+                        {% set mitad = (getResumenGestionDia|length /2) | round(0, 'ceil') %}
+                        {% set tope = mitad + 1 %}
+
+                        {% set No = 1 %}
+                        {% set total = 0 %}
+                        {% set total_pendiente = 0 %}
+                        {% set total_aprobado = 0 %}
+                        {% set total_rechazado = 0 %}
+                        {% for d in getResumenGestionDia if false != getResumenGestionDia %}
+                            {% if count == 1 %}
+                                <div class="col-lg-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>No</th>
+                                            <th>Ejecutivos</th>
+                                            <th>Asignados</th>
+                                            <th>Pendientes</th>
+                                            <th>Aprobados</th>
+                                            <th>Rechazados</th>
+                                        </thead>
+                                        <tbody>
+
+                            {% endif %}
+
+                                            <tr>
+                                                <td>{{ No }}</td>
+                                                <td>{{ d.name|raw|title }}</td>
+                                                <td>{{ d.q_asignado }}</td>
+                                                <td>{{ d.q_pendiente }}</td>
+                                                <td>{{ d.q_aprobado }}</td>
+                                                <td>{{ d.q_rechazado }}</td>
+                                            </tr>
+                                            {% set No =  No + 1 %}
+                                            {% set total = total + d.q_asignado %}
+                                            {% set total_pendiente = total_pendiente + d.q_pendiente %}
+                                            {% set total_aprobado = total_aprobado + d.q_aprobado %}
+                                            {% set total_rechazado = total_rechazado + d.q_rechazado %}
+                                            {% set count = count + 1 %}
+                            {% set pasa = 0 %}
+                            {% if count == tope %}
+                                            {% set pasa = 1 %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% set count = 1 %}
+                            {% endif %}
+
+                        {% endfor %}
+                        {% if count < tope and pasa == 0 %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                        <div class="box-footer clearfix">
+                            <table>
+                                <td>Total Asignado: {{total}} </td>
+                                <td width='50'> </td>
+                                <td>Total Pendiente: {{total_pendiente}} </td>
+                                <td width='50'> </td>
+                                <td>Total Aprobado: {{total_aprobado}} </td>
+                                <td width='50'> </td>
+                                <td>Total Rechazado: {{total_rechazado}} </td>
+                                
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+{% endblock %}

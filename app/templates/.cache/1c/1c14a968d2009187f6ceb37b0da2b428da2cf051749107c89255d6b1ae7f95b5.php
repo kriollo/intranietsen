@@ -157,7 +157,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                                     <table class=\"table table-bordered\">
                                         <thead>
                                             <th>No</th>
-                                            <th>Comuna</th>
+                                            <th>Ejecutivo</th>
                                             <th>Llamados</th>
                                             <th>confirmados</th>
                                             <th></th>
@@ -219,11 +219,13 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
                 echo "                                ";
                 $context["count"] = (($context["count"] ?? null) + 1);
                 // line 115
-                echo "                            
-
+                echo "
 
                             ";
+                // line 117
+                $context["pasa"] = 0;
                 // line 118
+                echo "                            ";
                 if ((($context["count"] ?? null) == ($context["tope"] ?? null))) {
                     // line 119
                     echo "                                        </tbody>
@@ -245,155 +247,33 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
         $context = array_intersect_key($context, $_parent) + $_parent;
         // line 126
         echo "                        ";
-        if ((($context["count"] ?? null) < ($context["tope"] ?? null))) {
+        if (((($context["count"] ?? null) < ($context["tope"] ?? null)) && (($context["pasa"] ?? null) == 0))) {
             // line 127
-            echo "                                        <tr>
-                                            <td colspan=\"2\">TOTAL:</td>
-                                            <td>";
-            // line 129
-            echo twig_escape_filter($this->env, ($context["total"] ?? null), "html", null, true);
-            echo "</td>
-                                            <td>";
-            // line 130
-            echo twig_escape_filter($this->env, ($context["total_confirmados"] ?? null), "html", null, true);
-            echo "</td>
-                                        </tr>
+            echo "
                                     </tbody>
                                 </table>
                             </div>
                         ";
         }
-        // line 136
+        // line 132
         echo "
                     </div>
-                </div>
-            </div>
-            <div class=\"col-lg-6\">
-                <div class=\"box\">
-                    <div class=\"box-header\">
-                        <h3 class=\"box-title\">Resumen por Bloque</h3>
-                    </div>
-                    <div class=\"box-body\">
-                        <table class=\"table table-bordered\">
-                            <thead>
-                                <th>No</th>
-                                <th>Bloque</th>
-                                <th>Confirmado</th>
-                                <th>Requerido</th>
-                                <th colspan=\"2\">%</th>
-                            </thead>
-                            <tbody>
-                                ";
-        // line 155
-        $context["No"] = 1;
-        // line 156
-        echo "                                ";
-        $context["total_agendado"] = 0;
-        // line 157
-        echo "                                ";
-        $context["total_requerido"] = 0;
-        // line 158
-        echo "                                ";
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["confirma_resumen_x_bloque"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
-            if ((false != ($context["confirma_resumen_x_bloque"] ?? null))) {
-                // line 159
-                echo "                                    <tr>
-                                        <td>";
-                // line 160
-                echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
-                echo "</td>
-                                        <td>";
-                // line 161
-                echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "bloque", array())), "html", null, true);
-                echo "</td>
-                                        <td>";
-                // line 162
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()), "html", null, true);
-                echo "</td>
-                                        <td>";
-                // line 163
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()), "html", null, true);
-                echo "</td>
-                                        <td width=\"100\">
-                                            <div class=\"progress progress-xs\">
-                                                <div class=\"progress-bar progress-bar-aqua\" style=\"width: ";
-                // line 166
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
-                echo "%\" role=\"progressbar\" aria-valuenow=\"";
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
-                echo "\" aria-valuemin=\"0\" aria-valuemax=\"";
-                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()), "html", null, true);
-                echo "\">
-                                                    <span class=\"sr-only\">";
-                // line 167
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
-                echo "% </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td >
-                                            ";
-                // line 172
-                echo twig_escape_filter($this->env, twig_round(((twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()) / twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array())) * 100), 1, "ceil"), "html", null, true);
-                echo "%
-                                        </td>
-                                    </tr>
-                                ";
-                // line 175
-                $context["No"] = (($context["No"] ?? null) + 1);
-                // line 176
-                echo "                                ";
-                $context["total_agendado"] = (($context["total_agendado"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "cantidad", array()));
-                // line 177
-                echo "                                ";
-                $context["total_requerido"] = (($context["total_requerido"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "requerido", array()));
-                // line 178
-                echo "                                ";
-            }
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 179
-        echo "                                <tr>
-                                    <td colspan=\"2\">TOTAL</td>
-                                    <td>";
-        // line 181
-        echo twig_escape_filter($this->env, ($context["total_agendado"] ?? null), "html", null, true);
-        echo "</td>
-                                    <td>";
-        // line 182
-        echo twig_escape_filter($this->env, ($context["total_requerido"] ?? null), "html", null, true);
-        echo "</td>
-                                    <td>
-                                        <div class=\"progress progress-xs\">
-                                            <div class=\"progress-bar progress-bar-aqua\" style=\"width: ";
-        // line 185
-        echo twig_escape_filter($this->env, twig_round(((($context["total_agendado"] ?? null) / ($context["total_requerido"] ?? null)) * 100), 1, "ceil"), "html", null, true);
-        echo "%\" role=\"progressbar\" aria-valuenow=\"";
-        echo twig_escape_filter($this->env, twig_round(((($context["total_agendado"] ?? null) / ($context["total_requerido"] ?? null)) * 100), 1, "ceil"), "html", null, true);
-        echo "\" aria-valuemin=\"0\" aria-valuemax=\"";
-        echo twig_escape_filter($this->env, ($context["total_requerido"] ?? null), "html", null, true);
-        echo "\">
-                                                <span class=\"sr-only\">";
-        // line 186
-        echo twig_escape_filter($this->env, twig_round(((($context["total_agendado"] ?? null) / ($context["total_requerido"] ?? null)) * 100), 1, "ceil"), "html", null, true);
-        echo "% </span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>";
-        // line 190
-        echo twig_escape_filter($this->env, twig_round(((($context["total_agendado"] ?? null) / ($context["total_requerido"] ?? null)) * 100), 1, "ceil"), "html", null, true);
-        echo "%</td>
-                                </tr>
-                            </tbody>
+                    <div class=\"box-footer\">
+                        <table>
+                            <td>Total Llamados: ";
+        // line 136
+        echo twig_escape_filter($this->env, ($context["total"] ?? null), "html", null, true);
+        echo " </td>
+                            <td width='50'> </td>
+                            <td>Total Confirmados: ";
+        // line 138
+        echo twig_escape_filter($this->env, ($context["total_confirmados"] ?? null), "html", null, true);
+        echo " </td>
                         </table>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
     <!-- /.content -->
@@ -413,7 +293,7 @@ class __TwigTemplate_f3a7617898bea267ae486baaa3afadc27c7e68f8ee1bcbc07151f0be0fb
 
     public function getDebugInfo()
     {
-        return array (  389 => 190,  382 => 186,  374 => 185,  368 => 182,  364 => 181,  360 => 179,  353 => 178,  350 => 177,  347 => 176,  345 => 175,  339 => 172,  331 => 167,  323 => 166,  317 => 163,  313 => 162,  309 => 161,  305 => 160,  302 => 159,  296 => 158,  293 => 157,  290 => 156,  288 => 155,  267 => 136,  258 => 130,  254 => 129,  250 => 127,  247 => 126,  239 => 124,  236 => 123,  234 => 122,  229 => 119,  227 => 118,  222 => 115,  219 => 114,  216 => 113,  213 => 112,  211 => 111,  206 => 109,  200 => 106,  192 => 105,  187 => 103,  183 => 102,  179 => 101,  175 => 100,  171 => 98,  156 => 85,  153 => 84,  147 => 83,  144 => 82,  141 => 81,  139 => 80,  136 => 79,  133 => 78,  130 => 77,  128 => 76,  122 => 73,  83 => 36,  71 => 34,  66 => 33,  51 => 21,  31 => 3,  28 => 2,  11 => 1,);
+        return array (  270 => 138,  265 => 136,  259 => 132,  252 => 127,  249 => 126,  241 => 124,  238 => 123,  236 => 122,  231 => 119,  228 => 118,  226 => 117,  222 => 115,  219 => 114,  216 => 113,  213 => 112,  211 => 111,  206 => 109,  200 => 106,  192 => 105,  187 => 103,  183 => 102,  179 => 101,  175 => 100,  171 => 98,  156 => 85,  153 => 84,  147 => 83,  144 => 82,  141 => 81,  139 => 80,  136 => 79,  133 => 78,  130 => 77,  128 => 76,  122 => 73,  83 => 36,  71 => 34,  66 => 33,  51 => 21,  31 => 3,  28 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

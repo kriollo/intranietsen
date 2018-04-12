@@ -2,6 +2,7 @@
  * Ajax action to api rest
 */
 function lostpass(){
+  $("#cargando").html($("#cargador").html());
   $.ajax({
     type : "POST",
     url : "api/lostpass",

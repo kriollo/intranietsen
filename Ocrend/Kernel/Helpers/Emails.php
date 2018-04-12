@@ -43,14 +43,14 @@ final class Emails {
       $mail->Password = $config['phpmailer']['pass'];
       $mail->Port = $config['phpmailer']['port'];
       $mail->SMTPSecure = $config['phpmailer']['SMTPSecure'];
-      //$mail->SMTPSecure = 'ssl';
       $mail->SMTPOptions = array(
-          'ssl' => array(
-              'verify_peer' => false,
-              'verify_peer_name' => false,
-              'allow_self_signed' => true
-          )
+         'ssl' => array(
+             'verify_peer' => false,
+             'verify_peer_name' => false,
+             'allow_self_signed' => true
+         )
       );
+
     } else {
       $mail->isSendMail();
     }

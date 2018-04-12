@@ -415,6 +415,10 @@ $app->post('/Mdldespacho_cambiar_prioridad', function() use($app) {
 });
 //------------------------------------------------------------------------------
 //DESPACHO CIERRE--------------------------------------------------------------
+$app->post('/cargar_excel_cierreseguro', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cargar_excel());
+});
 $app->post('/Mdlcierre_cierre_asegurado', function() use($app) {
     $u = new Model\Mdlcierre;
     return $app->json($u->cierre_asegurado());
@@ -426,5 +430,41 @@ $app->post('/Mdlcierre_speed_test', function() use($app) {
 $app->post('/Mdlcierre_certificacion', function() use($app) {
     $u = new Model\Mdlcierre;
     return $app->json($u->certificacion());
+});
+$app->post('/cierreseguro_des_marcar_ejecutivo', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_des_marcar_ejecutivo());
+});
+$app->post('/cierreseguro_Distribuir_Ordenes', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_Distribuir_Ordenes());
+});
+$app->post('/cierreseguro_quitar_Ordenes_ejecutivos', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_quitar_Ordenes_ejecutivos());
+});
+$app->post('/cierreseguro_getDatosOrdenesTMP', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_getDatosOrdenesTMP());
+});
+$app->post('/cierreseguro_guardar_cierre', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->guardar_cierre());
+  });
+$app->post('/cierreseguro_modificar_prioridad', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->modificar_prioridad());
+});
+$app->post('/cierreseguro_select_modificar_orden_cerrada', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->select_modificar_orden_cerrada());
+});
+$app->post('/cierreseguro_cierre_desaprobado', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierre_desaprobado());
+});
+$app->post('/cierreseguro_select_filtro', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->select_filtro());
 });
 //------------------------------------------------------------------------------

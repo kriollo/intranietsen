@@ -27,8 +27,10 @@ class __TwigTemplate_2039833be0b479491ab1ef7f135856b5333c36f80b465dfef5d8be5d77c
         <form id=\"lostpass_form\" class=\"form-signin\" method=\"POST\">
             <input type=\"email\" name=\"email\" class=\"form-control\" placeholder=\"Email de cuenta a recuperar\" autofocus>
         </form>
+        <div id=\"cargando\"></div>
       </div>
       <div class=\"modal-footer\">
+
         <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Cerrar</button>
         <button type=\"button\" id=\"recuperar\" class=\"btn btn-success\">Recuperar</button>
       </div>

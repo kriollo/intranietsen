@@ -17,11 +17,11 @@ database:
 
 # Configuración de servidor SMTP
 phpmailer:
-  host: smtp.gmail.com
-  user: alertas@websystem.cl
-  pass: alertas2018wys
+  host: smtp.vtr.net
+  user: jorge.jara@e.vtr.cl
+  pass: J2018j
   SMTPSecure: tls
-  port: 465
+  port: 25
 
 # Configuración de sesiones
 sessions:

@@ -29,12 +29,22 @@ class __TwigTemplate_18b3941582ddea5dc805e5cab9f22e8ac57b3c936f54918d3dbfc5ea8a7
     public function block_appBody($context, array $blocks = array())
     {
         // line 3
-        echo "   <div class=\"container\">
+        echo "    <div style=\"display: none;\" id=\"cargador\" align=\"center\">
+        <br>
+        <label style=\"color:#FFF; background-color:#ABB6BA; text-align:center\">&nbsp;&nbsp;&nbsp;Espere... &nbsp;&nbsp;&nbsp;</label>
+
+        <img src=\"views/app/images/cargando.gif\" align=\"middle\" alt=\"cargador\"> &nbsp;<label style=\"color:#ABB6BA\">Realizando tarea solicitada ...</label>
+
+        <br>
+        <hr style=\"color:#003\" width=\"30%\">
+        <br>
+    </div>
+   <div class=\"container\">
            <div class=\"card card-container\">
             <!-- <img class=\"profile-img-card\" src=\"//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120\" alt=\"\" /> -->
 
             <img class=\"img-responsive\" src=\"views/app/images/";
-        // line 7
+        // line 17
         echo twig_escape_filter($this->env, sprintf("%s%s%s", "logo", ".", twig_get_attribute($this->env, $this->getSourceContext(), ($context["empresa_db"] ?? null), "ext_logo", array())), "html", null, true);
         echo "\" alt=\"Logo\">
 
@@ -53,19 +63,19 @@ class __TwigTemplate_18b3941582ddea5dc805e5cab9f22e8ac57b3c936f54918d3dbfc5ea8a7
                 <button type=\"button\" class=\"btn btn-lg btn-primary btn-block btn-signin\" data-toggle=\"modal\" data-target=\"#lostpass\">RECUPERAR</button>
             </form><!-- /form -->
             ";
-        // line 23
-        $this->loadTemplate("home/lostpass", "home/home.twig", 23)->display($context);
-        // line 24
+        // line 33
+        $this->loadTemplate("home/lostpass", "home/home.twig", 33)->display($context);
+        // line 34
         echo "        </div><!-- /card-container -->
 
     </div><!-- /container -->
 ";
     }
 
-    // line 28
+    // line 38
     public function block_appScript($context, array $blocks = array())
     {
-        // line 29
+        // line 39
         echo "    <script src=\"views/app/js/login/login.js\"></script>
     <script src=\"views/app/js/lostpass/lostpass.js\"></script>
 ";
@@ -83,7 +93,7 @@ class __TwigTemplate_18b3941582ddea5dc805e5cab9f22e8ac57b3c936f54918d3dbfc5ea8a7
 
     public function getDebugInfo()
     {
-        return array (  69 => 29,  66 => 28,  59 => 24,  57 => 23,  38 => 7,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  79 => 39,  76 => 38,  69 => 34,  67 => 33,  48 => 17,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

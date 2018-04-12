@@ -1,0 +1,89 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+
+    <section class="content-header">
+        <h1>
+            Cierre Seguro
+            <small>Carga de Cierre seguro</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    Home</a>
+            </li>
+            <li class="active">Cargar OT cierre seguro</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-body col-sm-6">
+                        <div class="form-group">
+                            <form id="formcarga" name="formcarga" method="post">
+                                <input class='filestyle' data-buttontext="Logo" id="blindfile" onchange="document.getElementById('archivo').value=document.getElementById('blindfile').value" tabindex="-1" style="position:absolute; clip: rect(0px 0px 0px 0px);" type="file" name="files[]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                <div class="bootstrap-filestyle input-group">
+                                    <input type="text" class="form-control" id="archivo" placeholder="" disabled="">
+                                    <span class="group-span-filestyle input-group-btn" tabindex="0">
+                                        <label for="blindfile" class="btn btn-default ">
+                                            <span class="icon-span-filestyle glyphicon glyphicon-share"></span>
+                                            <span class="buttonText">Buscar Archivo</span>
+                                        </label>
+                                    </span>
+                                </div>
+                                <div id="div_cargando">
+                                    <a class="btn btn-success btn-social" title="Importar Excel" data-toggle="tooltip" onclick="subirarchivoexcel()">
+                                        <i class="fa fa-arrow-up"></i>
+                                        Cargar Ordenes
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <p>
+                            <strong>Ultimos 5 archivos cargados</strong>
+                        </p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>No</th>
+                                <th>Fecha y hora</th>
+                                <th>Nombre de Archivo</th>
+                                <th>Usuario</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for d in db_archivos if false != db_archivos %}
+                                    <tr>
+                                        <td>{{ No }}</td>
+                                        <td>{{ d.fecha_hora }}</td>
+                                        <td>{{ d.nombre_archivo }}</td>
+                                        <td>{{ d.name }}</td>
+                                    </tr>
+                                    {% set No = No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-body col-sm-6">
+                        <span>
+                            <b>Formato de Archivo</b>
+                            <p>Col A -> NUMERO DE ORDEN</p>
+                            <p>Col B -> RUT DEL CLIENTE</p>
+                            <p>Col C -> COMUNA</p>
+                            <p>Col D -> FECHA DE COMPROMISO</p>
+                            <p>Col E -> BLOQUE</p>
+                            <p>Col F -> ACTIVIDAD</p>
+                            <p>Col G -> TELEFONO</p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/cierreseguro/cierreseguro.js"></script>
+{% endblock %}

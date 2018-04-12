@@ -198,7 +198,7 @@ class __TwigTemplate_777ec3862618863d2f0857c6dd081909ad9be295d6ac9edeb8dfe8a8186
                     </div>
                     <div class=\"tab-pane\" id=\"tab_4-4\">
                         <div class=\"box box-primary\">
-                            <div class=\"box-body resposible\">
+                            <div class=\"box-body responsible\">
                                 <div class=\"col-md-12\">
                                     <!-- <form id=\"formordenes\" name=\"formordenes\" method=\"post\"> -->
                                         <table class=\"table table-bordered table-responsive\" id=\"tblordenes_sin_asignar\" name=\"tblordenes_sin_asignar\">

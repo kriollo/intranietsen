@@ -1358,7 +1358,7 @@ class Mdlconfirmacion extends Models implements IModels {
         (select count(h2.id_user) from tblhistorico h2 INNER join tblresultado r2 on h2.resultado=r2.id_resultado and r2.grupo=1 where h2.id_user=h.id_user and h2.fecha between '$fecha3' and '$fecha' ) acum_total_conf,
         (select count(h3.id_user) from tblhistorico h3 INNER join tblresultado r3 on h3.resultado=r3.id_resultado and r3.grupo=1 where h3.id_user=h.id_user and h3.fecha = '$fecha') acum_hoy_conf,
         (select count(h4.id_user) from tblhistorico h4 where h4.id_user=h.id_user and h4.fecha = '$fecha') acum_hoy_total,
-        (select count(vdt.fecha) cuenta from view_dias_trabajados vdt where vdt.id_user=h.id_user and vdt.fecha<='$fecha' group by vdt.id_user) dias_trab
+        (select count(vdt.fecha) cuenta from view_dias_trabajados vdt where vdt.id_user=h.id_user and vdt.fecha between'$fecha3' and '$fecha' group by vdt.id_user) dias_trab
         from tblhistorico h inner join users u on h.id_user=u.id_user where (accion='INGRESO' or accion='REINGRESO' or accion='MODIFICACION') and h.fecha between '$fecha3' and '$fecha'
         group by h.id_user
         order by $ordenarpor desc";
