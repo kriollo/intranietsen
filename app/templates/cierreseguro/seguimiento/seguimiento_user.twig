@@ -22,35 +22,39 @@
                     <form id="formcierre" name="formcierre">
                         <table id="datacierre" name="datacierre" class="table table-bordered table-responsive">
                             <thead>
-                                <tr>
                                     <th>N_ORDEN</th>
                                     <th>RUT_CLIENTE</th>
                                     <th>COMUNA</th>
-                                    <th>COMPROMISO</th>
-                                    <th>BLOQUE</th>
                                     <th>ACTIVIDAD</th>
+                                    <th>TECNICO</th>
+                                    <th>DESPACHADOR</th>
                                     <th>TELEFONO</th>
-                                    <th>ESTADO</th>
-                                </tr>
+                                    <th Width="100">ultimo contacto</th>
+                                    <th Width="100">OPERACION</th>
                             </thead>
                             <tbody>
                                 {% set No = 1 %}
                                 {% for c in db_cierre if false != db_cierre %}
                                     <tr>
-                                        <td>{{ c.n_orden }}</td>
+                                        <td><input size="12" type="text" id="n_orden-{{ c.id }}" name="n_orden-{{ c.id }}" value="{{ c.n_orden }}" onchange="update_datos_orden('{{ c.id }}');"></td>
                                         <td>{{ c.rut_cliente }}</td>
                                         <td>{{ c.comuna }}</td>
-                                        <td>{{ c.fecha_compromiso }}</td>
-                                        <td>{{ c.bloque }}</td>
                                         <td>{{ c.actividad }}</td>
-                                        <td>{{ c.telefono }}</td>
-                                        <td><a data-toggle='tooltip' data-placement='top' id='btncierreaprobado' name='btncierreaprobado' title='Cierre Aprobado' class='btn btn-success btn-sm' onclick="select_cerrar_orden('{{c.id}}','{{c.n_orden}}','{{c.rut_cliente}}','{{c.comuna}}','{{c.fecha_compromiso}}','{{c.actividad}}','{{c.bloque}}','{{ c.telefono }}')">
-                                            <i class='glyphicon glyphicon-check'></i>
-                                        </a>&nbsp;&nbsp;<a data-toggle='tooltip' data-placement='top' id='btncierreserroneo' name='btncierreerroneo' title='Cierre Rechazado' class='btn btn-danger btn-sm' onclick="select_orden_rechazada('{{c.id}}','{{c.n_orden}}','{{c.rut_cliente}}','{{c.comuna}}','{{c.fecha_compromiso}}','{{c.actividad}},'{{c.bloque}}','{{ c.telefono }}')">
-                                            <i class='glyphicon glyphicon-remove'></i>
-                                        </a>&nbsp;&nbsp;<a data-toggle='tooltip' data-placement='top' id='btncierresiguiente' name='btncierresiguiente' title='Mover al Final' class='btn btn-primary btn-sm' onclick="select_volver_llamar('{{c.id}}','{{c.n_orden}}','{{c.rut_cliente}}','{{c.comuna}}','{{c.fecha_compromiso}}','{{c.actividad}}','{{c.prioridad}}','{{c.bloque}}','{{ c.telefono }}')">
-                                            <i class='glyphicon glyphicon-fast-forward'></i>
-                                        </a></td>
+                                        <td>{{ c.cod_tecnico }}</td>
+                                        <td>{{ c.despachador }}</td>
+                                        <td><input size="20" type="text" id="telefono-{{ c.id }}" name="telefono-{{ c.id }}" value="{{ c.telefono }}" onchange="update_datos_orden('{{ c.id }}');"></td>
+                                        <td>{{ c.ultimo_contacto }}</td>
+                                        <td>
+                                            <a data-toggle='tooltip' data-placement='top' id='btncierreaprobado' name='btncierreaprobado' title='Cierre Aprobado' class='btn btn-success btn-sm' onclick="select_cerrar_orden('{{c.id}}')">
+                                                <i class='glyphicon glyphicon-check'></i>
+                                            </a>&nbsp;
+                                            <a data-toggle='tooltip' data-placement='top' id='btncierresiguiente' name='btncierresiguiente' title='Volver a Llamar' class='btn btn-primary btn-sm' onclick="select_volver_llamar('{{c.id}}')">
+                                                <i class='glyphicon glyphicon-fast-forward'></i>
+                                            </a>&nbsp;
+                                            <a data-toggle='tooltip' data-placement='top' id='btncierreserroneo' name='btncierreerroneo' title='Cierre Rechazado' class='btn btn-danger btn-sm' onclick="select_orden_rechazada('{{c.id}}')">
+                                                <i class='glyphicon glyphicon-remove'></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% set No = No + 1 %}
                                 {% endfor %}
@@ -87,7 +91,7 @@
                     "previous": "Anterior"
                 }
             },
-            "autoWidth": true,
+            "autoWidth": false,
             "bSort": false,
             "scrollX": true
         });

@@ -467,4 +467,20 @@ $app->post('/cierreseguro_select_filtro', function() use($app) {
     $u = new Model\Mdlcierre;
     return $app->json($u->select_filtro());
 });
+$app->post('/cierreseguro_filtrar_ordenes_supervisor', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_filtrar_ordenes_supervisor());
+});
+$app->post('/cierreseguro_formcierre', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->formcierre());
+});
+$app->post('/cierreseguro_ver_observacion', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->verobservacion());
+});
+$app->post('/cierreseguro_update_datos_orden', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_update_datos_orden());
+});
 //------------------------------------------------------------------------------

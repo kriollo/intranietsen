@@ -31,7 +31,7 @@ class Varios extends Models implements IModels {
     use DBModel;
 
     public function listar_archivos_cargados($idapp){
-        return $this->db->query_select("SELECT ha.fecha_hora,ha.nombre_archivo,u.name FROM (tbl_historialarchivoscargados ha inner join users u on ha.id_user=u.id_user) where ha.app='$idapp' order by ha.id desc limit 5");
+        return $this->db->query_select("SELECT ha.fecha_hora,ha.nombre_archivo,u.name,ha.q_registros FROM (tbl_historialarchivoscargados ha inner join users u on ha.id_user=u.id_user) where ha.app='$idapp' order by ha.id desc limit 5");
     }
     public function getMenuPPAL(){
         return $this->db->query_select("Select id_menu,descripcion from tblmenu order by descripcion");

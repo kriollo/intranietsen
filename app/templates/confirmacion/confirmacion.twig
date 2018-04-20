@@ -80,6 +80,7 @@
                         {% set No = 1 %}
                         {% set total = 0 %}
                         {% set total_confirmados = 0 %}
+                        {% set pasa = 0 %}
                         {% for d in confirma_resumen_llamados_ejecutivos if false != confirma_resumen_llamados_ejecutivos %}
                             {% if count == 1 %}
                                 <div class="col-lg-6">
@@ -111,19 +112,20 @@
                                 {% set No =  No + 1 %}
                                 {% set total = total + d.acum_hoy_total %}
                                 {% set total_confirmados = total_confirmados + d.acum_hoy_conf %}
-                                {% set count = count + 1 %}
+
 
 
                             {% set pasa = 0 %}
                             {% if count == tope %}
+                                            {% set pasa = 1 %}
                                         </tbody>
                                     </table>
                                 </div>
-                                {% set count = 1 %}
+                                {% set count = 0 %}
                             {% endif %}
-
+                            {% set count = count + 1 %}
                         {% endfor %}
-                        {% if count < tope and pasa == 0  %}
+                        {% if count <= tope and pasa == 0  %}
 
                                     </tbody>
                                 </table>

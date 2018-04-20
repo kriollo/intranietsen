@@ -17,21 +17,23 @@
             <div class="col-lg-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Gestión Cierre Hoy</h3>
+                        <h3 class="box-title">Resumen Gestión Ordenes Cierre Hoy</h3>
                     </div>
                     <div class="box-body">
                         {% set count = 1 %}
-                        {% set mitad = (getResumenGestionDia|length /2) | round(0, 'ceil') %}
-                        {% set tope = mitad + 1 %}
+                        {% set tope = (getResumenGestionDia|length) | round(0, 'ceil') %}
+
 
                         {% set No = 1 %}
                         {% set total = 0 %}
                         {% set total_pendiente = 0 %}
                         {% set total_aprobado = 0 %}
                         {% set total_rechazado = 0 %}
+                        {% set total_anuladas = 0 %}
+                        {% set pasa = '0' %}
                         {% for d in getResumenGestionDia if false != getResumenGestionDia %}
                             {% if count == 1 %}
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <table class="table table-bordered">
                                         <thead>
                                             <th>No</th>
@@ -39,7 +41,8 @@
                                             <th>Asignados</th>
                                             <th>Pendientes</th>
                                             <th>Aprobados</th>
-                                            <th>Rechazados</th>
+                                            <th>Cliente Rechaza</th>
+                                            <th>S/Contactos</th>
                                         </thead>
                                         <tbody>
 
@@ -52,42 +55,47 @@
                                                 <td>{{ d.q_pendiente }}</td>
                                                 <td>{{ d.q_aprobado }}</td>
                                                 <td>{{ d.q_rechazado }}</td>
+                                                <td>{{ d.q_anuladas }}</td>
                                             </tr>
                                             {% set No =  No + 1 %}
                                             {% set total = total + d.q_asignado %}
                                             {% set total_pendiente = total_pendiente + d.q_pendiente %}
                                             {% set total_aprobado = total_aprobado + d.q_aprobado %}
                                             {% set total_rechazado = total_rechazado + d.q_rechazado %}
-                                            {% set count = count + 1 %}
-                            {% set pasa = 0 %}
+                                            {% set total_anuladas = total_anuladas + d.q_anuladas %}
+
+                            {% set pasa = '0' %}
                             {% if count == tope %}
-                                            {% set pasa = 1 %}
+                                            {% set pasa = '1' %}
                                         </tbody>
                                     </table>
                                 </div>
-                                {% set count = 1 %}
+                                {% set count = 0 %}
                             {% endif %}
-
+                            {% set count = count + 1 %}
                         {% endfor %}
-                        {% if count < tope and pasa == 0 %}
+
+
+                        {% if count <= tope  and pasa == 0 %}
                                     </tbody>
                                 </table>
                             </div>
                         {% endif %}
-                        <div class="box-footer clearfix">
-                            <table>
-                                <td>Total Asignado: {{total}} </td>
-                                <td width='50'> </td>
-                                <td>Total Pendiente: {{total_pendiente}} </td>
-                                <td width='50'> </td>
-                                <td>Total Aprobado: {{total_aprobado}} </td>
-                                <td width='50'> </td>
-                                <td>Total Rechazado: {{total_rechazado}} </td>
-                                
-                            </table>
-                        </div>
-                    </div>
 
+                    </div>
+                    <div class="box-footer clearfix">
+                        <table>
+                            <td>Total Asignado: {{total}} </td>
+                            <td width='50'> </td>
+                            <td>Total Pendiente: {{total_pendiente}} </td>
+                            <td width='50'> </td>
+                            <td>Total Aprobado: {{total_aprobado}} </td>
+                            <td width='50'> </td>
+                            <td>Total Cliente Rechaza: {{total_rechazado}} </td>
+                            <td width='50'> </td>
+                            <td>Total Sin Contacto: {{total_anuladas}} </td>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

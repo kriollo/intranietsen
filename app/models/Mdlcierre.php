@@ -133,14 +133,15 @@ class Mdlcierre extends Models implements IModels {
         if (null !== $file ){
             $ext_doc = $file->getClientOriginalExtension();
 
-            if ($ext_doc<>'xls' and $ext_doc<>'xlsx') return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
+            if (strtolower($ext_doc)<>'xlsx') return array('success' => 0, 'message' => "Debe seleccionar un archivo valido...");
 
-            $docname = 'cargaturno.'.$ext_doc;
+            $docname = 'cargaturno.'.strtolower($ext_doc);
 
             $file->move(API_INTERFACE . 'views/app/temp/', $docname);
 
             $archivo = API_INTERFACE . 'views/app/temp/'. $docname;
             //carga del excelname
+
             $objReader = new PHPExcel_Reader_Excel2007();
             $objPHPExcel = $objReader->load($archivo);
 
@@ -155,35 +156,23 @@ class Mdlcierre extends Models implements IModels {
                     //echo $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue();
                     if ($objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue()!=NULL){
 
-                        $NUMERO_ORDEN = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getvalue();
-                        $RUT = substr($objPHPExcel->getActiveSheet()->getCell('B'.$i)->getvalue(),0,12);
-                        $COMUNA = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getvalue();
-
-                        $objPHPExcel->getActiveSheet()->getStyle('D'.$i)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDD2);
-                        $ano=$objPHPExcel->getActiveSheet()->getCell('D'.$i)->getFormattedValue();
-                        $krr = explode('-',$ano);
-                        $FECHA_COMPROMISO = implode("",$krr);
-
-                        $BLOQUE = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getvalue();
+                        $cod_tecnico = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getvalue();
+                        $despachador = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getvalue();
                         $ACTIVIDAD = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getvalue();
-                        $TELEFONO = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getvalue();
-                        $ANEXO1 = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getvalue();
-                        $ANEXO2 = $objPHPExcel->getActiveSheet()->getCell('I'.$i)->getvalue();
-                        $ANEXO3 = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getvalue();
 
-                        $result = $this->db->query_select("select id from tblordenescierreseguro where n_orden='$NUMERO_ORDEN'");
+                        $COMUNA = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getvalue();
+                        $NODO = $objPHPExcel->getActiveSheet()->getCell('O'.$i)->getvalue();
+                        $RUT = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getvalue();
+
+                        $result = $this->db->query_select("select id from tblordenescierreseguro where date(fecha_carga)=date(now()) and rut_cliente='$RUT'");
                         if (false == $result){
                             $this->db->Insert('tmp_ordenes_cierre_seguro', array(
-                                'n_orden'=>$NUMERO_ORDEN,
                                 'rut_cliente'=>$RUT,
                                 'comuna'=>$COMUNA,
-                                'fecha_compromiso'=>$FECHA_COMPROMISO,
-                                'bloque'=>$BLOQUE,
                                 'actividad'=>$ACTIVIDAD,
-                                'telefono'=>$TELEFONO,
-                                'anexo1'=>$ANEXO1,
-                                'anexo2'=>$ANEXO2,
-                                'anexo3'=>$ANEXO3
+                                'cod_tecnico'=>$cod_tecnico,
+                                'despachador'=>$despachador,
+                                'nodo'=> $NODO
                             ));
                         }
                         $celdablanco = 0;
@@ -209,8 +198,10 @@ class Mdlcierre extends Models implements IModels {
                     $this->db->Insert('tbl_historialarchivoscargados', array(
                         'app'=>'Carga de Cierre de ordenes',
                         'nombre_archivo'=> $file->getClientOriginalName(),
-                        'id_user' => $this->user['id_user']
+                        'id_user' => $this->user['id_user'],
+                        'q_registros' => $result[0]['cuenta']
                     ));
+
                     if (Files::delete_file(API_INTERFACE . 'views/app/temp/'.$docname)){
                         return array('success' => 1, 'message' => $result[0]['cuenta']." Registros validos cargados Exitosamente..." );
                     }
@@ -290,7 +281,7 @@ class Mdlcierre extends Models implements IModels {
                             if (false != $ordenes_asiganacion){
                                 foreach ($ordenes_asiganacion as $key3 => $value3) {
 
-                                    $sql="insert into tblordenescierreseguro(n_orden,rut_cliente,comuna,fecha_compromiso,bloque,actividad,telefono,anexo1,anexo2,anexo3,ejecutivo) value('".$value3['n_orden']."','".$value3['rut_cliente']."','".$value3['comuna']."','".$value3['fecha_compromiso']."','".$value3['bloque']."','".$value3['actividad']."','".$value3['telefono']."','".$value3['anexo1']."','".$value3['anexo2']."','".$value3['anexo3']."','".$value2['id_user']."')";
+                                    $sql="insert into tblordenescierreseguro(cod_tecnico,rut_cliente,comuna,actividad,despachador,nodo,ejecutivo,fecha_carga) value('".$value3['cod_tecnico']."','".$value3['rut_cliente']."','".$value3['comuna']."','".$value3['actividad']."','".$value3['despachador']."','".$value3['nodo']."','".$value2['id_user']."',now())";
                                     $this->db->query_select($sql);
 
                                     $this->db->query_select("delete from tmp_ordenes_cierre_seguro where id='".$value3['id']."'");
@@ -328,7 +319,7 @@ class Mdlcierre extends Models implements IModels {
                             if (false != $ordenes_asiganacion){
                                 foreach ($ordenes_asiganacion as $key3 => $value3) {
 
-                                    $sql="update tblordenescierreseguro set ejecutivo='".$value2['id_user']."' where id='".$value3['id']."'";
+                                    $sql="update tblordenescierreseguro set ejecutivo='".$value2['id_user']."',fecha_carga=now() where id='".$value3['id']."'";
                                     $this->db->query_select($sql);
                                 }
                             }
@@ -363,7 +354,7 @@ class Mdlcierre extends Models implements IModels {
             )
             );
             foreach ($result as $key => $value) {
-                $json['aaData'][] = array($value['n_orden'],$value['rut_cliente'],$value['comuna'],$value['fecha_compromiso'],$value['bloque'],$value['actividad'],$value['telefono']);
+                $json['aaData'][] = array($value['rut_cliente'],$value['comuna'],$value['actividad'],$value['despachador'],$value['cod_tecnico']);
             }
         }
         $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
@@ -372,33 +363,31 @@ class Mdlcierre extends Models implements IModels {
         fclose($fh);
         return array('success' => 1, 'message' => "result_cons_".$this->user['id_user'].".dbj" );
     }
-
     public function getResumenGestionDia($fecha){
         $sql="select asig.ejecutivo,u.name,asig.estado,count(asig.id) q_asignado,
         (select count(pend.id) from tblordenescierreseguro pend where pend.ejecutivo=asig.ejecutivo and pend.estado=1 and date(pend.fecha_carga)='$fecha') q_pendiente,
         (select count(aprob.id) from tblordenescierreseguro aprob where aprob.ejecutivo=asig.ejecutivo and aprob.estado=2 and date(aprob.fecha_carga)='$fecha') q_aprobado,
-        (select count(recha.id) from tblordenescierreseguro recha where recha.ejecutivo=asig.ejecutivo and recha.estado=3 and date(recha.fecha_carga)='$fecha') q_rechazado
+        (select count(recha.id) from tblordenescierreseguro recha where recha.ejecutivo=asig.ejecutivo and recha.estado=3 and date(recha.fecha_carga)='$fecha') q_rechazado,
+        (select count(recha.id) from tblordenescierreseguro recha where recha.ejecutivo=asig.ejecutivo and recha.estado=5 and date(recha.fecha_carga)='$fecha') q_anuladas
         from tblordenescierreseguro asig inner join users u on asig.ejecutivo=u.id_user where date(asig.fecha_carga)='$fecha' and ejecutivo>0 group by asig.ejecutivo order by u.name";
         return $this->db->query_select($sql);
     }
-
-    public function cargar_ordenes_cierre(){
+    public function getOrdenesEjecutivoSeguimiento(){
         return $this->db->query_select("select * from tblordenescierreseguro where ejecutivo='".$this->user['id_user']."' and estado='1' order by prioridad asc");
+    }
+    public function getOrdenByID($id){
+        $result = $this->db->query_select("select * from tblordenescierreseguro where id='".$id."'");
+        return $result[0];
     }
     public function guardar_cierre(){
         global $http;
         try {
             $id=$http->request->get('id');
             $norden=$http->request->get('norden');
-            $rutcliente=$http->request->get('rutcliente');
-            $comuna=$http->request->get('comuna');
-            $fechacompromiso=$http->request->get('fecha_compromiso');
-            $actividad=$http->request->get('actividad');
-            $bloque=$http->request->get('bloque');
-            $telefono=$http->request->get('telefono');
+            $resul_orden = $this->getOrdenByID($id);
+            $norden = $resul_orden['n_orden'];
 
-            $this->db->query_select("update tblordenescierreseguro set estado='2' where id='$id'");
-
+            $this->db->query_select("update tblordenescierreseguro set estado='2',ultimo_contacto=now(),prioridad=prioridad+1 where id='$id'");
 
             $this->db->insert('tblhistorico_cierre',array(
                 'n_orden' => $norden,
@@ -407,7 +396,7 @@ class Mdlcierre extends Models implements IModels {
                 'estado'=>'2'
             ));
 
-            return array('success' => 1, 'message'=>'Orden Cerrada');
+            return array('success' => 1, 'message'=>'Orden Cerrada como Aprobada');
         } catch (\Exception $e) {
             return array('success' => 0, 'message'=>'Error');
         }
@@ -415,38 +404,31 @@ class Mdlcierre extends Models implements IModels {
     public function cierre_desaprobado(){
         global $http;
         $id=$http->request->get('id');
-        $norden=$http->request->get('norden');
-        $rutcliente=$http->request->get('rutcliente');
-        $comuna=$http->request->get('comuna');
-        $fechacompromiso=$http->request->get('fecha_compromiso');
-        $actividad=$http->request->get('actividad');
-        $pri=$http->request->get('prioridad');
-        $bloque=$http->request->get('bloque');
-        $telefono=$http->request->get('telefono');
-        $this->db->query_select("update tblordenescierreseguro set estado='3' where id='$id'");
+        $observacion=$http->request->get('observacion');
+        $resul_orden = $this->getOrdenByID($id);
+        $norden = $resul_orden['n_orden'];
+
+        $this->db->query_select("update tblordenescierreseguro set estado='3',prioridad=prioridad+1, observacion='$observacion',ultimo_contacto=now() where id='$id'");
 
         $this->db->insert('tblhistorico_cierre',array(
             'n_orden' => $norden,
             'id_orden' => $id,
             'id_user' => $this->user['id_user'],
-            'estado'=>'3'
+            'estado'=>'3',
+            'observacion' => $observacion
         ));
-        return array('success' => 1, 'message'=>'Orden Cerrada');
+        return array('success' => 1, 'message'=>'Orden Cerrada como rechazada');
     }
     public function modificar_prioridad(){
         global $http;
         try {
             $id=$http->request->get('id');
-            $norden=$http->request->get('norden');
-            $rutcliente=$http->request->get('rutcliente');
-            $comuna=$http->request->get('comuna');
-            $fechacompromiso=$http->request->get('fecha_compromiso');
-            $actividad=$http->request->get('actividad');
-            $bloque=$http->request->get('bloque');
-            $telefono=$http->request->get('telefono');
-            $pri=$http->request->get('prioridad');
 
-            $this->db->query_select("update tblordenescierreseguro set prioridad=prioridad+1 where id='$id'");
+
+            $this->db->query_select("update tblordenescierreseguro set prioridad=prioridad+1,ultimo_contacto=now() where id='$id'");
+            $resul_orden = $this->getOrdenByID($id);
+            $norden = $resul_orden['n_orden'];
+
             $this->db->insert('tblhistorico_cierre',array(
                 'n_orden' => $norden,
                 'id_orden' => $id,
@@ -454,7 +436,30 @@ class Mdlcierre extends Models implements IModels {
                 'estado'=>'4'
             ));
 
+            if ($resul_orden['prioridad'] >= 3){
+
+                $this->db->insert('tblhistorico_cierre',array(
+                    'n_orden' => $norden,
+                    'id_orden' => $id,
+                    'id_user' => $this->user['id_user'],
+                    'estado'=>'5'
+                ));
+                $this->db->query_select("update tblordenescierreseguro set ultimo_contacto=now(),estado=5 where id='$id'");
+
+                return array('success' => 2, 'message'=>'se ha llegado al limite de llamados, se procede a dejar nula la orden.');
+            }
             return array('success' => 1, 'message'=>'Prioridad modificada');
+        }catch (\Exception $e) {
+            return array('success' => 0, 'message'=>'Error');
+        }
+    }
+    public function cierreseguro_update_datos_orden(){
+        global $http;
+        try {
+            $id=$http->request->get('id');
+            $n_orden=$http->request->get('n_orden');
+            $telefono=$http->request->get('telefono');
+            $this->db->query_select("update tblordenescierreseguro set n_orden='$n_orden',telefono='$telefono' where id='$id'");
         }catch (\Exception $e) {
             return array('success' => 0, 'message'=>'Error');
         }
@@ -465,22 +470,13 @@ class Mdlcierre extends Models implements IModels {
     public function select_modificar_orden_cerrada(){
         global $http;
         $id=$http->request->get('id');
-        $norden=$http->request->get('norden');
-        $rutcliente=$http->request->get('rutcliente');
-        $comuna=$http->request->get('comuna');
-        $fechacompromiso=$http->request->get('fecha_compromiso');
-        $actividad=$http->request->get('actividad');
-        $bloque=$http->request->get('bloque');
-        $telefono=$http->request->get('telefono');
-        $this->db->query_select("update tblordenescierreseguro set estado='1' where id='$id'");
 
-        $this->db->insert('tblhistorico_cierre',array(
-            'n_orden' => $norden,
-            'id_orden' => $id,
-            'id_user' => $this->user['id_user'],
-            'estado'=>'1'
-        ));
-        return array('success' => 1, 'message'=>'Orden modificada');
+        $this->db->query_select("update tblordenescierreseguro set estado='1',observacion='',prioridad=if(prioridad>0,prioridad-1,0) where id='$id'");
+
+        $result = $this->db->query_select("select id from tblhistorico_cierre Where id_orden='$id'  order by id desc limit 1");
+        $this->db->query_select("delete from tblhistorico_cierre Where id='".$result[0]['id']."' limit 1");
+
+        return array('success' => 1, 'message'=>'Orden modificada a Pendiente');
     }
 
 
@@ -489,26 +485,209 @@ class Mdlcierre extends Models implements IModels {
         $opcion=$http->request->get('num');
 
         if($opcion==1){
-            $html="<label>N° Orden:</label>
+            $html="<form id='form_filtrar_ordenes_supervisor' name='form_filtrar_ordenes_supervisor'>
+            <label>N° Orden:</label>
             <input type='text' id='textordenes' name='textordenes'>
-            <a class='btn btn-primary' id='btnfiltrar' name='btnfiltrar' title='Buscar registro' data-toggle='tooltip'>
+            <input type='hidden' id='opcion' name='opcion' value='orden'>
+            <label>&nbsp;</label>
+            <a class='btn btn-primary' id='btnfiltrar' name='btnfiltrar' onclick=\"filtrar_ordenes_supervisor('orden')\" title='Buscar registro' data-toggle='tooltip' onclick>
             Buscar Orden
-            </a>";
-            return array('success' => 1, 'html'=>$html);
+            </a>
+            <button type='button' onclick='location.reload();' class='btn btn-primary'>Quitar Filtro</button>
+            <a class='btn btn-success btn-social' id='btnexportarexcel' onclick=\"exportarexcel('orden')\" title='Exportar a Excel' data-toggle='tooltip'>
+            <i class='fa fa-arrow-down'></i> Exportar Excel
+            </a>
+            </form>";
         }elseif($opcion==0){
             $fecha=date('Y-m-d');
-            $html="<label>Desde:</label>
-            <input type='date' id='textdesde' name='textdesde' value=$fecha>
+            $html="<form id='form_filtrar_ordenes_supervisor' name='form_filtrar_ordenes_supervisor'>
+            <label>Desde:</label>
+            <input type='date' id='textdesde' style='width:130px;' name='textdesde' value=$fecha>
             <label>&nbsp;</label>
             <label>Hasta:</label>
-            <input type='date' id='texthasta' name='texthasta' value=$fecha>
-            <a class='btn btn-primary' id='btnfiltrarfecha' name='btnfiltrarfecha' title='Buscar registro' data-toggle='tooltip'>
+            <input type='date' id='texthasta' style='width:130px;' name='texthasta' value=$fecha>
+            <input type='hidden' id='opcion' name='opcion' value='fechas'>
+            <a class='btn btn-primary' id='btnfiltrarfecha' name='btnfiltrarfecha' onclick=\"filtrar_ordenes_supervisor('fechas');\" title='Buscar registro' data-toggle='tooltip'>
             Filtrar Fecha
-            </a>";
-            return array('success' => 1, 'html'=>$html);
+            </a>
+            <button type='button' onclick='location.reload();' class='btn btn-primary'>Quitar Filtro</button>
+            <a class='btn btn-success btn-social' id='btnexportarexcel' onclick=\"exportarexcel('fecha')\" title='Exportar a Excel' data-toggle='tooltip'>
+            <i class='fa fa-arrow-down'></i> Exportar Excel
+            </a>
+            </form>";
+
+        }
+        return array('success' => 1, 'html'=>$html);
+    }
+    public function getOrdenesFiltroSupervisor($fechadesde,string $fechahasta='',$opcion){
+        if ($opcion == "fechas"){
+            $filtro = "date(o.fecha_carga) BETWEEN '$fechadesde' and '$fechahasta'";
+        }else{
+            $filtro = "o.n_orden='$fechadesde'";
+        }
+        return $this->db->query_select("select o.id,n_orden,o.rut_cliente,o.comuna,o.actividad,o.telefono,o.cod_tecnico,o.despachador,o.nodo,o.estado,o.ejecutivo,o.prioridad,o.fecha_carga,o.observacion,o.ultimo_contacto,u.name from tblordenescierreseguro o inner join users u on o.ejecutivo=u.id_user where $filtro order by o.prioridad asc");
+    }
+    public function cierreseguro_filtrar_ordenes_supervisor(){
+        global $http;
+        $opcion=$http->request->get('opcion');
+
+        if ($opcion == "fechas"){
+            $fechadesde=$http->request->get('textdesde');
+            $fechahasta=$http->request->get('texthasta');
+            $registros= $this->getOrdenesFiltroSupervisor($fechadesde,$fechahasta,$opcion);
+        }else{
+            $orden=$http->request->get('textordenes');
+            $registros= $this->getOrdenesFiltroSupervisor($orden,'',$opcion);
+        }
+
+        if ($registros == false){
+            return array('success' => 0, 'message' => "Sin Datos");
+        }else{
+            $json = array(
+                "aaData"=>array(
+                )
+            );
+            try {
+                $numero=0;
+                foreach ($registros as $key => $value) {
+                    $numero++;
+
+                    if($value['estado']=='1'){
+                        $opcion='PENDIENTE';
+                        $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' disabled><i class='glyphicon glyphicon-edit'></i></a>";
+                    }else if($value['estado']=='2'){
+                        $opcion='APROBADO';
+                        $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick=\" select_modificar_orden_cerrada('".$value['id']."')\"><i class='glyphicon glyphicon-edit'></i></a>";
+                    }else if($value['estado']=='3'){
+                        $opcion='CLI/RECHAZA';
+                        $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick=\" select_modificar_orden_cerrada('".$value['id']."')\"><i class='glyphicon glyphicon-edit'></i></a><a data-toggle='tooltip' data-placement='top' id='btnver' name='btnver' title='Observacion' class='btn btn-primary btn-sm' onclick=\"verobservacion('".$value['id']."')\"><i class='glyphicon glyphicon-eye-open'></i></a>";
+                    }else{
+                        $opcion='S/CONTACTO';
+                        $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick=\" select_modificar_orden_cerrada('".$value['id']."')\"><i class='glyphicon glyphicon-edit'></i></a>";
+                    }
+
+                    $json['aaData'][]= array($numero,$value['name'],$value['n_orden'],$value['rut_cliente'],$value['comuna'],$value['actividad'],$value['cod_tecnico'],$value['despachador'],$value['telefono'],$value['ultimo_contacto'],$value['prioridad'],$opcion,$html);
+                }
+                $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
+                $fh = fopen(API_INTERFACE . "views/app/temp/result_cons_".$this->user['id_user'].".dbj", 'w');
+                fwrite($fh, $jsonencoded);
+                fclose($fh);
+                return array('success' => 1, 'message' => "result_cons_".$this->user['id_user'].".dbj" );
+            } catch (\Exception $e) {
+                return array('success' => 0, 'message' => "Error Inesperado" );
+            }
         }
     }
+    public function exporta_excel_ordenescierre(){
+        global $http,$config;
+        $opcion=$http->query->get('opcion');
 
+        if ($opcion=='fecha'){
+            $fechadesde=$http->query->get('desde');
+            $fechahasta=$http->query->get('hasta');
+            $registros= $this->getOrdenesFiltroSupervisor($fechadesde,$fechahasta,'fechas');
+        }else{
+            $orden=$http->query->get('orden');
+            $registros= $this->getOrdenesFiltroSupervisor($orden,'','orden');
+        }
+        if ( $registros != false ){
+
+            $objPHPExcel = new PHPExcel();
+
+            //Informacion del excel
+            $objPHPExcel->getProperties() ->setCreator("Jorge Jara H.")
+                ->setLastModifiedBy("JJH")
+                ->setTitle("listado_ordenes");
+            //encabezado
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'N_ORDEN');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'RUT_CLIENTE');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'COMUNA');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'ACTIVIDAD');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'TELEFONO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'TECNICO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G1', 'DESPACHADOR');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H1', 'NODO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I1', 'EJECUTIVO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J1', 'LLAMADOS');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K1', 'FECHA GESTION');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L1', 'ESTADO');
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M1', 'OBSERVACION');
+
+
+            $fila = 2;
+            foreach ($registros as $value => $data) {
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['n_orden']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $data['rut_cliente']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['comuna']);
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['actividad'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['telefono'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['cod_tecnico'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('G'.$fila, $data['despachador'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('H'.$fila, $data['nodo'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('I'.$fila, $data['name'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('J'.$fila, $data['prioridad'] );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('K'.$fila, $data['ultimo_contacto'] );
+
+                if ($data['estado'] == 1){
+                    $estado='PENDIENTE';
+                }elseif($data['estado'] == 2){
+                    $estado='APROBADA';
+                }elseif($data['estado'] == 3){
+                    $estado='CLI/RECHAZA';
+                }else{
+                    $estado='S/CONTACTO';
+                }
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('L'.$fila, $estado );
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue('M'.$fila, $data['observacion'] );
+
+                $fila++;
+            }
+
+            foreach(range('A','M') as $columnID)
+            {
+                $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+            }
+
+            $objPHPExcel->setActiveSheetIndex(0);
+
+            $objPHPExcel->getActiveSheet()->setTitle('listado_ordenes');
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="listado_ordenes.xlsx"');
+            header('Cache-Control: max-age=0');
+
+
+            header('Cache-Control: max-age=1');
+
+            header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+            header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+            header ('Pragma: public');
+
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+            $objWriter->save('php://output');
+        }
+        else{
+            $this->functions->redir($config['site']['url'] . 'cierreseguro/seguimiento_super');
+        }
+    }
+    public function formcierre(){
+        $html="<label>Agregue Observacion</label>
+        <br>
+        <input type='text' class='form-control' id='textobservacion' name='textobservacion'>";
+
+        return array('success' => 1, 'html' => $html );
+    }
+    public function verobservacion(){
+        global $http;
+        $id=$http->request->get('id');
+        $observacion=$this->db->query_select("select observacion from tblordenescierreseguro where id='$id'");
+        $mostrar=$observacion[0][0];
+        $html="
+        <input type='text' class='form-control' id='textobservacion' name='textobservacion' value='$mostrar' readonly>";
+
+        return array('success' => 1, 'html' => $html );
+    }
 // ------------------------------------------------------------------------------------------------------
     /**
       * __construct()

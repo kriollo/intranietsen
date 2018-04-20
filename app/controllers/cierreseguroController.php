@@ -49,14 +49,17 @@ class cierreseguroController extends Controllers implements IControllers {
             case 'seguimiento_user':
                echo $this->template->render('cierreseguro/seguimiento/seguimiento_user', array(
                    'menu_op' => $op,
-                   'db_cierre'=>(new Model\Mdlcierre)->cargar_ordenes_cierre()
+                   'db_cierre'=>(new Model\Mdlcierre)->getOrdenesEjecutivoSeguimiento()
                ));
             break;
-            case 'seguimiento_supervisores':
+            case 'seguimiento_super':
                echo $this->template->render('cierreseguro/seguimiento/seguimiento_supervisores', array(
                    'menu_op' => $op,
-                   'db_cierre_sup'=>(new Model\Mdlcierre)->cargar_todas_ordenes_cierre()
+                   'db_cierre_sup'=>(new Model\Mdlcierre)->getOrdenesFiltroSupervisor(date('Y-m-d'),date('Y-m-d'),'fechas')
                ));
+            break;
+            case "exporta_excel_ordenescierre":
+                (new Model\Mdlcierre)->exporta_excel_ordenescierre();
             break;
             // -------------------------------------------------------------------------------------------------------------------------------------------------------
             default:

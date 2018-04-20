@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
-                    <div class="box-body col-sm-6">
+                    <div class="box-body col-lg-7">
                         <div class="form-group">
                             <form id="formcarga" name="formcarga" method="post">
                                 <input class='filestyle' data-buttontext="Logo" id="blindfile" onchange="document.getElementById('archivo').value=document.getElementById('blindfile').value" tabindex="-1" style="position:absolute; clip: rect(0px 0px 0px 0px);" type="file" name="files[]" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
@@ -51,6 +51,7 @@
                                 <th>Fecha y hora</th>
                                 <th>Nombre de Archivo</th>
                                 <th>Usuario</th>
+                                <th>Cantidad</th>
                             </thead>
                             <tbody>
                                 {% set No = 1 %}
@@ -60,6 +61,7 @@
                                         <td>{{ d.fecha_hora }}</td>
                                         <td>{{ d.nombre_archivo }}</td>
                                         <td>{{ d.name }}</td>
+                                        <td>{{ d.q_registros }}</td>
                                     </tr>
                                     {% set No = No + 1 %}
                                 {% endfor %}
@@ -67,16 +69,16 @@
                         </table>
 
                     </div>
-                    <div class="box-body col-sm-6">
+                    <div class="box-body col-lg-5">
                         <span>
                             <b>Formato de Archivo</b>
-                            <p>Col A -> NUMERO DE ORDEN</p>
-                            <p>Col B -> RUT DEL CLIENTE</p>
-                            <p>Col C -> COMUNA</p>
-                            <p>Col D -> FECHA DE COMPROMISO</p>
-                            <p>Col E -> BLOQUE</p>
+
+                            <p>Col B -> SIGLA TECNICO</p>
+                            <p>Col D -> DESPACHADOR</p>
                             <p>Col F -> ACTIVIDAD</p>
-                            <p>Col G -> TELEFONO</p>
+                            <p>Col N -> COMUNA</p>
+                            <p>Col O -> NODO</p>
+                            <p>Col P -> RUT_CLIENTE</p>
                         </span>
                     </div>
                 </div>

@@ -46,7 +46,7 @@ class __TwigTemplate_8c304c71014492c96437f84aae98ce7dc86a8b5a7202c3d72c5e6efca66
             <div class=\"col-lg-12\">
                 <div class=\"box\">
                     <div class=\"box-header\">
-                        <h3 class=\"box-title\">Gestión Cierre Hoy</h3>
+                        <h3 class=\"box-title\">Resumen Gestión Ordenes Cierre Hoy</h3>
                     </div>
                     <div class=\"box-body\">
                         ";
@@ -54,12 +54,10 @@ class __TwigTemplate_8c304c71014492c96437f84aae98ce7dc86a8b5a7202c3d72c5e6efca66
         $context["count"] = 1;
         // line 24
         echo "                        ";
-        $context["mitad"] = twig_round((twig_length_filter($this->env, ($context["getResumenGestionDia"] ?? null)) / 2), 0, "ceil");
+        $context["tope"] = twig_round(twig_length_filter($this->env, ($context["getResumenGestionDia"] ?? null)), 0, "ceil");
         // line 25
-        echo "                        ";
-        $context["tope"] = (($context["mitad"] ?? null) + 1);
-        // line 26
         echo "
+
                         ";
         // line 27
         $context["No"] = 1;
@@ -77,15 +75,21 @@ class __TwigTemplate_8c304c71014492c96437f84aae98ce7dc86a8b5a7202c3d72c5e6efca66
         $context["total_rechazado"] = 0;
         // line 32
         echo "                        ";
+        $context["total_anuladas"] = 0;
+        // line 33
+        echo "                        ";
+        $context["pasa"] = "0";
+        // line 34
+        echo "                        ";
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["getResumenGestionDia"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["getResumenGestionDia"] ?? null))) {
-                // line 33
+                // line 35
                 echo "                            ";
                 if ((($context["count"] ?? null) == 1)) {
-                    // line 34
-                    echo "                                <div class=\"col-lg-6\">
+                    // line 36
+                    echo "                                <div class=\"col-lg-12\">
                                     <table class=\"table table-bordered\">
                                         <thead>
                                             <th>No</th>
@@ -93,121 +97,137 @@ class __TwigTemplate_8c304c71014492c96437f84aae98ce7dc86a8b5a7202c3d72c5e6efca66
                                             <th>Asignados</th>
                                             <th>Pendientes</th>
                                             <th>Aprobados</th>
-                                            <th>Rechazados</th>
+                                            <th>Cliente Rechaza</th>
+                                            <th>S/Contactos</th>
                                         </thead>
                                         <tbody>
 
                             ";
                 }
-                // line 47
+                // line 50
                 echo "
                                             <tr>
                                                 <td>";
-                // line 49
+                // line 52
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
                                                 <td>";
-                // line 50
+                // line 53
                 echo twig_escape_filter($this->env, twig_title_string_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "name", array())), "html", null, true);
                 echo "</td>
                                                 <td>";
-                // line 51
+                // line 54
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_asignado", array()), "html", null, true);
                 echo "</td>
                                                 <td>";
-                // line 52
+                // line 55
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_pendiente", array()), "html", null, true);
                 echo "</td>
                                                 <td>";
-                // line 53
+                // line 56
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_aprobado", array()), "html", null, true);
                 echo "</td>
                                                 <td>";
-                // line 54
+                // line 57
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_rechazado", array()), "html", null, true);
+                echo "</td>
+                                                <td>";
+                // line 58
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_anuladas", array()), "html", null, true);
                 echo "</td>
                                             </tr>
                                             ";
-                // line 56
-                $context["No"] = (($context["No"] ?? null) + 1);
-                // line 57
-                echo "                                            ";
-                $context["total"] = (($context["total"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_asignado", array()));
-                // line 58
-                echo "                                            ";
-                $context["total_pendiente"] = (($context["total_pendiente"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_pendiente", array()));
-                // line 59
-                echo "                                            ";
-                $context["total_aprobado"] = (($context["total_aprobado"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_aprobado", array()));
                 // line 60
-                echo "                                            ";
-                $context["total_rechazado"] = (($context["total_rechazado"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_rechazado", array()));
+                $context["No"] = (($context["No"] ?? null) + 1);
                 // line 61
                 echo "                                            ";
-                $context["count"] = (($context["count"] ?? null) + 1);
+                $context["total"] = (($context["total"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_asignado", array()));
                 // line 62
-                echo "                            ";
-                $context["pasa"] = 0;
+                echo "                                            ";
+                $context["total_pendiente"] = (($context["total_pendiente"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_pendiente", array()));
                 // line 63
+                echo "                                            ";
+                $context["total_aprobado"] = (($context["total_aprobado"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_aprobado", array()));
+                // line 64
+                echo "                                            ";
+                $context["total_rechazado"] = (($context["total_rechazado"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_rechazado", array()));
+                // line 65
+                echo "                                            ";
+                $context["total_anuladas"] = (($context["total_anuladas"] ?? null) + twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_anuladas", array()));
+                // line 66
+                echo "
+                            ";
+                // line 67
+                $context["pasa"] = "0";
+                // line 68
                 echo "                            ";
                 if ((($context["count"] ?? null) == ($context["tope"] ?? null))) {
-                    // line 64
+                    // line 69
                     echo "                                            ";
-                    $context["pasa"] = 1;
-                    // line 65
+                    $context["pasa"] = "1";
+                    // line 70
                     echo "                                        </tbody>
                                     </table>
                                 </div>
                                 ";
-                    // line 68
-                    $context["count"] = 1;
-                    // line 69
+                    // line 73
+                    $context["count"] = 0;
+                    // line 74
                     echo "                            ";
                 }
-                // line 70
-                echo "
-                        ";
+                // line 75
+                echo "                            ";
+                $context["count"] = (($context["count"] ?? null) + 1);
+                // line 76
+                echo "                        ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 72
-        echo "                        ";
-        if (((($context["count"] ?? null) < ($context["tope"] ?? null)) && (($context["pasa"] ?? null) == 0))) {
-            // line 73
+        // line 77
+        echo "
+
+                        ";
+        // line 79
+        if (((($context["count"] ?? null) <= ($context["tope"] ?? null)) && (($context["pasa"] ?? null) == 0))) {
+            // line 80
             echo "                                    </tbody>
                                 </table>
                             </div>
                         ";
         }
-        // line 77
-        echo "                        <div class=\"box-footer clearfix\">
-                            <table>
-                                <td>Total Asignado: ";
-        // line 79
+        // line 84
+        echo "
+                    </div>
+                    <div class=\"box-footer clearfix\">
+                        <table>
+                            <td>Total Asignado: ";
+        // line 88
         echo twig_escape_filter($this->env, ($context["total"] ?? null), "html", null, true);
         echo " </td>
-                                <td width='50'> </td>
-                                <td>Total Pendiente: ";
-        // line 81
+                            <td width='50'> </td>
+                            <td>Total Pendiente: ";
+        // line 90
         echo twig_escape_filter($this->env, ($context["total_pendiente"] ?? null), "html", null, true);
         echo " </td>
-                                <td width='50'> </td>
-                                <td>Total Aprobado: ";
-        // line 83
+                            <td width='50'> </td>
+                            <td>Total Aprobado: ";
+        // line 92
         echo twig_escape_filter($this->env, ($context["total_aprobado"] ?? null), "html", null, true);
         echo " </td>
-                                <td width='50'> </td>
-                                <td>Total Rechazado: ";
-        // line 85
+                            <td width='50'> </td>
+                            <td>Total Cliente Rechaza: ";
+        // line 94
         echo twig_escape_filter($this->env, ($context["total_rechazado"] ?? null), "html", null, true);
         echo " </td>
-                                
-                            </table>
-                        </div>
+                            <td width='50'> </td>
+                            <td>Total Sin Contacto: ";
+        // line 96
+        echo twig_escape_filter($this->env, ($context["total_anuladas"] ?? null), "html", null, true);
+        echo " </td>
+                        </table>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -217,7 +237,7 @@ class __TwigTemplate_8c304c71014492c96437f84aae98ce7dc86a8b5a7202c3d72c5e6efca66
 ";
     }
 
-    // line 98
+    // line 106
     public function block_appScript($context, array $blocks = array())
     {
     }
@@ -234,7 +254,7 @@ class __TwigTemplate_8c304c71014492c96437f84aae98ce7dc86a8b5a7202c3d72c5e6efca66
 
     public function getDebugInfo()
     {
-        return array (  221 => 98,  204 => 85,  199 => 83,  194 => 81,  189 => 79,  185 => 77,  179 => 73,  176 => 72,  168 => 70,  165 => 69,  163 => 68,  158 => 65,  155 => 64,  152 => 63,  149 => 62,  146 => 61,  143 => 60,  140 => 59,  137 => 58,  134 => 57,  132 => 56,  127 => 54,  123 => 53,  119 => 52,  115 => 51,  111 => 50,  107 => 49,  103 => 47,  88 => 34,  85 => 33,  79 => 32,  76 => 31,  73 => 30,  70 => 29,  67 => 28,  65 => 27,  62 => 26,  59 => 25,  56 => 24,  54 => 23,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  241 => 106,  227 => 96,  222 => 94,  217 => 92,  212 => 90,  207 => 88,  201 => 84,  195 => 80,  193 => 79,  189 => 77,  182 => 76,  179 => 75,  176 => 74,  174 => 73,  169 => 70,  166 => 69,  163 => 68,  161 => 67,  158 => 66,  155 => 65,  152 => 64,  149 => 63,  146 => 62,  143 => 61,  141 => 60,  136 => 58,  132 => 57,  128 => 56,  124 => 55,  120 => 54,  116 => 53,  112 => 52,  108 => 50,  92 => 36,  89 => 35,  83 => 34,  80 => 33,  77 => 32,  74 => 31,  71 => 30,  68 => 29,  65 => 28,  63 => 27,  59 => 25,  56 => 24,  54 => 23,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
