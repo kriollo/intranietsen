@@ -483,4 +483,12 @@ $app->post('/cierreseguro_update_datos_orden', function() use($app) {
     $u = new Model\Mdlcierre;
     return $app->json($u->cierreseguro_update_datos_orden());
 });
+$app->post('/cierreseguro_sg', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_sg());
+});
+$app->post('/cierreseguro_cerrar_ordenes_sin_asignar', function() use($app) {
+    $u = new Model\Mdlcierre;
+    return $app->json($u->cierreseguro_cerrar_ordenes_sin_asignar());
+});
 //------------------------------------------------------------------------------

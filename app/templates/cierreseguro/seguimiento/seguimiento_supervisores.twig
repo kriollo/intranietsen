@@ -70,7 +70,17 @@
                                 {% set No = 1 %}
                                 {% for s in db_cierre_sup if false != db_cierre_sup %}
                                     <tr>
-                                        <td>{{ No }}</td>
+                                        <td>
+                                            {% if s.sg  == 0 %}
+                                                <a data-toggle='tooltip' data-placement='top' id='btncierresg-{{s.id}}' name='btncierresg-{{s.id}}' title='Seguimiento' class='btn btn-primary btn-sm' onclick="select_orden_sg('{{s.id}}')">
+                                                    SG
+                                                </a>
+                                            {% else %}
+                                                <a data-toggle='tooltip' data-placement='top' id='btncierresg-{{s.id}}' name='btncierresg-{{s.id}}' title='Seguimiento' class='btn btn-warning btn-sm' onclick="select_orden_sg('{{s.id}}')">
+                                                    SG
+                                                </a>
+                                            {% endif %}
+                                        </td>
                                         <td>{{ s.name }}</td>
                                         <td>{{ s.n_orden }}</td>
                                         <td>{{ s.rut_cliente }}</td>
@@ -106,6 +116,17 @@
                                                     <i class='glyphicon glyphicon-eye-open'></i>
                                                 </a>
                                             </td>
+                                            {% elseif s.estado == "4" %}
+                                                <td>N/REALIZADO</td>
+                                                <td>
+                                                    <a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick="select_modificar_orden_cerrada('{{s.id}}');">
+                                                        <i class='glyphicon glyphicon-edit'></i>
+                                                    </a>
+                                                    <label>&nbsp;</label>
+                                                    <a data-toggle='tooltip' data-placement='top' id='btnver' name='btnver' title='Observacion' class='btn btn-primary btn-sm' onclick="verobservacion('{{s.id}}')">
+                                                        <i class='glyphicon glyphicon-eye-open'></i>
+                                                    </a>
+                                                </td>
                                         {% elseif s.estado == "5" %}
                                             <td>S/CONTACTO</td>
                                             <td>

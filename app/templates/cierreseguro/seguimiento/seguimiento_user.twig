@@ -36,13 +36,15 @@
                                 {% set No = 1 %}
                                 {% for c in db_cierre if false != db_cierre %}
                                     <tr>
-                                        <td><input size="12" type="text" id="n_orden-{{ c.id }}" name="n_orden-{{ c.id }}" value="{{ c.n_orden }}" onchange="update_datos_orden('{{ c.id }}');"></td>
+                                        <td>
+                                            <input size="15" type="text" id="n_orden-{{ c.id }}" name="n_orden-{{ c.id }}" value="{{ c.n_orden }}" onchange="update_datos_orden('{{ c.id }}');">
+                                        </td>
                                         <td>{{ c.rut_cliente }}</td>
                                         <td>{{ c.comuna }}</td>
                                         <td>{{ c.actividad }}</td>
                                         <td>{{ c.cod_tecnico }}</td>
                                         <td>{{ c.despachador }}</td>
-                                        <td><input size="20" type="text" id="telefono-{{ c.id }}" name="telefono-{{ c.id }}" value="{{ c.telefono }}" onchange="update_datos_orden('{{ c.id }}');"></td>
+                                        <td><input size="15" type="text" id="telefono-{{ c.id }}" name="telefono-{{ c.id }}" value="{{ c.telefono }}" onchange="update_datos_orden('{{ c.id }}');"></td>
                                         <td>{{ c.ultimo_contacto }}</td>
                                         <td>
                                             <a data-toggle='tooltip' data-placement='top' id='btncierreaprobado' name='btncierreaprobado' title='Cierre Aprobado' class='btn btn-success btn-sm' onclick="select_cerrar_orden('{{c.id}}')">

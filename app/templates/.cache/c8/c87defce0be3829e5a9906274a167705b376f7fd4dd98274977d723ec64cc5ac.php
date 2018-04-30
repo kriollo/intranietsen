@@ -190,9 +190,13 @@ class __TwigTemplate_78e551f1eb854d18c342be2a0fe9e71ef8f9bbb7141536578f6cafedb1c
                                                 <i class=\"fa fa-angle-double-left\"></i>
                                                 Distribuir
                                                 </a>
+                                                <a class=\"btn btn-success btn-warning\" title=\"Ver Datos Cargados en Temporal\" onclick=\"cerrar_ordenes_sin_asignar();\">
+                                                <i class=\"fa fa-check\"></i>
+                                                Cerrar Ordenes
+                                                </a>
                                             ";
         }
-        // line 104
+        // line 108
         echo "                                        </div>
                                     </td>
                                 </tr>
@@ -240,10 +244,10 @@ class __TwigTemplate_78e551f1eb854d18c342be2a0fe9e71ef8f9bbb7141536578f6cafedb1c
 ";
     }
 
-    // line 149
+    // line 153
     public function block_appScript($context, array $blocks = array())
     {
-        // line 150
+        // line 154
         echo "    <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
     <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
 
@@ -285,7 +289,7 @@ class __TwigTemplate_78e551f1eb854d18c342be2a0fe9e71ef8f9bbb7141536578f6cafedb1c
 
     public function getDebugInfo()
     {
-        return array (  247 => 150,  244 => 149,  196 => 104,  189 => 99,  187 => 98,  181 => 95,  174 => 90,  163 => 81,  161 => 80,  155 => 77,  131 => 55,  122 => 52,  113 => 47,  111 => 46,  104 => 44,  97 => 41,  89 => 39,  81 => 37,  79 => 36,  75 => 34,  70 => 33,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  251 => 154,  248 => 153,  200 => 108,  189 => 99,  187 => 98,  181 => 95,  174 => 90,  163 => 81,  161 => 80,  155 => 77,  131 => 55,  122 => 52,  113 => 47,  111 => 46,  104 => 44,  97 => 41,  89 => 39,  81 => 37,  79 => 36,  75 => 34,  70 => 33,  41 => 6,  38 => 5,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

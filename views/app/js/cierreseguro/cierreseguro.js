@@ -68,6 +68,23 @@ function Distribuir_Ordenes(tabla){
         }
     });
 }
+function cerrar_ordenes_sin_asignar(){
+    div = 'div-distribuyePROD';
+    $("#"+div).html($("#cargador").html());
+
+    var formData = new FormData();
+    $.ajax({
+        type: "POST",
+        url: "api/cierreseguro_cerrar_ordenes_sin_asignar",
+        success: function (json) {
+            msg_box_alert(json.success, "Mensaje", json.message,'reload');
+        },
+        error: function (xhr, status) {
+            $("#div-"+id).html(0);
+            msg_box_alert(99, "Error", xhr.responseText);
+        }
+    });
+}
 function quitar_Ordenes_ejecutivos(id){
     $("#div-"+id).html($("#cargador").html());
     var formData = new FormData();
@@ -126,6 +143,8 @@ function select_cerrar_orden(id){
             success : function(json) {
                 if(json.success==1){
                     msg_box_alert(json.success,'Orden Aprobada',json.message,'reload');
+                }else if (json.success == 0){
+                    msg_box_alert(99,'Error',json.message);
                 }
             },
             error : function(xhr, status) {
@@ -133,6 +152,35 @@ function select_cerrar_orden(id){
             }
         });
     }
+}
+function select_orden_sg(id){
+
+    var formc= new FormData();
+    formc.append('id',id);
+    $.ajax({
+        type : 'POST',
+        url : 'api/cierreseguro_sg',
+        contentType: false,
+        processData: false,
+        data: formc,
+        success : function(json) {
+            if(json.success==1){
+                if (json.message == 1){
+                    $("#btncierresg-"+id).removeClass("btn-primary");
+                    $("#btncierresg-"+id).addClass("btn-warning");
+                }else if(json.message == 0){
+                    $("#btncierresg-"+id).removeClass("btn-warning");
+                    $("#btncierresg-"+id).addClass("btn-primary");
+                }
+            }else if (json.success == 0){
+                msg_box_alert(99,'Error',json.message);
+            }
+        },
+        error : function(xhr, status) {
+            msg_box_alert(99,'Error',xhr.responseText);
+        }
+    });
+
 }
 function select_volver_llamar(id){
     n_orden = document.getElementById('n_orden-'+id).value;
@@ -345,6 +393,9 @@ function update_datos_orden(id){
         processData: false,
         data: formve,
         success : function(json) {
+            if (json.success == 0){
+                msg_box_alert(99,'Error',json.message);
+            }
         },
         error : function(xhr, status) {
             msg_box_alert(99,'Error',xhr.responseText);

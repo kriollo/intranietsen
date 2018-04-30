@@ -1,7 +1,7 @@
 <?php
 
 /* cierreseguro/seguimiento/seguimiento_user.twig */
-class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a7012c730 extends Twig_Template
+class __TwigTemplate_cbdcae8d728098ba5a8ec450f9f1942f5a331eaba3e005c96b70844078b448a1 extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
     {
@@ -79,9 +79,8 @@ class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a701
             if ((false != ($context["db_cierre"] ?? null))) {
                 // line 38
                 echo "                                    <tr>
-                                        <td>
-                                            <input size=\"15\" type=\"text\" id=\"n_orden-";
-                // line 40
+                                        <td><input size=\"12\" type=\"text\" id=\"n_orden-";
+                // line 39
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
                 echo "\" name=\"n_orden-";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
@@ -89,30 +88,29 @@ class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a701
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "n_orden", array()), "html", null, true);
                 echo "\" onchange=\"update_datos_orden('";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
-                echo "');\">
-                                        </td>
+                echo "');\"></td>
                                         <td>";
-                // line 42
+                // line 40
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "rut_cliente", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 43
+                // line 41
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "comuna", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 44
+                // line 42
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "actividad", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 45
+                // line 43
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "cod_tecnico", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 46
+                // line 44
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "despachador", array()), "html", null, true);
                 echo "</td>
-                                        <td><input size=\"15\" type=\"text\" id=\"telefono-";
-                // line 47
+                                        <td><input size=\"20\" type=\"text\" id=\"telefono-";
+                // line 45
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
                 echo "\" name=\"telefono-";
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
@@ -122,24 +120,24 @@ class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a701
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
                 echo "');\"></td>
                                         <td>";
-                // line 48
+                // line 46
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "ultimo_contacto", array()), "html", null, true);
                 echo "</td>
                                         <td>
                                             <a data-toggle='tooltip' data-placement='top' id='btncierreaprobado' name='btncierreaprobado' title='Cierre Aprobado' class='btn btn-success btn-sm' onclick=\"select_cerrar_orden('";
-                // line 50
+                // line 48
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
                 echo "')\">
                                                 <i class='glyphicon glyphicon-check'></i>
                                             </a>&nbsp;
                                             <a data-toggle='tooltip' data-placement='top' id='btncierresiguiente' name='btncierresiguiente' title='Volver a Llamar' class='btn btn-primary btn-sm' onclick=\"select_volver_llamar('";
-                // line 53
+                // line 51
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
                 echo "')\">
                                                 <i class='glyphicon glyphicon-fast-forward'></i>
                                             </a>&nbsp;
                                             <a data-toggle='tooltip' data-placement='top' id='btncierreserroneo' name='btncierreerroneo' title='Cierre Rechazado' class='btn btn-danger btn-sm' onclick=\"select_orden_rechazada('";
-                // line 56
+                // line 54
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id", array()), "html", null, true);
                 echo "')\">
                                                 <i class='glyphicon glyphicon-remove'></i>
@@ -147,16 +145,16 @@ class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a701
                                         </td>
                                     </tr>
                                     ";
-                // line 61
+                // line 59
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 62
+                // line 60
                 echo "                                ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['c'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 63
+        // line 61
         echo "                            </tbody>
                         </table>
                     </form>
@@ -168,10 +166,10 @@ class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a701
 ";
     }
 
-    // line 72
+    // line 70
     public function block_appScript($context, array $blocks = array())
     {
-        // line 73
+        // line 71
         echo "
   <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
   <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
@@ -215,11 +213,110 @@ class __TwigTemplate_96d4ec0447b20f5d204bf75dfc32d6f9dcb132a83666695d64dc5c4a701
 
     public function getDebugInfo()
     {
-        return array (  175 => 73,  172 => 72,  160 => 63,  153 => 62,  151 => 61,  143 => 56,  137 => 53,  131 => 50,  126 => 48,  116 => 47,  112 => 46,  108 => 45,  104 => 44,  100 => 43,  96 => 42,  85 => 40,  81 => 38,  75 => 37,  73 => 36,  42 => 7,  39 => 6,  33 => 3,  30 => 2,  11 => 1,);
+        return array (  173 => 71,  170 => 70,  158 => 61,  151 => 60,  149 => 59,  141 => 54,  135 => 51,  129 => 48,  124 => 46,  114 => 45,  110 => 44,  106 => 43,  102 => 42,  98 => 41,  94 => 40,  84 => 39,  81 => 38,  75 => 37,  73 => 36,  42 => 7,  39 => 6,  33 => 3,  30 => 2,  11 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Twig_Source("", "cierreseguro/seguimiento/seguimiento_user.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\cierreseguro\\seguimiento\\seguimiento_user.twig");
+        return new Twig_Source("{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel=\"stylesheet\" href=\"views/app/template/datatables/dataTables.bootstrap.css\">
+
+{% endblock %}
+{% block appBody %}
+<div class=\"row\">
+    <div class=\"col-md-12\">
+        <section class=\"content-header\">
+            <h1>
+                Cierre Seguro
+                <small>Cierre Seguro</small>
+            </h1>
+        </section>
+    </div>
+</div>
+<section class=\"content\">
+    <div class=\"row\">
+        <div class=\"col-md-12\">
+            <div class=\"box box-primary\">
+                <div class=\"box-body\">
+                    <form id=\"formcierre\" name=\"formcierre\">
+                        <table id=\"datacierre\" name=\"datacierre\" class=\"table table-bordered table-responsive\">
+                            <thead>
+                                    <th>N_ORDEN</th>
+                                    <th>RUT_CLIENTE</th>
+                                    <th>COMUNA</th>
+                                    <th>ACTIVIDAD</th>
+                                    <th>TECNICO</th>
+                                    <th>DESPACHADOR</th>
+                                    <th>TELEFONO</th>
+                                    <th Width=\"100\">ultimo contacto</th>
+                                    <th Width=\"100\">OPERACION</th>
+                            </thead>
+                            <tbody>
+                                {% set No = 1 %}
+                                {% for c in db_cierre if false != db_cierre %}
+                                    <tr>
+                                        <td><input size=\"12\" type=\"text\" id=\"n_orden-{{ c.id }}\" name=\"n_orden-{{ c.id }}\" value=\"{{ c.n_orden }}\" onchange=\"update_datos_orden('{{ c.id }}');\"></td>
+                                        <td>{{ c.rut_cliente }}</td>
+                                        <td>{{ c.comuna }}</td>
+                                        <td>{{ c.actividad }}</td>
+                                        <td>{{ c.cod_tecnico }}</td>
+                                        <td>{{ c.despachador }}</td>
+                                        <td><input size=\"20\" type=\"text\" id=\"telefono-{{ c.id }}\" name=\"telefono-{{ c.id }}\" value=\"{{ c.telefono }}\" onchange=\"update_datos_orden('{{ c.id }}');\"></td>
+                                        <td>{{ c.ultimo_contacto }}</td>
+                                        <td>
+                                            <a data-toggle='tooltip' data-placement='top' id='btncierreaprobado' name='btncierreaprobado' title='Cierre Aprobado' class='btn btn-success btn-sm' onclick=\"select_cerrar_orden('{{c.id}}')\">
+                                                <i class='glyphicon glyphicon-check'></i>
+                                            </a>&nbsp;
+                                            <a data-toggle='tooltip' data-placement='top' id='btncierresiguiente' name='btncierresiguiente' title='Volver a Llamar' class='btn btn-primary btn-sm' onclick=\"select_volver_llamar('{{c.id}}')\">
+                                                <i class='glyphicon glyphicon-fast-forward'></i>
+                                            </a>&nbsp;
+                                            <a data-toggle='tooltip' data-placement='top' id='btncierreserroneo' name='btncierreerroneo' title='Cierre Rechazado' class='btn btn-danger btn-sm' onclick=\"select_orden_rechazada('{{c.id}}')\">
+                                                <i class='glyphicon glyphicon-remove'></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% set No = No + 1 %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block appScript %}
+
+  <script src=\"views/app/template/datatables/jquery.dataTables.min.js\" type=\"text/javascript\"></script>
+  <script src=\"views/app/template/datatables/dataTables.bootstrap.min.js\" type=\"text/javascript\"></script>
+
+  <script src=\"views/app/js/cierreseguro/cierreseguro.js\"></script>
+
+    <script>
+        \$(\"#datacierre\").dataTable({
+            \"language\": {
+                \"search\": \"Buscar:\",
+                \"zeroRecords\": \"No hay datos para mostrar\",
+                \"info\": \"Mostrando _END_ Registros, de un total de _TOTAL_ \",
+                \"loadingRecords\": \"Cargando...\",
+                \"processing\": \"Procesando...\",
+                \"infoEmpty\": \"No hay entradas para mostrar\",
+                \"lengthMenu\": \"Mostrar _MENU_ Filas\",
+                \"paginate\": {
+                    \"first\": \"Primera\",
+                    \"last\": \"Ultima\",
+                    \"next\": \"Siguiente\",
+                    \"previous\": \"Anterior\"
+                }
+            },
+            \"autoWidth\": false,
+            \"bSort\": false,
+            \"scrollX\": true
+        });
+    </script>
+{% endblock %}
+", "cierreseguro/seguimiento/seguimiento_user.twig", "C:\\xampp\\htdocs\\proyectos\\intranietsen\\app\\templates\\cierreseguro\\seguimiento\\seguimiento_user.twig");
     }
 }

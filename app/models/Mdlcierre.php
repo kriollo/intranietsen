@@ -334,6 +334,10 @@ class Mdlcierre extends Models implements IModels {
             return array($e->getMessage() );
         }
     }
+    public function cierreseguro_cerrar_ordenes_sin_asignar(){
+        $this->db->query_select("Update tblordenescierreseguro set estado=4,observacion='NO REALIZADO',sg=0 Where estado=1 and ejecutivo=0 ");
+        return array('success' => 1, 'message'=>'Ordenes Cerrada como NO REALIZADO');
+    }
     public function cierreseguro_quitar_Ordenes_ejecutivos(){
         global $http;
         $id_user = $http->request->get('id_user');
@@ -383,9 +387,14 @@ class Mdlcierre extends Models implements IModels {
         global $http;
         try {
             $id=$http->request->get('id');
-            $norden=$http->request->get('norden');
+            $norden=str_replace('.','',$http->request->get('n_orden'));
+
             $resul_orden = $this->getOrdenByID($id);
             $norden = $resul_orden['n_orden'];
+
+            if(strlen($norden) != 9){
+                throw new ModelsException('Largo de numero de orden no valido');
+            }
 
             $this->db->query_select("update tblordenescierreseguro set estado='2',ultimo_contacto=now(),prioridad=prioridad+1 where id='$id'");
 
@@ -398,7 +407,29 @@ class Mdlcierre extends Models implements IModels {
 
             return array('success' => 1, 'message'=>'Orden Cerrada como Aprobada');
         } catch (\Exception $e) {
-            return array('success' => 0, 'message'=>'Error');
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+    public function cierreseguro_sg(){
+        global $http;
+        try {
+            $id=$http->request->get('id');
+            $resul_orden = $this->getOrdenByID($id);
+
+            $norden = $resul_orden['n_orden'];
+            $sg = $resul_orden['sg'];
+            if ($sg == '0'){
+                $this->db->query_select("update tblordenescierreseguro set sg=1 where id='$id'");
+                $sg = '1';
+            }else{
+                $this->db->query_select("update tblordenescierreseguro set sg=0 where id='$id'");
+                $sg = '0';
+            }
+
+            return array('success' => 1, 'message'=> $sg);
+
+        } catch (\Exception $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
         }
     }
     public function cierre_desaprobado(){
@@ -450,18 +481,22 @@ class Mdlcierre extends Models implements IModels {
             }
             return array('success' => 1, 'message'=>'Prioridad modificada');
         }catch (\Exception $e) {
-            return array('success' => 0, 'message'=>'Error');
+            return array('success' => 0, 'message' => $e->getMessage());
         }
     }
     public function cierreseguro_update_datos_orden(){
         global $http;
         try {
             $id=$http->request->get('id');
-            $n_orden=$http->request->get('n_orden');
+            $n_orden=str_replace('.','',$http->request->get('n_orden'));
             $telefono=$http->request->get('telefono');
+            if(strlen($n_orden) != 9){
+                throw new ModelsException('Largo de numero de orden no valido');
+            }
+
             $this->db->query_select("update tblordenescierreseguro set n_orden='$n_orden',telefono='$telefono' where id='$id'");
         }catch (\Exception $e) {
-            return array('success' => 0, 'message'=>'Error');
+            return array('success' => 0, 'message' => $e->getMessage());
         }
     }
     public function cargar_todas_ordenes_cierre(){
@@ -525,7 +560,7 @@ class Mdlcierre extends Models implements IModels {
         }else{
             $filtro = "o.n_orden='$fechadesde'";
         }
-        return $this->db->query_select("select o.id,n_orden,o.rut_cliente,o.comuna,o.actividad,o.telefono,o.cod_tecnico,o.despachador,o.nodo,o.estado,o.ejecutivo,o.prioridad,o.fecha_carga,o.observacion,o.ultimo_contacto,u.name from tblordenescierreseguro o inner join users u on o.ejecutivo=u.id_user where $filtro order by o.prioridad asc");
+        return $this->db->query_select("select o.sg,o.id,n_orden,o.rut_cliente,o.comuna,o.actividad,o.telefono,o.cod_tecnico,o.despachador,o.nodo,o.estado,o.ejecutivo,o.prioridad,o.fecha_carga,o.observacion,o.ultimo_contacto,u.name from tblordenescierreseguro o left join users u on o.ejecutivo=u.id_user where $filtro order by o.prioridad asc");
     }
     public function cierreseguro_filtrar_ordenes_supervisor(){
         global $http;
@@ -552,6 +587,17 @@ class Mdlcierre extends Models implements IModels {
                 foreach ($registros as $key => $value) {
                     $numero++;
 
+
+                    if ($value['sg']  == 0){
+                        $sg ="<a data-toggle='tooltip' data-placement='top' id='btncierresg-".$value['id']."' name='btncierresg-".$value['id']."' title='Seguimiento' class='btn btn-primary btn-sm' onclick=\"select_orden_sg('".$value['id']."')\">
+                            SG
+                        </a>";
+                    }else{
+                        $sg ="<a data-toggle='tooltip' data-placement='top' id='btncierresg-".$value['id']."' name='btncierresg-".$value['id']."' title='Seguimiento' class='btn btn-warning btn-sm' onclick=\"select_orden_sg('".$value['id']."')\">
+                            SG
+                        </a>";
+                    }
+
                     if($value['estado']=='1'){
                         $opcion='PENDIENTE';
                         $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' disabled><i class='glyphicon glyphicon-edit'></i></a>";
@@ -561,12 +607,15 @@ class Mdlcierre extends Models implements IModels {
                     }else if($value['estado']=='3'){
                         $opcion='CLI/RECHAZA';
                         $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick=\" select_modificar_orden_cerrada('".$value['id']."')\"><i class='glyphicon glyphicon-edit'></i></a><a data-toggle='tooltip' data-placement='top' id='btnver' name='btnver' title='Observacion' class='btn btn-primary btn-sm' onclick=\"verobservacion('".$value['id']."')\"><i class='glyphicon glyphicon-eye-open'></i></a>";
+                    }else if($value['estado']=='4'){
+                        $opcion='N/REALIZADO';
+                        $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick=\" select_modificar_orden_cerrada('".$value['id']."')\"><i class='glyphicon glyphicon-edit'></i></a><a data-toggle='tooltip' data-placement='top' id='btnver' name='btnver' title='Observacion' class='btn btn-primary btn-sm' onclick=\"verobservacion('".$value['id']."')\"><i class='glyphicon glyphicon-eye-open'></i></a>";
                     }else{
                         $opcion='S/CONTACTO';
                         $html="<a data-toggle='tooltip' data-placement='top' id='btncierremodificar' name='btncierremodificar' title='Dejar Pendiente' class='btn btn-warning btn-sm' onclick=\" select_modificar_orden_cerrada('".$value['id']."')\"><i class='glyphicon glyphicon-edit'></i></a>";
                     }
 
-                    $json['aaData'][]= array($numero,$value['name'],$value['n_orden'],$value['rut_cliente'],$value['comuna'],$value['actividad'],$value['cod_tecnico'],$value['despachador'],$value['telefono'],$value['ultimo_contacto'],$value['prioridad'],$opcion,$html);
+                    $json['aaData'][]= array($sg,$value['name'],$value['n_orden'],$value['rut_cliente'],$value['comuna'],$value['actividad'],$value['cod_tecnico'],$value['despachador'],$value['telefono'],$value['ultimo_contacto'],$value['prioridad'],$opcion,$html);
                 }
                 $jsonencoded = json_encode($json,JSON_UNESCAPED_UNICODE);
                 $fh = fopen(API_INTERFACE . "views/app/temp/result_cons_".$this->user['id_user'].".dbj", 'w');
@@ -574,7 +623,7 @@ class Mdlcierre extends Models implements IModels {
                 fclose($fh);
                 return array('success' => 1, 'message' => "result_cons_".$this->user['id_user'].".dbj" );
             } catch (\Exception $e) {
-                return array('success' => 0, 'message' => "Error Inesperado" );
+                return array('success' => 0, 'message' => $e->getMessage() );
             }
         }
     }
@@ -634,6 +683,8 @@ class Mdlcierre extends Models implements IModels {
                     $estado='APROBADA';
                 }elseif($data['estado'] == 3){
                     $estado='CLI/RECHAZA';
+                }elseif($data['estado'] == 4){
+                    $estado='N/REALIZADO';
                 }else{
                     $estado='S/CONTACTO';
                 }
@@ -684,7 +735,7 @@ class Mdlcierre extends Models implements IModels {
         $observacion=$this->db->query_select("select observacion from tblordenescierreseguro where id='$id'");
         $mostrar=$observacion[0][0];
         $html="
-        <input type='text' class='form-control' id='textobservacion' name='textobservacion' value='$mostrar' readonly>";
+        $mostrar";
 
         return array('success' => 1, 'html' => $html );
     }
