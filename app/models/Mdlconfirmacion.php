@@ -1454,7 +1454,16 @@ class Mdlconfirmacion extends Models implements IModels {
         group by h.fecha
         order by h.fecha asc";
 
-        return $this->db->query_select($sql);
+        $result_grafico = $this->db->query_select($sql);
+
+        $sql="select h.fecha,count(*) llamados,
+        (select count(h2.id_user) from tblhistorico h2 INNER join tblresultado r2 on h2.resultado=r2.id_resultado and r2.grupo=1 where h2.fecha=h.fecha and h2.fecha between '".$desde."' and '".$hasta."' ) confirmados
+        from tblhistorico h where (h.accion='INGRESO' or h.accion='REINGRESO' or h.accion='MODIFICACION') and h.fecha between '".$desde."' and '".$hasta."'
+        group by h.fecha
+        order by h.fecha asc";
+        $result_tabla = $this->db->query_select($sql);
+
+        return array('result_grafico' => $result_grafico, 'reult_tabla' => $result_tabla )
     }
     public function filtrar_fecha_llamados(){
         global $http;
