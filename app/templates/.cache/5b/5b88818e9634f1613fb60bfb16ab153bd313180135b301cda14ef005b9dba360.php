@@ -62,6 +62,13 @@ class __TwigTemplate_30bd5d5703f9060be91824938d3430536055875c0df0875db98eaf4c540
                                         </label>
                                     </span>
                                 </div>
+                                <div id=\"div_tipobase\" class=\"col-lg-4\">
+                                    <select class=\"form-control\" name=\"tipo_base\">
+                                        <option value=\"--\">--</option>
+                                        <option value=\"SSTT\">SSTT</option>
+                                        <option value=\"ALTAS\">ALTAS</option>
+                                    </select>
+                                </div>
                                 <div id=\"div_cargando\">
                                     <a class=\"btn btn-success btn-social\" title=\"Importar Excel\" data-toggle=\"tooltip\" onclick=\"subirarchivoexcel()\">
                                         <i class=\"fa fa-arrow-up\"></i>
@@ -84,48 +91,48 @@ class __TwigTemplate_30bd5d5703f9060be91824938d3430536055875c0df0875db98eaf4c540
                             </thead>
                             <tbody>
                                 ";
-        // line 57
+        // line 64
         $context["No"] = 1;
-        // line 58
+        // line 65
         echo "                                ";
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["db_archivos"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
             if ((false != ($context["db_archivos"] ?? null))) {
-                // line 59
+                // line 66
                 echo "                                    <tr>
                                         <td>";
-                // line 60
+                // line 67
                 echo twig_escape_filter($this->env, ($context["No"] ?? null), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 61
+                // line 68
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "fecha_hora", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 62
+                // line 69
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "nombre_archivo", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 63
+                // line 70
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "name", array()), "html", null, true);
                 echo "</td>
                                         <td>";
-                // line 64
+                // line 71
                 echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["d"], "q_registros", array()), "html", null, true);
                 echo "</td>
                                     </tr>
                                     ";
-                // line 66
+                // line 73
                 $context["No"] = (($context["No"] ?? null) + 1);
-                // line 67
+                // line 74
                 echo "                                ";
             }
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 68
+        // line 75
         echo "                            </tbody>
                         </table>
 
@@ -149,10 +156,10 @@ class __TwigTemplate_30bd5d5703f9060be91824938d3430536055875c0df0875db98eaf4c540
 ";
     }
 
-    // line 89
+    // line 96
     public function block_appScript($context, array $blocks = array())
     {
-        // line 90
+        // line 97
         echo "    <script src=\"views/app/js/cierreseguro/cierreseguro.js\"></script>
 ";
     }
@@ -169,7 +176,7 @@ class __TwigTemplate_30bd5d5703f9060be91824938d3430536055875c0df0875db98eaf4c540
 
     public function getDebugInfo()
     {
-        return array (  156 => 90,  153 => 89,  129 => 68,  122 => 67,  120 => 66,  115 => 64,  111 => 63,  107 => 62,  103 => 61,  99 => 60,  96 => 59,  90 => 58,  88 => 57,  32 => 3,  29 => 2,  11 => 1,);
+        return array (  163 => 97,  160 => 96,  136 => 75,  129 => 74,  127 => 73,  122 => 71,  118 => 70,  114 => 69,  110 => 68,  106 => 67,  103 => 66,  97 => 65,  95 => 64,  32 => 3,  29 => 2,  11 => 1,);
     }
 
     public function getSourceContext()

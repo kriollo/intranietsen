@@ -492,3 +492,36 @@ $app->post('/cierreseguro_cerrar_ordenes_sin_asignar', function() use($app) {
     return $app->json($u->cierreseguro_cerrar_ordenes_sin_asignar());
 });
 //------------------------------------------------------------------------------
+//DESPACHO SIN MORADORES--------------------------------------------------------
+$app->post('/nueva_ot_sinmoradores', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->nueva_ot_sinmoradores());
+});
+$app->post('/modificar_ot_sinmoradores', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->update_ot_sinmoradores());
+});
+$app->post('/sinmoradores_buscar_norden', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->buscar_ot_sinmoradores());
+});
+$app->post('/sinmoradores_des_marcar_ejecutivo', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->sinmoradores_des_marcar_ejecutivo());
+});
+$app->post('/sinmoradores_des_marcar_ejecutivo', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->sinmoradores_des_marcar_ejecutivo());
+});
+$app->post('/sinmoradores_cerrar_ordenes_sin_asignar', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->sinmoradores_cerrar_ordenes_sin_asignar());
+});
+$app->post('/sinmoradores_Distribuir_Ordenes', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->distribuir_ordenes());
+});
+$app->post('/sinmoradores_quitar_Ordenes_ejecutivos', function() use($app) {
+    $u = new Model\MdlsinMoradores;
+    return $app->json($u->sinmoradores_quitar_Ordenes_ejecutivos());
+});

@@ -1,0 +1,84 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+<section class="content-header">
+    <h1>
+        Programación
+        <small>Sin Moradores</small>
+    </h1>
+    <ol class="breadcrumb">
+    <li><a href="sinmoradores"><i class="fa fa-home"></i> Home</a></li>
+    <li><a href="sinmoradores/listar">Listado de OT Sin Moradores</a></li>
+    <li class="active">Registro Nueva OT Sin Moradores</li>
+    </ol>
+</section>
+  <!-- Main content -->
+<section class="content">
+    <form id="formmotsm" name="formmotsm">
+        <div id="mod_ot" name="mod_ot" class="row">
+            <div class="col-xs-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Datos Necesarios</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-4">
+                            <label>ID Orden:</label><input type="number" name="idorden" id="idorden" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Rut Cliente:</label><input type="text" name="rut" id="rut" class="form-control" >
+                        </div>
+                        <div class="col-md-4">
+                            <label>Tecnico:</label><input type="text" name="tecnico" id="tecnico" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+        <div id="comunas" name="comunas" class="row">
+        <div class="col-xs-12">
+            <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">COMUNA</h3>
+            </div>
+            <div class="box-body">
+                {% for c in comunas_db if false != comunas_db %}
+                
+                    <div class="col-xs-2" style="border: 1px solid white">
+                    <label><input type="radio" name="rbmodcomuna" id="{{c.nombre}}" onchange="cargaComuna('{{c.nombre}}')">
+                    {{c.nombre}}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="bloques" name="bloques" class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">BLOQUE</h3>
+                    </div>
+                    <div class="box-body">
+                        {% for b in db_bloque if false != db_bloque %}
+                                <div class="col-xs-3" style="border: 1px solid white">
+                                    <label><input type="radio" name="rbmodbloque" onchange="cargaBloque('{{b.bloque}}')" id="{{b.bloque}}">
+                                        <font size="4">{{b.bloque}}</font></label>
+                                </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="bloque" id="bloque">
+        <input type="hidden" name="comuna" id="comuna">
+            <a data-toggle='tooltip' data-placement='top' name="btningresar" id="btningresar" class='btn btn-success btn-lg'>Ingresar OT
+            </a>
+        </div>
+      </form>
+    </section>
+  {% endblock %}
+  {% block appScript %}
+    <script src="views/app/js/sinmoradores/sinmoradores.js"></script>
+  {% endblock %}

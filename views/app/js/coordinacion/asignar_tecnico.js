@@ -15,9 +15,9 @@ $('#select_ejecutivo').on('change', function select_ejecutivo(){
         data: $('#select_ejecutivo').serialize(),
         success: function(json) {
             if (json.success == 1) {
-                var mes = json.message;
-                var inp = $('<form id="form_usuario" name="form_usuario"><input type="hidden" id="usuario" name="usuario"><input type="hidden" id="name" name="name"></form>')
 
+                var inp = $('<form id="form_usuario" name="form_usuario"><input type="hidden" id="usuario" name="usuario"><input type="hidden" id="name" name="name"></form>')
+                var mes = json.message;
                 for (var i = 0; i < mes.length; i++) {
                     $('#ejecutivos').append('<option class="opcion animated fadeIn" value="' + mes[i][0] + '">' + mes[i][1] + '</option>');
                 }
