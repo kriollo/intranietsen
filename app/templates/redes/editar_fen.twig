@@ -1,0 +1,237 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+<section class="content-header">
+  <h4>
+    <i class="fa fa-cogs"></i>
+    REGISTRO REDES
+  </h4>
+  <ol class="breadcrumb">
+    <li><a href="portal"><i class="fa fa-home"></i>Home</a></li>
+    <li><a href="redes/listarfen"> Listar Registros  </a></li>
+    <li class="active">Editar</li>
+  </ol>
+</section>
+
+
+<section class="content">
+    <form id="edformfen" name="edformfen">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Ingreso FEN/SIX</h3>
+            </div>
+            <div class="box-body">
+              <div class="col-md-4">
+                <label>FEN/SIX:</label><input type="text" name="edtextfen" id="edtextfen" class="form-control" value="{{db_fen.fen}}" readonly>
+              </div>
+              <div class="col-md-4">
+                <label>Usuario:</label><input type="text" name="edtextusuario" id="edtextusuario" class="form-control" value="{{db_fen.name}}" readonly>
+              </div>
+              <div class="col-md-4">
+                <label>Fecha:</label><input type="date" name="edfechafen" id="edfechafen" class="form-control" value="{{ db_fen.fecha }}" readonly>
+              </div>
+              <div class="col-md-4">
+                  <label>N° OT TANGO</label><input type="text" name="edtangofen" id="edtangofen" class="form-control" value="{{ db_fen.numerotango }}">
+              </div>
+              <div class="col-md-4">
+                  <label>N° OT INFOR:</label><input type="text" name="edinfofen" id="edinfofen" class="form-control"  value="{{ db_fen.numeroot }}">
+              </div>
+              <div class="col-md-4">
+                <div class="">
+                </div>
+                <br>
+                <center>
+                <label>OT INFOR SOLICITADA</label>
+                &nbsp
+                &nbsp
+                &nbsp
+              {% if db_fen.opciones == 'SI' %}
+              <label><input type="radio" name="edrbopcion" id="edrbopcionsi" onchange="edcargaropcion('SI')" checked='checked'>SI</label>
+              {% else %}
+              <label><input type="radio" name="edrbopcion" id="edrbopcionsi" onchange="edcargaropcion('SI')">SI</label>
+              {% endif %}
+              &nbsp
+              &nbsp
+              &nbsp
+              {% if db_fen.opciones == 'NO' %}
+                <label><input type="radio" name="edrbopcion" id="edrbopcionno" onchange="edcargaropcion('NO')" checked='checked'>NO</label>
+              {% else %}
+                <label><input type="radio" name="edrbopcion" id="edrbopcionno" onchange="edcargaropcion('NO')">NO</label>
+              {% endif %}
+              </center>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+       <div class="row">
+        <div class="col-md-12">
+         <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">COMUNA</h3>
+            </div>
+            <div class="box-body">
+              <div class="col-md-12">
+                {% for c in db_comuna if false != db_comuna %}
+                 {% if c.nombre == db_fen.nombre %}
+                  <div class="col-xs-2" style="border: 1px solid white">
+                    <label><input type="radio" name="edrbcomuna" id="{{c.nombre}}" onchange="edcargarcom('{{c.id_comuna}}')" checked="checked">
+                     {{c.nombre}}</label>
+                   </div>
+                   {% else %}
+                   <div class="col-xs-2" style="border: 1px solid white">
+                     <label><input type="radio" name="edrbcomuna" id="{{c.nombre}}" onchange="edcargarcom('{{c.id_comuna}}')">
+                      {{c.nombre}}</label>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+               </div>
+               <div class="col-md-4">
+                 <label>RUT TITULAR</label><input type="text" name="edrutfen" id="edrutfen" class="form-control"  value="{{ db_fen.rut_titular }}">
+               </div>
+               <div class="col-md-6">
+                 <label>Direccion</label><input type="text" name="edtextdir" id="edtextdir" class="form-control"  value="{{ db_fen.direccion }}">
+               </div>
+               <div class="col-md-4">
+                 <label>Fecha Inicio:</label><input type="date" name="edfeninicio" id="edfeninicio" class="form-control" value="{{ db_fen.fechainicio}}" >
+               </div>
+               <div class="col-md-4">
+                 <label>Fecha Final:</label><input type="date" name="edfenfinal" id="edfenfinal" min="{{ "now"|date("Y-m-d") }}" class="form-control"  value="{{ db_fen.fechafinal }}" >
+               </div>
+               <div class="col-md-4">
+                 <label for="fenturnos">Turno</label>
+                 <select class="form-control" id="edfenturnos" name="edfenturnos">
+                   {% if  db_fen.turno == '1' %}
+                    <option value="1">AM</option>
+                   {% elseif  db_fen.turno == '2' %}
+                    <option value="2">PM</option>
+                   {% elseif db_fen.turno == '3' %}
+                     <option value="3">NOCHE</option>
+                   {% else %}
+                       <option value="0">--</option>
+                   {% endif %}
+                   <option value="1">AM</option>
+                   <option value="2">PM</option>
+                   <option value="3">NOCHE</option>
+                 </select>
+               </div>
+               <div class="col-md-4">
+                 <label>Alarma Central:</label><input type="text" name="edtextalarma" id="edtextalarma" class="form-control"  value="{{ db_fen.alarma }}">
+               </div>
+               <div class="col-md-4">
+                 <label>AC</label><input type="text" name="edacfen" id="edacfen" class="form-control"  value="{{ db_fen.ac }}">
+               </div>
+               <div class="col-md-4">
+                 <label>AD</label><input type="text" name="edadfen" id="edadfen" class="form-control"  value="{{ db_fen.ad}}">
+               </div>
+            </div>
+          </div>
+         </div>
+        </div>
+        <div class="row">
+         <div class="col-md-12">
+           <div class="box">
+             <div class="box-header">
+               <h3 class="box-title">DETALLE DE ORDEN</h3>
+             </div>
+             <div class="box-body">
+             <div class="col-md-4">
+               <label for="fenescalado">Escalado</label>
+               <select class="form-control" id="edfenescalado" name="edfenescalado">
+                 {% if  db_fen.escalado == '1' %}
+                  <option value="1">OPERADOR</option>
+                 {% elseif  db_fen.escalado == '2' %}
+                  <option value="2">NNOC</option>
+                 {% elseif db_fen.escalado == '3' %}
+                   <option value="3">SDMH</option>
+                 {% else %}
+                     <option value="0">--</option>
+                 {% endif %}
+                 <option value="1">OPERADOR</option>
+                 <option value="2">NNOC</option>
+                 <option value="3">SDMH</option>
+               </select>
+             </div>
+             <div class="col-md-4">
+               <label for="edfenestado">Estado</label>
+               <select class="form-control" id="edfenestado" name="edfenestado">
+                 {% if  db_fen.estado == '1' %}
+                  <option value="1">PENDIENTE</option>
+                 {% elseif  db_fen.estado == '2' %}
+                  <option value="2">EJECUTANDO</option>
+                 {% elseif db_fen.estado == '3' %}
+                   <option value="3">CONDICIONANDO AL ESTATUS</option>
+                 {% else %}
+                     <option value="0">--</option>
+                 {% endif %}
+                 <option value="1">PENDIENTE</option>
+                 <option value="2">EJECUTANDO</option>
+                 <option value="3">CONDICIONANDO AL ESTATUS</option>
+               </select>
+             </div>
+             <div class="col-md-4">
+               <label>Motivo:</label><input type="text" name="edtextmotivo" id="edtextmotivo" class="form-control" value="{{ db_fen.numerotango }}">
+             </div>
+             <div class="col-md-4">
+               <label for="fentecnico">CODIGO TECNICO</label>
+               <input class="form-control" id="fentecnico" name="fentecnico" value="{{ db_fen.codigo_tecnico }}" onchange="selectecnico({{ t.codigo }})">
+            </div>
+             <div class="col-md-8">
+               <label>Observacion</label><textarea type="text" name="edobservacionfen" id="edobservacionfen" class="form-control">{{ db_fen.observacion }}</textarea>
+             </div>
+             <div class="col-md-4">
+               <div class="row">
+                 <br>
+                 <br>
+               <center>
+               <label>ESTATUS INFORME</label>
+               &nbsp
+               &nbsp
+               &nbsp
+             {% if db_fen.estatus == 'ABIERTO' %}
+                <label><input type="radio" name="edestatus" id="edestatusabierto" onchange="edcargaestatus('ABIERTO')" checked='checked'>ABIERTO</label>
+             {% else %}
+                <label><input type="radio" name="edestatus" id="edestatusabierto" onchange="edcargaestatus('ABIERTO')">ABIERTO</label>
+             {% endif %}
+             &nbsp
+             &nbsp
+             &nbsp
+             {% if db_fen.estatus == 'CERRADO' %}
+               <label><input type="radio" name="edestatus" id="edestatuscerrado" onchange="edcargaestatus('CERRADO')" checked='checked'>CERRADO</label>
+             {% else %}
+               <label><input type="radio" name="edestatus" id="edestatuscerrado" onchange="edcargaestatus('CERRADO')">CERRADO</label>
+             {% endif %}
+             </center>
+             </div>
+            </div>
+            <div class="col-md-12">
+              <br>
+              <div class="col-md-4">
+              </div>
+            <div class="">
+              <button type="button" class="btn btn-success col-md-2" id="btnmodificar"  name="btnmodificar" >Modificar</button>
+            </div>
+            <br>
+          </div>
+           </div>
+         </div>
+       </div>
+
+    </div>
+    <input type="hidden" name="edid" id="edid" value="{{db_fen.id_fen}}" >
+    <input type="hidden" name="edtextcomunass" id="edtextcomunass" >
+    <input type="hidden" name="edtextopcion" id="edtextopcion">
+    <input type="hidden" name="edtextestatus" id="edtextestatus">
+
+  </form>
+</section>
+
+
+{% endblock %}
+{% block appScript %}
+
+  <script src="views/app/js/redes/redes.js"></script>
+
+
+{% endblock %}

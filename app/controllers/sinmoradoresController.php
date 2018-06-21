@@ -34,24 +34,24 @@ class sinmoradoresController extends Controllers implements IControllers {
         // $u = new Model\Mdlsinmoradores($router);
         $op = '8';
         switch($this->method){
-          case 'listar':
-            echo $this->template->render('sinmoradores/seguimiento/listar', array(
-              'menu_op' => $op,
-              'OT' =>(new Model\MdlsinMoradores)->getOTsinmoradores()
-             ));
-              break;
-               case 'listar_all':
-            echo $this->template->render('sinmoradores/seguimiento/listar_all', array(
-              'menu_op' => $op,
-              'OT' =>(new Model\MdlsinMoradores)->getOTsinmoradores()
-             ));
-              break;
+            case 'listar':
+                echo $this->template->render('sinmoradores/seguimiento/listar', array(
+                    'menu_op' => $op,
+                    'OT' =>(new Model\MdlsinMoradores)->getOTsinmoradores()
+                ));
+            break;
+            case 'listar_all':
+                echo $this->template->render('sinmoradores/seguimiento/listar_all', array(
+                    'menu_op' => $op,
+                    'OT' =>(new Model\MdlsinMoradores)->getOTsinmoradores()
+                ));
+            break;
             case 'nuevaorden':
-            echo $this->template->render('sinmoradores/seguimiento/nuevaot', array(
-            'menu_op' => $op,
-            'comunas_db' => (new Model\Mdlconfirmacion)->verComunas(),
-            'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque(),
-            ));
+                echo $this->template->render('sinmoradores/seguimiento/nuevaot', array(
+                    'menu_op' => $op,
+                    'comunas_db' => (new Model\Mdlconfirmacion)->verComunas(),
+                    'db_bloque'=>(new Model\Mdlconfirmacion)->carga_bloque(),
+                ));
             break;
             case "editar":
                 if($this->isset_id and false !== ($orden=(new Model\MdlsinMoradores)->get_orden_byId($router->getId(true)))){
@@ -66,21 +66,21 @@ class sinmoradoresController extends Controllers implements IControllers {
                 }
             break;
             case "eliminar":
-            if($this->isset_id and false !== ($orden=(new Model\MdlsinMoradores)->eliminarorden($router->getId(true)))){
-            }
-        break;
-        case "distribuir":
-        echo $this->template->render('sinmoradores/distribucion/distribucion', array(
-            'menu_op' => $op,
-            'getEjecutivos' => (new Model\MdlsinMoradores)->getEjecutivos(),
-            'getQ_OrdenesSinDistribucion' =>(new Model\MdlsinMoradores)->getQ_OrdenesSinDistribucion()
-        ));
-    break;
-          default:
-            echo $this->template->render('sinmoradores/seguimiento/sinmoradores',array(
-              'menu_op' => $op,
-              'numero_ot' => (new Model\MdlsinMoradores)->contar_ot()
-             ));
+                if($this->isset_id and false !== ($orden=(new Model\MdlsinMoradores)->eliminarorden($router->getId(true)))){
+                }
+            break;
+            case "distribuir":
+                echo $this->template->render('sinmoradores/distribucion/distribucion', array(
+                    'menu_op' => $op,
+                    'getEjecutivos' => (new Model\MdlsinMoradores)->getEjecutivos(),
+                    'getQ_OrdenesSinDistribucion' =>(new Model\MdlsinMoradores)->getQ_OrdenesSinDistribucion()
+                ));
+            break;
+            default:
+                echo $this->template->render('sinmoradores/seguimiento/sinmoradores',array(
+                    'menu_op' => $op,
+                    'numero_ot' => (new Model\MdlsinMoradores)->contar_ot()
+                ));
             break;
         }
     }

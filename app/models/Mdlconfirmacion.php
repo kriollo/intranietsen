@@ -1463,7 +1463,7 @@ class Mdlconfirmacion extends Models implements IModels {
         order by h.fecha asc";
         $result_tabla = $this->db->query_select($sql);
 
-        return array('result_grafico' => $result_grafico, 'reult_tabla' => $result_tabla )
+        return array('result_grafico' => $result_grafico, 'reult_tabla' => $result_tabla );
     }
     public function filtrar_fecha_llamados(){
         global $http;

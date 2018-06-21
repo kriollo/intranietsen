@@ -525,3 +525,32 @@ $app->post('/sinmoradores_quitar_Ordenes_ejecutivos', function() use($app) {
     $u = new Model\MdlsinMoradores;
     return $app->json($u->sinmoradores_quitar_Ordenes_ejecutivos());
 });
+//------------------------------------------------------------------------------
+$app->post('/Mdlredes_tecnico', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->cargar_tecnicoredes());
+});
+$app->post('/Mdlredes_guardardatos', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->guardar_tecnicos());
+});
+$app->post('/Mdlredes_eliminarfen', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->eliminarfen());
+});
+$app->post('/Mdlredes_modificardatos', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->modificar_datos());
+});
+$app->post('/Mdlredes_filtrar_fecha', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->filtrar_fecha());
+});
+$app->post('/Mdlredes_select_filtro_fen', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->select_filtro_fen());
+});
+$app->post('/Mdlredes_filtrar_fen', function() use($app) {
+    $u = new Model\Mdlredes;
+    return $app->json($u->filtrar_fen());
+});
