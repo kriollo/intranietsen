@@ -34,7 +34,6 @@ class MdlsinMoradores extends Models implements IModels {
     * Característica para establecer conexión con base de datos.
     */
     use DBModel;
-    protected $user = array();
 
     public function getQ_OrdenesSinDistribucion(){
         $result = $this->db->query_select("select count(*) cantidad from tblsinmoradores Where id_ejecutivo=0 and estado='PENDIENTE'");
@@ -57,7 +56,7 @@ class MdlsinMoradores extends Models implements IModels {
     }
     public function getOTsinmoradores(string $select = '*') {
             $usu=(new Model\Users)->getOwnerUser();
-            $usu = $usu['id_user'];
+            $usu = $usu['id_user'];        
         return $this->db->select($select,'tblsinmoradores',"id_user='$usu'");
     }
     public function buscar_ot_sinmoradores(): array {
@@ -99,7 +98,7 @@ class MdlsinMoradores extends Models implements IModels {
 
         return array('success' => 1, 'message' => "Registro eliminado");
     }
-
+ 
     public function nueva_ot_sinmoradores() : array {
         try {
             global $http;
@@ -111,7 +110,7 @@ class MdlsinMoradores extends Models implements IModels {
             $tecnico = $http->request->get('tecnico');
             $bloque = $http->request->get('bloque');
             $comuna = $http->request->get('comuna');
-
+            $usu=(new Model\Users)->getOwnerUser();
             # Verificar que no están vacíos
             if ($this->functions->e($idorden, $rut, $tecnico, $bloque, $comuna)) {
             throw new ModelsException('Ingresar datos donde campos faltantes');
@@ -122,7 +121,7 @@ class MdlsinMoradores extends Models implements IModels {
             'rut' => $rut,
             'tecnico' => $tecnico,
             'comuna' => $comuna,
-            'id_user' => $this->user['id_user'],
+            'id_user' => $usu['id_user'],
             'bloque' => $bloque,
             'fecha' => $fecha
             ));
@@ -159,7 +158,7 @@ class MdlsinMoradores extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-
+  
     public function sinmoradores_des_marcar_ejecutivo(){
         global $http;
 
@@ -179,7 +178,7 @@ class MdlsinMoradores extends Models implements IModels {
 
         return array('success' => 1);
     }
-
+ 
     public function getEjecutivos(){
         return $this->db->query_select("SELECT u.id_user,u.name,e.id_user checked,(select count(o.id_ejecutivo) from tblsinmoradores o where o.id_ejecutivo=u.id_user and estado='PENDIENTE') cantidad FROM users u left join tblejecutivosdistribucion_sinmoradores e on u.id_user=e.id_user WHERE u.perfil LIKE '%CONFIRMACION%' and u.estado=1 order by u.name");
     }
@@ -198,7 +197,7 @@ class MdlsinMoradores extends Models implements IModels {
                         $i=($count_users[0]['q'])-1; //cantidad de paginas en limit
 
                         $sql="Select id_user from tblejecutivosdistribucion_sinmoradores";
-                        $users_asiganacion = $this->db->query_select($sql); //extrae usuarios
+                        $users_asiganacion = $this->db->query_select($sql); //extrae usuarios 
                         foreach ($users_asiganacion as $key2 => $value2) {
                             $sql="select id_sinmoradores from tblsinmoradores where estado='PENDIENTE' and id_ejecutivo=0 limit $i,$resultd";
                             $ordenes_asiganacion = $this->db->query_select($sql); //extrae ordenes correspondientas para asignar segun limit
@@ -230,7 +229,6 @@ class MdlsinMoradores extends Models implements IModels {
     public function __construct(IRouter $router = null) {
         parent::__construct($router);
         $this->startDBConexion();
-        $this->user=(new Model\Users)->getOwnerUser();
     }
 
     /**

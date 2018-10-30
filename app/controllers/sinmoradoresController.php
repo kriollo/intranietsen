@@ -25,15 +25,14 @@ use Ocrend\Kernel\Controllers\IControllers;
 class sinmoradoresController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        global $config;
-        $op = '8';
         parent::__construct($router,array(
             'users_logged' => true,
-            'access_menu' => ['id_menu' => $op, 'access' => true]
+            'only_admin' => true
         ));
+        global $config;
 
-
-
+        // $u = new Model\Mdlsinmoradores($router);
+        $op = '8';
         switch($this->method){
             case 'listar':
                 echo $this->template->render('sinmoradores/seguimiento/listar', array(
